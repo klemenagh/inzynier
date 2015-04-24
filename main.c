@@ -20,15 +20,28 @@ int main(int argc, char **argv) {
                 filename = optarg;
                 break;
             case '?':
-                    usage();
+            default:
+                usage();
                 abort();
-                break;
         }
     }
+    printf("%d\n", read_from_file);
+    if(read_from_file) printf("%s\n", filename);
 
-    //init
-//    data_vector_t *v = init_data_vector();
-//    if(read_from_file) read_file(filename, v);
+    data_vector_t * data = init_data_vector();
+
+    if(read_from_file) {
+        if(read_file(filename, data))
+        {
+            printf("Successfull read\n");
+        }
+        else {
+            printf("Error while reading file\n");
+        }
+    }
+    else read_stdin(data);
+
+    print_data_vector(data, false);
 
 
 /*     data_vector_t *v = init_data_vector();

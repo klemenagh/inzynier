@@ -7,5 +7,7 @@
 #include "structures.h"
 
 bool read_file(char *, data_vector_t *);
+
+bool read_stdin(data_vector_t *);
 void usage();
 #endif //INZYNIER_FUNCTIONS_H

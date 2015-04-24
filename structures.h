@@ -7,7 +7,7 @@
 #include <stdbool.h>
 
 typedef struct data_cell {
-    double data[8];
+    double data[13];
 } data_cell_t;
 
 typedef struct data_node {
@@ -24,10 +24,18 @@ typedef struct data_vector {
 
 data_vector_t *init_data_vector();
 
-data_cell_t *create_data_cell(double data[8]);
+data_cell_t *create_data_cell(double data[13]);
 
 data_node_t *pushback_data_cell(data_vector_t *, data_cell_t *);
 
+data_node_t *pushback_data(data_vector_t *, double data[13]);
+
 data_cell_t *popfront_data_cell(data_vector_t *);
+
+void clear_data_vector(data_vector_t *);
+
+void print_data_vector(data_vector_t *, bool);
+
+void print_data_node(data_node_t *);
 
 #endif //INZYNIER_STRUCTURES_H
