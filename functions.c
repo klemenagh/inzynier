@@ -51,7 +51,6 @@ static bool read_stream(FILE *s, data_vector_t *vector) {
     double data[13];
     char buffer[160];
     char *splitted;
-    int i;
     while (fgets(buffer, sizeof(buffer), s)) {
         splitted = strtok(buffer, " \t");
         for (int i = 0; i < 13; i++) {

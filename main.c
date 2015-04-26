@@ -46,7 +46,9 @@ int main(int argc, char **argv) {
         fputs("Błąd w czasie odczytu.\n", stderr);
     }
 
-    print_data_vector(data, false);
+    print_data_vector(data, true);
+
+    printf("Typ pojazdu: %d\n", algorithm2(data));
 
     printf("Typ pojazdu: %d\n", algorithm2(data));
 
