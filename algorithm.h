@@ -21,5 +21,8 @@ vehicle_class algorithm2(data_vector_t *);
  * usuwa offset ze składowych wektora
  */
 static void remove_offset(data_vector_t *, unsigned);
+
+/*static */void find_velocity_distance(data_vector_t *, double *, double *);
+
 #endif //INZYNIER_ALGORITHM_H
 

@@ -46,9 +46,14 @@ int main(int argc, char **argv) {
         fputs("Błąd w czasie odczytu.\n", stderr);
     }
 
-    print_data_vector(data, true);
+    print_data_vector(data, false);
 
     printf("Typ pojazdu: %d\n", algorithm2(data));
+
+    double v, d;
+
+    find_velocity_distance(data, &v, &d);
+    printf("Prędkość: %f, odległość: %f", v, d);
 
     return EXIT_SUCCESS;
 }

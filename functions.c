@@ -56,7 +56,8 @@ static bool read_stream(FILE *s, data_vector_t *vector) {
         splitted = strtok(buffer, " \t");
         for (int i = 0; i < 13; i++) {
             if (splitted == NULL) {
-                fputs("Błędny format danych (oczekiwano wartości, napotkano znak końca linii).\n", stderr);
+                fputs("Błędny format danych (oczekiwano wartości, napotkano znak końca linii).\n",
+                      stderr);
                 exit(EIO);
             }
 

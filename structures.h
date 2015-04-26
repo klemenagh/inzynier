@@ -52,6 +52,7 @@ typedef enum vehicle_class {
  *  12,13   dane z piezo 1 i 2
  */
 typedef struct data_cell {
+    //dane ładowane ze strumienia
     double data[13];
 } data_cell_t;
 
