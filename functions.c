@@ -10,19 +10,20 @@
 
 void usage(int exit_status) {
     if (exit_status == EXIT_FAILURE) {
-        printf("Try -h for usage.\n");
+        printf("Wywołaj program z opcją -h by uzyskać pomoc.\n");
     }
     else {
-        printf("Usage: program [-f filename]\n\
--f\t Read data from given file.\n\
--h\t Show this usage message.\n");
+        printf("Użycie: program [-f nazwa]\n\
+-f\t Odczyt z pliku o podanej nazwie. W przeciwnym razie, odczyt następuje\
+ze strumienia wejściowego stdin.\n\
+-h\t Wywołaj pomoc dla programu.\n");
     }
     exit(exit_status);
 }
 
 bool read_file(char *filename, data_vector_t *vector) {
     if (filename == NULL) {
-        fputs("Null filename given\n", stderr);
+        fputs("Pusta nazwa pliku.\n", stderr);
         return false;
     }
 
@@ -31,7 +32,7 @@ bool read_file(char *filename, data_vector_t *vector) {
     FILE *f = fopen(filename, "r");
 
     if (f == NULL) {
-        fputs("Invalid filename given\n", stderr);
+        fputs("Podano błędną nazwę pliku.\n", stderr);
         return false;
     }
 
@@ -55,7 +56,7 @@ static bool read_stream(FILE *s, data_vector_t *vector) {
         splitted = strtok(buffer, " \t");
         for (int i = 0; i < 13; i++) {
             if (splitted == NULL) {
-                fputs("Bad data format (value expected but not given)\n", stderr);
+                fputs("Błędny format danych (oczekiwano wartości, napotkano znak końca linii).\n", stderr);
                 exit(EIO);
             }
 

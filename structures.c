@@ -95,11 +95,11 @@ void clear_data_vector(data_vector_t *vector) {
 void print_data_vector(data_vector_t *v, bool verbose) {
     printf("VECTOR\n");
     if(v == NULL) {
-        printf("Null pointer given\n");
+        printf("Pusty wskaźnik na wektor.\n");
         return;
     }
 
-    printf("Pointer: %x, \t length: %d\n", v, v->length);
+    printf("Wskaźnik: %x, \t długość: %d\n", v, v->length);
     if(verbose) {
         data_node_t *n = v->head;
         int i = 0;
@@ -113,11 +113,11 @@ void print_data_vector(data_vector_t *v, bool verbose) {
 void print_data_node(data_node_t * n) {
     printf("NODE\n");
     if(n == NULL) {
-        printf("Null pointer given\n");
+        printf("Pusty wskaźnik na węzeł.\n");
         return;
     }
 
-    printf("Pointer: %x\nData:\n", n);
+    printf("Wskaźnik: %x\nDane:\n", n);
     for(int i = 0; i < 13; i++) {
         printf("%f ", n->cell->data[i]);
     }
