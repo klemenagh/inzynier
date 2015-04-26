@@ -5,6 +5,7 @@
 
 #include "structures.h"
 #include "functions.h"
+#include "algorithm.h"
 
 int main(int argc, char **argv) {
 
@@ -28,23 +29,26 @@ int main(int argc, char **argv) {
         }
     }
     if (read_from_file) {
-        fputs("Reading from file: ", stderr);
+        fputs("Odczyt z pliku: ", stderr);
         fputs(filename, stderr);
         fputs("\n", stderr);
     }
     else {
-        fputs("Reading from stdin.\n", stderr);
+        fputs("Odczyt z stdin.\n", stderr);
     }
     data_vector_t *data = init_data_vector();
 
-    if ((read_from_file && read_file(filename, data)) || (!read_from_file && read_stdin(data))) {
-        fputs("Successfull read\n", stderr);
+    if ((read_from_file && read_file(filename, data))
+        || (!read_from_file && read_stdin(data))) {
+        fputs("Załadowano dane.\n", stderr);
     }
     else {
-        fputs("Error while reading stream\n", stderr);
+        fputs("Błąd w czasie odczytu.\n", stderr);
     }
 
-    print_data_vector(data, false);
+    print_data_vector(data, true);
+
+    printf("Typ pojazdu: %d\n", algorithm2(data));
 
     return EXIT_SUCCESS;
 }

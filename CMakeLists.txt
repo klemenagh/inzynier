@@ -12,4 +12,4 @@ set(SOURCE_FILES
 
 
 
-add_executable(inzynier ${SOURCE_FILES} structures.c functions.h functions.c)
+add_executable(inzynier ${SOURCE_FILES} structures.c functions.h functions.c algorithm.h algorithm.c)
