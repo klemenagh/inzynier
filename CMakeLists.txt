@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.1)
 project(inzynier)
 
-set(CMAKE_C_FLAGS "-std=c99")
+
+set(CMAKE_C_COMPILER "gcc")
+set(CMAKE_C_FLAGS "-std=c99 -Wall")
 
 set(SOURCE_FILES
     main.c

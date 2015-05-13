@@ -46,7 +46,7 @@ bool read_stdin(data_vector_t *vector) {
     return read_stream(stdin, vector);
 }
 
-static bool read_stream(FILE *s, data_vector_t *vector) {
+bool read_stream(FILE *s, data_vector_t *vector) {
 
     double data[13];
     char buffer[160];

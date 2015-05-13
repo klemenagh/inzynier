@@ -99,7 +99,7 @@ void print_data_vector(data_vector_t *v, bool verbose) {
         return;
     }
 
-    printf("Wskaźnik: %x, \t długość: %d\n", v, v->length);
+    printf("Wskaźnik: %p, \t długość: %d\n", v, v->length);
     if(verbose) {
         data_node_t *n = v->head;
         int i = 0;
@@ -117,7 +117,7 @@ void print_data_node(data_node_t * n) {
         return;
     }
 
-    printf("Wskaźnik: %x\nDane:\n", n);
+    printf("Wskaźnik: %p\nDane:\n", n);
     for(int i = 0; i < 13; i++) {
         printf("%f ", n->cell->data[i]);
     }

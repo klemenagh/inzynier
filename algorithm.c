@@ -17,7 +17,7 @@ vehicle_class algorithm2(data_vector_t *vector) {
     return INVALID;
 }
 
-static void remove_offset(data_vector_t *vector, unsigned num) {
+void remove_offset(data_vector_t *vector, unsigned num) {
     if (num == 0) {
         fputs("Ilość próbek do usuwania offsetu musi być większa od 0!\n",
               stderr);
@@ -56,8 +56,7 @@ static void remove_offset(data_vector_t *vector, unsigned num) {
     }
 }
 
-/*static */void find_velocity_distance(data_vector_t *vector, double *v,
-                                       double *d) {
+void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
     /*
      * Funkcja wykorzystuje wartości z czujników P1 i P2 wektora danych,
      * a także wektor czasu.
