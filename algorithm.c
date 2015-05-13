@@ -13,7 +13,56 @@ vehicle_class algorithm2(data_vector_t *vector) {
 
     remove_offset(vector, OFFSET_NUM);
 
+    //wyliczenie ilości próbek do obcięcia dla każdej pary czujników
+    double velocity = 0; // prędkość w m/s
+    double distance = 0; // odległość w m
 
+    find_velocity_distance(vector, &velocity, &distance);
+
+    double sensor_distance; // odległość dla każdej pary czujników
+    unsigned trim_front;    // ilość próbek do obcięcia z przodu
+    unsigned trim_back;     // ilość próbek do obcięcia na końcu
+    const double dt = vector->head->next->data[DATA_T]   // różnica czasów
+                      - vector->head->data[DATA_T];     // między próbkami
+
+    // 1m
+    sensor_distance = 1;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[0] = trim_front;
+
+    //0.5m
+    sensor_distance += 1 + 0.5;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[1] = trim_front;
+
+    //3m
+    sensor_distance += 1 + 0.3;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[2] = trim_front;
+
+    //0.3m
+    sensor_distance += 1 + 1.5 + 0.1;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[3] = trim_front;
+
+    //0.1m
+    sensor_distance += 1.5 + 1 + 1.5;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[4] = trim_front;
+
+    //piezo 1 i 2
+    sensor_distance += 1 + 1.5 + 1.1 + 1 + 1;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[5] = trim_front;
+
+    //piezo 2
+    sensor_distance += 1;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[6] = trim_front;
+
+    //ograniczenie z tylu
+    trim_back = (unsigned) (25 / velocity / dt);
+    vector->trim_back = trim_back;
     return INVALID;
 }
 
@@ -35,10 +84,10 @@ void remove_offset(data_vector_t *vector, unsigned num) {
      */
     double offsets[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-    data_node_t *n = vector->head;
+    data_cell_t *n = vector->head;
     for (unsigned i = 0; i < num; i++) {
         for (unsigned j = 1; j < 13; j++) {
-            offsets[j - 1] += n->cell->data[j];
+            offsets[j - 1] += n->data[j];
         }
         n = n->next;
     }
@@ -50,7 +99,7 @@ void remove_offset(data_vector_t *vector, unsigned num) {
     n = vector->head;
     for (unsigned i = 0; i < vector->length; i++) {
         for (unsigned j = 1; j < 13; j++) {
-            n->cell->data[j] -= offsets[j - 1];
+            n->data[j] -= offsets[j - 1];
         }
         n = n->next;
     }
@@ -89,26 +138,26 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
     int index1[2] = {0, 0};
     int index2[2] = {0, 0};
 
-    data_node_t *n = vector->head;
+    data_cell_t *n = vector->head;
     for (unsigned i = 0; i < vector->length; i++) {
 
         //piezo 1
-        if (n->cell->data[DATA_P1] >= p1 && is_impulse1 == false) {
+        if (n->data[DATA_P1] >= p1 && is_impulse1 == false) {
             is_impulse1 = true;
             num_impulse1 += 1;
             if (num_impulse1 <= 2) index1[num_impulse1 - 1] = i;
         }
-        else if (n->cell->data[DATA_P1] < p2 && is_impulse1 == true) {
+        else if (n->data[DATA_P1] < p2 && is_impulse1 == true) {
             is_impulse1 = false;
         }
 
         //piezo2
-        if (n->cell->data[DATA_P2] >= p1 && is_impulse2 == false) {
+        if (n->data[DATA_P2] >= p1 && is_impulse2 == false) {
             is_impulse2 = true;
             num_impulse2 += 1;
             if (num_impulse2 <= 2) index2[num_impulse2 - 1] = i;
         }
-        else if (n->cell->data[DATA_P2] < p2 && is_impulse2 == true) {
+        else if (n->data[DATA_P2] < p2 && is_impulse2 == true) {
             is_impulse2 = false;
         }
         n = n->next;
