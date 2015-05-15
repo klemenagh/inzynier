@@ -32,7 +32,7 @@ typedef enum data_field {
     DATA_R01,
     DATA_P1,
     DATA_P2
-} data_field;
+} data_field_t;
 
 /*
  * klasy pojazdów

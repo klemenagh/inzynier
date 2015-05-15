@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+
 #include "algorithm.h"
 
 extern int verbosity_level;
@@ -21,57 +22,8 @@ vehicle_class algorithm2(data_vector_t *vector) {
 
     find_velocity_distance(vector, &velocity, &distance);
 
-    double sensor_distance; // odległość dla każdej pary czujników
-    unsigned trim_front;    // ilość próbek do obcięcia z przodu
-    unsigned trim_back;     // ilość próbek do obcięcia na końcu
-    const double dt = vector->head->next->data[DATA_T]   // różnica czasów
-                      - vector->head->data[DATA_T];     // między próbkami
+    trim_data(vector, velocity, distance);
 
-    // 1m
-    sensor_distance = 1;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[0] = trim_front;
-
-    //0.5m
-    sensor_distance += 1 + 0.5;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[1] = trim_front;
-
-    //3m
-    sensor_distance += 1 + 0.3;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[2] = trim_front;
-
-    //0.3m
-    sensor_distance += 1 + 1.5 + 0.1;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[3] = trim_front;
-
-    //0.1m
-    sensor_distance += 1.5 + 1 + 1.5;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[4] = trim_front;
-
-    //piezo 1 i 2
-    sensor_distance += 1 + 1.5 + 1.1 + 1 + 1;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[5] = trim_front;
-
-    //piezo 2
-    sensor_distance += 1;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[6] = trim_front;
-
-    //ograniczenie z tylu
-    trim_back = (unsigned) (25 / velocity / dt);
-    vector->trim_back = trim_back;
-
-    if(verbosity_level == DEBUG) {
-        printf(" Ilość próbek do obcięcia z przodu dla każdej pary czujników:\n");
-        for(int i = 0; i < 7; i++) printf("  przód#%d %5d\n", i, vector->trim_front[i]);
-        printf("  tył     %5d\n", vector->trim_back);
-    }
-    
     return INVALID;
 }
 
@@ -182,8 +134,8 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
     double t1 = 0; //czas do wyznaczania prędkości
     double t2 = 0; //czas do wyznaczania odległości
 
-    t1 = (index2[0] - index1[0] + index2[1] - index1[1]) / 2;
-    t2 = (index1[1] - index1[0] + index2[1] - index2[0]) / 2;
+    t1 = (index2[0] - index1[0] + index2[1] - index1[1]) / 2.0;
+    t2 = (index1[1] - index1[0] + index2[1] - index2[0]) / 2.0;
 
     //konwersja na s
     double dt = vector->head->next->data[DATA_T] - vector->head->data[DATA_T];
@@ -195,7 +147,104 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
 
     if (verbosity_level == DEBUG) {
         printf(" Wyznaczanie prędkości i odległości:\n");
+        printf("  Wartości indeksów:\n");
+        printf("  Indeks 1: %5d %5d\n", index1[0], index1[1]);
+        printf("  Indeks 2: %5d %5d\n", index2[0], index2[1]);
         printf("  Prędkość:  %8.4f m/s\n", *v);
         printf("  Odległość: %8.4f m\n", *d);
+    }
+}
+
+void trim_data(data_vector_t *vector, double velocity, double distance) {
+
+    double sensor_distance; // odległość dla każdej pary czujników
+    unsigned trim_front; // ilość próbek do obcięcia z przodu
+    unsigned trim_back;     // ilość próbek do obcięcia na końcu
+    const double dt = vector->head->next->data[DATA_T]   // różnica czasów
+                      - vector->head->data[DATA_T];     // między próbkami
+
+    //ograniczenie z tylu
+    trim_back = (unsigned) (25.0 / velocity / dt);
+    vector->trim_back = trim_back;
+
+    // 1m
+    sensor_distance = 1;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[0] = trim_front;
+    trim_values(vector, DATA_R1, trim_front, trim_back);
+    trim_values(vector, DATA_X1, trim_front, trim_back);
+
+    //0.5m
+    sensor_distance += 1 + 0.5;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[1] = trim_front;
+    trim_values(vector, DATA_R05, trim_front, trim_back);
+    trim_values(vector, DATA_X05, trim_front, trim_back);
+
+    //3m
+    sensor_distance += 1 + 0.3;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[2] = trim_front;
+    trim_values(vector, DATA_R3, trim_front, trim_back);
+    trim_values(vector, DATA_X3, trim_front, trim_back);
+
+    //0.3m
+    sensor_distance += 1 + 1.5 + 0.1;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[3] = trim_front;
+    trim_values(vector, DATA_R03, trim_front, trim_back);
+    trim_values(vector, DATA_X03, trim_front, trim_back);
+
+    //0.1m
+    sensor_distance += 1.5 + 1 + 1.5;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[4] = trim_front;
+    trim_values(vector, DATA_R01, trim_front, trim_back);
+    trim_values(vector, DATA_X01, trim_front, trim_back);
+
+    //piezo 1
+    sensor_distance += 1 + 1.5 + 1.1 + 1 + 1;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[5] = trim_front;
+    trim_values(vector, DATA_P1, trim_front, trim_back);
+
+    //piezo 2
+    sensor_distance += 1;
+    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    vector->trim_front[6] = trim_front;
+    trim_values(vector, DATA_P2, trim_front, trim_back);
+
+
+    if (verbosity_level == DEBUG) {
+        printf(" Ilość próbek do obcięcia z przodu dla każdej pary czujników:\n");
+        for (int i = 0; i < 7; i++)
+            printf("  przód#%d %5d\n", i, vector->trim_front[i]);
+        printf("  tył     %5d\n", vector->trim_back);
+    }
+}
+
+void trim_values(data_vector_t *vector, data_field_t field, unsigned trim_front,
+                 unsigned trim_back) {
+
+    if (trim_front + trim_back >= vector->length) {
+        fputs("Ilość próbek do obcięcia łącznie nie może być większa od długości wektora!\n",
+              stderr);
+        exit(EINVAL);
+    }
+
+    data_cell_t *old, *new;
+
+    old = vector->head;
+    new = old;
+    for (int i = 0; i < trim_front; i++) new = new->next;
+    for (int i = trim_front; i < trim_back; i++) {
+        old->data[field] = new->data[field];
+        old = old->next;
+        new = new->next;
+    }
+
+    for(int i = trim_back; i < vector->length; i++) {
+        new->data[field] = 0;
+        new = new->next;
     }
 }

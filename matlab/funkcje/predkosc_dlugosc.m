@@ -12,7 +12,7 @@ Nimp1=0;             % numer impulsu PIEZO1
 Nimp2=0;             % numer impulsu PIEZO2
 
 pocz_imp=0;          % flaga - wskazuje czay jestesmy w obszarze impulsu
-index1(2)=0;         % tablice indeksów przednich zboczy impulsów
+index1(2)=0;         % tablice indeksï¿½w przednich zboczy impulsï¿½w
 index2(2)=0;
 
 Vms=0;
@@ -24,7 +24,7 @@ for i = 1:LP
         elseif p1(i)>=prog1 && pocz_imp==0
             pocz_imp=1;
             Nimp1=Nimp1+1;     % inkrementacja numeru impulsu
-            index1(Nimp1)=i;   % zapamiêtanie indeksu przejscia przez próg 
+            index1(Nimp1)=i;   % zapamiï¿½tanie indeksu przejscia przez prï¿½g 
         elseif p1(i)<prog2 && pocz_imp==1
             pocz_imp=0;            
    end
@@ -35,12 +35,14 @@ for i = 1:LP
         elseif p2(i)>=prog1 && pocz_imp==0
             pocz_imp=1;
             Nimp2=Nimp2+1;     % inkrementacja numeru impulsu
-            index2(Nimp2)=i;   % zapamiêtanie indeksu przejscia przez próg 
+            index2(Nimp2)=i;   % zapamiï¿½tanie indeksu przejscia przez prï¿½g 
         elseif p2(i)<prog2 && pocz_imp==1
             pocz_imp=0;            
    end
 end
-
+fprintf('\tWartosci indeksow:\n');
+fprintf('\tIndeks 1: %d, %d\n', index1(1), index1(2));
+fprintf('\tIndeks 2: %d, %d\n', index2(1), index2(2));
 if Nimp1==2 && Nimp2==2
     czas2=(index1(2)-index1(1)  +  index2(2)-index2(1) )/2 *1e-4; %  usredniony czas do obliczenia predkosci
     czas1=(index2(1)-index1(1)  +  index2(2)-index1(2) )/2 *1e-4; % usredniony czas do obliczenia dlugosci   

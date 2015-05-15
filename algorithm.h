@@ -22,7 +22,20 @@ vehicle_class algorithm2(data_vector_t *);
  */
 void remove_offset(data_vector_t *, unsigned);
 
+/*
+ * funkcja służąca do określenia parametrów ruchu pojazdu
+ */
 void find_velocity_distance(data_vector_t *, double *, double *);
+
+/*
+ * funkcja ogarniczająca zakres danych do istotnych
+ */
+void trim_data(data_vector_t *, double, double);
+
+/*
+ * funkcja pomocnicza dla trim_data, usuwa zbędne próbki danych dla zadanych parametrów
+ */
+void trim_values(data_vector_t *, data_field_t, unsigned, unsigned);
 
 #endif //INZYNIER_ALGORITHM_H
 
