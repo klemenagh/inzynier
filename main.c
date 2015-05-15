@@ -7,7 +7,11 @@
 #include "functions.h"
 #include "algorithm.h"
 
+extern int verbosity_level;
+
 int main(int argc, char **argv) {
+
+    verbosity_level = DEBUG; // debug
 
     //parse args
     bool read_from_file = 0;
@@ -46,16 +50,8 @@ int main(int argc, char **argv) {
         fputs("Błąd w czasie odczytu.\n", stderr);
     }
 
-    print_data_vector(data, true);
-
-    printf("Typ pojazdu: %d\n", algorithm2(data));
-
-    printf("Typ pojazdu: %d\n", algorithm2(data));
-
-    double v, d;
-
-    find_velocity_distance(data, &v, &d);
-    printf("Prędkość: %f, odległość: %f", v, d);
+    print_data_vector(data, false);
+    algorithm2(data);
 
     return EXIT_SUCCESS;
 }

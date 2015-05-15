@@ -6,6 +6,14 @@
 
 #include <stdbool.h>
 
+typedef enum VERBOSITY_LEVEL {
+    QUIET,
+    RELEASE,
+    DEBUG
+} verb_level;
+
+int verbosity_level;
+
 /*
  * enumerator wykorzystywany do zwiększenia czytelności
  * przy dostępie do pól data_cell_t_old

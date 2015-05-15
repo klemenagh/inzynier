@@ -7,6 +7,8 @@
 #include <errno.h>
 #include "algorithm.h"
 
+extern int verbosity_level;
+
 vehicle_class algorithm2(data_vector_t *vector) {
 
     unsigned OFFSET_NUM = 50;
@@ -63,6 +65,13 @@ vehicle_class algorithm2(data_vector_t *vector) {
     //ograniczenie z tylu
     trim_back = (unsigned) (25 / velocity / dt);
     vector->trim_back = trim_back;
+
+    if(verbosity_level == DEBUG) {
+        printf(" Ilość próbek do obcięcia z przodu dla każdej pary czujników:\n");
+        for(int i = 0; i < 7; i++) printf("  przód#%d %5d\n", i, vector->trim_front[i]);
+        printf("  tył     %5d\n", vector->trim_back);
+    }
+    
     return INVALID;
 }
 
@@ -93,7 +102,7 @@ void remove_offset(data_vector_t *vector, unsigned num) {
     }
 
     //wyznaczenie ostatenczej wartości offsetu dla każdego wektora
-    for (int i = 0; i < 13; i++) offsets[i] /= num;
+    for (int i = 0; i < 12; i++) offsets[i] /= num;
 
     //przesunięcie wszystkich wartości w wektorze o zadany offset
     n = vector->head;
@@ -103,6 +112,13 @@ void remove_offset(data_vector_t *vector, unsigned num) {
         }
         n = n->next;
     }
+
+    if (verbosity_level == DEBUG) {
+        printf(" Usuwanie offsetu z danych. Wartości offsetu dla poszczególnych parametrów:\n");
+        for (int i = 0; i < 12; i++) printf("  offset = %10.6f\n", offsets[i]);
+
+    }
+
 }
 
 void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
@@ -169,10 +185,17 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
     t1 = (index2[0] - index1[0] + index2[1] - index1[1]) / 2;
     t2 = (index1[1] - index1[0] + index2[1] - index2[0]) / 2;
 
-    //konwersja z ms na s
-    t1 /= 1000;
-    t2 /= 1000;
+    //konwersja na s
+    double dt = vector->head->next->data[DATA_T] - vector->head->data[DATA_T];
+    t1 *= dt;
+    t2 *= dt;
 
     *v = dist / t1;
     *d = (*v) * t2;
+
+    if (verbosity_level == DEBUG) {
+        printf(" Wyznaczanie prędkości i odległości:\n");
+        printf("  Prędkość:  %8.4f m/s\n", *v);
+        printf("  Odległość: %8.4f m\n", *d);
+    }
 }
