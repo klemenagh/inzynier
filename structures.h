@@ -38,15 +38,12 @@ typedef enum data_field {
  * klasy pojazdów
  */
 typedef enum vehicle_class {
-    INVALID,
-    CIEZAROWY_5OS,
-    CIEZAROWY_5OS_UP,
-    CIEZAROWY_4OS,
-    CIEZAROWY_3OS,
-    CIEZAROWY_2OS,
-    DOSTAWCZY,
-    OSOBOWY_ALUS,
-    OSOBOWY_STAL
+    INVALID = 1,
+    POJAZD_5OS = 5,
+    POJAZD_5OS_UP = 6,
+    POJAZD_4OS = 4,
+    POJAZD_3OS = 3,
+    POJAZD_2OS = 2,
 } vehicle_class;
 
 /*

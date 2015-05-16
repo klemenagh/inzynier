@@ -46,6 +46,7 @@ vehicle_class algorithm2(data_vector_t *vector) {
     //nastawy algorytmu
     //w porównaniu do matlaba, a_b = r, Y = S, H = H
     double a_b, Y, H;
+    vehicle_class class = INVALID;
 
     data_cell_t *n = vector->head;
     for (unsigned i = 0; i < length; i++) {
@@ -92,7 +93,6 @@ vehicle_class algorithm2(data_vector_t *vector) {
     }
 
     num_axles = counter(Ku, length, Y, H);
-
     //procedura szukania drugiej osi
     if (num_axles < 2) {
         if (verbosity_level == DEBUG) {
@@ -106,6 +106,7 @@ vehicle_class algorithm2(data_vector_t *vector) {
             num_axles = counter(Ku, length, Y, H);
         }
     }
+    class = (vehicle_class) num_axles;
 
     //procedura szukania podniesionej piątej osi
     if (num_axles == 4) {
@@ -136,7 +137,13 @@ vehicle_class algorithm2(data_vector_t *vector) {
 
                 Y = 1.8;
                 num_axles = counter(Ku, length, Y, H);
+
+                break;
             }
+        }
+
+        if (num_axles == 5) {//znaleziono podniesiona os
+            class = POJAZD_5OS_UP;
         }
     }
 
@@ -149,7 +156,7 @@ vehicle_class algorithm2(data_vector_t *vector) {
         printf(" Osie    = %5d\n", num_axles);
     }
 
-    return INVALID;
+    return class;
 }
 
 void remove_offset(data_vector_t *vector, unsigned num) {
