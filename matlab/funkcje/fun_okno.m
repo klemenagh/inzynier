@@ -25,6 +25,7 @@ for k=1:len
 %           bramka(k)=1;
 %      end
 end
+fprintf('Poczatek okna: %5d\nKoniec okna: %5d\n', pocz, kon);
 %% DEBUG
 %figure(10), plot(syg.t, kwadrat), hold on
 %plot(syg.t, bramka)
