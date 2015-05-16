@@ -37,13 +37,6 @@ Ku=unormowanie_do1(Kprim)*5;
 C=komparator(Ku,S,H);
 liczba_osi=licznik(C);
 
-fprintf(' Lm      = %5d\n Lx      = %5d\n', liczba_Z, liczba_Xp);
-fprintf(' a_b [r] =  %4.2f\n', r);
-fprintf(' Y [S]   =  %4.2f\n', S);
-fprintf(' H       =  %4.2f\n', H);
-fprintf(' Kp_max  = %5.2f\n', m);
-fprintf(' Osie    = %5d\n', liczba_osi);
-
 %liczba osi mniejsza niz 2 oznaczy zbyt wysoko ustawiony poziom S
 if 1 % wylaczenie dla porownania 
     tmp1=liczba_osi;
@@ -84,6 +77,13 @@ if liczba_osi==4
     end
 end
 %
+fprintf(' Lm      = %5d\n Lx      = %5d\n', liczba_Z, liczba_Xp);
+fprintf(' a_b [r] =  %4.2f\n', r);
+fprintf(' Y [S]   =  %4.2f\n', S);
+fprintf(' H       =  %4.2f\n', H);
+fprintf(' Kp_max  = %5.2f\n', m);
+fprintf(' Osie    = %5d\n', liczba_osi);
+
 syg.Kprim=Kprim;
 syg.Ku=Ku;
 syg.C=C;

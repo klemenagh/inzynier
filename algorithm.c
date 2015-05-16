@@ -27,10 +27,14 @@ vehicle_class algorithm2(data_vector_t *vector) {
     trim_data(vector, velocity);
 
     trim_to_window(vector, 30);
-    printf("%d\n", vector->trim_back);
+    if (verbosity_level == DEBUG) {
+        printf(" Długość okna: %d\n", vector->trim_back);
+    }
 
     //właściwa część algorytmu
-
+    if (verbosity_level == DEBUG) {
+        puts("\nUruchamianie algorytmu poszukiwania osi.");
+    }
     const unsigned length = vector->trim_back;
     double R[length], X[length];    // tablice sygnałów R01 i X01
     double M[length];               // sygnal M = R^2 + X^2
@@ -51,8 +55,6 @@ vehicle_class algorithm2(data_vector_t *vector) {
 
         M[i] = pow(R[i], 2) + pow(X[i], 2);
     }
-
-    printf("%f, %f %f\n", R[length - 1], X[length - 1], M[length - 1]);
 
     Lx = count_compare(X, length, 0.1); //todo matlab=0.1, praca=0.2 ?
     Lm = count_compare(M, length, 0.5);
@@ -90,6 +92,53 @@ vehicle_class algorithm2(data_vector_t *vector) {
     }
 
     num_axles = counter(Ku, length, Y, H);
+
+    //procedura szukania drugiej osi
+    if (num_axles < 2) {
+        if (verbosity_level == DEBUG) {
+            printf(" Znaleziono %1d osi, procedura szukania do 2...\n",
+                   num_axles);
+        }
+
+        H = 0.1;
+        while (num_axles < 2 && Y > 0.15) {
+            Y -= 0.1;
+            num_axles = counter(Ku, length, Y, H);
+        }
+    }
+
+    //procedura szukania podniesionej piątej osi
+    if (num_axles == 4) {
+        if (verbosity_level == DEBUG) {
+            puts(" Znaleziono 4 osie, procedura szukania 5...");
+        }
+        H = 0.1;
+        a_b = 0.3; //zwiększenie znaczenia sygnału R
+
+        //przepisanie sygnału K' i Ku
+        for (unsigned i = 0; i < length; i++) {
+            Kp[i] = a_b * R[i] + X[i];
+            if (i == 0 || Kp[i] > Kp_max) Kp_max = Kp[i];
+        }
+        for (unsigned i = 0; i < length; i++) {
+            Ku[i] = 5 * Kp[i] / Kp_max;
+        }
+
+        //wlasciwe poszukiwanie 5. osi
+        while (num_axles != 5 && Y > 0.15) {
+            Y -= 0.1;
+            num_axles = counter(Ku, length, Y, H);
+
+            if (num_axles != 4 && num_axles != 5) {
+                if (verbosity_level == DEBUG) {
+                    puts(" Przerwanie procedury szukania piątej osi.");
+                }
+
+                Y = 1.8;
+                num_axles = counter(Ku, length, Y, H);
+            }
+        }
+    }
 
     if (verbosity_level == DEBUG) {
         printf(" Lm      = %5d\n Lx      = %5d\n", Lm, Lx);
@@ -479,7 +528,7 @@ unsigned counter(double *Ku, unsigned len, double Y, double H) {
     const double level_bottom = Y - H / 2;
 
     for (unsigned i = 0; i < len; i++) {
-        if(is_high == 0 && Ku[i] >= level_top) {
+        if (is_high == 0 && Ku[i] >= level_top) {
             is_high = 1;
             num_axles++;
         }
@@ -490,55 +539,3 @@ unsigned counter(double *Ku, unsigned len, double Y, double H) {
 
     return num_axles;
 }
-
-/*void trim_to_window(data_vector_t *vector, unsigned window) {
-
-    int nfft;
-    for (nfft = 2; nfft < vector->trim_back; nfft *= 2);
-
-    if (verbosity_level == DEBUG) printf(" Wartość nfft to %5d\n", nfft);
-
-    //fft
-    kiss_fft_cfg cfg = kiss_fft_alloc(nfft, 0, 0, 0);
-    kiss_fft_cpx cin[nfft];
-    kiss_fft_cpx cout[nfft];
-    kiss_fft_cpx sout[nfft];
-
-    data_cell_t *n = vector->head;
-    for (int i = 0; i < vector->trim_back; i++) {
-        cin[i].r = (float)
-                           10 *
-                   sqrt(pow(n->data[DATA_R3], 2) + pow(n->data[DATA_X3], 2));
-        cin[i].i = 0;
-        n = n->next;
-    }
-    for (int i = vector->trim_back; i < nfft; i++) {
-        cin[i].r = 0;
-        cin[i].i = 0;
-    }
-
-    kiss_fft(cfg, cin, cout);
-
-    for (int i = window; i < nfft; i++) {
-        cout[i].r = 0;
-        cout[i].i = 0;
-    }
-
-    kiss_fft_cfg cfgi = kiss_fft_alloc(nfft, 1, 0, 0);
-    kiss_fft(cfgi, cout, sout);
-
-    double data_out[vector->trim_back];
-    for (int i = 0; i < vector->trim_back; i++) {
-        data_out[i] = 2 * sout[i].r;
-    }
-
-    if (verbosity_level == DEBUG) {
-        printf("LP         CIN.re        CIN.im       COUT.re       COUT.im      data_out\n");
-        for (int i = 0; i < window + 2; i++) {
-            printf("#%2d ", i);
-            printf("%13.5f %13.5f", cin[i].r, cin[i].i);
-            printf(" %13.5f %13.5f", cout[i].r, cout[i].i);
-            printf(" %13.5f\n", data_out[i]);
-        }
-    }
-}*/
