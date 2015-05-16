@@ -14,7 +14,7 @@ extern int verbosity_level;
 
 vehicle_class algorithm2(data_vector_t *vector) {
 
-    unsigned OFFSET_NUM = 50;
+    const unsigned OFFSET_NUM = 50;
 
     remove_offset(vector, OFFSET_NUM);
 
@@ -24,11 +24,82 @@ vehicle_class algorithm2(data_vector_t *vector) {
 
     find_velocity_distance(vector, &velocity, &distance);
 
-    trim_data(vector, velocity, distance);
+    trim_data(vector, velocity);
 
     trim_to_window(vector, 30);
+    printf("%d\n", vector->trim_back);
 
-    print_data_vector(vector, true, true);
+    //właściwa część algorytmu
+
+    const unsigned length = vector->trim_back;
+    double R[length], X[length];    // tablice sygnałów R01 i X01
+    double M[length];               // sygnal M = R^2 + X^2
+    double Kp[length];              // sygnal K' = a_b * R + X
+    double Kp_max;                  // wartość maksymalna sygnału K'
+    double Ku[length];              // sygnał K' unormowany
+    unsigned Lx, Lm;                // wartości liczników dla sygnałów X oraz M.
+    unsigned num_axles;             // ilość osi
+    //nastawy algorytmu
+    //w porównaniu do matlaba, a_b = r, Y = S, H = H
+    double a_b, Y, H;
+
+    data_cell_t *n = vector->head;
+    for (unsigned i = 0; i < length; i++) {
+        R[i] = n->data[DATA_R01]; //todo R01 i X01 ?
+        X[i] = n->data[DATA_X01];
+        n = n->next;
+
+        M[i] = pow(R[i], 2) + pow(X[i], 2);
+    }
+
+    printf("%f, %f %f\n", R[length - 1], X[length - 1], M[length - 1]);
+
+    Lx = count_compare(X, length, 0.1); //todo matlab=0.1, praca=0.2 ?
+    Lm = count_compare(M, length, 0.5);
+
+    if (Lm == 0) return INVALID; // 0 probek spełniających warunek!
+
+    if (1.0 * Lx / Lm > 0.1) { //wybor nastaw zestawu A
+        a_b = 0.21;
+        Y = 0.8;
+        H = 0.45;
+    }
+    else { //nastawy zestawu B
+        a_b = 0.5;
+        Y = 4; // todo matlab=4, praca=1.8 ?
+        H = 0.5;
+    }
+
+    //stworzenie sygnalu K'
+    for (unsigned i = 0; i < length; i++) {
+        Kp[i] = a_b * R[i] + X[i];
+
+        if (i == 0 || Kp[i] > Kp_max) Kp_max = Kp[i];
+    }
+
+    if (Kp_max > 3) {
+        //zgodnie z implementacja w matlab, zmiana wartości nastaw na podane
+        //todo ?
+        Y = 0.8;
+        H = 0.45;
+    }
+
+    //normalizacja sygnału K'
+    for (unsigned i = 0; i < length; i++) {
+        Ku[i] = 5 * Kp[i] / Kp_max;
+    }
+
+    num_axles = counter(Ku, length, Y, H);
+
+    if (verbosity_level == DEBUG) {
+        printf(" Lm      = %5d\n Lx      = %5d\n", Lm, Lx);
+        printf(" a_b [r] =  %4.2f\n", a_b);
+        printf(" Y   [S] =  %4.2f\n", Y);
+        printf(" H       =  %4.2f\n", H);
+        printf(" Kp_max  = %5.2f\n", Kp_max);
+        printf(" Osie    = %5d\n", num_axles);
+    }
+
     return INVALID;
 }
 
@@ -73,9 +144,7 @@ void remove_offset(data_vector_t *vector, unsigned num) {
     if (verbosity_level == DEBUG) {
         printf(" Usuwanie offsetu z danych. Wartości offsetu dla poszczególnych parametrów:\n");
         for (int i = 0; i < 12; i++) printf("  offset = %10.6f\n", offsets[i]);
-
     }
-
 }
 
 void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
@@ -160,7 +229,7 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
     }
 }
 
-void trim_data(data_vector_t *vector, double velocity, double distance) {
+void trim_data(data_vector_t *vector, double velocity) {
 
     double sensor_distance; // odległość dla każdej pary czujników
     unsigned trim_front; // ilość próbek do obcięcia z przodu
@@ -377,11 +446,49 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
     for (int i = 0; i < 13; i++) { //dla każdej składowej wektora
         trim_values(vector, (data_field_t) i, w_start + 1, w_end - w_start);
     }
+    vector->trim_back = w_end - w_start + 1;
     //usun offset czasu, by probka zaczynała się od t = 0
     double time_offset = vector->head->data[DATA_T];
-    for(data_cell_t * n = vector->head; n != NULL; n = n->next) {
+    for (data_cell_t *n = vector->head; n != NULL; n = n->next) {
         n->data[DATA_T] -= time_offset;
     }
+}
+
+unsigned count_compare(double *array, unsigned len, double threshold) {
+    if (array == NULL) {
+        exit(EINVAL);
+    }
+
+    unsigned count = 0;
+    for (unsigned i = 0; i < len; i++) {
+        if (array[i] > threshold) count++;
+    }
+
+    return count;
+}
+
+unsigned counter(double *Ku, unsigned len, double Y, double H) {
+    if (Ku == NULL) {
+        exit(EINVAL);
+    }
+
+    unsigned num_axles = 0;
+    unsigned is_high = 0; // flaga stanu [0 = stan niski, 1 = wysoki]
+
+    const double level_top = Y + H / 2;
+    const double level_bottom = Y - H / 2;
+
+    for (unsigned i = 0; i < len; i++) {
+        if(is_high == 0 && Ku[i] >= level_top) {
+            is_high = 1;
+            num_axles++;
+        }
+        else if (is_high == 1 && Ku[i] < level_bottom) {
+            is_high = 0;
+        }
+    }
+
+    return num_axles;
 }
 
 /*void trim_to_window(data_vector_t *vector, unsigned window) {

@@ -3,7 +3,7 @@ project(inzynier)
 
 
 set(CMAKE_C_COMPILER "gcc")
-set(CMAKE_C_FLAGS "-std=c99 -W -Wall -Werror -Wno-unused-parameter -lm")
+set(CMAKE_C_FLAGS "-std=c99 -W -Wall -Werror -lm")
 
 set(SOURCE_FILES
     main.c

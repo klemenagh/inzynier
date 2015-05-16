@@ -1,6 +1,6 @@
-%%algorytm 2 detekcji osi pojazdów
+%%algorytm 2 detekcji osi pojazdï¿½w
 function [liczba_osi, syg]=fun_algorytm2_test(syg)
-%pocz¹tkowe dla osobowego
+%poczï¿½tkowe dla osobowego
 S=4.0;
 H=0.5;
 r=0.5;
@@ -9,13 +9,13 @@ R=syg.R01m;
 %R=fun_zeruj_ujemne(R);
 X=syg.X01m;
 %
-%sprawdzam, czy to ciê¿arówka..
+%sprawdzam, czy to ciï¿½arï¿½wka..
 [Xsum_p, liczba_Xp]=suma_plus(X,0.1); 
 %[Xsum_m, liczba_Xm]=suma_minus(X,-0.2);
 %[Rsum_p, liczba_Rp]=suma_plus(R,0.2);
 Z=R.^2+X.^2;
 [Zsum_p, liczba_Z]=suma_plus(Z,0.5);
-dod=liczba_Xp/liczba_Z * 100; %liczbaXów dodatnich/liczba wyst¹pieñ R>0.2
+dod=liczba_Xp/liczba_Z * 100; %liczbaXï¿½w dodatnich/liczba wystï¿½pieï¿½ R>0.2
 %parametr do detekcji pojazdow 3 osiowych
 %c=liczba_Xm/liczba_Rp;
 if dod>10 % dodatnich 
@@ -23,6 +23,7 @@ if dod>10 % dodatnich
       r=0.21;
       H=0.45;
 end
+
 Kprim=r*R + X;
 m=max(Kprim);
 %??
@@ -35,6 +36,13 @@ end
 Ku=unormowanie_do1(Kprim)*5;
 C=komparator(Ku,S,H);
 liczba_osi=licznik(C);
+
+fprintf(' Lm      = %5d\n Lx      = %5d\n', liczba_Z, liczba_Xp);
+fprintf(' a_b [r] =  %4.2f\n', r);
+fprintf(' Y [S]   =  %4.2f\n', S);
+fprintf(' H       =  %4.2f\n', H);
+fprintf(' Kp_max  = %5.2f\n', m);
+fprintf(' Osie    = %5d\n', liczba_osi);
 
 %liczba osi mniejsza niz 2 oznaczy zbyt wysoko ustawiony poziom S
 if 1 % wylaczenie dla porownania 
@@ -51,11 +59,11 @@ if 1 % wylaczenie dla porownania
     end
 end
 
-% Próba znalezienia 5 osi w przypadku wykrycia 4.
+% Prï¿½ba znalezienia 5 osi w przypadku wykrycia 4.
 if liczba_osi==4
     tmp1=liczba_osi;
     H=0.1; % poziom histerezy komparatora bardzo niski..
-    r=0.3; % trochê wy¿sze wykorzystanie profilu R;
+    r=0.3; % trochï¿½ wyï¿½sze wykorzystanie profilu R;
     Kprim=r*R + X;
     Ku=unormowanie_do1(Kprim)*5;
     stop=1;
