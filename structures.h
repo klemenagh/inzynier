@@ -95,8 +95,8 @@ void popfront_data(data_vector_t *);
 
 void clear_data_vector(data_vector_t *);
 
-void print_data_vector(data_vector_t *, bool);
+void print_data_vector(data_vector_t *, bool, bool);
 
-void print_data_node(data_cell_t *);
+void print_data_node(data_cell_t *, bool);
 
 #endif //INZYNIER_STRUCTURES_H

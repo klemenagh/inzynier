@@ -37,5 +37,9 @@ void trim_data(data_vector_t *, double, double);
  */
 void trim_values(data_vector_t *, data_field_t, unsigned, unsigned);
 
+/*
+ * funkcja ograniczająca rozmiar wektora do wartości okna.
+ */
+void trim_to_window(data_vector_t *, unsigned);
 #endif //INZYNIER_ALGORITHM_H
 

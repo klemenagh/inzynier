@@ -71,34 +71,34 @@ void clear_data_vector(data_vector_t *vector) {
     while (vector->length != 0) popfront_data(vector);
 }
 
-void print_data_vector(data_vector_t *v, bool verbose) {
-    printf("VECTOR\n");
+void print_data_vector(data_vector_t *v, bool verbose, bool pure) {
+    if (!pure) printf("VECTOR\n");
     if (v == NULL) {
         printf("Pusty wskaźnik na wektor.\n");
         return;
     }
 
-    printf("Wskaźnik: %p, \t długość: %d\n", v, v->length);
+    if (!pure) printf("Wskaźnik: %p, \t długość: %d\n", v, v->length);
     if (verbose) {
         data_cell_t *n = v->head;
-        int i = 0;
+        unsigned i = 0;
         while (i++ < v->length) {
-            print_data_node(n);
+            print_data_node(n, pure);
             n = n->next;
         }
     }
 }
 
-void print_data_node(data_cell_t *n) {
-    printf("NODE\n");
+void print_data_node(data_cell_t *n, bool pure) {
+    if (!pure)printf("NODE\n");
     if (n == NULL) {
         printf("Pusty wskaźnik na węzeł.\n");
         return;
     }
 
-    printf("Wskaźnik: %p\nDane:\n", n);
+    if(!pure) printf("Wskaźnik: %p\nDane:\n", n);
     for (int i = 0; i < 13; i++) {
-        printf("%f ", n->data[i]);
+        printf("%f\t", n->data[i]);
     }
     printf("\n");
 

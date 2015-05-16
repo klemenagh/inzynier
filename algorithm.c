@@ -5,8 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-
+#include <math.h>
 #include "algorithm.h"
+
+#include "kiss_fft/kiss_fft.h"
 
 extern int verbosity_level;
 
@@ -24,6 +26,9 @@ vehicle_class algorithm2(data_vector_t *vector) {
 
     trim_data(vector, velocity, distance);
 
+    trim_to_window(vector, 30);
+
+    print_data_vector(vector, true, true);
     return INVALID;
 }
 
@@ -181,19 +186,19 @@ void trim_data(data_vector_t *vector, double velocity, double distance) {
     trim_values(vector, DATA_R05, trim_front, trim_back);
     trim_values(vector, DATA_X05, trim_front, trim_back);
 
-    //3m
+    //0.3m
     sensor_distance += 1 + 0.3;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
     vector->trim_front[2] = trim_front;
-    trim_values(vector, DATA_R3, trim_front, trim_back);
-    trim_values(vector, DATA_X3, trim_front, trim_back);
+    trim_values(vector, DATA_R03, trim_front, trim_back);
+    trim_values(vector, DATA_X03, trim_front, trim_back);
 
-    //0.3m
+    //3m
     sensor_distance += 1 + 1.5 + 0.1;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
     vector->trim_front[3] = trim_front;
-    trim_values(vector, DATA_R03, trim_front, trim_back);
-    trim_values(vector, DATA_X03, trim_front, trim_back);
+    trim_values(vector, DATA_R3, trim_front, trim_back);
+    trim_values(vector, DATA_X3, trim_front, trim_back);
 
     //0.1m
     sensor_distance += 1.5 + 1 + 1.5;
@@ -226,6 +231,9 @@ void trim_data(data_vector_t *vector, double velocity, double distance) {
 void trim_values(data_vector_t *vector, data_field_t field, unsigned trim_front,
                  unsigned trim_back) {
 
+    //todo ?
+    trim_front--;
+    trim_back++;
     if (trim_front + trim_back >= vector->length) {
         fputs("Ilość próbek do obcięcia łącznie nie może być większa od długości wektora!\n",
               stderr);
@@ -236,15 +244,194 @@ void trim_values(data_vector_t *vector, data_field_t field, unsigned trim_front,
 
     old = vector->head;
     new = old;
-    for (int i = 0; i < trim_front; i++) new = new->next;
-    for (int i = trim_front; i < trim_back; i++) {
+    for (unsigned i = 0; i < trim_front; i++) new = new->next;
+    for (unsigned i = 0; i <= trim_back; i++) {
         old->data[field] = new->data[field];
         old = old->next;
         new = new->next;
     }
-
-    for(int i = trim_back; i < vector->length; i++) {
-        new->data[field] = 0;
-        new = new->next;
+    for (; old != NULL; old = old->next) {
+        old->data[field] = 0;
     }
 }
+
+void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
+
+    unsigned nfft;
+    for (nfft = 2; nfft < vector->trim_back; nfft *= 2);
+
+    if (verbosity_level == DEBUG) printf(" Wartość nfft to %5d\n", nfft);
+
+    //fft
+    size_t buflen = sizeof(kiss_fft_cpx) * nfft;
+
+    kiss_fft_cpx *signal = (kiss_fft_cpx *) malloc(buflen);
+    kiss_fft_cpx *fft = (kiss_fft_cpx *) malloc(buflen);
+    kiss_fft_cpx *reverse = (kiss_fft_cpx *) malloc(buflen);
+
+    data_cell_t *n = vector->head;
+    for (unsigned i = 0; i < vector->trim_back; i++) {
+        signal[i].r = (float) 10 * sqrt(pow(n->data[DATA_R3], 2) +
+                                        pow(n->data[DATA_X3], 2));
+        signal[i].i = 0;
+        n = n->next;
+    }
+    for (unsigned i = vector->trim_back; i < nfft; i++) {
+        signal[i].r = 0;
+        signal[i].i = 0;
+    }
+
+//    for(unsigned i = 0; i < nfft; i++) printf("%f %f\n", re[i], im[i]);
+
+    kiss_fft_cfg cfg = kiss_fft_alloc(nfft, 0, 0, 0);
+    kiss_fft(cfg, signal, fft);
+    free(cfg);
+
+    cfg = kiss_fft_alloc(nfft, 1, 0, 0);
+
+    for (unsigned i = ftt_stripe; i < nfft; i++) {
+        fft[i].r = 0;
+        fft[i].i = 0;
+    }
+    kiss_fft(cfg, fft, reverse);
+
+    if (verbosity_level == DEBUG) {
+        for (unsigned i = 0; i < ftt_stripe + 2; i++)
+            printf("%15.7f %15.7f\n", signal[i].r, signal[i].i);
+        putchar('\n');
+        for (unsigned i = 0; i < ftt_stripe + 2; i++)
+            printf("%15.7f %15.7f\n", fft[i].r, fft[i].i);
+        putchar('\n');
+        for (unsigned i = 0; i < ftt_stripe + 2; i++)
+            printf("%15.7f %15.7f\n", reverse[i].r, reverse[i].i);
+    }
+    /*
+     * w przypadku użycia biblioteki kissfft, konieczne jest podzielenie
+     * wartości próbek przez ich ilość, by uzyskać wyniki zgodne z funkcją
+     * ifft matlaba.
+     */
+
+    double sig_out[vector->trim_back];
+    for (unsigned i = 0; i < vector->trim_back; i++) {
+        sig_out[i] = 2.0 * reverse[i].r / nfft;
+    }
+
+    //oproznanie zasobow wykorzystywanych przy wyliczaniu fft
+    free(cfg);
+    free(signal);
+    free(fft);
+    free(reverse);
+
+    if (verbosity_level == DEBUG) {
+        putchar('\n');
+        for (unsigned i = 0; i < ftt_stripe + 2; i++)
+            printf("%15.7f\n", sig_out[i]);
+    }
+
+    //usuniecie offsetu z uzyskanego sygnalu na podstawie wartosci OFFSET_NUM
+    const unsigned OFFSET_NUM = 50;
+    double offset = 0;
+
+    for (unsigned i = 0; i < OFFSET_NUM; i++) {
+        offset += sig_out[i];
+    }
+    offset /= OFFSET_NUM;
+
+    if (verbosity_level == DEBUG) {
+        printf(" Usuwanie offsetu z danych po fft.\n  offset = %10.6f\n",
+               offset);
+    }
+
+    for (unsigned i = 0; i < vector->trim_back; i++) sig_out[i] -= offset;
+
+    if (verbosity_level == DEBUG) {
+        printf(" Sygnał po usunięciu offsetu:\n");
+        for (unsigned i = 0; i < ftt_stripe + 2; i++)
+            printf("%15.7f\n", sig_out[i]);
+    }
+
+    /*
+     * Wyszukiwanie okna w sygnale sig_out.
+     */
+    unsigned w_start = 0;
+    unsigned w_end = vector->trim_back - 1;
+    bool in_window = false;
+
+    for (unsigned i = 0; i < vector->trim_back; i++) {
+        if (sig_out[i] > 0.8 && in_window == false) {
+            in_window = true;
+            w_start = i;
+        }
+        else if (sig_out[i] < 0.5 && in_window == true) {
+            w_end = i;
+            break;
+        }
+    }
+
+    if (verbosity_level == DEBUG) {
+        printf(" Ograniczanie sygnału do okna.\n  start = %5d\n  end   = %5d\n",
+               w_start, w_end);
+    }
+
+    //ograniczanie sygnałów do znajdujących się w oknie
+    for (int i = 0; i < 13; i++) { //dla każdej składowej wektora
+        trim_values(vector, (data_field_t) i, w_start + 1, w_end - w_start);
+    }
+    //usun offset czasu, by probka zaczynała się od t = 0
+    double time_offset = vector->head->data[DATA_T];
+    for(data_cell_t * n = vector->head; n != NULL; n = n->next) {
+        n->data[DATA_T] -= time_offset;
+    }
+}
+
+/*void trim_to_window(data_vector_t *vector, unsigned window) {
+
+    int nfft;
+    for (nfft = 2; nfft < vector->trim_back; nfft *= 2);
+
+    if (verbosity_level == DEBUG) printf(" Wartość nfft to %5d\n", nfft);
+
+    //fft
+    kiss_fft_cfg cfg = kiss_fft_alloc(nfft, 0, 0, 0);
+    kiss_fft_cpx cin[nfft];
+    kiss_fft_cpx cout[nfft];
+    kiss_fft_cpx sout[nfft];
+
+    data_cell_t *n = vector->head;
+    for (int i = 0; i < vector->trim_back; i++) {
+        cin[i].r = (float)
+                           10 *
+                   sqrt(pow(n->data[DATA_R3], 2) + pow(n->data[DATA_X3], 2));
+        cin[i].i = 0;
+        n = n->next;
+    }
+    for (int i = vector->trim_back; i < nfft; i++) {
+        cin[i].r = 0;
+        cin[i].i = 0;
+    }
+
+    kiss_fft(cfg, cin, cout);
+
+    for (int i = window; i < nfft; i++) {
+        cout[i].r = 0;
+        cout[i].i = 0;
+    }
+
+    kiss_fft_cfg cfgi = kiss_fft_alloc(nfft, 1, 0, 0);
+    kiss_fft(cfgi, cout, sout);
+
+    double data_out[vector->trim_back];
+    for (int i = 0; i < vector->trim_back; i++) {
+        data_out[i] = 2 * sout[i].r;
+    }
+
+    if (verbosity_level == DEBUG) {
+        printf("LP         CIN.re        CIN.im       COUT.re       COUT.im      data_out\n");
+        for (int i = 0; i < window + 2; i++) {
+            printf("#%2d ", i);
+            printf("%13.5f %13.5f", cin[i].r, cin[i].i);
+            printf(" %13.5f %13.5f", cout[i].r, cout[i].i);
+            printf(" %13.5f\n", data_out[i]);
+        }
+    }
+}*/

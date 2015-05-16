@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
         fputs("Błąd w czasie odczytu.\n", stderr);
     }
 
-    print_data_vector(data, false);
+    print_data_vector(data, false, true);
     algorithm2(data);
 
     return EXIT_SUCCESS;

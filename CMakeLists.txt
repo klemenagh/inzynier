@@ -3,15 +3,21 @@ project(inzynier)
 
 
 set(CMAKE_C_COMPILER "gcc")
-set(CMAKE_C_FLAGS "-std=c99 -Wall")
+set(CMAKE_C_FLAGS "-std=c99 -W -Wall -Werror -Wno-unused-parameter -lm")
 
 set(SOURCE_FILES
     main.c
     structures.h
     structures.c
     functions.h
-    functions.h)
+    functions.c
+    algorithm.h
+    algorithm.c)
 
+include_directories("${PROJECT_SOURCE_DIR}/kiss_fft")
+add_subdirectory(kiss_fft)
 
+add_executable(inzynier ${SOURCE_FILES})
 
-add_executable(inzynier ${SOURCE_FILES} structures.c functions.h functions.c algorithm.h algorithm.c)
+target_link_libraries(inzynier kissfft)
+
