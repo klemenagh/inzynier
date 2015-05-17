@@ -359,22 +359,28 @@ void trim_values(data_vector_t *vector, data_field_t field, unsigned trim_front,
     //todo ?
     trim_front--;
     trim_back++;
-    if (trim_front + trim_back >= vector->length) {
-        fputs("Ilość próbek do obcięcia łącznie nie może być większa od długości wektora!\n",
-              stderr);
-        exit(EINVAL);
-    }
 
     data_cell_t *old, *new;
 
     old = vector->head;
     new = old;
-    for (unsigned i = 0; i < trim_front; i++) new = new->next;
-    for (unsigned i = 0; i <= trim_back; i++) {
+    unsigned i = 0;
+    for (i = 0; i < trim_front; i++) new = new->next;
+    for (i = 0; i <= trim_back; i++) {
         old->data[field] = new->data[field];
         old = old->next;
         new = new->next;
+
+        if (new == NULL) break; //osiagnieto koniec wektora
     }
+
+    //jeśli osiągnięto koniec wektora zbyt wcześnie, wypełnij brakujące elemety
+    // wartościami 0
+    for (; i < trim_back && old != NULL; i++) {
+        old->data[field] = 0;
+        old = old->next;
+    }
+
     for (; old != NULL; old = old->next) {
         old->data[field] = 0;
     }

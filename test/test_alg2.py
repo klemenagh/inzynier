@@ -16,6 +16,8 @@ classes = 	[('ciezarowy_2os', '2'),
 			('osobowy_stal', '2'),]
 
 results = []
+files_invalid = []
+
 for subdir, desired_output in classes:
 	directory = data_dir + subdir
 	print(directory)
@@ -31,7 +33,7 @@ for subdir, desired_output in classes:
 		if f.endswith('lvm'):
 
 			p = os.path.abspath(directory + '/' + f)
-			print('{} / {}: {}'.format(curr_file, num_files, f))
+			is_error = False
 
 			proc = subprocess.Popen([executable, '-f', p], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 			output = proc.stdout.read()
@@ -42,10 +44,19 @@ for subdir, desired_output in classes:
 				err = proc.stderr.read()
 				if len(err.decode("utf-8").rstrip()) is not 0:
 					error += 1
+					is_error = True
+
+				files_invalid.append(p)
 			total += 1
+
+			print('{} / {}: {} {}'.format(curr_file, num_files, f, '[error]' if is_error else ''))
 	
 	results.append((subdir, valid, error, total))
 
 for c, v, e, i in results:
 	print(c)
 	print('%3d/%3d (%5.2f%%), %3d błędów, %3d niepoprawnych wyników' % (v, i, 100.0 * v / i, e, i - v - e))
+
+print('Pliki wywołujące błędy')
+for f in files_invalid:
+	print(f)

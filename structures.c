@@ -46,9 +46,9 @@ void clear_data_vector(data_vector_t *vector) {
 
     if (vector->length == 0) return;
 
-    data_cell_t * n = vector->head;
-    data_cell_t * b = NULL;
-    while(n != NULL) {
+    data_cell_t *n = vector->head;
+    data_cell_t *b = NULL;
+    while (n != NULL) {
         b = n;
         n = n->next;
         free(b);
@@ -83,7 +83,7 @@ void print_data_node(data_cell_t *n, bool pure) {
         return;
     }
 
-    if(!pure) printf("Wskaźnik: %p\nDane:\n", n);
+    if (!pure) printf("Wskaźnik: %p\nDane:\n", n);
     for (int i = 0; i < 13; i++) {
         printf("%f\t", n->data[i]);
     }
