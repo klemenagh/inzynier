@@ -7,3 +7,9 @@ W ramach pracy zrealizowane zostanie oprogramowanie do detekcji osi pojazdów na
  z użyciem języka C  w środowisku Linux.
  Zaimplementowane zostaną funkcje charakterystyczne dla oprogramowania GNU-Coreutils,
  tzn. obsługa standardowych wejść i wyjść, potoków i argumentów wiersza poleceń.
+
+ # TODO
+  - [x] Sprawdzenie wycieków pamięci
+  - [ ] Implementacja funkcji porównującej wynik algorytmu z odczytami piezo
+  - [ ] Zmiana struktury danych z listy jednokierunkowej na wektor
+  - [ ] Implementacja testów

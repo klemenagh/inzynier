@@ -19,8 +19,10 @@ results = []
 for subdir, desired_output in classes:
 	directory = data_dir + subdir
 	print(directory)
-	valid = 0;
-	total = 0;
+	valid = 0
+	error = 0
+	total = 0
+
 	files = os.listdir(directory)
 	num_files = len(files)
 	curr_file = 0
@@ -38,11 +40,12 @@ for subdir, desired_output in classes:
 				valid += 1
 			else:
 				err = proc.stderr.read()
-				print(err.decode("utf-8").rstrip())
+				if len(err.decode("utf-8").rstrip()) is not 0:
+					error += 1
 			total += 1
 	
-	results.append((subdir, valid, total))
+	results.append((subdir, valid, error, total))
 
-for c, v, i in results:
+for c, v, e, i in results:
 	print(c)
-	print('%3d/%3d (%5.2f%%)' % (v, i, 100.0 * v / i))
+	print('%3d/%3d (%5.2f%%), %3d błędów, %3d niepoprawnych wyników' % (v, i, 100.0 * v / i, e, i - v - e))

@@ -88,8 +88,6 @@ data_vector_t *init_data_vector();
 
 data_cell_t *pushback_data(data_vector_t *, double data[13]);
 
-void popfront_data(data_vector_t *);
-
 void clear_data_vector(data_vector_t *);
 
 void print_data_vector(data_vector_t *, bool, bool);

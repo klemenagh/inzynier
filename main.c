@@ -83,5 +83,8 @@ int main(int argc, char **argv) {
                 break;
         }
     }
+
+    clear_data_vector(data);
+
     return EXIT_SUCCESS;
 }

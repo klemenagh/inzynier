@@ -41,34 +41,21 @@ data_cell_t *pushback_data(data_vector_t *v, double data[13]) {
     return n;
 }
 
-void popfront_data(data_vector_t *v) {
-    if (v == NULL) exit(EINVAL); //bad vector
-
-    data_cell_t *n = v->head;
-
-    if (v->length > 2) {
-        v->head = v->head->next;
-    }
-    else if (v->length == 2) {
-        v->head = v->head->next;
-        v->tail = v->head;
-        v->head->next = v->head;
-    }
-    else {
-        v->head = NULL;
-        v->tail = NULL;
-    }
-
-    v->length--;
-    free(n);
-}
-
 void clear_data_vector(data_vector_t *vector) {
     //removes all entries from given vector
 
     if (vector->length == 0) return;
 
-    while (vector->length != 0) popfront_data(vector);
+    data_cell_t * n = vector->head;
+    data_cell_t * b = NULL;
+    while(n != NULL) {
+        b = n;
+        n = n->next;
+        free(b);
+    }
+
+    free(vector);
+    vector = NULL;
 }
 
 void print_data_vector(data_vector_t *v, bool verbose, bool pure) {
