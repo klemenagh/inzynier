@@ -13,10 +13,13 @@ void usage(int exit_status) {
         printf("Wywołaj program z opcją -h by uzyskać pomoc.\n");
     }
     else {
-        printf("Użycie: program [-f nazwa]\n\
--f\t Odczyt z pliku o podanej nazwie. W przeciwnym razie, odczyt następuje\
-ze strumienia wejściowego stdin.\n\
--h\t Wywołaj pomoc dla programu.\n");
+        printf("Użycie: program [-f nazwa] [-v] [-q]\n\
+-f\tOdczyt z pliku o podanej nazwie. W przeciwnym razie, odczyt następuje\n\
+\tze strumienia wejściowego stdin.\n\
+-v\tWyświetlaj wyjście ułatwiające debugowanie.\n\
+-q\tNie wyświetlaj wyjścia na ekran. (może być użyteczna, gdy zapis\n\
+\tnastępuje do pliku).\n\
+-h\tWywołaj pomoc dla programu.\n");
     }
     exit(exit_status);
 }

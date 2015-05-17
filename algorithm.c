@@ -60,7 +60,14 @@ vehicle_class algorithm2(data_vector_t *vector) {
     Lx = count_compare(X, length, 0.1); //todo matlab=0.1, praca=0.2 ?
     Lm = count_compare(M, length, 0.5);
 
-    if (Lm == 0) return INVALID; // 0 probek spełniających warunek!
+    if (Lm == 0) {
+        if (verbosity_level == DEBUG) {
+            puts(" Liczba próbek sygnału Lm = 0.");
+
+            //todo można przyjąć, że stosunek Lx/Lm = 0 i kontynuować pracę
+        }
+        return INVALID; // 0 probek spełniających warunek!
+    }
 
     if (1.0 * Lx / Lm > 0.1) { //wybor nastaw zestawu A
         a_b = 0.21;
