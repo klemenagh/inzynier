@@ -10,6 +10,6 @@ W ramach pracy zrealizowane zostanie oprogramowanie do detekcji osi pojazdów na
 
  # TODO
   - [x] Sprawdzenie wycieków pamięci
-  - [ ] Implementacja funkcji porównującej wynik algorytmu z odczytami piezo
+  - [x] Implementacja funkcji porównującej wynik algorytmu z odczytami piezo
   - [ ] Zmiana struktury danych z listy jednokierunkowej na wektor
   - [ ] Implementacja testów

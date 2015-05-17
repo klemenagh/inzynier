@@ -15,10 +15,11 @@ int main(int argc, char **argv) {
 
     //parse args
     bool read_from_file = 0;
+    bool verify = false;
     char *filename = NULL;
     int c;
 
-    while ((c = getopt(argc, argv, "f:vqh")) != -1) {
+    while ((c = getopt(argc, argv, "f:vqch")) != -1) {
         switch (c) {
             case 'f':
                 read_from_file = 1;
@@ -29,6 +30,9 @@ int main(int argc, char **argv) {
                 break;
             case 'q':
                 verbosity_level = QUIET;
+                break;
+            case 'c':
+                verify = true;
                 break;
             case '?':
             case 'h':
@@ -58,7 +62,7 @@ int main(int argc, char **argv) {
 
     print_data_vector(data, false, true);
 
-    vehicle_class class = algorithm2(data);
+    vehicle_class class = algorithm2(data, verify);
 
     if (verbosity_level != QUIET) {
         switch (class) {

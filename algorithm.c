@@ -12,7 +12,7 @@
 
 extern int verbosity_level;
 
-vehicle_class algorithm2(data_vector_t *vector) {
+vehicle_class algorithm2(data_vector_t *vector, bool verify) {
 
     const unsigned OFFSET_NUM = 50;
 
@@ -161,6 +161,71 @@ vehicle_class algorithm2(data_vector_t *vector) {
         printf(" H       =  %4.2f\n", H);
         printf(" Kp_max  = %5.2f\n", Kp_max);
         printf(" Osie    = %5d\n", num_axles);
+    }
+
+    if (verify) {
+        // weryfikacja danych z piezo
+        // w celu wywołania algorytmu wystarczy stworzyć tablicę z sygnałem z piezo
+        // i wywołać licznik
+
+        if (verbosity_level == DEBUG) {
+            puts(" Uruchamianie weryfikacji piezo.");
+        }
+        unsigned piezo_axles = 0;
+        double P1[length];
+        bool verify_ok = false;
+
+        n = vector->head;
+        for (unsigned i = 0; i < length; i++) {
+            P1[i] = n->data[DATA_P1];
+            n = n->next;
+        }
+
+        piezo_axles = counter(P1, length, 2, 0.1);
+
+        if (verbosity_level == DEBUG) {
+            printf("  Pierwsza faza testu piezo zakończona.\n  osie = %d\n",
+                   piezo_axles);
+        }
+
+        if (num_axles == piezo_axles) {
+            //druga faza weryfikacji
+
+            //symulacja pracy komparatora dla sygnalu Ku
+            //0 - stan niski, 5 - stan wysoki
+            //sygnał CP to złożenie sygnału C z powyzszego komparatora
+            //oraz sygnału P z piezo1
+            double CP[length];
+            double is_high = 5; //5 = true, 0 = false
+            const double level_top = Y + H / 2;
+            const double level_bottom = Y - H / 2;
+
+            for (unsigned i = 0; i < length; i++) {
+                if (is_high == 0 && Ku[i] >= level_top) {
+                    is_high = 5;
+                }
+                else if (is_high == 5 && Ku[i] < level_bottom) {
+                    is_high = 0;
+                }
+                CP[i] = is_high + P1[i];
+            }
+
+            //ostatni etap weryfikacji, licznik impulsów dla sygnału CP
+            // licznik - próg = 8, histereza = 0
+            piezo_axles = counter(CP, length, 8, 0);
+
+            if(piezo_axles == num_axles) verify_ok = true;
+
+            if (verbosity_level == DEBUG) {
+                printf("  Druga faza testu piezo zakończona.\n  osie = %d\n",
+                       piezo_axles);
+            }
+        }
+
+        // koniec weryfikacji z piezo
+        if(verbosity_level != QUIET) {
+            puts((verify_ok == true) ? "piezo ok" : "piezo error");
+        }
     }
 
     return class;
@@ -559,3 +624,4 @@ unsigned counter(double *Ku, unsigned len, double Y, double H) {
 
     return num_axles;
 }
+

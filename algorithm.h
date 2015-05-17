@@ -15,7 +15,7 @@
  * Kolejność operacji:
  * 1) usunięcie offsetu ze wszystkich składowych poza czasem
  */
-vehicle_class algorithm2(data_vector_t *);
+vehicle_class algorithm2(data_vector_t *, bool);
 
 /*
  * usuwa offset ze składowych wektora
