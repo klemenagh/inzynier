@@ -39,18 +39,18 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
     double R[length], X[length];    // tablice sygnałów R01 i X01
     double M[length];               // sygnal M = R^2 + X^2
     double Kp[length];              // sygnal K' = a_b * R + X
-    double Kp_max;                  // wartość maksymalna sygnału K'
+    double Kp_max = 0;                  // wartość maksymalna sygnału K'
     double Ku[length];              // sygnał K' unormowany
     unsigned Lx, Lm;                // wartości liczników dla sygnałów X oraz M.
     unsigned num_axles;             // ilość osi
     //nastawy algorytmu
     //w porównaniu do matlaba, a_b = r, Y = S, H = H
     double a_b, Y, H;
-    vehicle_class class = INVALID;
+    vehicle_class class;
 
     data_cell_t *n = vector->head;
     for (unsigned i = 0; i < length; i++) {
-        R[i] = n->data[DATA_R01]; //todo R01 i X01 ?
+        R[i] = n->data[DATA_R01];
         X[i] = n->data[DATA_X01];
         n = n->next;
 
@@ -64,19 +64,19 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
         if (verbosity_level == DEBUG) {
             puts(" Liczba próbek sygnału Lm = 0.");
 
-            //todo można przyjąć, że stosunek Lx/Lm = 0 i kontynuować pracę
+            // można przyjąć, że stosunek Lx/Lm = 0 i kontynuować pracę
         }
-        return INVALID; // 0 probek spełniających warunek!
+//        return INVALID; // 0 probek spełniających warunek!
     }
 
-    if (1.0 * Lx / Lm > 0.1) { //wybor nastaw zestawu A
+    if (1.0 * Lx > 0.1 * Lm) { //wybor nastaw zestawu A
         a_b = 0.21;
         Y = 0.8;
         H = 0.45;
     }
     else { //nastawy zestawu B
         a_b = 0.5;
-        Y = 4; // todo matlab=4, praca=1.8 ?
+        Y = 4;
         H = 0.5;
     }
 
@@ -214,7 +214,7 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
             // licznik - próg = 8, histereza = 0
             piezo_axles = counter(CP, length, 8, 0);
 
-            if(piezo_axles == num_axles) verify_ok = true;
+            if (piezo_axles == num_axles) verify_ok = true;
 
             if (verbosity_level == DEBUG) {
                 printf("  Druga faza testu piezo zakończona.\n  osie = %d\n",
@@ -223,7 +223,7 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
         }
 
         // koniec weryfikacji z piezo
-        if(verbosity_level != QUIET) {
+        if (verbosity_level != QUIET) {
             puts((verify_ok == true) ? "piezo ok" : "piezo error");
         }
     }
@@ -474,8 +474,8 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
 
     data_cell_t *n = vector->head;
     for (unsigned i = 0; i < vector->trim_back; i++) {
-        signal[i].r = (float) 10 * sqrt(pow(n->data[DATA_R3], 2) +
-                                        pow(n->data[DATA_X3], 2));
+        signal[i].r = (float) (10 * sqrt(pow(n->data[DATA_R3], 2) +
+                                         pow(n->data[DATA_X3], 2)));
         signal[i].i = 0;
         n = n->next;
     }
@@ -583,8 +583,8 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
     vector->trim_back = w_end - w_start + 1;
     //usun offset czasu, by probka zaczynała się od t = 0
     double time_offset = vector->head->data[DATA_T];
-    for (data_cell_t *n = vector->head; n != NULL; n = n->next) {
-        n->data[DATA_T] -= time_offset;
+    for (data_cell_t *m = vector->head; m != NULL; m = m->next) {
+        m->data[DATA_T] -= time_offset;
     }
 }
 
