@@ -65,7 +65,7 @@ void print_data_vector(data_vector_t *v, bool verbose, bool pure) {
         return;
     }
 
-    if (!pure) printf("Wskaźnik: %p, \t długość: %d\n", v, v->length);
+    if (!pure) printf("Wskaźnik: %p, \t długość: %d\n", (void *) v, v->length);
     if (verbose) {
         data_cell_t *n = v->head;
         unsigned i = 0;
@@ -83,7 +83,7 @@ void print_data_node(data_cell_t *n, bool pure) {
         return;
     }
 
-    if (!pure) printf("Wskaźnik: %p\nDane:\n", n);
+    if (!pure) printf("Wskaźnik: %p\nDane:\n", (void *) n);
     for (int i = 0; i < 13; i++) {
         printf("%f\t", n->data[i]);
     }
