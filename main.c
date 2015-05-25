@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <getopt.h>
+#include <string.h>
 
 #include "structures.h"
 #include "functions.h"
@@ -11,101 +12,112 @@ extern int verbosity_level;
 
 int main(int argc, char **argv) {
 
-    verbosity_level = RELEASE; // debug
+    verbosity_level = RELEASE;
+    char **filenames = NULL;
+    unsigned num_files = 0;
+    bool read_from_stdin;
+    bool piezo_verify = false;
+    bool compute_positions = false;
 
     //parse args
-    bool read_from_file = 0;
-    bool verify = false;
-    bool check_lengths = false;
-
-    char *filename = NULL;
+    static struct option long_options[] = {
+            {"debug",     no_argument,       NULL, 'd'},
+            {"quiet",     no_argument,       NULL, 'q'},
+            {"verbose",   required_argument, NULL, 's'},
+            {"verify",    no_argument,       NULL, 'v'},
+            {"piezo",     no_argument,       NULL, 'v'},
+            {"positions", no_argument,       NULL, 'p'},
+            {"help",      no_argument,       NULL, 'h'}
+    };
     int c;
-
-    while ((c = getopt(argc, argv, "f:dvqch")) != -1) {
+    while ((c = getopt_long(argc, argv, "dqvphs:", long_options, NULL)) != -1) {
         switch (c) {
-            case 'f':
-                read_from_file = 1;
-                filename = optarg;
-                break;
-            case 'v':
+            case 'd':
                 verbosity_level = DEBUG;
                 break;
             case 'q':
                 verbosity_level = QUIET;
                 break;
-            case 'c':
-                verify = true;
+            case 's':
+                if (strcmp(optarg, "debug") == 0 ||
+                    strcmp(optarg, "DEBUG") == 0) {
+                    verbosity_level = DEBUG;
+                }
+                else if (strcmp(optarg, "release") == 0 ||
+                         strcmp(optarg, "RELEASE") == 0) {
+                    verbosity_level = RELEASE;
+                }
+                else if (strcmp(optarg, "quiet") == 0 ||
+                         strcmp(optarg, "QUIET") == 0) {
+                    verbosity_level = QUIET;
+                }
+                else {
+                    printf("Błędna flaga --verbose.\n");
+                    usage(EXIT_FAILURE);
+                }
                 break;
-            case 'd':
-                check_lengths = true;
+            case 'v':
+                piezo_verify = true;
                 break;
-            case '?':
+            case 'p':
+                compute_positions = true;
+                break;
             case 'h':
                 usage(EXIT_SUCCESS);
+                break;
+            case '?':
             default:
                 usage(EXIT_FAILURE);
-                abort();
+                break;
         }
     }
-    if (read_from_file && verbosity_level == DEBUG) {
-        fputs("Odczyt z pliku: ", stderr);
-        fputs(filename, stderr);
-        fputs("\n", stderr);
-    }
-    else if (verbosity_level == DEBUG) {
-        fputs("Odczyt z stdin.\n", stderr);
-    }
-    data_vector_t *data = init_data_vector();
 
-    if ((read_from_file && read_file(filename, data))
-        || (!read_from_file && read_stdin(data))) {
-        if (verbosity_level == DEBUG) fputs("Załadowano dane.\n", stderr);
+    char *filename = NULL;
+    if (optind == argc) {
+        //nie podano żadnego pliku jako argument, odczyt z stdin
+        read_from_stdin = true;
     }
     else {
-        if (verbosity_level != QUIET) fputs("Błąd w czasie odczytu.\n", stderr);
+        read_from_stdin = false;
+        filenames = &argv[optind];
+        num_files = argc - optind;
     }
 
-    print_data_vector(data, false, true);
+    data_vector_t *data = init_data_vector();
+    vehicle_data_t vehicle;
 
-    vehicle_data_t vehicle = algorithm2(data, verify, check_lengths);
-
-    if (verbosity_level != QUIET) {
-        switch (vehicle.class) {
-            case POJAZD_2OS:
-                printf("2");
-                break;
-            case POJAZD_3OS:
-                printf("3");
-                break;
-            case POJAZD_4OS:
-                printf("4");
-                break;
-            case POJAZD_5OS:
-                printf("5");
-                break;
-            case POJAZD_5OS_UP:
-                printf("5up");
-                break;
-            case INVALID:
-            default:
-                printf("error");
-                break;
+    if (read_from_stdin) { //odczyt z stdin
+        if (verbosity_level == DEBUG) {
+            fputs("Odczyt z stdin.\n", stderr);
         }
-        if (check_lengths) {
-            const unsigned num_axles =
-                    (vehicle.class == POJAZD_5OS_UP) ? 5
-                                                     : (unsigned) vehicle.class;
-            for (unsigned i = 0; i <= num_axles + 1; i++) {
-                printf(" %f", vehicle.lengths[i]);
+        if (read_stdin(data)) {
+            if (verbosity_level == DEBUG) fputs("Załadowano dane.\n", stderr);
+
+            vehicle = algorithm2(data, piezo_verify, compute_positions);
+            handle_output(vehicle, piezo_verify, compute_positions, NULL);
+        }
+        else if (verbosity_level != QUIET) {
+            fputs("Błąd w czasie odczytu.\n", stderr);
+        }
+    }
+    else { //odczyt z plików
+        for (unsigned i = 0; i < num_files; i++) {
+            filename = filenames[i];
+
+            if (verbosity_level == DEBUG) {
+                fputs("Odczyt z pliku: ", stderr);
+                fputs(filename, stderr);
+                fputs("\n", stderr);
+            }
+
+            if (read_file(filename, data)) {
+                vehicle = algorithm2(data, piezo_verify, compute_positions);
+                handle_output(vehicle, piezo_verify, compute_positions,
+                              filename);
             }
         }
-        printf("\n");
     }
 
-    if (verify) {
-        puts(vehicle.piezo == (unsigned) vehicle.class ? "piezo ok"
-                                                       : "piezo error");
-    }
     clear_data_vector(data);
 
     return EXIT_SUCCESS;

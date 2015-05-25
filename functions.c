@@ -13,14 +13,15 @@ void usage(int exit_status) {
         printf("Wywołaj program z opcją -h by uzyskać pomoc.\n");
     }
     else {
-        printf("Użycie: program [-f nazwa] [-v] [-q]\n\
--f\tOdczyt z pliku o podanej nazwie. W przeciwnym razie, odczyt następuje\n\
-\tze strumienia wejściowego stdin.\n\
--v\tWyświetlaj wyjście ułatwiające debugowanie.\n\
--d\tWyświetl wyjście związane z długościami w pojeździe.\n\
--q\tNie wyświetlaj wyjścia na ekran. (może być użyteczna, gdy zapis\n\
-\tnastępuje do pliku).\n\
--h\tWywołaj pomoc dla programu.\n");
+        printf("Użycie: program [-d] [-p] [-v] [-q] plik1 plik2\n\n\
+W przypadku nie podania żadnej nazwy pliku, odczyt odbywa się ze strumienia\n\
+wejściowego.\n\nArgumenty wejścia:\n\n\
+-d --debug\tWyświetlaj wyjście ułatwiające debugowanie.\n\
+-p --positions\tWyświetl wyjście związane z długościami w pojeździe.\n\
+-v --verify\tSprawdź wynik z sygnałami piezo.\n\
+-q --quiet\tNie wyświetlaj wyjścia na ekran. (może być użyteczna, gdy zapis\n\
+\t\tnastępuje do pliku).\n\
+-h\t\tWywołaj pomoc dla programu.\n");
     }
     exit(exit_status);
 }
@@ -76,4 +77,52 @@ bool read_stream(FILE *s, data_vector_t *vector) {
     fclose(s);
 
     return true;
+}
+
+void handle_output(vehicle_data_t vehicle, bool piezo_verify,
+                   bool compute_positions, char *filename) {
+    if (verbosity_level != QUIET) {
+        if (filename != NULL) printf("%s ", filename);
+        else printf("stdin ");
+        switch (vehicle.class) {
+            case
+                POJAZD_2OS:
+                printf("2");
+                break;
+            case
+                POJAZD_3OS:
+                printf("3");
+                break;
+            case
+                POJAZD_4OS:
+                printf("4");
+                break;
+            case
+                POJAZD_5OS:
+                printf("5");
+                break;
+            case
+                POJAZD_5OS_UP:
+                printf("5up");
+                break;
+            case
+                INVALID:
+            default:
+                printf("error");
+                break;
+        }
+        if (compute_positions) {
+            const unsigned num_axles = (vehicle.class == POJAZD_5OS_UP) ? 5
+                                                                        : (unsigned) vehicle.class;
+            for (unsigned i = 0; i <= num_axles + 1; i++) {
+                printf(" %f", vehicle.lengths[i]);
+            }
+        }
+        printf("\n");
+    }
+
+    if (piezo_verify) {
+        puts(vehicle.piezo == (unsigned) vehicle.class ? "piezo ok"
+                                                       : "piezo error");
+    }
 }

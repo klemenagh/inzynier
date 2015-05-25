@@ -14,4 +14,6 @@ bool read_stream(FILE *, data_vector_t *);
 
 void usage(int);
 
+void handle_output(vehicle_data_t, bool, bool, char *);
+
 #endif //INZYNIER_FUNCTIONS_H
