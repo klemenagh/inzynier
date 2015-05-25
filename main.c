@@ -16,10 +16,12 @@ int main(int argc, char **argv) {
     //parse args
     bool read_from_file = 0;
     bool verify = false;
+    bool check_lengths = false;
+
     char *filename = NULL;
     int c;
 
-    while ((c = getopt(argc, argv, "f:vqch")) != -1) {
+    while ((c = getopt(argc, argv, "f:dvqch")) != -1) {
         switch (c) {
             case 'f':
                 read_from_file = 1;
@@ -33,6 +35,9 @@ int main(int argc, char **argv) {
                 break;
             case 'c':
                 verify = true;
+                break;
+            case 'd':
+                check_lengths = true;
                 break;
             case '?':
             case 'h':
@@ -62,32 +67,45 @@ int main(int argc, char **argv) {
 
     print_data_vector(data, false, true);
 
-    vehicle_class class = algorithm2(data, verify);
+    vehicle_data_t vehicle = algorithm2(data, verify, check_lengths);
 
     if (verbosity_level != QUIET) {
-        switch (class) {
+        switch (vehicle.class) {
             case POJAZD_2OS:
-                puts("2");
+                printf("2");
                 break;
             case POJAZD_3OS:
-                puts("3");
+                printf("3");
                 break;
             case POJAZD_4OS:
-                puts("4");
+                printf("4");
                 break;
             case POJAZD_5OS:
-                puts("5");
+                printf("5");
                 break;
             case POJAZD_5OS_UP:
-                puts("5up");
+                printf("5up");
                 break;
             case INVALID:
             default:
-                puts("error");
+                printf("error");
                 break;
         }
+        if (check_lengths) {
+            const unsigned num_axles =
+                    (vehicle.class == POJAZD_5OS_UP) ? 5
+                                                     : (unsigned) vehicle.class;
+            for (unsigned i = 0; i <= num_axles + 1; i++) {
+                printf(" %f", vehicle.lengths[i]);
+            }
+        }
+        printf("\n");
     }
 
+    if (verify) {
+        puts(vehicle.piezo == (unsigned) vehicle.class ? "piezo ok"
+                                                       : "piezo error");
+    }
     clear_data_vector(data);
 
     return EXIT_SUCCESS;

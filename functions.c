@@ -17,6 +17,7 @@ void usage(int exit_status) {
 -f\tOdczyt z pliku o podanej nazwie. W przeciwnym razie, odczyt następuje\n\
 \tze strumienia wejściowego stdin.\n\
 -v\tWyświetlaj wyjście ułatwiające debugowanie.\n\
+-d\tWyświetl wyjście związane z długościami w pojeździe.\n\
 -q\tNie wyświetlaj wyjścia na ekran. (może być użyteczna, gdy zapis\n\
 \tnastępuje do pliku).\n\
 -h\tWywołaj pomoc dla programu.\n");

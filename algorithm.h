@@ -15,7 +15,7 @@
  * Kolejność operacji:
  * 1) usunięcie offsetu ze wszystkich składowych poza czasem
  */
-vehicle_class algorithm2(data_vector_t *, bool);
+vehicle_data_t algorithm2(data_vector_t *, bool, bool);
 
 /*
  * usuwa offset ze składowych wektora
@@ -53,8 +53,15 @@ unsigned count_compare(double *, unsigned, double);
  * Otrzymuje na wejściu wskaźnik do tablicy zawierającej przebieg sygnału Ku
  * oraz jej długości wartości progu i histerezy.
  * Na wyjściu zwraca ilość osi.
+ * Dodatkowy argument - wskaźnik do tablicy zawierającej położenia osi.
+ * Jeśli jest null - ignorowany.
  */
-unsigned counter(double *, unsigned, double, double);
+unsigned counter(double *, unsigned, double, double, unsigned *);
+
+/*
+ * funkcja wykorzystywana do ustalenia położenia osi oraz długości pojazdu
+ */
+void find_lengths(double *, unsigned, double, unsigned[5], vehicle_data_t *);
 
 #endif //INZYNIER_ALGORITHM_H
 

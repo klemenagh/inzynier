@@ -12,7 +12,8 @@
 
 extern int verbosity_level;
 
-vehicle_class algorithm2(data_vector_t *vector, bool verify) {
+vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
+                          bool check_lengths) {
 
     const unsigned OFFSET_NUM = 50;
 
@@ -43,10 +44,12 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
     double Ku[length];              // sygnał K' unormowany
     unsigned Lx, Lm;                // wartości liczników dla sygnałów X oraz M.
     unsigned num_axles;             // ilość osi
+    unsigned axle_locations[5];     // zmienna pomocnicza, przechowująca numery próbek z przybliżonymi położeniami osi
     //nastawy algorytmu
     //w porównaniu do matlaba, a_b = r, Y = S, H = H
     double a_b, Y, H;
-    vehicle_class class;
+    vehicle_data_t vehicle;
+    vehicle.velocity = velocity;
 
     data_cell_t *n = vector->head;
     for (unsigned i = 0; i < length; i++) {
@@ -63,7 +66,6 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
     if (Lm == 0) {
         if (verbosity_level == DEBUG) {
             puts(" Liczba próbek sygnału Lm = 0.");
-
             // można przyjąć, że stosunek Lx/Lm = 0 i kontynuować pracę
         }
 //        return INVALID; // 0 probek spełniających warunek!
@@ -89,7 +91,6 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
 
     if (Kp_max > 3) {
         //zgodnie z implementacja w matlab, zmiana wartości nastaw na podane
-        //todo ?
         Y = 0.8;
         H = 0.45;
     }
@@ -99,7 +100,7 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
         Ku[i] = 5 * Kp[i] / Kp_max;
     }
 
-    num_axles = counter(Ku, length, Y, H);
+    num_axles = counter(Ku, length, Y, H, axle_locations);
     //procedura szukania drugiej osi
     if (num_axles < 2) {
         if (verbosity_level == DEBUG) {
@@ -110,10 +111,10 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
         H = 0.1;
         while (num_axles < 2 && Y > 0.15) {
             Y -= 0.1;
-            num_axles = counter(Ku, length, Y, H);
+            num_axles = counter(Ku, length, Y, H, axle_locations);
         }
     }
-    class = (vehicle_class) num_axles;
+    vehicle.class = (vehicle_class) num_axles;
 
     //procedura szukania podniesionej piątej osi
     if (num_axles == 4) {
@@ -131,11 +132,11 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
         for (unsigned i = 0; i < length; i++) {
             Ku[i] = 5 * Kp[i] / Kp_max;
         }
-
+        unsigned axle_loc_tmp[5];
         //wlasciwe poszukiwanie 5. osi
         while (num_axles != 5 && Y > 0.15) {
             Y -= 0.1;
-            num_axles = counter(Ku, length, Y, H);
+            num_axles = counter(Ku, length, Y, H, axle_loc_tmp);
 
             if (num_axles != 4 && num_axles != 5) {
                 if (verbosity_level == DEBUG) {
@@ -143,14 +144,17 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
                 }
 
                 Y = 1.8;
-                num_axles = counter(Ku, length, Y, H);
+                num_axles = counter(Ku, length, Y, H, axle_loc_tmp);
 
                 break;
             }
         }
 
         if (num_axles == 5) {//znaleziono podniesiona os
-            class = POJAZD_5OS_UP;
+            vehicle.class = POJAZD_5OS_UP;
+
+            for (unsigned i = 0; i < 5; i++)
+                axle_locations[i] = axle_loc_tmp[i];
         }
     }
 
@@ -173,7 +177,6 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
         }
         unsigned piezo_axles = 0;
         double P1[length];
-        bool verify_ok = false;
 
         n = vector->head;
         for (unsigned i = 0; i < length; i++) {
@@ -181,7 +184,7 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
             n = n->next;
         }
 
-        piezo_axles = counter(P1, length, 2, 0.1);
+        piezo_axles = counter(P1, length, 2, 0.1, NULL);
 
         if (verbosity_level == DEBUG) {
             printf("  Pierwsza faza testu piezo zakończona.\n  osie = %d\n",
@@ -212,23 +215,24 @@ vehicle_class algorithm2(data_vector_t *vector, bool verify) {
 
             //ostatni etap weryfikacji, licznik impulsów dla sygnału CP
             // licznik - próg = 8, histereza = 0
-            piezo_axles = counter(CP, length, 8, 0);
+            piezo_axles = counter(CP, length, 8, 0, NULL);
 
-            if (piezo_axles == num_axles) verify_ok = true;
 
             if (verbosity_level == DEBUG) {
                 printf("  Druga faza testu piezo zakończona.\n  osie = %d\n",
                        piezo_axles);
             }
         }
-
-        // koniec weryfikacji z piezo
-        if (verbosity_level != QUIET) {
-            puts((verify_ok == true) ? "piezo ok" : "piezo error");
-        }
+        vehicle.piezo = piezo_axles;
     }
 
-    return class;
+    if (check_lengths) {
+        double dt =
+                vector->head->next->data[DATA_T] - vector->head->data[DATA_T];
+        find_lengths(M, length, dt, axle_locations, &vehicle);
+    }
+
+    return vehicle;
 }
 
 void remove_offset(data_vector_t *vector, unsigned num) {
@@ -601,7 +605,8 @@ unsigned count_compare(double *array, unsigned len, double threshold) {
     return count;
 }
 
-unsigned counter(double *Ku, unsigned len, double Y, double H) {
+unsigned counter(double *Ku, unsigned len, double Y, double H,
+                 unsigned *axle_positions) {
     if (Ku == NULL) {
         exit(EINVAL);
     }
@@ -612,6 +617,8 @@ unsigned counter(double *Ku, unsigned len, double Y, double H) {
     const double level_top = Y + H / 2;
     const double level_bottom = Y - H / 2;
 
+    double val_max = 0;
+
     for (unsigned i = 0; i < len; i++) {
         if (is_high == 0 && Ku[i] >= level_top) {
             is_high = 1;
@@ -619,9 +626,99 @@ unsigned counter(double *Ku, unsigned len, double Y, double H) {
         }
         else if (is_high == 1 && Ku[i] < level_bottom) {
             is_high = 0;
+            val_max = 0;
+        }
+
+        if (axle_positions != NULL) {
+            if (val_max < Ku[i]) val_max = Ku[i];
+            else if (is_high) {
+                axle_positions[num_axles - 1] = i;
+            }
         }
     }
 
     return num_axles;
 }
 
+void find_lengths(double *M, unsigned length, double dt,
+                  unsigned axle_locations[5],
+                  vehicle_data_t *vehicle) {
+    /*
+     * wektor M zawiera length próbek sygnału R_01^2 + X_01^2
+     * dt opisuje ilość czasu pomiędzy dwoma kolejnymi próbkami
+     */
+
+    if (vehicle->class == INVALID) {
+        if (verbosity_level == DEBUG) {
+            puts(" Nie udało się odnaleźć poprawnej ilości osi pojazdu, algorytm wyznaczania długości kończy działanie.\n");
+        }
+        return;
+    }
+    const double K_level = (vehicle->class != POJAZD_5OS_UP) ? 0.1
+                                                             : 0.01; //poziom odcięcia
+    //zmienne opisujące początek i koniec pojazdu
+    unsigned index_start = 0;
+    unsigned index_end = length - 1;
+
+    const unsigned num_axles =
+            (vehicle->class == POJAZD_5OS_UP) ? 5 : (unsigned) vehicle->class;
+    if (verbosity_level == DEBUG) {
+        puts(" Procedura wykrywania położenia osi i długości pojazdu.");
+        printf("  Liczba osi: %d\n", num_axles);
+        for (unsigned i = 0; i < num_axles; i++) {
+            printf("  Położenie osi %d: %d\n", i, axle_locations[i]);
+        }
+        printf("  Prędkość pojazdu: %.2f[m/s]\n", vehicle->velocity);
+        printf("  dt: %f\n", dt);
+    }
+
+    for (unsigned i = 0; i < length; i++) {
+        if (M[i] > K_level) {
+            index_start = i;
+            break;
+        }
+    }
+    for (unsigned i = length - 1; i > 0; i--) {
+        if (M[i] > K_level) {
+            index_end = i;
+            break;
+        }
+    }
+    if (verbosity_level == DEBUG) {
+        printf("  Początek pojazdu: %d, koniec pojazdu: %d\n", index_start,
+               index_end);
+    }
+
+    //przejście w dziedzinę czasu
+    vehicle->lengths[0] = (index_end - index_start)/* * dt * vehicle.velocity*/;
+
+    if (verbosity_level == DEBUG) {
+        printf("  Długość pojazdu:  %.0f\n", vehicle->lengths[0]);
+    }
+
+    unsigned current_index = index_start;
+    for (unsigned i = 0; i < num_axles; i++) {
+        vehicle->lengths[i + 1] = axle_locations[i] - current_index;
+        current_index = axle_locations[i];
+    }
+    vehicle->lengths[num_axles + 1] = index_end - axle_locations[num_axles - 1];
+
+    if (verbosity_level == DEBUG) {
+        printf(" Wartości odległości\n");
+        for (unsigned i = 0; i <= num_axles + 1; i++) {
+            printf("  s%d = %.0f\n", i, vehicle->lengths[i]);
+        }
+    }
+    for (unsigned i = 0; i <= num_axles + 1; i++) {
+        vehicle->lengths[i] *= dt * vehicle->velocity;
+    }
+    //zerowanie pozostałych pól
+    for (unsigned i = num_axles + 2; i < 7; i++) vehicle->lengths[i] = 0;
+
+    if (verbosity_level == DEBUG) {
+        printf(" Wartości odległości\n");
+        for (unsigned i = 0; i <= num_axles + 1; i++) {
+            printf("  s%d = %.3f\n", i, vehicle->lengths[i]);
+        }
+    }
+}

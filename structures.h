@@ -46,6 +46,21 @@ typedef enum vehicle_class {
     POJAZD_2OS = 2,
 } vehicle_class;
 
+typedef struct vehicle_data {
+    vehicle_class class;    // zawiera informacje na temat klasy pojazdu
+    double velocity;        // prędkość pojazdu
+    unsigned piezo;         // liczba osi zliczona przy pomocy piezo (tylko jeśli wywołana była opcja weryfikacji!)
+    double lengths[7];
+    /*
+     * pola w zmiennej lengths:
+     *  0   długość pojazdu
+     *  1   odległość 1. osi od początku pojazdu
+     *  2   odległość ostatniej osi od końca pojazdu
+     *  3-6 ilość_osi - 1 pól informujących o odległości pomiędzy dwoma kolejnymi osiami.
+     */
+} vehicle_data_t;
+
+
 /*
  * Kolejność danych w polu data to:
  *  1       czas
