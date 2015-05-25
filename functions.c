@@ -30,8 +30,6 @@ bool read_file(char *filename, data_vector_t *vector) {
         return false;
     }
 
-    if (vector->length != 0) clear_data_vector(vector);
-
     FILE *f = fopen(filename, "r");
 
     if (f == NULL) {
@@ -44,12 +42,15 @@ bool read_file(char *filename, data_vector_t *vector) {
 
 bool read_stdin(data_vector_t *vector) {
 
-    if (vector->length != 0) clear_data_vector(vector);
-
     return read_stream(stdin, vector);
 }
 
 bool read_stream(FILE *s, data_vector_t *vector) {
+
+    if (vector->length != 0) {
+        clear_data_vector(vector);
+        vector = init_data_vector();
+    }
 
     double data[13];
     char buffer[160];
