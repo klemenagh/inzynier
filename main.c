@@ -90,15 +90,18 @@ int main(int argc, char **argv) {
         if (verbosity_level == DEBUG) {
             fputs("Odczyt z stdin.\n", stderr);
         }
-        if (read_stdin(data)) {
-            if (verbosity_level == DEBUG) fputs("Załadowano dane.\n", stderr);
+        while (read_stdin(data) && data->length > 0) {
+            if (verbosity_level == DEBUG){
+                printf("Załadowano dane. Ilość próbek: %d\n", data->length);
+            }
 
             vehicle = algorithm2(data, piezo_verify, compute_positions);
             handle_output(vehicle, piezo_verify, compute_positions, NULL);
+
         }
-        else if (verbosity_level != QUIET) {
-            fputs("Błąd w czasie odczytu.\n", stderr);
-        }
+//        else if (verbosity_level != QUIET) {
+//            fputs("Błąd w czasie odczytu.\n", stderr);
+//        }
     }
     else { //odczyt z plików
         for (unsigned i = 0; i < num_files; i++) {
@@ -111,6 +114,9 @@ int main(int argc, char **argv) {
             }
 
             if (read_file(filename, data)) {
+                if (verbosity_level == DEBUG){
+                    printf("Załadowano dane. Ilość próbek: %d\n", data->length);
+                }
                 vehicle = algorithm2(data, piezo_verify, compute_positions);
                 handle_output(vehicle, piezo_verify, compute_positions,
                               filename);

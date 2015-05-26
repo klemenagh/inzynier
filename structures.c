@@ -44,7 +44,7 @@ data_cell_t *pushback_data(data_vector_t *v, double data[13]) {
 void clear_data_vector(data_vector_t *vector) {
     //removes all entries from given vector
 
-    if (vector->length == 0) return;
+    if (vector == NULL || vector->length == 0) return;
 
     data_cell_t *n = vector->head;
     data_cell_t *b = NULL;

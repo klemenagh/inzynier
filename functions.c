@@ -65,16 +65,21 @@ bool read_stream(FILE *s, data_vector_t *vector) {
                       stderr);
                 exit(EIO);
             }
-
             data[i] = strtod(splitted, NULL);
 
             if (i < 12) splitted = strtok(NULL, " \t");
         }
+        if (data[0] == 0 && vector->length > 0) {//dane kolejnego pojazdu
+            //for(unsigned j = 0; buffer[j] != '\0'; j++) ungetc(buffer[j], s);
+            // bez powyższej linii gubiona jest pierwsza próbka - która i tak
+            // prawdopodobnie nie zawiera istotnych informacji. Nie udało się
+            // napisać kodu który zwracałby pełną linię do strumienia.
+            return true;
+        }
 
         pushback_data(vector, data);
     }
-
-    fclose(s);
+    if (s != stdin) fclose(s);
 
     return true;
 }
