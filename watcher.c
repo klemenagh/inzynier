@@ -14,14 +14,16 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <string.h>
+#include <getopt.h>
 #include <stdlib.h>
 
-#define DEBUG 1
 #define EVENT_SIZE  ( sizeof (struct inotify_event) )
 #define BUF_LEN     ( 1024 * ( EVENT_SIZE + 16 ) )
 
+int debug;
+
 static void read_file_to_stdout(char *filename) {
-    if (DEBUG) {
+    if (debug) {
         fprintf(stderr, "Reading file: %s\n", filename);
     }
 
@@ -31,15 +33,36 @@ static void read_file_to_stdout(char *filename) {
 
     while (fgets(buffer, sizeof(buffer), f)) {
         printf(buffer);
+//        fflush(stdout);
         num_lines++;
     }
-    if (DEBUG) {
+    putchar('\n');
+    fflush(stdout);
+    if (debug) {
         fprintf(stderr, "Liczba przeczytanych linii: %d\n", num_lines);
     }
     fclose(f);
 }
 
 int main(int argc, char **argv) {
+
+    //obsługa flag
+    debug = 0;
+    static struct option long_options[] = {
+            {"debug", no_argument, NULL, 'd'}
+    };
+    int c;
+    while ((c = getopt_long(argc, argv, "d", long_options, NULL)) != -1) {
+        switch (c) {
+            case 'd':
+                debug = 1;
+                break;
+            case '?':
+            default:
+                printf("Jedyna obsługiwana flaga to -d / --debug.\n");
+                exit(EXIT_FAILURE);
+        }
+    }
 
     int fd;
     int wd;
@@ -49,16 +72,15 @@ int main(int argc, char **argv) {
     char created_file_patch[255];
     char buffer[BUF_LEN];
     struct inotify_event *event;
-    const int num_dirs = (argc == 1) ? 1 : (argc - 1);
+    const int num_dirs = (argc == optind) ? 1 : (argc - optind);
     char *directory_names[num_dirs];
     int directory_wds[num_dirs];
-
     fd = inotify_init();
 
     if (fd < 0) perror("inotify_init");
 
-    if (argc == 1) {
-        if (DEBUG) {
+    if (optind == argc) {
+        if (debug) {
             fprintf(stderr, "Obserwuję ścieżkę: %s\n", ".");
         }
         wd = inotify_add_watch(fd, ".", IN_CLOSE_WRITE);
@@ -67,26 +89,25 @@ int main(int argc, char **argv) {
         directory_names[0] = ".";
         directory_wds[0] = wd;
     }
-    for (i = 1; i < argc; i++) {
-        if (DEBUG) {
+    for (i = optind; i < argc; i++) {
+        if (debug) {
             fprintf(stderr, "Obserwuję ścieżkę: %s\n", argv[i]);
         }
         wd = inotify_add_watch(fd, argv[i], IN_CLOSE_WRITE);
         if (wd == -1) perror("inotify_add_watch");
-
-        directory_names[i - 1] = argv[i];
-        directory_wds[i - 1] = wd;
+        directory_names[i - optind] = argv[i];
+        directory_wds[i - optind] = wd;
     }
 
     while (1) {
-        if (DEBUG) {
+        if (debug) {
             fprintf(stderr, "Oczekiwanie na event\n");
         }
         num_read = read(fd, buffer, BUF_LEN);
 
         if (num_read <= 0) perror("read");
 
-        if (DEBUG) {
+        if (debug) {
             fprintf(stderr, "Read %ld bytes from inotify fd\n",
                     (long) num_read);
         }
@@ -107,7 +128,7 @@ int main(int argc, char **argv) {
                     break;
                 }
             }
-            if (DEBUG) {
+            if (debug) {
                 fprintf(stderr, "IN_CLOSE_WRITE: \n name: %s\n",
                         created_file_patch);
             }

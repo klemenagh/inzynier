@@ -58,6 +58,7 @@ bool read_stream(FILE *s, data_vector_t *vector) {
     char buffer[160];
     char *splitted;
     while (fgets(buffer, sizeof(buffer), s)) {
+        if(buffer[0] == '\n') break; //zakładam, że pusta linia oznacza koniec danych dla jednego pojazdu
         splitted = strtok(buffer, " \t");
         for (int i = 0; i < 13; i++) {
             if (splitted == NULL) {
