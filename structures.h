@@ -55,8 +55,8 @@ typedef struct vehicle_data {
      * pola w zmiennej lengths:
      *  0   długość pojazdu
      *  1   odległość 1. osi od początku pojazdu
-     *  2   odległość ostatniej osi od końca pojazdu
-     *  3-6 ilość_osi - 1 pól informujących o odległości pomiędzy dwoma kolejnymi osiami.
+     *  ilość_osi + 1   odległość ostatniej osi od końca pojazdu
+     *  2-5 ilość_osi - 1 pól informujących o odległości pomiędzy dwoma kolejnymi osiami.
      */
 } vehicle_data_t;
 

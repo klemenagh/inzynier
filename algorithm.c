@@ -630,9 +630,10 @@ unsigned counter(double *Ku, unsigned len, double Y, double H,
         }
 
         if (axle_positions != NULL) {
-            if (val_max < Ku[i]) val_max = Ku[i];
-            else if (is_high) {
+            //if (val_max < Ku[i]) ;
+            /*else*/ if (is_high && val_max < Ku[i]) {
                 axle_positions[num_axles - 1] = i;
+                val_max = Ku[i];
             }
         }
     }
@@ -654,14 +655,16 @@ void find_lengths(double *M, unsigned length, double dt,
         }
         return;
     }
-    const double K_level = (vehicle->class != POJAZD_5OS_UP) ? 0.1
-                                                             : 0.01; //poziom odcięcia
+
+    const unsigned num_axles =
+            (vehicle->class == POJAZD_5OS_UP) ? 5 : (unsigned) vehicle->class;
+
+    const double K_level = (num_axles > 2) ? 0.05 : 0.1; //poziom odcięcia
+    const double l_front = 0.3, l_back = 0; //stałe do odjęcia od profilu
     //zmienne opisujące początek i koniec pojazdu
     unsigned index_start = 0;
     unsigned index_end = length - 1;
 
-    const unsigned num_axles =
-            (vehicle->class == POJAZD_5OS_UP) ? 5 : (unsigned) vehicle->class;
     if (verbosity_level == DEBUG) {
         puts(" Procedura wykrywania położenia osi i długości pojazdu.");
         printf("  Liczba osi: %d\n", num_axles);
@@ -682,6 +685,16 @@ void find_lengths(double *M, unsigned length, double dt,
         if (M[i] > K_level) {
             index_end = i;
             break;
+        }
+    }
+
+    if (index_end < axle_locations[num_axles - 1]) {
+        index_end = axle_locations[num_axles - 1];
+
+        if (verbosity_level == DEBUG) {
+            printf("  Wykryto indeks końca pojazdu mniejszy od indeksu położenia"
+                           " ostatniej osi. Dane wejściowe są zbyt nieczytelne, "
+                           "by ustalić dokładne wartości długości.\n");
         }
     }
     if (verbosity_level == DEBUG) {
@@ -712,6 +725,17 @@ void find_lengths(double *M, unsigned length, double dt,
     for (unsigned i = 0; i <= num_axles + 1; i++) {
         vehicle->lengths[i] *= dt * vehicle->velocity;
     }
+
+    //odjęcie stałych od długości przodu i tyłu pojazdu
+    if (vehicle->lengths[1] > l_front) {
+        vehicle->lengths[0] -= l_front;
+        vehicle->lengths[1] -= l_front;
+    }
+    if (vehicle->lengths[num_axles + 1] > l_back) {
+        vehicle->lengths[0] -= l_back;
+        vehicle->lengths[num_axles + 1] -= l_back;
+    }
+
     //zerowanie pozostałych pól
     for (unsigned i = num_axles + 2; i < 7; i++) vehicle->lengths[i] = 0;
 
@@ -721,4 +745,5 @@ void find_lengths(double *M, unsigned length, double dt,
             printf("  s%d = %.3f\n", i, vehicle->lengths[i]);
         }
     }
+
 }
