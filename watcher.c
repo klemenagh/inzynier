@@ -8,6 +8,9 @@
  * zliczającego osie).
  * Wykorzystuje API inotify, dostępne w jądrze systemu Linux, więc działanie
  * wymaga systemu Linux w wersji co najmniej 2.6.13.
+ * Argument --extension=abc pozwala zdecydować, że tylko rozszerzenie abc będzie
+ * obserwowane. Domyślna wartość argumentu to lvm. --extension=* sprawi, że
+ * wszystkie rozszerzenia będą obserwowane.
  */
 #include <stdio.h>
 #include <sys/inotify.h>
@@ -49,19 +52,31 @@ int main(int argc, char **argv) {
     //obsługa flag
     debug = 0;
     static struct option long_options[] = {
-            {"debug", no_argument, NULL, 'd'}
+            {"debug",     no_argument,       NULL, 'd'},
+            {"extension", required_argument, NULL, 'e'}
     };
+
     int c;
-    while ((c = getopt_long(argc, argv, "d", long_options, NULL)) != -1) {
+    char extension[10] = "lvm";
+
+    while ((c = getopt_long(argc, argv, "de:", long_options, NULL)) != -1) {
         switch (c) {
             case 'd':
                 debug = 1;
                 break;
+            case 'e':
+                printf("%s\n", optarg);
+                strcpy(extension, optarg);
+                break;
             case '?':
             default:
-                printf("Jedyna obsługiwana flaga to -d / --debug.\n");
+                printf("Obsługiwane flagi to --extension i --debug.\n");
                 exit(EXIT_FAILURE);
         }
+    }
+
+    if (debug) {
+        fprintf(stderr, "Obserwuję pliki o rozszerzeniu .%s\n", extension);
     }
 
     int fd;
@@ -133,7 +148,18 @@ int main(int argc, char **argv) {
                         created_file_patch);
             }
             if (strcmp(created_file_patch, "") != 0) {
-                read_file_to_stdout(created_file_patch);
+
+                //sprawdzam, czy rozszerzenie pliku jest dobre
+                char *ext = strrchr(event->name, '.');
+                if ((strcmp(extension, "*") == 0) ||
+                    ((ext != NULL) && (strcmp(ext + 1, extension) == 0)) ||
+                    ((ext == NULL) && (strcmp(extension, "") == 0))) {
+                    read_file_to_stdout(created_file_patch);
+                }
+                else if (debug) {
+                    fprintf(stderr, " Pojawił się event, lecz plik nie ma"
+                            " poprawnego rozszerzenia.\n");
+                }
             }
 
             p += sizeof(struct inotify_event) + event->len;
