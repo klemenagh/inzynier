@@ -7,9 +7,10 @@
 #include <stdbool.h>
 
 typedef enum VERBOSITY_LEVEL {
-    QUIET,
-    RELEASE,
-    DEBUG
+    QUIET = 0,
+    RELEASE = 1,
+    DEBUG = 2,
+    ALL = 3
 } verb_level;
 
 int verbosity_level;

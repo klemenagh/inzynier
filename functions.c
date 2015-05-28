@@ -13,10 +13,11 @@ void usage(int exit_status) {
         printf("Wywołaj program z opcją -h by uzyskać pomoc.\n");
     }
     else {
-        printf("Użycie: program [-d] [-p] [-v] [-q] plik1 plik2\n\n\
+        printf("Użycie: axles [-d] [-p] [-v] [-q] [-a] [plik1 plik2 ...]\n\n\
 W przypadku nie podania żadnej nazwy pliku, odczyt odbywa się ze strumienia\n\
 wejściowego.\n\nArgumenty wejścia:\n\n\
 -d --debug\tWyświetlaj wyjście ułatwiające debugowanie.\n\
+-a --all\tWyświetlaj jeszcze więcej informacji na wyjście.\n\
 -p --positions\tWyświetl wyjście związane z długościami w pojeździe.\n\
 -v --verify\tSprawdź wynik z sygnałami piezo.\n\
 -q --quiet\tNie wyświetlaj wyjścia na ekran. (może być użyteczna, gdy zapis\n\
@@ -58,7 +59,8 @@ bool read_stream(FILE *s, data_vector_t *vector) {
     char buffer[160];
     char *splitted;
     while (fgets(buffer, sizeof(buffer), s)) {
-        if(buffer[0] == '\n') break; //zakładam, że pusta linia oznacza koniec danych dla jednego pojazdu
+        if (buffer[0] == '\n')
+            break; //zakładam, że pusta linia oznacza koniec danych dla jednego pojazdu
         splitted = strtok(buffer, " \t");
         for (int i = 0; i < 13; i++) {
             if (splitted == NULL) {
@@ -87,7 +89,7 @@ bool read_stream(FILE *s, data_vector_t *vector) {
 
 void handle_output(vehicle_data_t vehicle, bool piezo_verify,
                    bool compute_positions, char *filename) {
-    if (verbosity_level != QUIET) {
+    if (is_verbosity_at_least(RELEASE)) {
         if (filename != NULL) printf("%s ", filename);
         else printf("stdin ");
         switch (vehicle.class) {
@@ -131,4 +133,8 @@ void handle_output(vehicle_data_t vehicle, bool piezo_verify,
         puts(vehicle.piezo == (unsigned) vehicle.class ? "piezo ok"
                                                        : "piezo error");
     }
+}
+
+bool is_verbosity_at_least(verb_level v) {
+    return ((int) v <= verbosity_level);
 }

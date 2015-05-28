@@ -16,4 +16,6 @@ void usage(int);
 
 void handle_output(vehicle_data_t, bool, bool, char *);
 
+bool is_verbosity_at_least(verb_level v);
+
 #endif //INZYNIER_FUNCTIONS_H

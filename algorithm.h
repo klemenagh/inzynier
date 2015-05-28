@@ -7,6 +7,7 @@
 #define INZYNIER_ALGORITHM_H
 
 #include "structures.h"
+#include "functions.h"
 
 /*
  * glówna funkcja odpowiadająca za detekcję ilości osi pojazdu,

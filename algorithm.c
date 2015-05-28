@@ -28,12 +28,12 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
     trim_data(vector, velocity);
 
     trim_to_window(vector, 30);
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(DEBUG)) {
         printf(" Długość okna: %d\n", vector->trim_back);
     }
 
     //właściwa część algorytmu
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(DEBUG)) {
         puts("\nUruchamianie algorytmu poszukiwania osi.");
     }
     const unsigned length = vector->trim_back;
@@ -64,7 +64,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
     Lm = count_compare(M, length, 0.5);
 
     if (Lm == 0) {
-        if (verbosity_level == DEBUG) {
+        if (is_verbosity_at_least(DEBUG)) {
             puts(" Liczba próbek sygnału Lm = 0.");
             // można przyjąć, że stosunek Lx/Lm = 0 i kontynuować pracę
         }
@@ -103,7 +103,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
     num_axles = counter(Ku, length, Y, H, axle_locations);
     //procedura szukania drugiej osi
     if (num_axles < 2) {
-        if (verbosity_level == DEBUG) {
+        if (is_verbosity_at_least(DEBUG)) {
             printf(" Znaleziono %1d osi, procedura szukania do 2...\n",
                    num_axles);
         }
@@ -118,7 +118,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
 
     //procedura szukania podniesionej piątej osi
     if (num_axles == 4) {
-        if (verbosity_level == DEBUG) {
+        if (is_verbosity_at_least(DEBUG)) {
             puts(" Znaleziono 4 osie, procedura szukania 5...");
         }
         H = 0.1;
@@ -139,7 +139,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
             num_axles = counter(Ku, length, Y, H, axle_loc_tmp);
 
             if (num_axles != 4 && num_axles != 5) {
-                if (verbosity_level == DEBUG) {
+                if (is_verbosity_at_least(DEBUG)) {
                     puts(" Przerwanie procedury szukania piątej osi.");
                 }
 
@@ -158,7 +158,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
         }
     }
 
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(DEBUG)) {
         printf(" Lm      = %5d\n Lx      = %5d\n", Lm, Lx);
         printf(" a_b [r] =  %4.2f\n", a_b);
         printf(" Y   [S] =  %4.2f\n", Y);
@@ -172,7 +172,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
         // w celu wywołania algorytmu wystarczy stworzyć tablicę z sygnałem z piezo
         // i wywołać licznik
 
-        if (verbosity_level == DEBUG) {
+        if (is_verbosity_at_least(DEBUG)) {
             puts(" Uruchamianie weryfikacji piezo.");
         }
         unsigned piezo_axles = 0;
@@ -186,7 +186,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
 
         piezo_axles = counter(P1, length, 2, 0.1, NULL);
 
-        if (verbosity_level == DEBUG) {
+        if (is_verbosity_at_least(DEBUG)) {
             printf("  Pierwsza faza testu piezo zakończona.\n  osie = %d\n",
                    piezo_axles);
         }
@@ -218,7 +218,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
             piezo_axles = counter(CP, length, 8, 0, NULL);
 
 
-            if (verbosity_level == DEBUG) {
+            if (is_verbosity_at_least(DEBUG)) {
                 printf("  Druga faza testu piezo zakończona.\n  osie = %d\n",
                        piezo_axles);
             }
@@ -273,7 +273,7 @@ void remove_offset(data_vector_t *vector, unsigned num) {
         n = n->next;
     }
 
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(DEBUG)) {
         printf(" Usuwanie offsetu z danych. Wartości offsetu dla poszczególnych parametrów:\n");
         for (int i = 0; i < 12; i++) printf("  offset = %10.6f\n", offsets[i]);
     }
@@ -351,7 +351,7 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
     *v = dist / t1;
     *d = (*v) * t2;
 
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(DEBUG)) {
         printf(" Wyznaczanie prędkości i odległości:\n");
         printf("  Wartości indeksów:\n");
         printf("  Indeks 1: %5d %5d\n", index1[0], index1[1]);
@@ -421,7 +421,7 @@ void trim_data(data_vector_t *vector, double velocity) {
     trim_values(vector, DATA_P2, trim_front, trim_back);
 
 
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(DEBUG)) {
         printf(" Ilość próbek do obcięcia z przodu dla każdej pary czujników:\n");
         for (int i = 0; i < 7; i++)
             printf("  przód#%d %5d\n", i, vector->trim_front[i]);
@@ -467,7 +467,7 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
     unsigned nfft;
     for (nfft = 2; nfft < vector->trim_back; nfft *= 2);
 
-    if (verbosity_level == DEBUG) printf(" Wartość nfft to %5d\n", nfft);
+    if (is_verbosity_at_least(DEBUG)) printf(" Wartość nfft to %5d\n", nfft);
 
     //fft
     size_t buflen = sizeof(kiss_fft_cpx) * nfft;
@@ -502,7 +502,7 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
     }
     kiss_fft(cfg, fft, reverse);
 
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(ALL)) {
         for (unsigned i = 0; i < ftt_stripe + 2; i++)
             printf("%15.7f %15.7f\n", signal[i].r, signal[i].i);
         putchar('\n');
@@ -529,7 +529,7 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
     free(fft);
     free(reverse);
 
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(ALL)) {
         putchar('\n');
         for (unsigned i = 0; i < ftt_stripe + 2; i++)
             printf("%15.7f\n", sig_out[i]);
@@ -544,14 +544,14 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
     }
     offset /= OFFSET_NUM;
 
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(DEBUG)) {
         printf(" Usuwanie offsetu z danych po fft.\n  offset = %10.6f\n",
                offset);
     }
 
     for (unsigned i = 0; i < vector->trim_back; i++) sig_out[i] -= offset;
 
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(ALL)) {
         printf(" Sygnał po usunięciu offsetu:\n");
         for (unsigned i = 0; i < ftt_stripe + 2; i++)
             printf("%15.7f\n", sig_out[i]);
@@ -575,7 +575,7 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
         }
     }
 
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(DEBUG)) {
         printf(" Ograniczanie sygnału do okna.\n  start = %5d\n  end   = %5d\n",
                w_start, w_end);
     }
@@ -650,7 +650,7 @@ void find_lengths(double *M, unsigned length, double dt,
      */
 
     if (vehicle->class == INVALID) {
-        if (verbosity_level == DEBUG) {
+        if (is_verbosity_at_least(DEBUG)) {
             puts(" Nie udało się odnaleźć poprawnej ilości osi pojazdu, algorytm wyznaczania długości kończy działanie.\n");
         }
         return;
@@ -665,7 +665,7 @@ void find_lengths(double *M, unsigned length, double dt,
     unsigned index_start = 0;
     unsigned index_end = length - 1;
 
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(DEBUG)) {
         puts(" Procedura wykrywania położenia osi i długości pojazdu.");
         printf("  Liczba osi: %d\n", num_axles);
         for (unsigned i = 0; i < num_axles; i++) {
@@ -691,13 +691,13 @@ void find_lengths(double *M, unsigned length, double dt,
     if (index_end < axle_locations[num_axles - 1]) {
         index_end = axle_locations[num_axles - 1];
 
-        if (verbosity_level == DEBUG) {
+        if (is_verbosity_at_least(DEBUG)) {
             printf("  Wykryto indeks końca pojazdu mniejszy od indeksu położenia"
                            " ostatniej osi. Dane wejściowe są zbyt nieczytelne, "
                            "by ustalić dokładne wartości długości.\n");
         }
     }
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(DEBUG)) {
         printf("  Początek pojazdu: %d, koniec pojazdu: %d\n", index_start,
                index_end);
     }
@@ -705,7 +705,7 @@ void find_lengths(double *M, unsigned length, double dt,
     //przejście w dziedzinę czasu
     vehicle->lengths[0] = (index_end - index_start)/* * dt * vehicle.velocity*/;
 
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(DEBUG)) {
         printf("  Długość pojazdu:  %.0f\n", vehicle->lengths[0]);
     }
 
@@ -716,7 +716,7 @@ void find_lengths(double *M, unsigned length, double dt,
     }
     vehicle->lengths[num_axles + 1] = index_end - axle_locations[num_axles - 1];
 
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(DEBUG)) {
         printf(" Wartości odległości\n");
         for (unsigned i = 0; i <= num_axles + 1; i++) {
             printf("  s%d = %.0f\n", i, vehicle->lengths[i]);
@@ -739,7 +739,7 @@ void find_lengths(double *M, unsigned length, double dt,
     //zerowanie pozostałych pól
     for (unsigned i = num_axles + 2; i < 7; i++) vehicle->lengths[i] = 0;
 
-    if (verbosity_level == DEBUG) {
+    if (is_verbosity_at_least(DEBUG)) {
         printf(" Wartości odległości\n");
         for (unsigned i = 0; i <= num_axles + 1; i++) {
             printf("  s%d = %.3f\n", i, vehicle->lengths[i]);

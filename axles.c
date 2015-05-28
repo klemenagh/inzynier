@@ -22,6 +22,7 @@ int main(int argc, char **argv) {
     //parse args
     static struct option long_options[] = {
             {"debug",     no_argument,       NULL, 'd'},
+            {"all",       no_argument,       NULL, 'a'},
             {"quiet",     no_argument,       NULL, 'q'},
             {"verbose",   required_argument, NULL, 's'},
             {"verify",    no_argument,       NULL, 'v'},
@@ -30,13 +31,17 @@ int main(int argc, char **argv) {
             {"help",      no_argument,       NULL, 'h'}
     };
     int c;
-    while ((c = getopt_long(argc, argv, "dqvphs:", long_options, NULL)) != -1) {
+    while ((c = getopt_long(argc, argv, "dqavphs:", long_options, NULL)) !=
+           -1) {
         switch (c) {
             case 'd':
                 verbosity_level = DEBUG;
                 break;
             case 'q':
                 verbosity_level = QUIET;
+                break;
+            case 'a':
+                verbosity_level = ALL;
                 break;
             case 's':
                 if (strcmp(optarg, "debug") == 0 ||
@@ -50,6 +55,10 @@ int main(int argc, char **argv) {
                 else if (strcmp(optarg, "quiet") == 0 ||
                          strcmp(optarg, "QUIET") == 0) {
                     verbosity_level = QUIET;
+                }
+                else if (strcmp(optarg, "all") == 0 ||
+                         strcmp(optarg, "ALL") == 0) {
+                    verbosity_level = ALL;
                 }
                 else {
                     printf("Błędna flaga --verbose.\n");
@@ -87,11 +96,11 @@ int main(int argc, char **argv) {
     vehicle_data_t vehicle;
 
     if (read_from_stdin) { //odczyt z stdin
-        if (verbosity_level == DEBUG) {
+        if (is_verbosity_at_least(DEBUG)) {
             fputs("Odczyt z stdin.\n", stderr);
         }
         while (read_stdin(data) && data->length > 0) {
-            if (verbosity_level == DEBUG){
+            if (is_verbosity_at_least(DEBUG)) {
                 printf("Załadowano dane. Ilość próbek: %d\n", data->length);
             }
 
@@ -107,14 +116,14 @@ int main(int argc, char **argv) {
         for (unsigned i = 0; i < num_files; i++) {
             filename = filenames[i];
 
-            if (verbosity_level == DEBUG) {
+            if (is_verbosity_at_least(DEBUG)) {
                 fputs("Odczyt z pliku: ", stderr);
                 fputs(filename, stderr);
                 fputs("\n", stderr);
             }
 
             if (read_file(filename, data)) {
-                if (verbosity_level == DEBUG){
+                if (is_verbosity_at_least(DEBUG)) {
                     printf("Załadowano dane. Ilość próbek: %d\n", data->length);
                 }
                 vehicle = algorithm2(data, piezo_verify, compute_positions);
