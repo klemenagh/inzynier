@@ -9,6 +9,7 @@
 #include "algorithm.h"
 
 extern int verbosity_level;
+extern char output_filename[80];
 
 int main(int argc, char **argv) {
 
@@ -28,10 +29,11 @@ int main(int argc, char **argv) {
             {"verify",    no_argument,       NULL, 'v'},
             {"piezo",     no_argument,       NULL, 'v'},
             {"positions", no_argument,       NULL, 'p'},
-            {"help",      no_argument,       NULL, 'h'}
+            {"help",      no_argument,       NULL, 'h'},
+            {"output",    required_argument, NULL, 'o'}
     };
     int c;
-    while ((c = getopt_long(argc, argv, "dqavphs:", long_options, NULL)) !=
+    while ((c = getopt_long(argc, argv, "dqavphs:o:", long_options, NULL)) !=
            -1) {
         switch (c) {
             case 'd':
@@ -70,6 +72,9 @@ int main(int argc, char **argv) {
                 break;
             case 'p':
                 compute_positions = true;
+                break;
+            case 'o':
+                strcpy(output_filename, optarg);
                 break;
             case 'h':
                 usage(EXIT_SUCCESS);

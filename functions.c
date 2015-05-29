@@ -8,12 +8,15 @@
 #include <errno.h>
 #include <string.h>
 
+char output_filename[80];
+
 void usage(int exit_status) {
     if (exit_status == EXIT_FAILURE) {
         printf("Wywołaj program z opcją -h by uzyskać pomoc.\n");
     }
     else {
-        printf("Użycie: axles [-d] [-p] [-v] [-q] [-a] [plik1 plik2 ...]\n\n\
+        printf("Użycie: axles [-d] [-p] [-v] [-q] [-a] [plik1 plik2 ...] \
+[-o output_file]\n\n\
 W przypadku nie podania żadnej nazwy pliku, odczyt odbywa się ze strumienia\n\
 wejściowego.\n\nArgumenty wejścia:\n\n\
 -d --debug\tWyświetlaj wyjście ułatwiające debugowanie.\n\
@@ -22,6 +25,8 @@ wejściowego.\n\nArgumenty wejścia:\n\n\
 -v --verify\tSprawdź wynik z sygnałami piezo.\n\
 -q --quiet\tNie wyświetlaj wyjścia na ekran. (może być użyteczna, gdy zapis\n\
 \t\tnastępuje do pliku).\n\
+-o --output\tZapisuje wyniki działania algorytmu do podanego pliku. Zawartość\n\
+\t\tpliku nie jest usuwana, dane są dopisywane na końcu pliku.\n\
 -h\t\tWywołaj pomoc dla programu.\n");
     }
     exit(exit_status);
@@ -89,50 +94,102 @@ bool read_stream(FILE *s, data_vector_t *vector) {
 
 void handle_output(vehicle_data_t vehicle, bool piezo_verify,
                    bool compute_positions, char *filename) {
-    if (is_verbosity_at_least(RELEASE)) {
-        if (filename != NULL) printf("%s ", filename);
-        else printf("stdin ");
-        switch (vehicle.class) {
-            case
-                POJAZD_2OS:
-                printf("2");
-                break;
-            case
-                POJAZD_3OS:
-                printf("3");
-                break;
-            case
-                POJAZD_4OS:
-                printf("4");
-                break;
-            case
-                POJAZD_5OS:
-                printf("5");
-                break;
-            case
-                POJAZD_5OS_UP:
-                printf("5up");
-                break;
-            case
-                INVALID:
-            default:
-                printf("error");
-                break;
+    char str[160] = "";
+    char position_data[20];
+    if (filename != NULL) strcat(str, filename);
+    else strcat(str, "stdin");
+    switch (vehicle.class) {
+        case
+            POJAZD_2OS:
+            strcat(str, " 2");
+            break;
+        case
+            POJAZD_3OS:
+            strcat(str, " 3");
+            break;
+        case
+            POJAZD_4OS:
+            strcat(str, " 4");
+            break;
+        case
+            POJAZD_5OS:
+            strcat(str, " 5");
+            break;
+        case
+            POJAZD_5OS_UP:
+            strcat(str, " 5up");
+            break;
+        case
+            INVALID:
+        default:
+            strcat(str, " error");
+            break;
+    }
+    if (compute_positions) {
+        const unsigned num_axles = (vehicle.class == POJAZD_5OS_UP) ? 5
+                                                                    : (unsigned) vehicle.class;
+        for (unsigned i = 0; i <= num_axles + 1; i++) {
+            sprintf(position_data, " %.3f", vehicle.lengths[i]);
+            strcat(str, position_data);
         }
-        if (compute_positions) {
-            const unsigned num_axles = (vehicle.class == POJAZD_5OS_UP) ? 5
-                                                                        : (unsigned) vehicle.class;
-            for (unsigned i = 0; i <= num_axles + 1; i++) {
-                printf(" %f", vehicle.lengths[i]);
-            }
-        }
-        printf("\n");
+    }
+    strcat(str, "\n");
+    if (piezo_verify) {
+        strcat(str, vehicle.piezo == (unsigned) vehicle.class ? "piezo ok\n"
+                                                              : "piezo error\n");
     }
 
-    if (piezo_verify) {
-        puts(vehicle.piezo == (unsigned) vehicle.class ? "piezo ok"
-                                                       : "piezo error");
+    if (is_verbosity_at_least(RELEASE)) printf(str);
+
+    if(output_filename[0] != '\0') { //zapis do pliku o podanej nazwie
+        FILE * f = fopen(output_filename, "a");
+        fprintf(f, str);
+        fclose(f);
     }
+//    if (is_verbosity_at_least(RELEASE)) {
+//        if (filename != NULL) printf("%s ", filename);
+//        else printf("stdin ");
+//        switch (vehicle.class) {
+//            case
+//                POJAZD_2OS:
+//                printf("2");
+//                break;
+//            case
+//                POJAZD_3OS:
+//                printf("3");
+//                break;
+//            case
+//                POJAZD_4OS:
+//                printf("4");
+//                break;
+//            case
+//                POJAZD_5OS:
+//                printf("5");
+//                break;
+//            case
+//                POJAZD_5OS_UP:
+//                printf("5up");
+//                break;
+//            case
+//                INVALID:
+//            default:
+//                printf("error");
+//                break;
+//        }
+//        if (compute_positions) {
+//            const unsigned num_axles = (vehicle.class == POJAZD_5OS_UP) ? 5
+//                                                                        : (unsigned) vehicle.class;
+//            for (unsigned i = 0; i <= num_axles + 1; i++) {
+//                printf(" %f", vehicle.lengths[i]);
+//            }
+//        }
+//        printf("\n");
+//    }
+//
+//    if (piezo_verify) {
+//        puts(vehicle.piezo == (unsigned) vehicle.class ? "piezo ok"
+//                                                       : "piezo error");
+//    }
 }
 
 bool is_verbosity_at_least(verb_level v) {

@@ -2,7 +2,7 @@ import subprocess
 import os
 
 data_dir = '../algorytm2_in_matlab/BAZA_RX/'
-executable = '../build/inzynier'
+executable = '../build/axles'
 executable = os.path.abspath(executable)
 
 flags = ''
@@ -35,10 +35,10 @@ for subdir, desired_output in classes:
 			p = os.path.abspath(directory + '/' + f)
 			is_error = False
 
-			proc = subprocess.Popen([executable, '-f', p], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			proc = subprocess.Popen([executable, p], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 			output = proc.stdout.read()
-			txt = output.decode("utf-8").rstrip()
-			if txt == desired_output:
+			txt = output.decode("utf-8").rstrip().split()
+			if txt[1] == desired_output:
 				valid += 1
 			else:
 				err = proc.stderr.read()
