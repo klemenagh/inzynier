@@ -1,12 +1,6 @@
 #include "gui.h"
 #include "ui_gui.h"
 
-#include <iostream>
-#include <cstdio>
-#include <QTextStream>
-
-#define DEBUG 1
-
 GUI::GUI(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GUI)
@@ -19,11 +13,16 @@ GUI::GUI(QWidget *parent) :
     this->timer = new QTimer(this);
     this->timer->start(100);
 
-    connect(timer, SIGNAL(timeout()), this, SLOT(tryLoadData()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(GUIupdate()));
+
+    InputThread i(this->vehicles);
+    this->inputThread = std::thread{i};
 }
 
 GUI::~GUI()
 {
+    this->inputThread.detach();
+
     delete ui;
 }
 
@@ -241,48 +240,4 @@ void GUI::GUIupdate() {
 
     this->update();
     this->setFocus();
-
-}
-
-void GUI::tryLoadData() {
-    std::cout <<"try update" << std::endl;
-    fflush(stdin);
-    QString type;
-    unsigned axles;
-    bool is5up = false;
-    double positions[7];
-    char buffer[100];
-    char source[100];
-    fgets(buffer, sizeof(buffer), stdin);
-    QString s(buffer);
-    if(DEBUG) std::cout << s.toStdString() << std::endl;
-    QTextStream str(&s);
-    str >> source >> type;
-    if(type == "5up") {
-        is5up = true;
-        axles = 5;
-    }
-    else axles = type.toInt();
-    for(unsigned i = 0; i < axles + 2; i++) {
-        str >> positions[i];
-    }
-    //wylicz położenia osi
-    double axle_pos[axles];
-    axle_pos[0] = positions[1];
-    for(unsigned i = 1; i < axles; i++) {
-        axle_pos[i] = axle_pos[i - 1] + positions[i + 1];
-    }
-
-    if(DEBUG) {
-        std::cout << "length: " << positions[0] << std::endl;
-        std::cout << "axles:  " << axles << std::endl;
-        for(unsigned i = 0; i < axles; i++) {
-            std::cout << "axle:   " << axle_pos[i] << std::endl;
-        }
-    }
-    if(axles < 2 || axles > 5) return; //nieobsługiwane przypadki
-
-    this->vehicles.push_back(Vehicle(positions[0], axles, axle_pos, is5up));
-
-    this->GUIupdate();
 }

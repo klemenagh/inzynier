@@ -13,9 +13,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        gui.cpp
+        gui.cpp \
+    inputthread.cpp
 
-HEADERS  += gui.h
+HEADERS  += gui.h \
+    inputthread.h \
+    vehicle.h
 
 FORMS    += gui.ui
 
