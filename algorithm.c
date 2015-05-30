@@ -745,5 +745,4 @@ void find_lengths(double *M, unsigned length, double dt,
             printf("  s%d = %.3f\n", i, vehicle->lengths[i]);
         }
     }
-
 }

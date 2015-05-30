@@ -146,50 +146,6 @@ void handle_output(vehicle_data_t vehicle, bool piezo_verify,
         fprintf(f, str);
         fclose(f);
     }
-//    if (is_verbosity_at_least(RELEASE)) {
-//        if (filename != NULL) printf("%s ", filename);
-//        else printf("stdin ");
-//        switch (vehicle.class) {
-//            case
-//                POJAZD_2OS:
-//                printf("2");
-//                break;
-//            case
-//                POJAZD_3OS:
-//                printf("3");
-//                break;
-//            case
-//                POJAZD_4OS:
-//                printf("4");
-//                break;
-//            case
-//                POJAZD_5OS:
-//                printf("5");
-//                break;
-//            case
-//                POJAZD_5OS_UP:
-//                printf("5up");
-//                break;
-//            case
-//                INVALID:
-//            default:
-//                printf("error");
-//                break;
-//        }
-//        if (compute_positions) {
-//            const unsigned num_axles = (vehicle.class == POJAZD_5OS_UP) ? 5
-//                                                                        : (unsigned) vehicle.class;
-//            for (unsigned i = 0; i <= num_axles + 1; i++) {
-//                printf(" %f", vehicle.lengths[i]);
-//            }
-//        }
-//        printf("\n");
-//    }
-//
-//    if (piezo_verify) {
-//        puts(vehicle.piezo == (unsigned) vehicle.class ? "piezo ok"
-//                                                       : "piezo error");
-//    }
 }
 
 bool is_verbosity_at_least(verb_level v) {

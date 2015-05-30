@@ -113,9 +113,6 @@ int main(int argc, char **argv) {
             handle_output(vehicle, piezo_verify, compute_positions, NULL);
 
         }
-//        else if (verbosity_level != QUIET) {
-//            fputs("Błąd w czasie odczytu.\n", stderr);
-//        }
     }
     else { //odczyt z plików
         for (unsigned i = 0; i < num_files; i++) {
