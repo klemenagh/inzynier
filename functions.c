@@ -139,7 +139,10 @@ void handle_output(vehicle_data_t vehicle, bool piezo_verify,
                                                               : "piezo error\n");
     }
 
-    if (is_verbosity_at_least(RELEASE)) printf(str);
+    if (is_verbosity_at_least(RELEASE)){
+        printf(str);
+        fflush(stdout);
+    }
 
     if(output_filename[0] != '\0') { //zapis do pliku o podanej nazwie
         FILE * f = fopen(output_filename, "a");
