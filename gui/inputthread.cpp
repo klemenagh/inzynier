@@ -2,7 +2,7 @@
 
 void InputThread::loop() {
     while(true) {
-        if(DEBUG) std::cout <<"try update" << std::endl;
+        if(DEBUG) std::cout <<"try get data" << std::endl;
         QString type;
         unsigned axles;
         bool is5up = false;
@@ -39,8 +39,10 @@ void InputThread::loop() {
                 std::cout << "axle:   " << axle_pos[i] << std::endl;
             }
         }
-        if(axles < 2 || axles > 5) continue; //nieobsługiwane przypadki
-
+        if(axles < 2 || axles > 5 || positions[0] == 0) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            continue; //nieobsługiwane przypadki
+        }
         this->vehicles.push_back(Vehicle(positions[0], axles, axle_pos, is5up));
 
     }

@@ -9,7 +9,6 @@
 #include "vehicle.h"
 #include "inputthread.h"
 
-
 namespace Ui {
 class GUI;
 }
@@ -18,11 +17,14 @@ class GUI : public QMainWindow
 {
     Q_OBJECT
 private:
+    const unsigned startx = 50;
+    const unsigned starty = 50;
+    const unsigned v_height = 120;
+    const unsigned wheel_size = 20;
 
 public:
     explicit GUI(QWidget *parent = 0);
     ~GUI();
-    void drawScale(QPoint scaleCenter, QPoint scaleBottom, QPoint scaleEnd, QPoint scaleTop, QPainter painter, const double scale, QPoint scaleStart, double end, const unsigned v_height, const unsigned starty, double start, const unsigned startx);
 protected:
     void paintEvent(QPaintEvent *event);
     void keyPressEvent(QKeyEvent *event);

@@ -5,9 +5,11 @@
 #include <iostream>
 #include <QString>
 #include <QTextStream>
+#include <chrono>
+#include <thread>
 
 #include "vehicle.h"
-#define DEBUG 0
+#define DEBUG false
 
 class InputThread
 {

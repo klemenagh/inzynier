@@ -24,10 +24,12 @@ GUI::~GUI()
     this->inputThread.detach();
 
     delete ui;
+
+    std::cout << "Quitting..." << std::endl;
 }
 
 void GUI::paintEvent(QPaintEvent *event) {
-
+    event->accept();
     //rysowanie pojazdu
     if(this->vehicles.size() == 0 || currentVehicle < 0 || currentVehicle >= vehicles.size()) return;
 
@@ -43,15 +45,12 @@ void GUI::paintEvent(QPaintEvent *event) {
     }
 
     const double scale = 1000 / 24; //1000pix = 24m;
-    const unsigned startx = 50, starty = 50;
-    const unsigned v_height = 120;
-    const unsigned wheel_size = 20;
 
     QPoint vehicleStart, vehicleEnd;
-    vehicleStart.setX(startx);
-    vehicleEnd.setX(startx + length * scale);
-    vehicleStart.setY(starty);
-    vehicleEnd.setY(starty + v_height);
+    vehicleStart.setX(this->startx);
+    vehicleEnd.setX(this->startx + length * scale);
+    vehicleStart.setY(this->starty);
+    vehicleEnd.setY(this->starty + this->v_height);
 
     QRect vehicle;
     vehicle.setTopLeft(vehicleStart);
@@ -66,18 +65,18 @@ void GUI::paintEvent(QPaintEvent *event) {
         unsigned axle_offset_y = 0;
         if(axles == 5 && v.is5up() && i == 2) axle_offset_y = -5;// 3 os auta 5 os. z podniesioną osią
         QPoint center;
-        center.setX(startx + scale * positions[i]);
-        center.setY(starty + v_height + axle_offset_y);
+        center.setX(this->startx + scale * positions[i]);
+        center.setY(this->starty + this->v_height + axle_offset_y);
 
-        painter.drawEllipse(center, wheel_size, wheel_size);
+        painter.drawEllipse(center, this->wheel_size, this->wheel_size);
     }
 
     const unsigned scale_offset = 100;
     QPoint scaleStart, scaleEnd;
-    scaleStart.setX(startx);
-    scaleStart.setY(starty + v_height + scale_offset);
-    scaleEnd.setX(startx + scale * 24);
-    scaleEnd.setY(starty + v_height + scale_offset);
+    scaleStart.setX(this->startx);
+    scaleStart.setY(this->starty + this->v_height + scale_offset);
+    scaleEnd.setX(this->startx + scale * 24);
+    scaleEnd.setY(this->starty + this->v_height + scale_offset);
 
     painter.drawLine(scaleStart, scaleEnd);
 
@@ -85,12 +84,12 @@ void GUI::paintEvent(QPaintEvent *event) {
     for(int pos = 0; pos <= 24; pos += 4) {
         QPoint scaleTop, scaleBottom, scaleCenter;
 
-        scaleTop.setX(startx + pos * scale);
-        scaleTop.setY(starty + v_height + scale_offset - 10);
-        scaleBottom.setX(startx + pos * scale);
-        scaleBottom.setY(starty + v_height + scale_offset + 10);
-        scaleCenter.setX(startx + pos * scale);
-        scaleCenter.setY(starty + v_height + scale_offset);
+        scaleTop.setX(this->startx + pos * scale);
+        scaleTop.setY(this->starty + this->v_height + scale_offset - 10);
+        scaleBottom.setX(this->startx + pos * scale);
+        scaleBottom.setY(this->starty + this->v_height + scale_offset + 10);
+        scaleCenter.setX(this->startx + pos * scale);
+        scaleCenter.setY(this->starty + this->v_height + scale_offset);
 
         painter.drawLine(scaleTop, scaleBottom);
         painter.drawText(scaleCenter, QString::number(pos) + QString("m"));
@@ -101,28 +100,28 @@ void GUI::paintEvent(QPaintEvent *event) {
     QPoint vehicleLengthStart, vehicleLengthEnd;
     QPoint scaleTop, scaleBottom, scaleCenter;
 
-    vehicleLengthStart.setX(startx);
-    vehicleLengthEnd.setX(startx + length * scale);
-    vehicleLengthStart.setY(starty + v_height + 70);
-    vehicleLengthEnd.setY(starty + v_height + 70);
+    vehicleLengthStart.setX(this->startx);
+    vehicleLengthEnd.setX(this->startx + length * scale);
+    vehicleLengthStart.setY(this->starty + this->v_height + 70);
+    vehicleLengthEnd.setY(this->starty + this->v_height + 70);
 
     painter.drawLine(vehicleLengthStart, vehicleLengthEnd);
-    scaleCenter.setX((startx + length * scale + startx) / 2);
-    scaleCenter.setY(starty + v_height + 70);
+    scaleCenter.setX((this->startx + length * scale + this->startx) / 2);
+    scaleCenter.setY(this->starty + this->v_height + 70);
 
     painter.drawText(scaleCenter, QString().sprintf("%.2f", length) + QString("m"));
 
     //podzialka na początku i końcu
-    scaleTop.setX(startx);
-    scaleTop.setY(starty + v_height + 70 - 10);
-    scaleBottom.setX(startx);
-    scaleBottom.setY(starty + v_height + 70 + 10);
+    scaleTop.setX(this->startx);
+    scaleTop.setY(this->starty + this->v_height + 70 - 10);
+    scaleBottom.setX(this->startx);
+    scaleBottom.setY(this->starty + this->v_height + 70 + 10);
     painter.drawLine(scaleTop, scaleBottom);
 
-    scaleTop.setX(startx + length * scale);
-    scaleTop.setY(starty + v_height + 70 - 10);
-    scaleBottom.setX(startx + length * scale);
-    scaleBottom.setY(starty + v_height + 70 + 10);
+    scaleTop.setX(this->startx + length * scale);
+    scaleTop.setY(this->starty + this->v_height + 70 - 10);
+    scaleBottom.setX(this->startx + length * scale);
+    scaleBottom.setY(this->starty + this->v_height + 70 + 10);
     painter.drawLine(scaleTop, scaleBottom);
 
     //odległości między osiami
@@ -131,83 +130,83 @@ void GUI::paintEvent(QPaintEvent *event) {
     //początek do osi 1
     start = 0;
     end = positions[0];
-    scaleStart.setX(startx);
-    scaleEnd.setX(startx + end * scale);
-    scaleStart.setY(starty + v_height + 40);
-    scaleEnd.setY(starty + v_height + 40);
+    scaleStart.setX(this->startx);
+    scaleEnd.setX(this->startx + end * scale);
+    scaleStart.setY(this->starty + this->v_height + 40);
+    scaleEnd.setY(this->starty + this->v_height + 40);
 
     painter.drawLine(scaleStart, scaleEnd);
-    scaleCenter.setX((startx + end * scale + startx) / 2);
-    scaleCenter.setY(starty + v_height + 40);
+    scaleCenter.setX((this->startx + end * scale + this->startx) / 2);
+    scaleCenter.setY(this->starty + this->v_height + 40);
 
     painter.drawText(scaleCenter, QString().sprintf("%.2f", end) + QString("m"));
 
     //podzialka na początku i końcu
-    scaleTop.setX(startx);
-    scaleTop.setY(starty + v_height + 40 - 10);
-    scaleBottom.setX(startx);
-    scaleBottom.setY(starty + v_height + 40 + 10);
+    scaleTop.setX(this->startx);
+    scaleTop.setY(this->starty + this->v_height + 40 - 10);
+    scaleBottom.setX(this->startx);
+    scaleBottom.setY(this->starty + this->v_height + 40 + 10);
     painter.drawLine(scaleTop, scaleBottom);
 
-    scaleTop.setX(startx + end * scale);
-    scaleTop.setY(starty + v_height + 40 - 10);
-    scaleBottom.setX(startx + end * scale);
-    scaleBottom.setY(starty + v_height + 40 + 10);
+    scaleTop.setX(this->startx + end * scale);
+    scaleTop.setY(this->starty + this->v_height + 40 - 10);
+    scaleBottom.setX(this->startx + end * scale);
+    scaleBottom.setY(this->starty + this->v_height + 40 + 10);
     painter.drawLine(scaleTop, scaleBottom);
 
     for(unsigned axle = 0; axle < axles - 1; axle++) {
         start = end;
         end = positions[axle + 1];
-        scaleStart.setX(startx + start * scale);
-        scaleEnd.setX(startx + end * scale);
-        scaleStart.setY(starty + v_height + 40);
-        scaleEnd.setY(starty + v_height + 40);
+        scaleStart.setX(this->startx + start * scale);
+        scaleEnd.setX(this->startx + end * scale);
+        scaleStart.setY(starty + this->v_height + 40);
+        scaleEnd.setY(starty + this->v_height + 40);
 
         painter.drawLine(scaleStart, scaleEnd);
-        scaleCenter.setX((startx + end * scale + startx + start * scale) / 2);
-        scaleCenter.setY(starty + v_height + 40);
+        scaleCenter.setX((this->startx + end * scale + this->startx + start * scale) / 2);
+        scaleCenter.setY(this->starty + this->v_height + 40);
 
         painter.drawText(scaleCenter, QString().sprintf("%.2f", end - start) + QString("m"));
 
         //podzialka na początku i końcu
-        scaleTop.setX(startx + start * scale);
-        scaleTop.setY(starty + v_height + 40 - 10);
-        scaleBottom.setX(startx + start * scale);
-        scaleBottom.setY(starty + v_height + 40 + 10);
+        scaleTop.setX(this->startx + start * scale);
+        scaleTop.setY(this->starty + this->v_height + 40 - 10);
+        scaleBottom.setX(this->startx + start * scale);
+        scaleBottom.setY(this->starty + this->v_height + 40 + 10);
         painter.drawLine(scaleTop, scaleBottom);
 
-        scaleTop.setX(startx + end * scale);
-        scaleTop.setY(starty + v_height + 40 - 10);
-        scaleBottom.setX(startx + end * scale);
-        scaleBottom.setY(starty + v_height + 40 + 10);
+        scaleTop.setX(this->startx + end * scale);
+        scaleTop.setY(this->starty + this->v_height + 40 - 10);
+        scaleBottom.setX(this->startx + end * scale);
+        scaleBottom.setY(this->starty + this->v_height + 40 + 10);
         painter.drawLine(scaleTop, scaleBottom);
     }
     //koniec pojazdu
 
     start = end;
     end = length;
-    scaleStart.setX(startx + start * scale);
-    scaleEnd.setX(startx + end * scale);
-    scaleStart.setY(starty + v_height + 40);
-    scaleEnd.setY(starty + v_height + 40);
+    scaleStart.setX(this->startx + start * scale);
+    scaleEnd.setX(this->startx + end * scale);
+    scaleStart.setY(this->starty + this->v_height + 40);
+    scaleEnd.setY(this->starty + this->v_height + 40);
 
     painter.drawLine(scaleStart, scaleEnd);
-    scaleCenter.setX((startx + end * scale + startx + start * scale) / 2);
-    scaleCenter.setY(starty + v_height + 40);
+    scaleCenter.setX((this->startx + end * scale + this->startx + start * scale) / 2);
+    scaleCenter.setY(this->starty + this->v_height + 40);
 
     painter.drawText(scaleCenter, QString().sprintf("%.2f", end - start) + QString("m"));
 
     //podzialka na początku i końcu
-    scaleTop.setX(startx + start * scale);
-    scaleTop.setY(starty + v_height + 40 - 10);
-    scaleBottom.setX(startx + start * scale);
-    scaleBottom.setY(starty + v_height + 40 + 10);
+    scaleTop.setX(this->startx + start * scale);
+    scaleTop.setY(this->starty + this->v_height + 40 - 10);
+    scaleBottom.setX(this->startx + start * scale);
+    scaleBottom.setY(this->starty + this->v_height + 40 + 10);
     painter.drawLine(scaleTop, scaleBottom);
 
-    scaleTop.setX(startx + end * scale);
-    scaleTop.setY(starty + v_height + 40 - 10);
-    scaleBottom.setX(startx + end * scale);
-    scaleBottom.setY(starty + v_height + 40 + 10);
+    scaleTop.setX(this->startx + end * scale);
+    scaleTop.setY(this->starty + this->v_height + 40 - 10);
+    scaleBottom.setX(this->startx + end * scale);
+    scaleBottom.setY(this->starty + this->v_height + 40 + 10);
     painter.drawLine(scaleTop, scaleBottom);
 
 }
