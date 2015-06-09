@@ -649,6 +649,9 @@ void find_lengths(double *M, unsigned length, double dt,
      * dt opisuje ilość czasu pomiędzy dwoma kolejnymi próbkami
      */
 
+    // todo
+    // pętla 1m sqrt(R1^2 + X1^2)
+    // p. odcięcia 0.5V
     if (vehicle->class == INVALID) {
         if (is_verbosity_at_least(DEBUG)) {
             puts(" Nie udało się odnaleźć poprawnej ilości osi pojazdu, algorytm wyznaczania długości kończy działanie.\n");

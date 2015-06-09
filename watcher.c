@@ -35,8 +35,7 @@ static void read_file_to_stdout(char *filename) {
     unsigned num_lines = 0;
 
     while (fgets(buffer, sizeof(buffer), f)) {
-        printf(buffer);
-//        fflush(stdout);
+        printf("%s", buffer);
         num_lines++;
     }
     putchar('\n');
