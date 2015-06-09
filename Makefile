@@ -1,4 +1,4 @@
-CC=gcc
+CC=clang
 CFLAGS=-std=c99 -Wall -Werror -Wextra -Wformat --pedantic-errors
 LDFLAGS=-lm
 AXLES_SOURCES=axles.c algorithm.c functions.c structures.c ./kiss_fft/kiss_fft.c
@@ -14,10 +14,10 @@ dir:
 	cd build
 axles:
 	$(CC) $(CFLAGS) -c $(AXLES_SOURCES)
-	$(CC) $(LDFLAGS) -o $(AXLES) $(AXLES_OBJECTS)
+	$(CC) -o $(AXLES) $(AXLES_OBJECTS) $(LDFLAGS)
 watcher:
 	$(CC) $(CFLAGS) -c $(WATCHER_SOURCES)
-	$(CC) $(LDFLAGS) -o $(WATCHER) $(WATCHER_OBJECTS)
+	$(CC) -o $(WATCHER) $(WATCHER_OBJECTS) $(LDFLAGS)
 done:
 	cd ..
 	rm *.o

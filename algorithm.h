@@ -62,7 +62,7 @@ unsigned counter(double *, unsigned, double, double, unsigned *);
 /*
  * funkcja wykorzystywana do ustalenia położenia osi oraz długości pojazdu
  */
-void find_lengths(double *, unsigned, double, unsigned[5], vehicle_data_t *);
+void find_lengths(data_vector_t *, unsigned[5], vehicle_data_t *);
 
 #endif //INZYNIER_ALGORITHM_H
 

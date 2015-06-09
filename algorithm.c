@@ -227,9 +227,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
     }
 
     if (check_lengths) {
-        double dt =
-                vector->head->next->data[DATA_T] - vector->head->data[DATA_T];
-        find_lengths(M, length, dt, axle_locations, &vehicle);
+        find_lengths(vector, axle_locations, &vehicle);
     }
 
     return vehicle;
@@ -641,7 +639,7 @@ unsigned counter(double *Ku, unsigned len, double Y, double H,
     return num_axles;
 }
 
-void find_lengths(double *M, unsigned length, double dt,
+void find_lengths(data_vector_t *v,
                   unsigned axle_locations[5],
                   vehicle_data_t *vehicle) {
     /*
@@ -658,12 +656,20 @@ void find_lengths(double *M, unsigned length, double dt,
         }
         return;
     }
-
+    const double dt = v->head->next->data[DATA_T] - v->head->data[DATA_T];
+    const unsigned length = v->trim_back;
+    //tworzenie sygnalu m
+    double M[length];
+    data_cell_t *n = v->head;
+    for (unsigned i = 0; i < length && n != NULL; i++) {
+        M[i] = pow(n->data[DATA_R1], 2) + pow(n->data[DATA_X1], 2);
+        n = n->next;
+    }
     const unsigned num_axles =
             (vehicle->class == POJAZD_5OS_UP) ? 5 : (unsigned) vehicle->class;
 
-    const double K_level = (num_axles > 2) ? 0.05 : 0.1; //poziom odcięcia
-    const double l_front = 0.3, l_back = 0; //stałe do odjęcia od profilu
+    const double K_level = 0.5; //poziom odcięcia
+    const double l_front = 0, l_back = 0; //stałe do odjęcia od profilu
     //zmienne opisujące początek i koniec pojazdu
     unsigned index_start = 0;
     unsigned index_end = length - 1;
@@ -717,7 +723,8 @@ void find_lengths(double *M, unsigned length, double dt,
         vehicle->lengths[i + 1] = axle_locations[i] - current_index;
         current_index = axle_locations[i];
     }
-    vehicle->lengths[num_axles + 1] = index_end - axle_locations[num_axles - 1];
+    vehicle->lengths[num_axles + 1] =
+            index_end - axle_locations[num_axles - 1];
 
     if (is_verbosity_at_least(DEBUG)) {
         printf(" Wartości odległości\n");
@@ -742,10 +749,28 @@ void find_lengths(double *M, unsigned length, double dt,
     //zerowanie pozostałych pól
     for (unsigned i = num_axles + 2; i < 7; i++) vehicle->lengths[i] = 0;
 
+    //sprawdzam poprawność danych
+    double sum_lengths = 0;
+    for (unsigned i = 1; i < num_axles + 2; i++) {
+        sum_lengths += vehicle->lengths[i];
+    }
+    if (sum_lengths >
+        vehicle->lengths[0] + 0.02) { // 0.02 - wartość dopuszczalnego błędu
+        // błędne dane, zerowanie wszystkich wartości
+        // poza odległościami pomiędzy osiami
+        vehicle->lengths[0] = 0;
+        vehicle->lengths[1] = 0;
+        for (unsigned i = num_axles + 2; i < 7; i++) vehicle->lengths[i] = 0;
+
+        if (is_verbosity_at_least(DEBUG)) {
+            puts("Błąd algorytmu - suma odległości pomiędzy osiami większa od długości pojazdu.");
+        }
+    }
     if (is_verbosity_at_least(DEBUG)) {
         printf(" Wartości odległości\n");
         for (unsigned i = 0; i <= num_axles + 1; i++) {
             printf("  s%d = %.3f\n", i, vehicle->lengths[i]);
         }
     }
+
 }
