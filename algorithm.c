@@ -45,6 +45,8 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
     unsigned Lx, Lm;                // wartości liczników dla sygnałów X oraz M.
     unsigned num_axles;             // ilość osi
     unsigned axle_locations[5];     // zmienna pomocnicza, przechowująca numery próbek z przybliżonymi położeniami osi
+    unsigned piezo_axle_locations[5]; // jak wyżej, wykorzystywana w przypadku weryfikacji wyników z piezo
+
     //nastawy algorytmu
     //w porównaniu do matlaba, a_b = r, Y = S, H = H
     double a_b, Y, H;
@@ -184,7 +186,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
             n = n->next;
         }
 
-        piezo_axles = counter(P1, length, 2, 0.1, NULL);
+        piezo_axles = counter(P1, length, 2, 0.1, piezo_axle_locations);
 
         if (is_verbosity_at_least(DEBUG)) {
             printf("  Pierwsza faza testu piezo zakończona.\n  osie = %d\n",
@@ -215,7 +217,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
 
             //ostatni etap weryfikacji, licznik impulsów dla sygnału CP
             // licznik - próg = 8, histereza = 0
-            piezo_axles = counter(CP, length, 8, 0, NULL);
+            piezo_axles = counter(CP, length, 8, 0, piezo_axle_locations);
 
 
             if (is_verbosity_at_least(DEBUG)) {
@@ -223,11 +225,15 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
                        piezo_axles);
             }
         }
-        vehicle.piezo = piezo_axles;
+        vehicle.piezo_axles = piezo_axles;
     }
 
     if (check_lengths) {
         find_lengths(vector, axle_locations, &vehicle);
+
+        if (verify) {
+            find_lengths_piezo(vector, piezo_axle_locations, &vehicle);
+        }
     }
 
     return vehicle;
@@ -656,6 +662,7 @@ void find_lengths(data_vector_t *v,
         }
         return;
     }
+
     const double dt = v->head->next->data[DATA_T] - v->head->data[DATA_T];
     const unsigned length = v->trim_back;
     //tworzenie sygnalu m
@@ -723,8 +730,7 @@ void find_lengths(data_vector_t *v,
         vehicle->lengths[i + 1] = axle_locations[i] - current_index;
         current_index = axle_locations[i];
     }
-    vehicle->lengths[num_axles + 1] =
-            index_end - axle_locations[num_axles - 1];
+    vehicle->lengths[num_axles + 1] = index_end - axle_locations[num_axles - 1];
 
     if (is_verbosity_at_least(DEBUG)) {
         printf(" Wartości odległości\n");
@@ -754,8 +760,8 @@ void find_lengths(data_vector_t *v,
     for (unsigned i = 1; i < num_axles + 2; i++) {
         sum_lengths += vehicle->lengths[i];
     }
-    if (sum_lengths >
-        vehicle->lengths[0] + 0.02) { // 0.02 - wartość dopuszczalnego błędu
+    if (sum_lengths > vehicle->lengths[0] + 0.02) {
+        // 0.02 - wartość dopuszczalnego błędu
         // błędne dane, zerowanie wszystkich wartości
         // poza odległościami pomiędzy osiami
         vehicle->lengths[0] = 0;
@@ -767,10 +773,54 @@ void find_lengths(data_vector_t *v,
         }
     }
     if (is_verbosity_at_least(DEBUG)) {
-        printf(" Wartości odległości\n");
+        printf(" Wartości odległości [m]\n");
         for (unsigned i = 0; i <= num_axles + 1; i++) {
             printf("  s%d = %.3f\n", i, vehicle->lengths[i]);
         }
     }
+}
 
+void find_lengths_piezo(data_vector_t *v, unsigned axle_locations[5],
+                        vehicle_data_t *vehicle) {
+    const double dt = v->head->next->data[DATA_T] - v->head->data[DATA_T];
+    const unsigned num_axles = vehicle->piezo_axles;
+
+    if (num_axles < 2) {
+        if (is_verbosity_at_least(DEBUG)) {
+            puts(" Nie udało się odnaleźć poprawnej ilości osi pojazdu, algorytm wyznaczania odległości piezo kończy działanie.\n");
+        }
+        return;
+    }
+    if (is_verbosity_at_least(DEBUG)) {
+        puts(" Procedura wykrywania położenia osi z odczytów piezo.");
+        printf("  Liczba osi: %d\n", num_axles);
+        for (unsigned i = 0; i < num_axles; i++) {
+            printf("  Położenie osi %d: %d\n", i, axle_locations[i]);
+        }
+        printf("  Prędkość pojazdu: %.2f[m/s]\n", vehicle->velocity);
+        printf("  dt: %f\n", dt);
+    }
+
+    for (unsigned i = 0; i < num_axles - 1; i++) {
+        vehicle->piezo_lengths[i] = axle_locations[i + 1] - axle_locations[i];
+    }
+    for (unsigned i = num_axles - 1; i < 5; i++) {
+        vehicle->piezo_lengths[i] = 0;
+    }
+
+    if (is_verbosity_at_least(DEBUG)) {
+        printf(" Wartości odległości\n");
+        for (unsigned i = 0; i < num_axles - 1; i++) {
+            printf("  s%d = %.0f\n", i, vehicle->piezo_lengths[i]);
+        }
+    }
+    for (unsigned i = 0; i < num_axles - 1; i++) {
+        vehicle->piezo_lengths[i] *= dt * vehicle->velocity;
+    }
+    if (is_verbosity_at_least(DEBUG)) {
+        printf(" Wartości odległości [m]\n");
+        for (unsigned i = 0; i < num_axles - 1; i++) {
+            printf("  s%d = %.3f\n", i, vehicle->piezo_lengths[i]);
+        }
+    }
 }

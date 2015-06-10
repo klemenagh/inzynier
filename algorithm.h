@@ -64,5 +64,10 @@ unsigned counter(double *, unsigned, double, double, unsigned *);
  */
 void find_lengths(data_vector_t *, unsigned[5], vehicle_data_t *);
 
+/*
+ * funkcja analogiczna do powyższej, służąca do wyznaczenia odległości pomiędzy osiami na podstawie odczytów piezo
+ */
+void find_lengths_piezo(data_vector_t *, unsigned[5], vehicle_data_t *);
+
 #endif //INZYNIER_ALGORITHM_H
 

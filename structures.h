@@ -50,8 +50,9 @@ typedef enum vehicle_class {
 typedef struct vehicle_data {
     vehicle_class class;    // zawiera informacje na temat klasy pojazdu
     double velocity;        // prędkość pojazdu
-    unsigned piezo;         // liczba osi zliczona przy pomocy piezo (tylko jeśli wywołana była opcja weryfikacji!)
+    unsigned piezo_axles;   // liczba osi zliczona przy pomocy piezo (tylko jeśli wywołana była opcja weryfikacji!)
     double lengths[7];
+    double piezo_lengths[4];// odległości pomiędzy poszczególnymi osiami (tylko jeśli wywołana była weryfikacja piezo)
     /*
      * pola w zmiennej lengths:
      *  0   długość pojazdu

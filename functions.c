@@ -95,57 +95,46 @@ bool read_stream(FILE *s, data_vector_t *vector) {
 void handle_output(vehicle_data_t vehicle, bool piezo_verify,
                    bool compute_positions, char *filename) {
     char str[160] = "";
-    char position_data[20];
+    char tmp[20];
+
     if (filename != NULL) strcat(str, filename);
     else strcat(str, "stdin");
-    switch (vehicle.class) {
-        case
-            POJAZD_2OS:
-            strcat(str, " 2");
-            break;
-        case
-            POJAZD_3OS:
-            strcat(str, " 3");
-            break;
-        case
-            POJAZD_4OS:
-            strcat(str, " 4");
-            break;
-        case
-            POJAZD_5OS:
-            strcat(str, " 5");
-            break;
-        case
-            POJAZD_5OS_UP:
-            strcat(str, " 5up");
-            break;
-        case
-            INVALID:
-        default:
-            strcat(str, " error");
-            break;
-    }
+
+    if (vehicle.class == POJAZD_5OS_UP) strcpy(tmp, " 5up");
+    else if (vehicle.class == INVALID) strcpy(tmp, " error");
+    else sprintf(tmp, " %u", (unsigned) vehicle.class);
+
+    strcat(str, tmp);
     if (compute_positions) {
         const unsigned num_axles = (vehicle.class == POJAZD_5OS_UP) ? 5
                                                                     : (unsigned) vehicle.class;
         for (unsigned i = 0; i <= num_axles + 1; i++) {
-            sprintf(position_data, " %.3f", vehicle.lengths[i]);
-            strcat(str, position_data);
+            sprintf(tmp, " %.3f", vehicle.lengths[i]);
+            strcat(str, tmp);
         }
     }
     strcat(str, "\n");
     if (piezo_verify) {
-        strcat(str, vehicle.piezo == (unsigned) vehicle.class ? "piezo ok\n"
-                                                              : "piezo error\n");
+        sprintf(tmp, "piezo %u", vehicle.piezo_axles);
+        strcat(str, tmp);
+
+        if (compute_positions && vehicle.piezo_axles >= 2 &&
+            vehicle.piezo_axles <= 5) {
+            for (unsigned i = 0; i < vehicle.piezo_axles - 1; i++) {
+                sprintf(tmp, " %.3f", vehicle.piezo_lengths[i]);
+                strcat(str, tmp);
+            }
+        }
+        strcat(str, "\n");
     }
 
-    if (is_verbosity_at_least(RELEASE)){
+    if (is_verbosity_at_least(RELEASE)) {
         printf("%s", str);
         fflush(stdout);
     }
 
-    if(output_filename[0] != '\0') { //zapis do pliku o podanej nazwie
-        FILE * f = fopen(output_filename, "a");
+    if (output_filename[0] != '\0') { //zapis do pliku o podanej nazwie
+        FILE *f = fopen(output_filename, "a");
         fprintf(f, "%s", str);
         fclose(f);
     }
