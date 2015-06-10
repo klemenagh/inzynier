@@ -10,7 +10,7 @@
 data_vector_t *init_data_vector() {
     data_vector_t *v;
     v = malloc(sizeof(data_vector_t));
-    if (v == NULL) exit(ENOMEM); //not enough memory
+    if (v == NULL) exit(ENOMEM); //błąd alokacji
     v->head = 0;
     v->tail = 0;
     v->length = 0;
@@ -25,7 +25,7 @@ data_cell_t *pushback_data(data_vector_t *v, double data[13]) {
 
     for (int i = 0; i < 13; i++) n->data[i] = data[i];
 
-    if (n == NULL) exit(ENOMEM); //not enough memory
+    if (n == NULL) exit(ENOMEM); //błąd alokacji
     n->next = NULL;
     if (v->head == NULL) {
         v->head = n;
@@ -42,7 +42,7 @@ data_cell_t *pushback_data(data_vector_t *v, double data[13]) {
 }
 
 void clear_data_vector(data_vector_t *vector) {
-    //removes all entries from given vector
+    //wyzeruj zawartość wektora
 
     if (vector == NULL || vector->length == 0) return;
 

@@ -70,7 +70,6 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
             puts(" Liczba próbek sygnału Lm = 0.");
             // można przyjąć, że stosunek Lx/Lm = 0 i kontynuować pracę
         }
-//        return INVALID; // 0 probek spełniających warunek!
     }
 
     if (1.0 * Lx > 0.1 * Lm) { //wybor nastaw zestawu A
@@ -217,8 +216,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
 
             //ostatni etap weryfikacji, licznik impulsów dla sygnału CP
             // licznik - próg = 8, histereza = 0
-            piezo_axles = counter(CP, length, 8, 0, piezo_axle_locations);
-
+            piezo_axles = counter(CP, length, 8, 0, NULL); //todo NULL czy piezo_axle_locations
 
             if (is_verbosity_at_least(DEBUG)) {
                 printf("  Druga faza testu piezo zakończona.\n  osie = %d\n",
@@ -424,7 +422,6 @@ void trim_data(data_vector_t *vector, double velocity) {
     vector->trim_front[6] = trim_front;
     trim_values(vector, DATA_P2, trim_front, trim_back);
 
-
     if (is_verbosity_at_least(DEBUG)) {
         printf(" Ilość próbek do obcięcia z przodu dla każdej pary czujników:\n");
         for (int i = 0; i < 7; i++)
@@ -436,7 +433,6 @@ void trim_data(data_vector_t *vector, double velocity) {
 void trim_values(data_vector_t *vector, data_field_t field, unsigned trim_front,
                  unsigned trim_back) {
 
-    //todo ?
     trim_front--;
     trim_back++;
 
@@ -491,8 +487,6 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
         signal[i].r = 0;
         signal[i].i = 0;
     }
-
-//    for(unsigned i = 0; i < nfft; i++) printf("%f %f\n", re[i], im[i]);
 
     kiss_fft_cfg cfg = kiss_fft_alloc(nfft, 0, 0, 0);
     kiss_fft(cfg, signal, fft);
@@ -653,7 +647,6 @@ void find_lengths(data_vector_t *v,
      * dt opisuje ilość czasu pomiędzy dwoma kolejnymi próbkami
      */
 
-    // todo
     // pętla 1m sqrt(R1^2 + X1^2)
     // p. odcięcia 0.5V
     if (vehicle->class == INVALID) {
