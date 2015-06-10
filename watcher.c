@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <sys/inotify.h>
 #include <sys/types.h>
+#include <signal.h>
 #include <unistd.h>
 #include <string.h>
 #include <getopt.h>
@@ -24,6 +25,16 @@
 #define BUF_LEN     ( 1024 * ( EVENT_SIZE + 16 ) )
 
 int debug;
+static volatile int work = 1;
+
+void signal_handler(int signo) {
+    if (signo == SIGINT) {
+        if (debug) {
+            fputs(" Przechwycono sygnał ctrl-c, przerywanie...", stderr);
+        }
+        work = 0;
+    }
+}
 
 static void read_file_to_stdout(char *filename) {
     if (debug) {
@@ -113,16 +124,23 @@ int main(int argc, char **argv) {
         directory_wds[i - optind] = wd;
     }
 
-    while (1) {
+    //obsługa ctrl-c
+    signal(SIGINT, signal_handler);
+
+    while (work) {
         if (debug) {
             fprintf(stderr, "Oczekiwanie na event\n");
         }
         num_read = read(fd, buffer, BUF_LEN);
 
+        if (work == 0) {
+            // przechwycono SIGNINT w czasie odczytu
+            break;
+        }
         if (num_read <= 0) perror("read");
 
         if (debug) {
-            fprintf(stderr, "Read %ld bytes from inotify fd\n",
+            fprintf(stderr, "Przeczytano %ld bajtów z inotify fd\n",
                     (long) num_read);
         }
         for (p = buffer; p < buffer + num_read;) {
