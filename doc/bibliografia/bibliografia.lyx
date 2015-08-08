@@ -1,0 +1,281 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass aghdpl
+\begin_preamble
+% \documentclass{aghdpl}               % przy kompilacji programem latex
+% \documentclass[pdflatex,en]{aghdpl}  % praca w języku angielskim
+% dodatkowe pakiety
+\usepackage{enumerate}
+\usepackage{listings}
+\lstloadlanguages{TeX}
+\usepackage{caption} 
+\captionsetup[figure]{labelformat=simple, labelsep=period}
+\captionsetup[table]{labelformat=simple, labelsep=period}
+%\captionsetup{font=small}
+\captionsetup{margin=10pt, font={small}, labelfont=bf, format=hang}
+\usepackage{esint}
+\clubpenalty = 10000
+\widowpenalty = 10000
+%\usepackage{graphicx}
+%\usepackage{grfext}
+%\AtBeginDocument{%
+% \PrependGraphicsExtensions*{
+%    .mps,.MPS,.pdf,.PDF,.eps,.EPS,.ps,.PS,
+%    .png,.PNG,.jpg,.jpeg,.JPG,.JPEG,
+%    .funny,.foobar
+%  }%
+%  \PrintGraphicsExtensions % see .log file
+%}
+% \usepackage[style=numeric-comp]{biblatex}
+% \setlength{\itemsep}{-1\parsep}
+%---------------------------------------------------------------------------
+%\usepackage{epstopdf}
+\end_preamble
+\options pdflatex
+\use_default_options true
+\maintain_unincluded_children false
+\language polish
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman utopia
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics none
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex
+\index_command default
+\float_placement H
+\paperfontsize 12
+\spacing onehalf
+\use_hyperref true
+\pdf_title "dyplom"
+\pdf_author "Imie Nazwisko"
+\pdf_subject "Temat"
+\pdf_keywords "słowa kluczowe"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered true
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 0
+\use_package amssymb 0
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 0
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Indeks
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language polish
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 3
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{Wojciech Gumuła}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+shortauthor{W.
+ Gumuła}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+titlePL{Implementacja algorytmu detekcji osi pojazdów samochodowych w oparciu
+ o profile R i X}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+titleEN{Implementation of algorithm for vehicle axles detection based on
+ R and X-profile}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+shorttitle{Detekcja ilości osi pojazdów}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+faculty{Wydział Elektrotechniki, Automatyki,
+\backslash
+
+\backslash
+Informatyki i Inżynierii Biomedycznej}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+division{}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+specialization{Automatyka i Robotyka}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+thesistype{Praca dyplomowa inżynierska}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+supervisor{dr inż.
+ Zbigniew Marszałek}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+acknowledgements{Wymaga odkomentowania linijek w aghdpl.cls} 
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+date{2015} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+titlepages
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{tocdepth}{1}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Poniżej przedstawiam wstępną formę bibliografii wraz z krótkim uzasadnieniem
+ istnienia każdego wpisu.
+ Nie jest to w żadnej formie wersja ostateczna, a po prostu źródła, z którymi
+ miałem kontakt w trakcie tworzenia programu lub wcześniej, ale poruszące
+ istotne teraz zagadnienia.
+ Ponadto załączyłem wpisy dla dokumentacji języków, z których korzystam
+ w projekcie - są to dla mnie podstawowe źródła wiedzy w trakcie pisania,
+ korzystanie z nich uważam za znacznie bardziej praktyczne niż każdorazowe
+ szukanie problematycznego zagadnienia w 
+\begin_inset Quotes pld
+\end_inset
+
+bibliach
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Dodatkowo załączyłem linki opisujące podstawowe zagadnienia pracy z sygnałami,
+ pipe-ami, obsługę argumentów programu, biblioteką inotify.
+\end_layout
+
+\begin_layout Standard
+Być może większość z tych pozycji nie znajdzie zastosowania w trakcie pisania
+ tekstu, jednak uważam je za dobry zbiór na start, który będę uzupełniać
+ na bieżąco.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintAll"
+bibfiles "bibliografia"
+options "bibtotoc,plplain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
