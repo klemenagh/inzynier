@@ -53,11 +53,9 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
     vehicle_data_t vehicle;
     vehicle.velocity = velocity;
 
-    data_cell_t *n = vector->head;
     for (unsigned i = 0; i < length; i++) {
-        R[i] = n->data[DATA_R01];
-        X[i] = n->data[DATA_X01];
-        n = n->next;
+        R[i] = vector->vector[i].data[DATA_R01];
+        X[i] = vector->vector[i].data[DATA_X01];
 
         M[i] = pow(R[i], 2) + pow(X[i], 2);
     }
@@ -179,10 +177,8 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
         unsigned piezo_axles = 0;
         double P1[length];
 
-        n = vector->head;
         for (unsigned i = 0; i < length; i++) {
-            P1[i] = n->data[DATA_P1];
-            n = n->next;
+            P1[i] = vector->vector[i].data[DATA_P1];
         }
 
         piezo_axles = counter(P1, length, 2, 0.1, piezo_axle_locations);
@@ -216,7 +212,8 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
 
             //ostatni etap weryfikacji, licznik impulsów dla sygnału CP
             // licznik - próg = 8, histereza = 0
-            piezo_axles = counter(CP, length, 8, 0, NULL); //todo NULL czy piezo_axle_locations
+            piezo_axles = counter(CP, length, 8, 0,
+                                  NULL); //todo NULL czy piezo_axle_locations
 
             if (is_verbosity_at_least(DEBUG)) {
                 printf("  Druga faza testu piezo zakończona.\n  osie = %d\n",
@@ -244,9 +241,9 @@ void remove_offset(data_vector_t *vector, unsigned num) {
         exit(EINVAL);
     }
 
-    if (num > vector->length) {
-        fputs("Ilość próbek do usuwania offsetu musi być mniejsza od długości wektora!\n",
-              stderr);
+    if (num > vector->size) {
+        fprintf(stderr, "Ilość próbek do usuwania offsetu musi być mniejsza od długości wektora!\n"
+                      "Ilość próbek: %d, długość wektora: %d\n", num, vector->size);
         exit(EINVAL);
     }
 
@@ -255,24 +252,20 @@ void remove_offset(data_vector_t *vector, unsigned num) {
      */
     double offsets[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-    data_cell_t *n = vector->head;
     for (unsigned i = 0; i < num; i++) {
         for (unsigned j = 1; j < 13; j++) {
-            offsets[j - 1] += n->data[j];
+            offsets[j - 1] += vector->vector[i].data[j];
         }
-        n = n->next;
     }
 
     //wyznaczenie ostatenczej wartości offsetu dla każdego wektora
     for (int i = 0; i < 12; i++) offsets[i] /= num;
 
     //przesunięcie wszystkich wartości w wektorze o zadany offset
-    n = vector->head;
-    for (unsigned i = 0; i < vector->length; i++) {
+    for (unsigned i = 0; i < vector->size; i++) {
         for (unsigned j = 1; j < 13; j++) {
-            n->data[j] -= offsets[j - 1];
+            vector->vector[i].data[j] -= offsets[j - 1];
         }
-        n = n->next;
     }
 
     if (is_verbosity_at_least(DEBUG)) {
@@ -314,29 +307,27 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
     int index1[2] = {0, 0};
     int index2[2] = {0, 0};
 
-    data_cell_t *n = vector->head;
-    for (unsigned i = 0; i < vector->length; i++) {
+    for (unsigned i = 0; i < vector->size; i++) {
 
         //piezo 1
-        if (n->data[DATA_P1] >= p1 && is_impulse1 == false) {
+        if (vector->vector[i].data[DATA_P1] >= p1 && is_impulse1 == false) {
             is_impulse1 = true;
             num_impulse1 += 1;
             if (num_impulse1 <= 2) index1[num_impulse1 - 1] = i;
         }
-        else if (n->data[DATA_P1] < p2 && is_impulse1 == true) {
+        else if (vector->vector[i].data[DATA_P1] < p2 && is_impulse1 == true) {
             is_impulse1 = false;
         }
 
         //piezo2
-        if (n->data[DATA_P2] >= p1 && is_impulse2 == false) {
+        if (vector->vector[i].data[DATA_P2] >= p1 && is_impulse2 == false) {
             is_impulse2 = true;
             num_impulse2 += 1;
             if (num_impulse2 <= 2) index2[num_impulse2 - 1] = i;
         }
-        else if (n->data[DATA_P2] < p2 && is_impulse2 == true) {
+        else if (vector->vector[i].data[DATA_P2] < p2 && is_impulse2 == true) {
             is_impulse2 = false;
         }
-        n = n->next;
     }
 
     double t1 = 0; //czas do wyznaczania prędkości
@@ -346,7 +337,7 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
     t2 = (index1[1] - index1[0] + index2[1] - index2[0]) / 2.0;
 
     //konwersja na s
-    double dt = vector->head->next->data[DATA_T] - vector->head->data[DATA_T];
+    double dt = vector->vector[1].data[DATA_T] - vector->vector[0].data[DATA_T];
     t1 *= dt;
     t2 *= dt;
 
@@ -368,8 +359,8 @@ void trim_data(data_vector_t *vector, double velocity) {
     double sensor_distance; // odległość dla każdej pary czujników
     unsigned trim_front; // ilość próbek do obcięcia z przodu
     unsigned trim_back;     // ilość próbek do obcięcia na końcu
-    const double dt = vector->head->next->data[DATA_T]   // różnica czasów
-                      - vector->head->data[DATA_T];     // między próbkami
+    const double dt = vector->vector[1].data[DATA_T]   // różnica czasów
+                      - vector->vector[0].data[DATA_T];// między próbkami
 
     //ograniczenie z tylu
     trim_back = (unsigned) (25.0 / velocity / dt);
@@ -436,29 +427,12 @@ void trim_values(data_vector_t *vector, data_field_t field, unsigned trim_front,
     trim_front--;
     trim_back++;
 
-    data_cell_t *old, *new;
-
-    old = vector->head;
-    new = old;
     unsigned i = 0;
-    for (i = 0; i < trim_front; i++) new = new->next;
-    for (i = 0; i <= trim_back; i++) {
-        old->data[field] = new->data[field];
-        old = old->next;
-        new = new->next;
-
-        if (new == NULL) break; //osiagnieto koniec wektora
+    for (i = 0; i <= trim_back && i < vector->size; i++) {
+        vector->vector[i].data[field] = vector->vector[i + trim_front].data[field];
     }
-
-    //jeśli osiągnięto koniec wektora zbyt wcześnie, wypełnij brakujące elemety
-    // wartościami 0
-    for (; i < trim_back && old != NULL; i++) {
-        old->data[field] = 0;
-        old = old->next;
-    }
-
-    for (; old != NULL; old = old->next) {
-        old->data[field] = 0;
+    for (; i < vector->size; i++) {
+        vector->vector[i].data[field] = 0;
     }
 }
 
@@ -476,12 +450,10 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
     kiss_fft_cpx *fft = (kiss_fft_cpx *) malloc(buflen);
     kiss_fft_cpx *reverse = (kiss_fft_cpx *) malloc(buflen);
 
-    data_cell_t *n = vector->head;
     for (unsigned i = 0; i < vector->trim_back; i++) {
-        signal[i].r = (float) (10 * sqrt(pow(n->data[DATA_R3], 2) +
-                                         pow(n->data[DATA_X3], 2)));
+        signal[i].r = (float) (10 * sqrt(pow(vector->vector[i].data[DATA_R3], 2)
+                                         + pow(vector->vector[i].data[DATA_X3], 2)));
         signal[i].i = 0;
-        n = n->next;
     }
     for (unsigned i = vector->trim_back; i < nfft; i++) {
         signal[i].r = 0;
@@ -584,9 +556,9 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
     }
     vector->trim_back = w_end - w_start + 1;
     //usun offset czasu, by probka zaczynała się od t = 0
-    double time_offset = vector->head->data[DATA_T];
-    for (data_cell_t *m = vector->head; m != NULL; m = m->next) {
-        m->data[DATA_T] -= time_offset;
+    double time_offset = vector->vector[0].data[DATA_T];
+    for (unsigned i = 0; i < vector->size; i++) {
+        vector->vector[i].data[DATA_T] -= time_offset;
     }
 }
 
@@ -643,7 +615,7 @@ void find_lengths(data_vector_t *v,
                   unsigned axle_locations[5],
                   vehicle_data_t *vehicle) {
     /*
-     * wektor M zawiera length próbek sygnału R_01^2 + X_01^2
+     * wektor M zawiera size próbek sygnału R_01^2 + X_01^2
      * dt opisuje ilość czasu pomiędzy dwoma kolejnymi próbkami
      */
 
@@ -656,14 +628,13 @@ void find_lengths(data_vector_t *v,
         return;
     }
 
-    const double dt = v->head->next->data[DATA_T] - v->head->data[DATA_T];
-    const unsigned length = v->trim_back;
+    const double dt = v->vector[1].data[DATA_T] - v->vector[0].data[DATA_T];
+    const unsigned length = v->size;
     //tworzenie sygnalu m
     double M[length];
-    data_cell_t *n = v->head;
-    for (unsigned i = 0; i < length && n != NULL; i++) {
-        M[i] = pow(n->data[DATA_R1], 2) + pow(n->data[DATA_X1], 2);
-        n = n->next;
+    for (unsigned i = 0; i < length; i++) {
+        M[i] = pow(v->vector[i].data[DATA_R1], 2)
+               + pow(v->vector[i].data[DATA_X1], 2);
     }
     const unsigned num_axles =
             (vehicle->class == POJAZD_5OS_UP) ? 5 : (unsigned) vehicle->class;
@@ -775,7 +746,7 @@ void find_lengths(data_vector_t *v,
 
 void find_lengths_piezo(data_vector_t *v, unsigned axle_locations[5],
                         vehicle_data_t *vehicle) {
-    const double dt = v->head->next->data[DATA_T] - v->head->data[DATA_T];
+    const double dt = v->vector[1].data[DATA_T] - v->vector[0].data[DATA_T];
     const unsigned num_axles = vehicle->piezo_axles;
 
     if (num_axles < 2) {

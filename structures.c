@@ -5,88 +5,57 @@
 #include "structures.h"
 #include <stdlib.h>
 #include <errno.h>
-#include <stdio.h>
+#include <string.h>
 
 data_vector_t *init_data_vector() {
+    const unsigned initial_size = 4;
     data_vector_t *v;
-    v = malloc(sizeof(data_vector_t));
+    v = (data_vector_t *) malloc(sizeof(data_vector_t));
     if (v == NULL) exit(ENOMEM); //błąd alokacji
-    v->head = 0;
-    v->tail = 0;
-    v->length = 0;
+
+    v->vector = (data_cell_t *) malloc(initial_size * sizeof(data_cell_t));
+    if (v->vector == NULL) exit(ENOMEM); //błąd alokacji
+
+    v->size = 0;
+    v->capacity = initial_size;
 
     return v;
 }
 
-data_cell_t *pushback_data(data_vector_t *v, double data[13]) {
+void pushback_data(data_vector_t *v, double data[13]) {
     if (v == NULL) exit(EFAULT);
 
-    data_cell_t *n = malloc(sizeof(data_cell_t));
+    if (v->size == v->capacity) resize_vector(v);
+    for (int i = 0; i < 13; i++) v->vector[v->size].data[i] = data[i];
 
-    for (int i = 0; i < 13; i++) n->data[i] = data[i];
+    v->size++;
+}
 
-    if (n == NULL) exit(ENOMEM); //błąd alokacji
-    n->next = NULL;
-    if (v->head == NULL) {
-        v->head = n;
-        v->tail = n;
-        n->next = n;
-    }
-    else {
-        v->tail->next = n;
-        v->tail = n;
-    }
-    v->length++;
+void resize_vector(data_vector_t *v) {
+    const double resize_factor = 1.5;
+    unsigned new_capacity = (unsigned) (v->capacity * resize_factor);
 
-    return n;
+    v->vector = (data_cell_t *) realloc(v->vector,
+                                        new_capacity * sizeof(data_cell_t));
+    memset(v->vector + v->capacity, 0, (new_capacity - v->capacity) * sizeof(data_cell_t));
+    if (v->vector == NULL) exit(ENOMEM);
+    v->capacity = new_capacity;
 }
 
 void clear_data_vector(data_vector_t *vector) {
-    //wyzeruj zawartość wektora
-
-    if (vector == NULL || vector->length == 0) return;
-
-    data_cell_t *n = vector->head;
-    data_cell_t *b = NULL;
-    while (n != NULL) {
-        b = n;
-        n = n->next;
-        free(b);
+    vector->size = 0;
+    vector->trim_back = 0;
+    for (unsigned i = 0; i < 7; i++) {
+        vector->trim_front[i] = 0;
     }
+}
 
+void free_data_vector(data_vector_t *vector) {
+    // uwolnij zaalokowane zasoby
+
+    if (vector == NULL || vector->capacity == 0) return;
+
+    if (vector->vector != NULL)
+        free(vector->vector);
     free(vector);
-    vector = NULL;
-}
-
-void print_data_vector(data_vector_t *v, bool verbose, bool pure) {
-    if (!pure) printf("VECTOR\n");
-    if (v == NULL) {
-        printf("Pusty wskaźnik na wektor.\n");
-        return;
-    }
-
-    if (!pure) printf("Wskaźnik: %p, \t długość: %d\n", (void *) v, v->length);
-    if (verbose) {
-        data_cell_t *n = v->head;
-        unsigned i = 0;
-        while (i++ < v->length) {
-            print_data_node(n, pure);
-            n = n->next;
-        }
-    }
-}
-
-void print_data_node(data_cell_t *n, bool pure) {
-    if (!pure)printf("NODE\n");
-    if (n == NULL) {
-        printf("Pusty wskaźnik na węzeł.\n");
-        return;
-    }
-
-    if (!pure) printf("Wskaźnik: %p\nDane:\n", (void *) n);
-    for (int i = 0; i < 13; i++) {
-        printf("%f\t", n->data[i]);
-    }
-    printf("\n");
-
 }

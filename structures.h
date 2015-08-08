@@ -75,8 +75,6 @@ typedef struct vehicle_data {
  */
 typedef struct data_cell {
     double data[13]; // dane ładowane ze strumienia
-
-    struct data_cell *next;
 } data_cell_t;
 
 /*
@@ -93,9 +91,9 @@ typedef struct data_cell {
  * //wartość trim_back jest identyczna dla wszystkich czujników
  */
 typedef struct data_vector {
-    data_cell_t *head;
-    data_cell_t *tail;
-    unsigned length;
+    data_cell_t *vector;
+    unsigned size;
+    unsigned capacity;
 
     unsigned trim_front[7];
     unsigned trim_back;
@@ -103,12 +101,12 @@ typedef struct data_vector {
 
 data_vector_t *init_data_vector();
 
-data_cell_t *pushback_data(data_vector_t *, double data[13]);
+void pushback_data(data_vector_t *, double data[13]);
+
+void resize_vector(data_vector_t *);
 
 void clear_data_vector(data_vector_t *);
 
-void print_data_vector(data_vector_t *, bool, bool);
-
-void print_data_node(data_cell_t *, bool);
+void free_data_vector(data_vector_t *);
 
 #endif //INZYNIER_STRUCTURES_H

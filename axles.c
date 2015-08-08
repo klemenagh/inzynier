@@ -12,7 +12,6 @@ extern int verbosity_level;
 extern char output_filename[80];
 
 int main(int argc, char **argv) {
-
     verbosity_level = RELEASE;
     char **filenames = NULL;
     unsigned num_files = 0;
@@ -104,11 +103,10 @@ int main(int argc, char **argv) {
         if (is_verbosity_at_least(DEBUG)) {
             fputs("Odczyt z stdin.\n", stderr);
         }
-        while (read_stdin(data) && data->length > 0) {
+        while (read_stdin(data) && data->size > 0) {
             if (is_verbosity_at_least(DEBUG)) {
-                printf("Załadowano dane. Ilość próbek: %d\n", data->length);
+                printf("Załadowano dane. Ilość próbek: %d\n", data->size);
             }
-
             vehicle = algorithm2(data, piezo_verify, compute_positions);
             handle_output(vehicle, piezo_verify, compute_positions, NULL);
 
@@ -126,7 +124,7 @@ int main(int argc, char **argv) {
 
             if (read_file(filename, data)) {
                 if (is_verbosity_at_least(DEBUG)) {
-                    printf("Załadowano dane. Ilość próbek: %d\n", data->length);
+                    printf("Załadowano dane. Ilość próbek: %d\n", data->size);
                 }
                 vehicle = algorithm2(data, piezo_verify, compute_positions);
                 handle_output(vehicle, piezo_verify, compute_positions,
@@ -135,7 +133,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    clear_data_vector(data);
+    free_data_vector(data);
 
     return EXIT_SUCCESS;
 }

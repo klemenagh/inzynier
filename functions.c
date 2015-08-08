@@ -54,10 +54,8 @@ bool read_stdin(data_vector_t *vector) {
 }
 
 bool read_stream(FILE *s, data_vector_t *vector) {
-
-    if (vector->length != 0) {
+    if (vector != NULL && vector->size != 0) {
         clear_data_vector(vector);
-        vector = init_data_vector();
     }
 
     double data[13];
@@ -77,14 +75,13 @@ bool read_stream(FILE *s, data_vector_t *vector) {
 
             if (i < 12) splitted = strtok(NULL, " \t");
         }
-        if (data[0] == 0 && vector->length > 0) {//dane kolejnego pojazdu
+        if (data[0] == 0 && vector->size > 0) {//dane kolejnego pojazdu
             //for(unsigned j = 0; buffer[j] != '\0'; j++) ungetc(buffer[j], s);
             // bez powyższej linii gubiona jest pierwsza próbka - która i tak
             // prawdopodobnie nie zawiera istotnych informacji. Nie udało się
             // napisać kodu który zwracałby pełną linię do strumienia.
             return true;
         }
-
         pushback_data(vector, data);
     }
     if (s != stdin) fclose(s);
