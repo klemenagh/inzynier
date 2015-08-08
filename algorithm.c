@@ -29,14 +29,14 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
 
     trim_to_window(vector, 30);
     if (is_verbosity_at_least(DEBUG)) {
-        printf(" Długość okna: %d\n", vector->trim_back);
+        printf(" Długość okna: %d\n", vector->size);
     }
 
     //właściwa część algorytmu
     if (is_verbosity_at_least(DEBUG)) {
         puts("\nUruchamianie algorytmu poszukiwania osi.");
     }
-    const unsigned length = vector->trim_back;
+    const unsigned length = vector->size;
     double R[length], X[length];    // tablice sygnałów R01 i X01
     double M[length];               // sygnal M = R^2 + X^2
     double Kp[length];              // sygnal K' = a_b * R + X
@@ -364,61 +364,46 @@ void trim_data(data_vector_t *vector, double velocity) {
 
     //ograniczenie z tylu
     trim_back = (unsigned) (25.0 / velocity / dt);
-    vector->trim_back = trim_back;
 
     // 1m
     sensor_distance = 1;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[0] = trim_front;
     trim_values(vector, DATA_R1, trim_front, trim_back);
     trim_values(vector, DATA_X1, trim_front, trim_back);
 
     //0.5m
     sensor_distance += 1 + 0.5;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[1] = trim_front;
     trim_values(vector, DATA_R05, trim_front, trim_back);
     trim_values(vector, DATA_X05, trim_front, trim_back);
 
     //0.3m
     sensor_distance += 1 + 0.3;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[2] = trim_front;
     trim_values(vector, DATA_R03, trim_front, trim_back);
     trim_values(vector, DATA_X03, trim_front, trim_back);
 
     //3m
     sensor_distance += 1 + 1.5 + 0.1;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[3] = trim_front;
     trim_values(vector, DATA_R3, trim_front, trim_back);
     trim_values(vector, DATA_X3, trim_front, trim_back);
 
     //0.1m
     sensor_distance += 1.5 + 1 + 1.5;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[4] = trim_front;
     trim_values(vector, DATA_R01, trim_front, trim_back);
     trim_values(vector, DATA_X01, trim_front, trim_back);
 
     //piezo 1
     sensor_distance += 1 + 1.5 + 1.1 + 1 + 1;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[5] = trim_front;
     trim_values(vector, DATA_P1, trim_front, trim_back);
 
     //piezo 2
     sensor_distance += 1;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
-    vector->trim_front[6] = trim_front;
     trim_values(vector, DATA_P2, trim_front, trim_back);
-
-    if (is_verbosity_at_least(DEBUG)) {
-        printf(" Ilość próbek do obcięcia z przodu dla każdej pary czujników:\n");
-        for (int i = 0; i < 7; i++)
-            printf("  przód#%d %5d\n", i, vector->trim_front[i]);
-        printf("  tył     %5d\n", vector->trim_back);
-    }
 }
 
 void trim_values(data_vector_t *vector, data_field_t field, unsigned trim_front,
@@ -434,12 +419,14 @@ void trim_values(data_vector_t *vector, data_field_t field, unsigned trim_front,
     for (; i < vector->size; i++) {
         vector->vector[i].data[field] = 0;
     }
+
+    vector->size = trim_back;
 }
 
 void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
 
     unsigned nfft;
-    for (nfft = 2; nfft < vector->trim_back; nfft *= 2);
+    for (nfft = 2; nfft < vector->size; nfft *= 2);
 
     if (is_verbosity_at_least(DEBUG)) printf(" Wartość nfft to %5d\n", nfft);
 
@@ -450,12 +437,12 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
     kiss_fft_cpx *fft = (kiss_fft_cpx *) malloc(buflen);
     kiss_fft_cpx *reverse = (kiss_fft_cpx *) malloc(buflen);
 
-    for (unsigned i = 0; i < vector->trim_back; i++) {
+    for (unsigned i = 0; i < vector->size; i++) {
         signal[i].r = (float) (10 * sqrt(pow(vector->vector[i].data[DATA_R3], 2)
                                          + pow(vector->vector[i].data[DATA_X3], 2)));
         signal[i].i = 0;
     }
-    for (unsigned i = vector->trim_back; i < nfft; i++) {
+    for (unsigned i = vector->size; i < nfft; i++) {
         signal[i].r = 0;
         signal[i].i = 0;
     }
@@ -488,8 +475,8 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
      * ifft matlaba.
      */
 
-    double sig_out[vector->trim_back];
-    for (unsigned i = 0; i < vector->trim_back; i++) {
+    double sig_out[vector->size];
+    for (unsigned i = 0; i < vector->size; i++) {
         sig_out[i] = 2.0 * reverse[i].r / nfft;
     }
 
@@ -519,7 +506,7 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
                offset);
     }
 
-    for (unsigned i = 0; i < vector->trim_back; i++) sig_out[i] -= offset;
+    for (unsigned i = 0; i < vector->size; i++) sig_out[i] -= offset;
 
     if (is_verbosity_at_least(ALL)) {
         printf(" Sygnał po usunięciu offsetu:\n");
@@ -531,10 +518,10 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
      * Wyszukiwanie okna w sygnale sig_out.
      */
     unsigned w_start = 0;
-    unsigned w_end = vector->trim_back - 1;
+    unsigned w_end = vector->size - 1;
     bool in_window = false;
 
-    for (unsigned i = 0; i < vector->trim_back; i++) {
+    for (unsigned i = 0; i < vector->size; i++) {
         if (sig_out[i] > 0.8 && in_window == false) {
             in_window = true;
             w_start = i;
@@ -554,7 +541,7 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
     for (int i = 0; i < 13; i++) { //dla każdej składowej wektora
         trim_values(vector, (data_field_t) i, w_start + 1, w_end - w_start);
     }
-    vector->trim_back = w_end - w_start + 1;
+    vector->size = w_end - w_start + 1;
     //usun offset czasu, by probka zaczynała się od t = 0
     double time_offset = vector->vector[0].data[DATA_T];
     for (unsigned i = 0; i < vector->size; i++) {

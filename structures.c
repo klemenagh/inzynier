@@ -44,10 +44,6 @@ void resize_vector(data_vector_t *v) {
 
 void clear_data_vector(data_vector_t *vector) {
     vector->size = 0;
-    vector->trim_back = 0;
-    for (unsigned i = 0; i < 7; i++) {
-        vector->trim_front[i] = 0;
-    }
 }
 
 void free_data_vector(data_vector_t *vector) {

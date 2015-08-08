@@ -94,9 +94,6 @@ typedef struct data_vector {
     data_cell_t *vector;
     unsigned size;
     unsigned capacity;
-
-    unsigned trim_front[7];
-    unsigned trim_back;
 } data_vector_t;
 
 data_vector_t *init_data_vector();
