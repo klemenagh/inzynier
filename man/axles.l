@@ -74,7 +74,7 @@ watcher ścieżka/do/katalogu/ | axles \-q \-o plik_wyjściowy.db
 Będzie pracować w trybie oczekiwania na dane, a wyniki wyśle do podanego pliku. Przełącznik \-q sprawi, że wyniki nie pojawią się w strumieniu wyjściowym.
 .TP
 watcher ./data | axles \-p | gui
-Przeeprowadzi obliczenia ilości osi i ich położenia, a wyniki przedstawi w formie graficznej.
+Przeprowadzi obliczenia ilości osi i ich położenia, a wyniki przedstawi w formie graficznej.
 .SH AUTHORS
 Program został napisany w ramach pracy inżynierskiej studenta AGH \fBWojciecha Gumuła\fR pod kierunkiem i na bazie rozprawy doktorskiej dr. \fBZbigniewa Marszałka\fR.
 .SH SEE ALSO
