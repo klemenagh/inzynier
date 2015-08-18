@@ -30,7 +30,7 @@ static volatile int work = 1;
 void signal_handler(int signo) {
     if (signo == SIGINT) {
         if (debug) {
-            fputs(" Przechwycono sygnał ctrl-c, przerywanie...", stderr);
+            fputs(" Przechwycono sygnał ctrl-c, przerywanie...\n", stderr);
         }
         work = 0;
     }
@@ -38,7 +38,7 @@ void signal_handler(int signo) {
 
 static void read_file_to_stdout(char *filename) {
     if (debug) {
-        fprintf(stderr, "Reading file: %s\n", filename);
+        fprintf(stderr, "Odczytywanie pliku: %s\n", filename);
     }
 
     FILE *f = fopen(filename, "r");
