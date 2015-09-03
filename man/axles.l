@@ -29,7 +29,7 @@ Zapis wyników do pliku.
 Uproszczona prezentacja graficzna wyników.
 .SH OPTIONS
 .TP
-.BR \-\-piezo ", " \-\-verify ", " \-v
+.BR \-\-piezo ", " \-\-verify ", " \-c
 Przeprowadź weryfikację wyniku na podstawie odczytu z piezo.
 .TP
 .BR \-\-positions ", " \-p
@@ -60,13 +60,13 @@ axles odczyt.lvm
 Wyznacz liczbę osi pojazdu, dla którego pomiar znajduje się w pliku odczyt.lvm i wypisz tę wartość na wyjście.
 Wyjście przyjmie postać \fBodczyt.lvm 2\fR, przy założeniu, że pojazd posiada dwie osie.
 .TP
-axles \-p \-v ścieżka/do/katalogu/*.lvm
+axles \-p \-c ścieżka/do/katalogu/*.lvm
 Wyznacz wartości liczby osi i ich położenia, oraz weryfikację na podstawie piezo dla wszystkich plików z rozszerzeniem lvm wewnątrz podanego katalogu.
 .TP
 cat odczyt.lvm | axles
 Zachowa się analogicznie jak w pierwszym przykładzie.
 .TP
-watcher ścieżka/do/katalogu/ | axles \-p \-v
+watcher ścieżka/do/katalogu/ | axles \-p \-c
 Będzie pracować w trybie oczekiwania na dane ze strumienia wejściowego, a kiedy pojawią się, wyznaczy ilość osi, ich położenie i zweryfikuje wynik przy pomocy piezo.
 Wyniki wyśle na standardowe wyjście.
 .TP

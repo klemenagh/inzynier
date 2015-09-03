@@ -25,14 +25,15 @@ int main(int argc, char **argv) {
             {"all",       no_argument,       NULL, 'a'},
             {"quiet",     no_argument,       NULL, 'q'},
             {"verbose",   required_argument, NULL, 's'},
-            {"verify",    no_argument,       NULL, 'v'},
-            {"piezo",     no_argument,       NULL, 'v'},
+            {"verify",    no_argument,       NULL, 'c'},
+            {"piezo",     no_argument,       NULL, 'c'},
             {"positions", no_argument,       NULL, 'p'},
             {"help",      no_argument,       NULL, 'h'},
-            {"output",    required_argument, NULL, 'o'}
+            {"output",    required_argument, NULL, 'o'},
+            {"version",   no_argument,       NULL, 'v'}
     };
     int c;
-    while ((c = getopt_long(argc, argv, "dqavphs:o:", long_options, NULL)) !=
+    while ((c = getopt_long(argc, argv, "dqacvphs:o:", long_options, NULL)) !=
            -1) {
         switch (c) {
             case 'd':
@@ -66,7 +67,7 @@ int main(int argc, char **argv) {
                     usage(EXIT_FAILURE);
                 }
                 break;
-            case 'v':
+            case 'c':
                 piezo_verify = true;
                 break;
             case 'p':
@@ -77,6 +78,9 @@ int main(int argc, char **argv) {
                 break;
             case 'h':
                 usage(EXIT_SUCCESS);
+                break;
+            case 'v':
+                version();
                 break;
             case '?':
             default:

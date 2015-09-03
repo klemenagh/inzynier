@@ -21,11 +21,19 @@
 #include <getopt.h>
 #include <stdlib.h>
 
+#define VERSION "1.0.0"
 #define EVENT_SIZE  ( sizeof (struct inotify_event) )
 #define BUF_LEN     ( 1024 * ( EVENT_SIZE + 16 ) )
 
 int debug;
 static volatile int work = 1;
+
+void version() {
+    printf("watcher %s\n", VERSION);
+    putchar('\n');
+    puts("Program wykonany w ramach pracy inżynierskiej przez Wojciecha Gumuła (github.com/vvk).");
+    exit(EXIT_SUCCESS);
+}
 
 void signal_handler(int signo) {
     if (signo == SIGINT) {
@@ -63,14 +71,19 @@ int main(int argc, char **argv) {
     debug = 0;
     static struct option long_options[] = {
             {"debug",     no_argument,       NULL, 'd'},
-            {"extension", required_argument, NULL, 'e'}
+            {"extension", required_argument, NULL, 'e'},
+            {"version",   no_argument,       NULL, 'v'},
+            {"help",      no_argument,       NULL, 'h'}
     };
 
     int c;
     char extension[10] = "lvm";
 
-    while ((c = getopt_long(argc, argv, "de:", long_options, NULL)) != -1) {
+    while ((c = getopt_long(argc, argv, "hvde:", long_options, NULL)) != -1) {
         switch (c) {
+            case 'v':
+                version();
+                break;
             case 'd':
                 debug = 1;
                 break;
@@ -78,6 +91,7 @@ int main(int argc, char **argv) {
                 printf("%s\n", optarg);
                 strcpy(extension, optarg);
                 break;
+            case 'h':
             case '?':
             default:
                 printf("Obsługiwane flagi to --extension i --debug.\n");

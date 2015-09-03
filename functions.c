@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#define VERSION "0.9.0"
 
 char output_filename[80];
 
@@ -22,14 +23,22 @@ wejściowego.\n\nArgumenty wejścia:\n\n\
 -d --debug\tWyświetlaj wyjście ułatwiające debugowanie.\n\
 -a --all\tWyświetlaj jeszcze więcej informacji na wyjście.\n\
 -p --positions\tWyświetl wyjście związane z długościami w pojeździe.\n\
--v --verify\tSprawdź wynik z sygnałami piezo.\n\
+-c --verify\tSprawdź wynik z sygnałami piezo.\n\
 -q --quiet\tNie wyświetlaj wyjścia na ekran. (może być użyteczna, gdy zapis\n\
 \t\tnastępuje do pliku).\n\
 -o --output\tZapisuje wyniki działania algorytmu do podanego pliku. Zawartość\n\
 \t\tpliku nie jest usuwana, dane są dopisywane na końcu pliku.\n\
--h\t\tWywołaj pomoc dla programu.\n");
+-h --help\tWywołaj pomoc dla programu.\n\
+-v --version\tPokaż informację o aktualnej wersji programu.\n");
     }
     exit(exit_status);
+}
+
+void version() {
+    printf("axles %s\n", VERSION);
+    putchar('\n');
+    puts("Program wykonany w ramach pracy inżynierskiej przez Wojciecha Gumuła (github.com/vvk).");
+    exit(EXIT_SUCCESS);
 }
 
 bool read_file(char *filename, data_vector_t *vector) {

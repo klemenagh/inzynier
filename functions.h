@@ -14,6 +14,8 @@ bool read_stream(FILE *, data_vector_t *);
 
 void usage(int);
 
+void version();
+
 void handle_output(vehicle_data_t, bool, bool, char *);
 
 bool is_verbosity_at_least(verb_level v);
