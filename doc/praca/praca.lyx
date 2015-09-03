@@ -1,0 +1,588 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass aghdpl
+\begin_preamble
+% \documentclass{aghdpl}               % przy kompilacji programem latex
+% \documentclass[pdflatex,en]{aghdpl}  % praca w języku angielskim
+% dodatkowe pakiety
+\usepackage{enumerate}
+\usepackage{listings}
+\lstloadlanguages{TeX}
+\usepackage{caption} 
+\captionsetup[figure]{labelformat=simple, labelsep=period}
+\captionsetup[table]{labelformat=simple, labelsep=period}
+%\captionsetup{font=small}
+\captionsetup{margin=10pt, font={small}, labelfont=bf, format=hang}
+\usepackage{esint}
+\clubpenalty = 10000
+\widowpenalty = 10000
+%\usepackage{graphicx}
+%\usepackage{grfext}
+%\AtBeginDocument{%
+% \PrependGraphicsExtensions*{
+%    .mps,.MPS,.pdf,.PDF,.eps,.EPS,.ps,.PS,
+%    .png,.PNG,.jpg,.jpeg,.JPG,.JPEG,
+%    .funny,.foobar
+%  }%
+%  \PrintGraphicsExtensions % see .log file
+%}
+% \usepackage[style=numeric-comp]{biblatex}
+% \setlength{\itemsep}{-1\parsep}
+%---------------------------------------------------------------------------
+%\usepackage{epstopdf}
+\end_preamble
+\options pdflatex
+\use_default_options true
+\maintain_unincluded_children false
+\language polish
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman utopia
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics none
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex
+\index_command default
+\float_placement H
+\paperfontsize 12
+\spacing onehalf
+\use_hyperref true
+\pdf_title "Praca dyplomowa"
+\pdf_author "Wojciech Gumuła"
+\pdf_subject "Algorytm detekcji osi pojazdów"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered true
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 0
+\use_package amssymb 0
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 0
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Indeks
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language polish
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 3
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{Wojciech Gumuła}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+shortauthor{W.
+ Gumuła}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+titlePL{Implementacja algorytmu detekcji osi pojazdów samochodowych w oparciu
+ o profile R i X}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+titleEN{Implementation of algorithm for vehicle axles detection based on
+ R and X-profile}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+shorttitle{Detekcja ilości osi pojazdów}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+faculty{Wydział Elektrotechniki, Automatyki,
+\backslash
+
+\backslash
+Informatyki i Inżynierii Biomedycznej}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+division{}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+specialization{Automatyka i Robotyka}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+thesistype{Praca dyplomowa inżynierska}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+supervisor{dr inż.
+ Zbigniew Marszałek}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+acknowledgements{Wymaga odkomentowania linijek w aghdpl.cls} 
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+date{2015} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+titlepages
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{tocdepth}{1}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Teoria
+\end_layout
+
+\begin_layout Chapter
+Wstęp
+\end_layout
+
+\begin_layout Standard
+Analiza parametrów pojazdów i klasyfikacja ich bazie stanowi zagadnienie
+ podejmowane z różnych powodów.
+ Na podstawie danych o liczbie przejeżdżających drogą pojazdów można ustalić
+ poziom eksploatacji połączenia i w związku z tym zaplanować możliwości
+ rozbudowy infrastruktury w najlepszym kierunku.
+ 
+\end_layout
+
+\begin_layout Standard
+Informację na temat parametrów pojazdu można wykorzystać w wielu sytuacjach.
+ Znając przybliżone wymiary pojazdu można zaprojektować system informacyjny,
+ który ostrzegałby kierowców w sytuacji, gdy pojazd może mieć problemy z
+ pokonaniem odcinka drogi - ze względu na znajdujący się na trasie niski
+ wiadukt czy zwężenie jezdni.
+ Intormację o prędkości pojazdu można użyć przy tworzeniu podobnego systemu,
+ ale ostrzegającego przed przekroczeniem dopuszczalnej prędkości.
+ Często stosuje się również czujniki określające wagę pojazdów, zazwyczaj
+ przez służby odpowiedzialne za kontrole drogowe.
+ 
+\end_layout
+
+\begin_layout Standard
+Znajomość danych na temat ilości osi pojazdu i ich położenia również jest
+ użyteczna - pozwala na klasyfikację pojazdu na podstawie schematów FHWA
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fhwaclasses"
+
+\end_inset
+
+, wyróżniającego 13 kategorii, ALTernative vehicle classification, która
+ wyróżnia 20 kategorii, lub dowolnej innej, zaprojektowanej by jak najlepiej
+ kategoryzować badane zagadnienie.
+ Klasyfikację pojazdu można wykorzystać w celu automatyzacji systemu przydzielan
+ia opłat na płatnych odcinkach dróg lub do analizy wykorzystania drogi przez
+ pojazdy różnych katerogii - dane takie mogą posłużyć w przyszłości do jak
+ najlepszego rozwoju infrastruktury, stanowią bardziej użyteczną informację,
+ niż dane wyłącznie o liczbie przejeżdżających pojazdów.
+\end_layout
+
+\begin_layout Standard
+Często nie jest potrzebna żadna informacja na temat pojazdu ponad sam fakt
+ wykrycia go.
+ Oczywistym przykładem systemu wykorzystującego dane na temat obecności
+ pojazdów są systemy sterowania sygnalizacją świetlną na wielu skrzyżowaniach.
+ W ich przypadku nie są istotne parametry poszczególnych pojazdów, choć
+ przydatna może być informacja na temat natężenia ruchu w poszczególnych
+ kierunkach, co pozwala na otymalizację płynności ruchu.
+\end_layout
+
+\begin_layout Standard
+Ze względu na liczbę możliwych zastosować, zachęcające wydaje się zagadnienie
+ projektowania jak najbardziej dokładych czujników i algorytmów przetwarzania
+ danych, które jednocześnie zachowują przystępną cenę i gwarantują dużą
+ wydajność.
+\end_layout
+
+\begin_layout Section*
+Cel i zakres pracy
+\end_layout
+
+\begin_layout Standard
+Zadanie wykrywania osi pojazdów samochodowych w ruchu drogowym wykonuje
+ się przy użyciu czujników różnego typu.
+ Wykorzystuje się piezoelektryczne czujniki nacisku, czujniki kwarcowe i
+ inne.
+ Podejmowane są również próby klasyfikacji pojazdów metodami wizyjnymi.
+ Na Katedrze Metrologii i Elektroniki AGH zaprojektowany został system wyznaczan
+ia parametrów pojazdów przy użyciu czujników indukcyjnych
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gajd2012"
+
+\end_inset
+
+.
+ Cechują się one dużą trwałością, niską ceną i niedużym skomplikowaniem
+ instalacji, umożliwiający przy tym wyznaczanie szeregu parametrów pojazdu.
+ Zaprojektowany algorytm pozwala, na bazie odczytów z czujników, na klasyfikację
+ liczby osi pojazdu z dużą dokładnością, rzędu ponad 95% w większości przypadków.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "marszalek2013"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Praca podejmuje temat wykorzystania możliwości języka programowania C
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cman"
+
+\end_inset
+
+ i środowiska Linux
+\begin_inset CommandInset citation
+LatexCommand cite
+key "linuxwww"
+
+\end_inset
+
+ do budowy programu implementującego algorytm.
+ Założenia projektowe języka C - duża wydajność, umożliwienie operacji wejścia-w
+yjścia na niskim poziomie, metody zarządzania pamięcią - pozwalają na zaprojekto
+wanie bardzo wydajnych narzędzi.
+ Natomiast dzięki użycia systemu Linux, skorzystać można z jego przydatnych
+ funkcji, jak potoki
+\begin_inset CommandInset citation
+LatexCommand cite
+key "linuxpipes"
+
+\end_inset
+
+ umożliwiające kolejkowanie programów w celu zbudowania pełnoprawnej aplikacji
+ czy obsługa błędów
+\begin_inset CommandInset citation
+LatexCommand cite
+key "linuxsignals"
+
+\end_inset
+
+, ułatwiająca pracę z programem.
+\end_layout
+
+\begin_layout Standard
+W trakcie pisania pracy podjęto zadanie implementacji algorytmu detekcji
+ liczby osi pojazdu oraz rozbudowę funkcji programu o możliwość wyznaczania
+ przybliżonej długości pojazdu oraz odległości pomiędzy osiami.
+ Ponadto, zaimplementowano zbiór narzędzi umożliwiających użycie programu
+ do wyznaczania parametrów w trybie ciągłym, bez konieczności interkacji
+ ze strony użytkownika, oraz prosty model graficznego interfejsu użytkownika,
+ wyświetljącego wyjście programu.
+ Przy użyciu języka Python
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pythonman"
+
+\end_inset
+
+ zaprojektowano narzędzie do wygodnego testowania poprawności działania
+ programu dla dużego zbioru danych, przeprowadzono testy działania programu
+ oraz porównano wyniki i wydajność z wersją algorytmu zaimplementowaną w
+ programie Matlab.
+\end_layout
+
+\begin_layout Standard
+Główne założenia przyjęte w trakcie projektowania programu obejmowały dużą
+ szybkość działania, bezwzględną poprawność implementacji - szczelne zarządzanie
+ zasobami pamięci, uniknięcie ostrzeżeń w trakcie kompilacji -, obsługę
+ strumieni wejścia/wyjścia i zgodność ze standardem POSIX i ideą GNU
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gnustandard"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Chapter
+Pomiary parametrów pojazdów samochodowych przy użyciu pętli indukcyjnych
+\end_layout
+
+\begin_layout Standard
+W celu badania parametrów pojazdów samochodowych można wykorzystać zasadę
+ działania cewki indukcyjnej w interakcji z przemieszczającymi się w jej
+ otoczeniu przedmiotami o powierzchniach z różnych materiałów.
+ Tworzy się układy pomiarowe składajace się z szeregu czujników indukcyjnych
+ pętlowych, układu kondycjonowania sygnału oraz układu elektronicznego odpowiedz
+ialnego za rejestrację sygnałów w celu dalszej ich interpretacji.
+\end_layout
+
+\begin_layout Standard
+Czujnik indukcyjny pętlowy zbudowany jest ze zwojów izolowanego przewodu,
+ który zazwyczaj umieszczas się pod nawierzchnią jezdni.
+ Wykorzystuje się różne kształty i wymiary czujników, w zależności od przyjętych
+ wymagań.
+ W celu badania parametrów pojazdów na katedrze Metrologii AGH wykorzystano
+ serię czujników pętlowych o różnych długościach.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gajd2012"
+
+\end_inset
+
+ Dzięki wykorzystaniu czujników o innych kształtach, możliwe jest profilowanie
+ stref czujności, a co za tym idzie, uzyskanie dokładniejszych pomiarów
+ dla badanego zagadnienia.
+ Wybór kształtu czujnika podyktowany jest rodzajem pomiarów - zbieranie
+ informacji na temat parametrów pojazdu, sterowanie sygnalizacją świetlną,
+ wyzwalanie pracy innych systemów w chwili aktywności czujnika.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/inductivedetector.png
+	display false
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat pętlowego czujnika indukcyjnego o wymiarach 
+\series bold
+w
+\series default
+ x 
+\series bold
+p
+\series default
+ w poziomie oraz odległości 
+\series bold
+o
+\series default
+ pomiędzy zwojami.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:ind_sensor"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Układ kondycjonowania sygnału to moduł elektroniczny, który ma za zadanie
+ wstępną analizę sygnału.
+ Stawia się przed nim zadanie szybkiej reakcji na pojawienie się pojazdu
+ w otoczeniu czujnika.
+ Jest to konieczne, by uzyskać dokładny pomiar.
+ Na wyjściu układu, w zależności od jego typu, można uzyskać jeden sygnał
+ - M~, lub dwa - R~ i X~.
+ Sygnały R~ i X~ odpowiadają magnetycznym profilom rezystancji i reaktancji.
+ Sygnał M~ opisuje natomiast pewną funkcję profili R~ i X~ (może być to
+ pierwiastek z sumy profili z pewnymi współczynnikami).
+ Znając tylko sygnał M~, niemożliwe jest uzyskanie sygnałów magnetycznych
+ profili rezystancji i reaktancji, co może znacznie ograniczyć możliwości
+ zastosowania układów kondycjonowania sygnału tego typu do badania parametrów
+ pojazdu.
+\end_layout
+
+\begin_layout Standard
+Ostatnim elementem układu pomiarowego może być mikroprocesor lub komputer,
+ odpowiedzialny za zbieranie danych i ich dalszą analizę.
+ Można zastosować w tym celu moduł odpowiedzialny za przesyłanie zebranych
+ danych do bazy, by umożliwić ich dalszą obróbkę (na przykład gdy zbierane
+ są dane, które mają być wykorzystane w pracy naukowej).
+ Inną metodą byłaby bezpośrednia analiza danych zaraz po ich uzyskaniu -
+ może to znaleźć zastosowanie w systemie odpowiedzialnym za sterowanie sygnaliza
+cją świetlną na skrzyżowaniu na podstawie natężeń ruchu w różnych kierunkach.
+\end_layout
+
+\begin_layout Standard
+Czujniki indukcyjne pętlowe mogą służyć do badania parametrów pojazdów samochodo
+wych.
+ Możliwe jest zliczanie ilości przejeżdżających przez czujnik pojazdów,
+ pomiar prędkości i długości pojazdu, natężenia ruchu.
+ Możliwe jest przy użyciu czujnika wykrywanie pojazdów spełniających zadane
+ kryteria, na przykład tylko autobusów, czy pojazdów ciężarowych z przyczepą.
+ W trakcie wykonywania pracy inżynierskiej, badana była możliwość wykrywania
+ ilości osi pojazdu samochodowego oraz długości pojazdu i odległości pomiędzy
+ poszczególnymi osiami.
+\end_layout
+
+\begin_layout Standard
+Wykorzystanie tej metody badania parametrów pojazdu niesie za sobą zalety,
+ które tłumaczą popularność tego typu narzędzi - są one tanie, a dzięki
+ umieszczeniu pod nawierzchnią jezdni odporne na większość czynników atmosferycz
+nych i kontakt fizyczny z podwoziem pojazdu.
+ Ich montaż jest prosty, a układ pomiarowy nie wymaga zastosowania skomplikowany
+ch elementów elektronicznych.
+ Ponadto, wykorzystując dobrze zaprojektowany algorytm analizujący pomiary,
+ można otrzymać informacje na temat wielu parametrów pojazdu.
+ 
+\end_layout
+
+\begin_layout Part
+Implementacja algorytmu
+\end_layout
+
+\begin_layout Chapter
+Algorytm detekcji liczby osi pojazdu
+\end_layout
+
+\begin_layout Chapter
+Detekcja długości pojazdu i położenia osi
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintAll"
+bibfiles "bibliografia"
+options "bibtotoc,plplain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
