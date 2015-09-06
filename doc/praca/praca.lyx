@@ -515,14 +515,93 @@ Układ kondycjonowania sygnału to moduł elektroniczny, który ma za zadanie
  w otoczeniu czujnika.
  Jest to konieczne, by uzyskać dokładny pomiar.
  Na wyjściu układu, w zależności od jego typu, można uzyskać jeden sygnał
- - M~, lub dwa - R~ i X~.
- Sygnały R~ i X~ odpowiadają magnetycznym profilom rezystancji i reaktancji.
- Sygnał M~ opisuje natomiast pewną funkcję profili R~ i X~ (może być to
- pierwiastek z sumy profili z pewnymi współczynnikami).
- Znając tylko sygnał M~, niemożliwe jest uzyskanie sygnałów magnetycznych
- profili rezystancji i reaktancji, co może znacznie ograniczyć możliwości
- zastosowania układów kondycjonowania sygnału tego typu do badania parametrów
- pojazdu.
+ - M
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+~
+\end_layout
+
+\end_inset
+
+, lub dwa - R
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+~
+\end_layout
+
+\end_inset
+
+ i X
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+~
+\end_layout
+
+\end_inset
+
+.
+ Sygnały R
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+~
+\end_layout
+
+\end_inset
+
+ i X
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+~
+\end_layout
+
+\end_inset
+
+ odpowiadają magnetycznym profilom rezystancji i reaktancji.
+ Sygnał M
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+~
+\end_layout
+
+\end_inset
+
+ opisuje natomiast pewną funkcję profili R
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+~
+\end_layout
+
+\end_inset
+
+ i X
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+~
+\end_layout
+
+\end_inset
+
+ (może być to pierwiastek z sumy profili z pewnymi współczynnikami).
+ Znając tylko sygnał M
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+~
+\end_layout
+
+\end_inset
+
+, niemożliwe jest uzyskanie sygnałów magnetycznych profili rezystancji i
+ reaktancji, co może znacznie ograniczyć możliwości zastosowania układów
+ kondycjonowania sygnału tego typu do badania parametrów pojazdu.
 \end_layout
 
 \begin_layout Standard
@@ -560,6 +639,438 @@ ch elementów elektronicznych.
  
 \end_layout
 
+\begin_layout Chapter
+Założenia projektowe
+\end_layout
+
+\begin_layout Standard
+Przed przystąpieniem do tworzenia programu, przyjęte zostały pewne założenia,
+ opisujące sposób implementacji i cel projektu.
+ Umożliwiło to określenie wymagań już na samym początku pracy i dzięki temu
+ zwiększyło sprawność pracy.
+ Podstawowym założeniem, przyjętym na samym początku pracy była decyzja
+ o implementacji algorytmu z wykorzystaniem środowiska Linux.
+ Kierowano się przy tym możliwościami oferowanymi przez ten system, które
+ omówione są po części poniżej.
+ Ponadto system ten cieszy się dużym wsparciem społeczności, dzięki czemu
+ nietrudno znaleźć materiały opisujące jego funkcje.
+\end_layout
+
+\begin_layout Standard
+Poniżej przedstawiono pozostałe główne założenia projektu i ograniczenia
+ przyjęte w trakcie realizacji projektu.
+\end_layout
+
+\begin_layout Standard
+linux 
+\end_layout
+
+\begin_layout Standard
+idea gnu
+\end_layout
+
+\begin_layout Standard
+modułowość
+\end_layout
+
+\begin_layout Standard
+flagi
+\end_layout
+
+\begin_layout Standard
+strumienie
+\end_layout
+
+\begin_layout Standard
+wydajność
+\end_layout
+
+\begin_layout Standard
+poprawność implementacji
+\end_layout
+
+\begin_layout Standard
+wielofukncyjność ([no] daemon)
+\end_layout
+
+\begin_layout Standard
+JAKIESIK OGRANICZENIA
+\end_layout
+
+\begin_layout Section
+Przyjęte założenia
+\end_layout
+
+\begin_layout Subsection
+Praca zgodnie z ideą oprogramowania GNU i standardem POSIX
+\end_layout
+
+\begin_layout Standard
+W trakcie pracy inspirowałem się programami stworzonymi wokół ruchu GNU
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gnupage"
+
+\end_inset
+
+.
+ W przęciągu wielu lat, gdy tworzone było oprogramowanie związane z nim,
+ udało się przyjąć pewne założenia programowania, zwane GNU Coding Standards
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gnustandard"
+
+\end_inset
+
+.
+ Opisują one zagadnienia, które często pojawiają się w trakcie tworzenia
+ oprogramowania, takie jak styl formatowania kodu, obsługiwane flagi czy
+ sposób tworzenia komentarzy.
+ 
+\end_layout
+
+\begin_layout Standard
+System Linux implementuje większość elementów wchodząch w skład standardu
+ POSIX
+\begin_inset CommandInset citation
+LatexCommand cite
+key "posixstd"
+
+\end_inset
+
+, dzięki zastosowaniu się do reguł opisywanych w standardzie w trakcie tworzenia
+ programu, udało się uzyskać pewną formę przenośności - główny moduł programu
+ powinien działać na wszystkich systemach, które implementują ten standard.
+\end_layout
+
+\begin_layout Standard
+W trakcie pisania kodu programu, starałem się stosować do Google C++ Style
+ Guide
+\begin_inset CommandInset citation
+LatexCommand cite
+key "googlestyleguide"
+
+\end_inset
+
+ - szeregu reguł opisujących sposób formatowania kodu w taki sposób, aby
+ zwiększyć jego przejrzystość i czytelność.
+ Pozwala to na utrzymanie podobnego stylu dla całego kodu źródłowego programu,
+ a dzięki zwiększeniu czytelności wyszukiwanie błędów działania i rozwój
+ programu staje się łatwiejszy.
+\end_layout
+
+\begin_layout Subsection
+Modułowość
+\end_layout
+
+\begin_layout Standard
+Zdecydowałem się podzielić program na mniejsze elementy, moduły, z których
+ każdy odpowiedzialny był za wyłącznie jedną funkcjonalność.
+ Dzięki temu, kod źródłowy stał się bardziej zwięzły a programy bardziej
+ przenośne.
+\end_layout
+
+\begin_layout Standard
+Wyszczególniłem kilka głównych funkcji pakietu
+\end_layout
+
+\begin_layout Itemize
+moduł algorytmu - odpowiedzialny za główną funkcjonalność, czyli wyznaczanie
+ liczby osi pojazdu i ich położeń
+\end_layout
+
+\begin_layout Itemize
+moduł obserwatora - odpowiedzialny za śledzenie zmian w zadanych ścieżkach
+ w oczekiwaniu na nowe pliki, które następnie mogą zostać wysłane do modułu
+ algorytmu
+\end_layout
+
+\begin_layout Itemize
+moduł graficzny - umożliwiający przedstawienie wyników pracy algorytmu poprzez
+ interfejs 
+\end_layout
+
+\begin_layout Subsection
+Potoki
+\end_layout
+
+\begin_layout Standard
+Połączenia pomiędzy poszczególnymi omodułami zostały zaimplementowane przy
+ użyciu potoków
+\begin_inset CommandInset citation
+LatexCommand cite
+key "linuxpipes"
+
+\end_inset
+
+ dostępnych w systemie Linux.
+ Pozwalają one na łączenie dwóch programów w taki sposób, by wyjście jednego
+ programu wysłane zostało na wejście drugiego.
+ Jest to funkcja silnie wykorzystywana w trakcie pracy z systemem Linux.
+ Można je wykorzystać na przykład w celu znalezienia wszystkich dokumentów
+ tekstowych w danym katalogu i utworzenia archiwum je zawierającego:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+ls dokumenty | grep 'doc' | tar cfz archiwum.tar -T -
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Symbol 
+\emph on
+|
+\emph default
+ oznacza potok łączacy dwa sąsiednie programy, przy czym przepływ danych
+ następuje od lewej do prawej, a więc wyjście programu ls kierowane jest
+ na wejście programu grep.
+\end_layout
+
+\begin_layout Subsection
+Obsługa flag
+\end_layout
+
+\begin_layout Standard
+Tworzony program miał być wywoływany z poziomu konsoli sytemu Linux, której
+ wygląda podobnie do przedstawionej na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:linux-console"
+
+\end_inset
+
+.
+ W celu umożliwienia interakcji z programem wywoływanym w ten sposób, zaimplemen
+towano szereg flag
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gnucli"
+
+\end_inset
+
+.
+ Dzięki temu już w momencie uruchomienia programu wykonywana jest pełna
+ konfiguracja i nie jest konieczna dalsza interakcja użytkownika w trakcie
+ pracy.
+ Umożliwia to wykorzystanie programu w skryptach, na przykład w celu uruchomieni
+a go na serwerze by wyznaczyć dane zebrane dla tysiąca pojazdów poprzez
+ jedno wywołanie.
+ 
+\end_layout
+
+\begin_layout Standard
+Zaimplementowano flagi odpowiedzialne za tryb pracy algorytmu, umożliwiające
+ wyznaczenie danych na temat położenia osi i długości pojazdu, włączające
+ weryfikację wyników z czujników piezo, zarządzające ilością informacji
+ wyświetlanych na ekranie w trakcie pracy czy przekierowujące wyjście do
+ pliku.
+ Ponadto, zachowano zgodność ze standardem GNU, który zaleca stworzenie
+ obsługi flag --version i --help, wyświetlających odpowiednio informację
+ o wersji programu i stronę pomocy.
+\end_layout
+
+\begin_layout Standard
+Dokładny opis obsługiwanych flag przedstawiono w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:flags"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Konsola systemowa.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:linux-console"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Wydajność
+\end_layout
+
+\begin_layout Standard
+Analiza zebranych wyników często wymaga przetworzenia danych dla setek czy
+ tysięcy pojazdów.
+ Z tego względu przed programem stawiane są silne wymagania dotyczącze wydajnośc
+i.
+ Dzięki wykorzystaniu języka C do implementacji modułu odpowiedzialnego
+ za obliczenia, możliwa była duża kontrola nad takimi elementami jak operacje
+ wejścia-wyjścia i zarządzanie pamięcią, możliwa była duża optymalizacja
+ czasu pracy programu dla jednego zestawu danych.
+ Dokładna analiza tego zagadnienia przedstawiona została w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:efficiency"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Wielofukcyjność
+\end_layout
+
+\begin_layout Standard
+Program może być wywoływany na dwa sposoby.
+ 
+\end_layout
+
+\begin_layout Standard
+Pierwszy umożliwia jednorazową analizę jednego lub wielu plików, które są
+ kompletne w momencie uruchomienia programu.
+ Może to być przydatne w sytuacji, gdy konieczne jest przeprowadzenie analizy
+ zebranych wcześniej danych.
+\end_layout
+
+\begin_layout Standard
+Program może zostać wywołany w trybie oczekiwania na dane.
+ W momencie, gdy pojawia się nowy plik z danymi, są one natychmiast analizowane.
+ Jest to przydatne, gdy program działa bezpośrednio na systemie odpowiedzialnym
+ za zbieranie danych - praktyczne wydaje się stworzenie ciągu operacji,
+ w którym dane odczytane trafiają do określonego folderu, są analizowane
+ przez stworzony program, a następnie prezentowane w czytelnej formie, na
+ przykład poprzez stronę internetową.
+ Pozwalałoby to na nadzorowanie pracy czujnika i zbieranie wyników bez konieczno
+ści fizycznego kontaktu z urządzeniem.
+\end_layout
+
+\begin_layout Subsection
+Stabilność pracy 
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+jak to nazwać?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ze względu na możliwość użycia programu w trybie ciągłym i analizy tysięcy
+ zestawów danych w trakcie jednego uruchomienia programu, konieczne było
+ zagwarantowanie stabilnej pracy programu w normalnych warunkach.
+ W tym celu przyjąłem założenie unikania jakichkolwiek niezdefiniowanych
+ zachowań języka C, opisywanych w standardzie 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cstandard"
+
+\end_inset
+
+ oraz rozwiązywania wszystkich ostrzeżeń przekazywanych przez kompilator
+ języka.
+ Ponadto, zadbałem o zarządzanie pamięcią w taki sposób, by uniknąć wycieków
+ pamięci.
+ Dokładniejsza analiza tego zagadnienia znajduje się w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:stability"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Przyjęte ograniczenia
+\end_layout
+
+\begin_layout Standard
+Jednocześnie do przyjmowania założeń projektowych, przyjęte zostały również
+ ograniczenia, opisujące pracę programu.
+\end_layout
+
+\begin_layout Itemize
+Program nie jest odpowiedzalny za wstępną analizę sygnałów czujnika w celu
+ wykrycia pojazdu.
+ Przyjęto założenie, że próbka została już wstępnie przeanalizowana w celu
+ odseparowania danych dotyczących krótkiego okresu, gdy pojazd znajdował
+ się w otoczeniu czujnika.
+\end_layout
+
+\begin_layout Itemize
+Jedna próbka danych powinna zawierać informacje dotyczącze wyłącznie jednego
+ pojazdu.
+ W przypadku, gdy w jednym pliku danych pojawią się informacje dotyczące
+ wielu pojazdów, zostaną one błędnie zinterpretowane.
+\end_layout
+
+\begin_layout Itemize
+Próbka danych powinna mieć stosunkowo niewielką długość.
+ Powinna zwierać wszystkie użyteczne informacje, a jednocześnie unikać przechowy
+wania informacji nieistotnych.
+ Zwiększenie rozmiaru próbki wpłynie liniowo
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+liniowo?
+\end_layout
+
+\end_inset
+
+ na czas pracy algorytmu.
+ Nie przyjęto jednak żadnej konkretnej długości próbki, ani limitów długości
+ - program powinien zachowywać się poprawnie dla danych o dowolnej długości,
+ ograniczeniem może być jedynie ilość dostępnej pamięci i czasu pracy procesora.
+\end_layout
+
+\begin_layout Itemize
+W trakcie projektowania programu, dostosowano go do pracy z konkretnym zestawem
+ czujników.
+ Praca z innymi czujnikami wymagałaby zmian w kodzie programu, a w przypadku,
+ gdy czujniki posiadałyby inne parametry - również w kodzie algorytmu.
+\end_layout
+
+\begin_layout Itemize
+Algorytm wykrywa poprawnie pojazdy o liczbie osi od dwóch do pięciu.
+ W przypadku wykrycia sześciu lub więcej osi, dana próbka uznana zostanie
+ za błędną.
+\end_layout
+
 \begin_layout Part
 Implementacja algorytmu
 \end_layout
@@ -570,6 +1081,72 @@ Algorytm detekcji liczby osi pojazdu
 
 \begin_layout Chapter
 Detekcja długości pojazdu i położenia osi
+\end_layout
+
+\begin_layout Chapter
+Testy, porównanie, etc.
+\end_layout
+
+\begin_layout Part
+Omówienie programu
+\end_layout
+
+\begin_layout Chapter
+Omówienie programu
+\end_layout
+
+\begin_layout Section
+Wymagania
+\end_layout
+
+\begin_layout Section
+Instalacja
+\end_layout
+
+\begin_layout Section
+Użycie
+\end_layout
+
+\begin_layout Subsection
+Flagi etc.
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:flags"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Dwa sposoby użycia - jednorazowe lub daemon
+\end_layout
+
+\begin_layout Section
+Testowanie programu
+\end_layout
+
+\begin_layout Section
+Ocena wydajności.
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:efficiency"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Stabilność, wycieki etc.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:stability"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
