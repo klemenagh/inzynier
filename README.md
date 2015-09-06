@@ -20,3 +20,6 @@ plikWejściowy LiczbaOsi DługośćPojazdu wartościOdległości S1 S2 S3
   --O-------O--
   S1   S2    S3
 ```
+  - [ ] Dodanie do skryptów budujących opcji `install`, instalującej programy i man-page.
+  - [ ] Buforowanie odrzucanej obecnie próbki danych w trybie pracy ciągłej. (po ustaleniu przydatności)
+  - [ ] Bardziej generyczna metoda zadawania poprawnych wartości w pliku testów.
