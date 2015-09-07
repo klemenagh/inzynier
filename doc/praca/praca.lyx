@@ -104,6 +104,7 @@
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
+\listings_params "frame=tblr"
 \tracking_changes false
 \output_changes false
 \html_math_output 3
@@ -654,47 +655,13 @@ Przed przystąpieniem do tworzenia programu, przyjęte zostały pewne założeni
  omówione są po części poniżej.
  Ponadto system ten cieszy się dużym wsparciem społeczności, dzięki czemu
  nietrudno znaleźć materiały opisujące jego funkcje.
+ Zdecydowano się na stworzenie oprogramowania w języku C, ze względu na
+ oferowane przez to narzędzie wydajność i możliwość kontroli nad zasobami.
 \end_layout
 
 \begin_layout Standard
 Poniżej przedstawiono pozostałe główne założenia projektu i ograniczenia
  przyjęte w trakcie realizacji projektu.
-\end_layout
-
-\begin_layout Standard
-linux 
-\end_layout
-
-\begin_layout Standard
-idea gnu
-\end_layout
-
-\begin_layout Standard
-modułowość
-\end_layout
-
-\begin_layout Standard
-flagi
-\end_layout
-
-\begin_layout Standard
-strumienie
-\end_layout
-
-\begin_layout Standard
-wydajność
-\end_layout
-
-\begin_layout Standard
-poprawność implementacji
-\end_layout
-
-\begin_layout Standard
-wielofukncyjność ([no] daemon)
-\end_layout
-
-\begin_layout Standard
-JAKIESIK OGRANICZENIA
 \end_layout
 
 \begin_layout Section
@@ -706,7 +673,7 @@ Praca zgodnie z ideą oprogramowania GNU i standardem POSIX
 \end_layout
 
 \begin_layout Standard
-W trakcie pracy inspirowałem się programami stworzonymi wokół ruchu GNU
+W trakcie pracy inspirowano się programami stworzonymi wokół ruchu GNU
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gnupage"
@@ -744,7 +711,7 @@ key "posixstd"
 \end_layout
 
 \begin_layout Standard
-W trakcie pisania kodu programu, starałem się stosować do Google C++ Style
+W trakcie pisania kodu programu, starano się stosować do Google C++ Style
  Guide
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -764,14 +731,14 @@ Modułowość
 \end_layout
 
 \begin_layout Standard
-Zdecydowałem się podzielić program na mniejsze elementy, moduły, z których
+Zdecydowano się podzielić program na mniejsze elementy, moduły, z których
  każdy odpowiedzialny był za wyłącznie jedną funkcjonalność.
  Dzięki temu, kod źródłowy stał się bardziej zwięzły a programy bardziej
  przenośne.
 \end_layout
 
 \begin_layout Standard
-Wyszczególniłem kilka głównych funkcji pakietu
+Wyszczególniłono kilka głównych funkcji pakietu
 \end_layout
 
 \begin_layout Itemize
@@ -808,17 +775,42 @@ key "linuxpipes"
  programu wysłane zostało na wejście drugiego.
  Jest to funkcja silnie wykorzystywana w trakcie pracy z systemem Linux.
  Można je wykorzystać na przykład w celu znalezienia wszystkich dokumentów
- tekstowych w danym katalogu i utworzenia archiwum je zawierającego:
+ tekstowych w danym katalogu i utworzenia archiwum je zawierającego, jak
+ na listingu 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:pipes-example"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 \begin_inset listings
+lstparams "language=bash"
 inline false
 status open
 
 \begin_layout Plain Layout
 
-ls dokumenty | grep 'doc' | tar cfz archiwum.tar -T -
+find dokumenty | grep '.doc' | tar cfz archiwum.tar -T -
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przykład użycia potoków
+\begin_inset CommandInset label
+LatexCommand label
+name "lis:pipes-example"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -832,8 +824,15 @@ Symbol
 |
 \emph default
  oznacza potok łączacy dwa sąsiednie programy, przy czym przepływ danych
- następuje od lewej do prawej, a więc wyjście programu ls kierowane jest
- na wejście programu grep.
+ następuje od lewej do prawej, a więc wyjście programu 
+\shape italic
+ls
+\shape default
+ kierowane jest na wejście programu 
+\shape italic
+grep
+\shape default
+.
 \end_layout
 
 \begin_layout Subsection
@@ -851,7 +850,7 @@ reference "fig:linux-console"
 
 .
  W celu umożliwienia interakcji z programem wywoływanym w ten sposób, zaimplemen
-towano szereg flag
+towano obsługę szeregu flag
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gnucli"
@@ -895,6 +894,16 @@ reference "sub:flags"
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/terminal.eps
+	display false
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -963,7 +972,7 @@ Pierwszy umożliwia jednorazową analizę jednego lub wielu plików, które są
 \end_layout
 
 \begin_layout Standard
-Program może zostać wywołany w trybie oczekiwania na dane.
+Program może również zostać wywołany w trybie oczekiwania na dane.
  W momencie, gdy pojawia się nowy plik z danymi, są one natychmiast analizowane.
  Jest to przydatne, gdy program działa bezpośrednio na systemie odpowiedzialnym
  za zbieranie danych - praktyczne wydaje się stworzenie ciągu operacji,
@@ -976,23 +985,13 @@ Program może zostać wywołany w trybie oczekiwania na dane.
 
 \begin_layout Subsection
 Stabilność pracy 
-\begin_inset Marginal
-status open
-
-\begin_layout Plain Layout
-jak to nazwać?
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
 Ze względu na możliwość użycia programu w trybie ciągłym i analizy tysięcy
  zestawów danych w trakcie jednego uruchomienia programu, konieczne było
  zagwarantowanie stabilnej pracy programu w normalnych warunkach.
- W tym celu przyjąłem założenie unikania jakichkolwiek niezdefiniowanych
+ W tym celu przyjęto założenie unikania jakichkolwiek niezdefiniowanych
  zachowań języka C, opisywanych w standardzie 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1002,7 +1001,7 @@ key "cstandard"
 
  oraz rozwiązywania wszystkich ostrzeżeń przekazywanych przez kompilator
  języka.
- Ponadto, zadbałem o zarządzanie pamięcią w taki sposób, by uniknąć wycieków
+ Ponadto, zadbano o zarządzanie pamięcią w taki sposób, by uniknąć wycieków
  pamięci.
  Dokładniejsza analiza tego zagadnienia znajduje się w rozdziale 
 \begin_inset CommandInset ref
@@ -1071,16 +1070,1452 @@ Algorytm wykrywa poprawnie pojazdy o liczbie osi od dwóch do pięciu.
  za błędną.
 \end_layout
 
+\begin_layout Section*
+Podsumowanie
+\end_layout
+
+\begin_layout Standard
+Dostosowanie się do założeń przyjętych przed rozpoczęciem pracy powinno
+ umożliwić większą kontrolę nad powstającym oprogramowaniem.
+ Dzięki przyjęciu, że implementacja będzie pracować pod konkretnym systemem,
+ od początku dostępne były narzędzia oferowane przez środowisko.
+ Odbyło się to kosztem przenośności programów, których wykorzystanie na
+ innych systemach, w tym tych z rodziny Windows byłoby czasochłonne i mniej
+ wygodne.
+ Wybór języka C również przyniosło pozytywne skutki - poza opisywanymi wcześniej
+ cechami języka, które wykorzystano, przydatne okazały się również silne
+ związki pomiędzy tym językiem a jądrem systemu Linux.
+ Ten kluczowy składnik systemu w ponad 95% zaimplementowany jest w C
+\begin_inset CommandInset citation
+LatexCommand cite
+key "githublinux"
+
+\end_inset
+
+, dzięki czemu korzystanie z oferowanych interfejsów jest stosunkowo łatwe,
+ gdy używa się tego samego języka.
+ Dzięki podjęciu tych decyzji, możliwe stało się wykorzystanie przydatnych
+ funkcjonalności systemu - potoki, strumienie, obsługa flag, oraz języka
+ C - implementacja sygnałów systemowych czy obsługa błędów.
+\end_layout
+
 \begin_layout Part
 Implementacja algorytmu
+\end_layout
+
+\begin_layout Chapter
+Interfejs wejścia-wyjścia programu
+\end_layout
+
+\begin_layout Standard
+Przed uruchomieniem programu, konieczne jest zebranie danych z czujników,
+ zawierających informacje dla jednego pojazdu.
+ Z tego względu konieczna była implementacja programu w taki sposób, by
+ zintegrować go z systemem odpowiedzialnym za zbieranie odczytów.
+ 
+\end_layout
+
+\begin_layout Standard
+Układ pomiarowy składa się z zestawu pięci pętli indukcyjnych o rożnych
+ parametrach oraz dwóch czujników piezoelektrycznych ułożonych wzdłuż pasa
+ ruchu.
+ Układ zbiera informacje w formie pary wartości sygnałów R
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+~
+\end_layout
+
+\end_inset
+
+ i X
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+~
+\end_layout
+
+\end_inset
+
+ dla każdej pętli oraz sygnały P
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+ i P
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+ dla czujników piezo.
+\end_layout
+
+\begin_layout Standard
+Przyjęto założenie, że system ten dostarcza dane w następujący sposób.
+\end_layout
+
+\begin_layout Itemize
+Dane dostarczane są w formie tekstowej poprzez strumień wejściowy lub plik.
+\end_layout
+
+\begin_layout Itemize
+Każdy wiersz zawiera próbkę danych dla jednej chwili czasowej w formacie
+ trzynastu liczb.
+ Pierwsza liczba oznacza czas odczytu próbki w sekundach, a pozostałe dwanaście
+ opisuje sześć par sygnałów.
+ 
+\end_layout
+
+\begin_layout Itemize
+Symbolem dziesiętnym jest znak kropki 
+\begin_inset Quotes pld
+\end_inset
+
+.
+\begin_inset Quotes prd
+\end_inset
+
+, a liczba ujemna opisywana jest przez znak myślnika 
+\begin_inset Quotes pld
+\end_inset
+
+-
+\begin_inset Quotes prd
+\end_inset
+
+ bez odstępu, na przykład: -2.4321.
+\end_layout
+
+\begin_layout Itemize
+Dane są uporządkowane względem czasu, a więc każda kolejna próbka wystąpiła
+ po poprzedniej - jest to wykorzystywane w przypadku przekazywania danych
+ wielu pojazdów poprzez standardowy strumień wejścia.
+\end_layout
+
+\begin_layout Standard
+Przykładowy fragment pliku wejściowego spełniający te założenia przedstawiono
+ na listingu 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:input-data"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize},tabsize=2"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+0.023	0.16	-0.08	0.12	-0.06	0.07	-0.01	0.09	-0.17	0.11	0.38	0.02	0.03
+\end_layout
+
+\begin_layout Plain Layout
+
+0.024	0.18	-0.06	0.12	-0.08	0.10	 0.02	0.09	-0.21	0.14	0.44	0.02	0.00
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fragment pliku danych wejściowych
+\begin_inset CommandInset label
+LatexCommand label
+name "lis:input-data"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Kolejność danych to:
+\end_layout
+
+\begin_layout Itemize
+czas w sekundach
+\end_layout
+
+\begin_layout Itemize
+pętla 3m (2sygnały: X i R)
+\end_layout
+
+\begin_layout Itemize
+pętla 1m (2sygnały: X i R)
+\end_layout
+
+\begin_layout Itemize
+pętla 0,5m (2sygnały: X i R)
+\end_layout
+
+\begin_layout Itemize
+pętla 0,3m (2sygnały: X i R)
+\end_layout
+
+\begin_layout Itemize
+pętla 0,1m (2sygnały: X i R)
+\end_layout
+
+\begin_layout Itemize
+czujnik piezo 1
+\end_layout
+
+\begin_layout Itemize
+czujnik piezo 2
+\end_layout
+
+\begin_layout Standard
+Przyjęto również następującą konwencję formatu wyjścia programu.
+\end_layout
+
+\begin_layout Standard
+Format w przypadku korzystania z podstawowej funkcji programu, a więc wykrywania
+ liczby osi pojazdu, przyjmuje postać
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+źródło n
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Gdzie 
+\shape italic
+źródło
+\shape default
+ to nazwa pliku który przekazany był jako argument programu, lub ciąg 
+\begin_inset Quotes pld
+\end_inset
+
+stdin
+\begin_inset Quotes prd
+\end_inset
+
+ w przypadku wykorzystania strumienia wejściowego, a 
+\shape italic
+n 
+\shape default
+to liczba osi pojazdu (z wyszczególnieniem ciągu 
+\begin_inset Quotes pld
+\end_inset
+
+5up
+\begin_inset Quotes prd
+\end_inset
+
+ oznaczającego wykrycie pojazdu pięcioosiowego, z podniesioną jedną osią).
+\end_layout
+
+\begin_layout Standard
+W przypadku wywołania dodatkowych funkcji programu, wyjście ulega rozwinięciu
+\end_layout
+
+\begin_layout Itemize
+Funkcja wyznaczania położeń osi pojazdu wyświetla na wyjściu dodatkowy ciąg
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+źródło n d l_1 ...
+ l_n+1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Gdzie 
+\shape italic
+d
+\shape default
+ oznacza długośc pojazdu a wartości 
+\shape italic
+l
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+
+\shape italic
+1
+\end_layout
+
+\end_inset
+
+
+\shape default
+ ...
+ 
+\shape italic
+l
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+
+\shape italic
+n+1
+\end_layout
+
+\end_inset
+
+
+\shape default
+ oznaczają poszczególne odległości zgodnie z rysunkiem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:schemat-dlugosci"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat odległości
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:schemat-dlugosci"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Funkcja weryfikacji z czujnikami piezoelektrycznymi dodaje drugą linię wyjścia
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+lstparams "frame=tblr"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+źródło n
+\end_layout
+
+\begin_layout Plain Layout
+
+piezo N
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Gdzie 
+\shape italic
+N
+\shape default
+ to liczba osi wyznaczona poprzez czujniki piezoelektryczne.
+\end_layout
+
+\begin_layout Itemize
+Ilość informacji na wyjściu może zmienić się na żądanie użytkownika - możliwe
+ jest wytłumienie wszelkich komunikatów, bądź wyświetlenie informacji na
+ temat przeprowadzanych obliczeń.
 \end_layout
 
 \begin_layout Chapter
 Algorytm detekcji liczby osi pojazdu
 \end_layout
 
+\begin_layout Standard
+Algorytm detekcji liczby osi pojazdu stanowi podstawową funkcjonalność aplikacji
+, wokół której budowane były pozostałe funkcje.
+ Implementacja algorytmu miała spełniać założenia projektu
+\end_layout
+
+\begin_layout Itemize
+wydajność
+\end_layout
+
+\begin_layout Itemize
+stabilność
+\end_layout
+
+\begin_layout Itemize
+poprawność działania, kompatybilność z implementacją bazową 
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+??
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+W związku z tym, stworzona implementacja musiała być wykonana uważnie i
+ starannie.
+ Dzięki temu, udało się uzyskać algorytm równie dokładny, jak wersja bazowa,
+ oferujący jednak wygodniejszy interfejs pracy i większą wydajność.
+\end_layout
+
+\begin_layout Standard
+Algorytm składa się szeregu akcji, wywoływanych po załadowaniu pliku z danymi.
+ Przedstawiono je poniżej, wraz z nazwami funkcji odpowiedzalnych za akcję.
+\end_layout
+
+\begin_layout Itemize
+Usunięcie offsetu z sygnału.
+ 
+\shape italic
+remove_offset
+\begin_inset CommandInset label
+LatexCommand label
+name "alg-remove-offset"
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Na podstawie pierwszych trzydziestu próbek wyznaczana jest wartość przesunięcia
+ względem zera dla każdego z dwunastu sygnałów.
+ Wartości przesunięć są następnie odejmowane od odpowiednich wartości w
+ każdej próbce, by przesunąć sygnał względem zera.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Wyznaczenie prędkości pojazdu.
+ 
+\shape italic
+find_velocity_distance
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Na podstawie czujników piezoelektrycznych wyznaczana jest prędkość pojazdu
+ w metrach na sekundę.
+ Wartość ta jest wykorzystywana w kolejnym punkcie algorytmu.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Przycięcie danych do okna
+\shape italic
+.
+ trim_data
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Ciąg danych dla poszczególnych czujników przycinany jest do okresu, w którym
+ w otoczeniu pętli indukcyjnej znajdował się badany pojazd.
+ Pozwala to na zmniejszenie nakładu obliczeń wymaganych w dalszej części
+ algorytmu.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Przycięcie danych do okna
+\shape italic
+.
+ trim_to_window
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Następuje kolejne zmniejszenie okna opisującego użyteczne dane.
+ W tym celu wykorzystywane są własności transformaty Fouriera
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Zielinski2002,Lyons2010"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Generowana jest transformata Fouriera dla funkcji F pary sygnałów pętli
+ 3m.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+F(X_{\sim},R_{\sim})=\sqrt{X_{\sim}^{2}+R_{\sim}^{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+W tym celu wykorzystany został algorytm tworzenia szybiej transformaty Fouriera
+ FFT
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Rockmore1999"
+
+\end_inset
+
+.
+ Posłużono się implementacją oferowaną przez bibliotekę 
+\shape italic
+kissfft
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kissfft"
+
+\end_inset
+
+ - 
+\shape default
+poprawna implementacja algorytmu FFT wymaga dużego nakładu czasu, ponadto
+ biblioteka spełnia wszystkie wymagania projektu, jest lekka, nie wymaga
+ wielu zasobów, a przy tym generuje transformatę z dużą wydajnością.
+\end_layout
+
+\begin_layout Standard
+Wygenerowany przebieg transformatyw dziedzinie częstotliwości ograniczany
+ jest następnie do pierwszych 30 próbek i poddawany przekształceniu odwrotnemu,
+ by uzyskać ponownie sygnał w dziedzinie czasu.
+ Pozwala to w teorii na pozbycie się zakłóceń o wysokich częstotliwościach.
+\end_layout
+
+\begin_layout Standard
+Uzyskany sygnał poddawany jest operacji usunięcia offsetu, analogicznie
+ do metody 
+\shape italic
+remove_offset.
+ 
+\shape default
+Ostatnim krokiem jest określenie położenia okna, w tym celu zastosowano
+ prostą implementację komparatora z histerezą
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:komparator-histereza"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=C,basicstyle={\ttfamily},breaklines=true,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color{green}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color{magenta}}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+const double l_bound = 0.5; // próg dolny
+\end_layout
+
+\begin_layout Plain Layout
+
+const double u_bound = 0.8; // próg górny
+\end_layout
+
+\begin_layout Plain Layout
+
+for (unsigned i = 0; i < length; i++) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (signal[i] > u_bound && in_window == false) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		in_window = true;
+\end_layout
+
+\begin_layout Plain Layout
+
+		w_start = i;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	else if (signal[i] < l_bound && in_window == true) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		w_end = i;
+\end_layout
+
+\begin_layout Plain Layout
+
+		break;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Implementacja komparatora z histerezą.
+\begin_inset CommandInset label
+LatexCommand label
+name "lis:komparator-histereza"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Przebiegi wszystkich sygnałów są następnie ograniczane do przedziału próbek
+ [
+\shape italic
+w_start
+\shape default
+, 
+\shape italic
+w_end
+\shape default
+].
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Wykonanie tych operacji kończy etap wstępnego przetwarzania sygnału i pozwala
+ na uruchomienie właściwej części algorytmu.
+ Składają się to poniższe kroki.
+\end_layout
+
+\begin_layout Itemize
+wyznaczenie sygnałów 
+\shape italic
+R, X, M
+\shape default
+ oraz wartości parametrów 
+\shape italic
+L
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+x
+\end_layout
+
+\end_inset
+
+
+\shape default
+ i
+\shape italic
+ L
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+m
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Wyznaczane są sygnały 
+\shape italic
+R 
+\shape default
+i 
+\shape italic
+X,
+\shape default
+ odpowiadające parze sygnałów dla pętli 0,1m, oraz sygnał
+\shape italic
+ M
+\shape default
+, opisany funkcją
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+M(X,R)=X^{2}+R^{2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Następnie wyznaczane są wartości 
+\shape italic
+L
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+x
+\end_layout
+
+\end_inset
+
+
+\shape default
+ - liczba próbek sygnału 
+\shape italic
+X
+\shape default
+ o wartości większej od 0,1, oraz 
+\shape italic
+L
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+m
+\end_layout
+
+\end_inset
+
+
+\shape default
+ - liczba próbek sygnału 
+\shape italic
+M
+\shape default
+ o wartości większej od 0,5.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+określenie wartości parametrów 
+\shape italic
+a/b, H i Y
+\shape default
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Na podstawie wartości parametrów 
+\shape italic
+L
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+x
+\end_layout
+
+\end_inset
+
+
+\shape default
+oraz
+\shape italic
+ L
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+m
+\end_layout
+
+\end_inset
+
+
+\shape default
+definiowane są wartości parametrów zgodnie z tabelą
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="3">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+warunek
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{L_{x}}{L_{m}}>0,1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{L_{x}}{L_{m}}\leq0,1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a/b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,21
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+H
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,45
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Y
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0,5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Parametry te są następnie wykorzystywane w trakcie właściwego poszukiwania
+ osi.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+wyznaczenie sygnału 
+\shape italic
+K
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+p
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Kolejnym krokiem jest wyznacznie sygnału 
+\shape italic
+K
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+p
+\end_layout
+
+\end_inset
+
+
+\shape default
+ zgodnie z formułą
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+K_{p}=a/b\cdot R+X
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Pomocniczo wyznacza się również wartość 
+\shape italic
+K
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+pmax
+\end_layout
+
+\end_inset
+
+=max(K
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+p
+\end_layout
+
+\end_inset
+
+)
+\shape default
+.
+ Jeśli wartość 
+\shape italic
+K
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+pmax
+\end_layout
+
+\end_inset
+
+
+\shape default
+ jest większa od 3, wprowadza się modyfikacje do wartości parametrów algorytmu:
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+Y
+\shape default
+ = 0,8, 
+\shape italic
+H
+\shape default
+ = 0,45.
+\end_layout
+
+\begin_layout Standard
+Dokonuje się również normalizacji sygnału 
+\shape italic
+K
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+p
+\end_layout
+
+\end_inset
+
+
+\shape default
+ na sygnał
+\shape italic
+ K
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+u
+\end_layout
+
+\end_inset
+
+
+\shape default
+o wartościach z przedziału 0-5.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=C,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color{green}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color{magenta}}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+for (unsigned i = 0; i < length; i++)
+\end_layout
+
+\begin_layout Plain Layout
+
+	Ku[i] = 5 * Kp[i] / Kp_max; 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+wyszukiwanie osi
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Mając sygnał 
+\shape italic
+K
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+u
+\end_layout
+
+\end_inset
+
+
+\shape default
+ oraz parametry 
+\shape italic
+a/b, H i Y
+\shape default
+ można przystąpić do procedury szukania osi.
+ Odpowiada za nią poniższa funkcja 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:counter-fun"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=C,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color{green}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color{magenta}}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+unsigned counter(double *Ku, unsigned len, double Y, double H,
+\end_layout
+
+\begin_layout Plain Layout
+
+                 unsigned *axle_positions) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    if (Ku == NULL) {
+\end_layout
+
+\begin_layout Plain Layout
+
+        exit(EINVAL);
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    unsigned num_axles = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+    unsigned is_high = 0; // flaga stanu
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    const double level_top = Y + H / 2;
+\end_layout
+
+\begin_layout Plain Layout
+
+    const double level_bottom = Y - H / 2;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    double val_max = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    for (unsigned i = 0; i < len; i++) {
+\end_layout
+
+\begin_layout Plain Layout
+
+        if (is_high == 0 && Ku[i] >= level_top) {
+\end_layout
+
+\begin_layout Plain Layout
+
+            is_high = 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+            num_axles++;
+\end_layout
+
+\begin_layout Plain Layout
+
+        }
+\end_layout
+
+\begin_layout Plain Layout
+
+        else if (is_high == 1 && Ku[i] < level_bottom) {
+\end_layout
+
+\begin_layout Plain Layout
+
+            is_high = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+            val_max = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+        }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+        if (axle_positions != NULL) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			if (is_high && val_max < Ku[i]) {
+\end_layout
+
+\begin_layout Plain Layout
+
+                axle_positions[num_axles - 1] = i;
+\end_layout
+
+\begin_layout Plain Layout
+
+                val_max = Ku[i];
+\end_layout
+
+\begin_layout Plain Layout
+
+            }
+\end_layout
+
+\begin_layout Plain Layout
+
+        }
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    return num_axles;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Funkcja poszukująca osie.
+\begin_inset CommandInset label
+LatexCommand label
+name "lis:counter-fun"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+W przypadku znalezienia dwóch, trzech lub pięciu osi, algorytm kończy działanie,
+ zakładając, że wynik jest poprawny.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Wprowadzono ponadto dwa dodatkowe warunki, które poprawiają skuteczność
+ algorytmu.
+\end_layout
+
+\begin_layout Itemize
+szukanie drugiej osi
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Jeśli udało znaleźć się tylko jedną oś, modyfikuje się parametry i ponawia
+ poszukiwania.
+ Przyjmuje się wartość parametru 
+\shape italic
+H 
+\shape default
+= 0,1, natomiast wartość parametru 
+\shape italic
+Y
+\shape default
+ zmniejsza się każdorazowo o 0,1 i ponawia poszukiwania do czasu odnalezienia
+ co najmniej dwóch osi lub osiągnięcia przez parametr
+\shape italic
+ Y 
+\shape default
+wartości nie większej niż 0,15.
+ Wystąpienie dowolnego warunku kończy działanie algorytmu.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+szukanie podniesionej piątej osi
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Jeśli odnaleziono 4 osie, uruchamia się procedura poszukiwania podniesionej
+ piątej osi.
+ Zmiany sygnału w takiej sytuacji są niewielkie, stąd konieczność wprowadzenia
+ modyfikacji do wartości parametru 
+\shape italic
+Y
+\shape default
+.
+ Zmniejsza się go każdorazowo o 0,1 i ponawia poszukiwania do czasu, do
+ póki wartość parametru 
+\shape italic
+Y
+\shape default
+ jest większa od 0,15 oraz odnaleziono wciąż 4 osie.
+ W przypadku odnalezienia piątej osi, uznaje się ją za poszukiwaną oś podniesion
+ą, natomiast w przypadku wykrycia wartości innej niż 4 lub 5 osi w dowolnym
+ miejscu procedury, uznaje się to za błąd i przyjmuje wartość 4 osi za poprawny
+ wynik algorytmu.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Powyższe operacje stanowią kompletny algorytm poszukiwania osi pojazdu.
+ W kolejnych rozdziałach przedstawiono modyfikacje algorytmu, które zwiększają
+ jego funkcjonalność oraz umożliwiają weryfikację wyników.
+\end_layout
+
 \begin_layout Chapter
 Detekcja długości pojazdu i położenia osi
+\end_layout
+
+\begin_layout Chapter
+Weryfikacja z piezo
 \end_layout
 
 \begin_layout Chapter
