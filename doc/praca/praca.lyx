@@ -1477,7 +1477,6 @@ piezo N
 
 \end_layout
 
-\end_deeper
 \begin_layout Standard
 Gdzie 
 \shape italic
@@ -1486,6 +1485,75 @@ N
  to liczba osi wyznaczona poprzez czujniki piezoelektryczne.
 \end_layout
 
+\end_deeper
+\begin_layout Itemize
+W przypadku wywołania jednocześnie funkcji wyznaczania położeń osi oraz
+ weryfikacji na postawie czujników piezoelektrycznych, wyjście przyjmuje
+ postać
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+źródło n d l_1 ...
+ l_n+1
+\end_layout
+
+\begin_layout Plain Layout
+
+piezo N L_1 ...
+ L_n-1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Gdzie wartości 
+\shape italic
+L
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+
+\shape default
+ ...
+ 
+\shape italic
+L
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+n-1
+\end_layout
+
+\end_inset
+
+
+\shape default
+ oznaczają odległości pomiędzy osiami zgodnie z rysunkiem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:schemat-dlugosci"
+
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 Ilość informacji na wyjściu może zmienić się na żądanie użytkownika - możliwe
  jest wytłumienie wszelkich komunikatów, bądź wyświetlenie informacji na
@@ -2511,11 +2579,203 @@ Powyższe operacje stanowią kompletny algorytm poszukiwania osi pojazdu.
 \end_layout
 
 \begin_layout Chapter
-Detekcja długości pojazdu i położenia osi
+Weryfikacja przy użyciu czujników piezoelektrycznych
+\end_layout
+
+\begin_layout Standard
+Stanowisko pomiarowe dysponuje dwoma czujnikami piezoelektrycznymi, które
+ wykorzystywane są do określania prędkości pojazdu.
+ Odczyty te mogą również posłużyć do określenia ilości osi przejeżdżającego
+ pojazdu.
+ Cecha ta została wykorzystana w programie w celu weryfikacji działania
+ algorytmu.
+\end_layout
+
+\begin_layout Standard
+O ile wykorzystanie danych z czujników piezoelektrycznych do określenia
+ liczby osi jest znacznie łatwiejsze niż implementacja algorytmu przy użyciu
+ pomiarów z czujników indukcyjnych, to z wykorzystaniem tego typu czujników
+ wiążą się ograniczenia.
+ Przede wszystkim, niemożliwe jest wykrycie podniesionej osi.
+ Odczyt ogranicza się do możliwości wykrycia nacisku osi, a przez to ich
+ liczby oraz prędkości pojazdu.
+ Czujniki te są również bardziej narażone na obciążenia mechaniczne.
+\end_layout
+
+\begin_layout Standard
+W celu weryfikacji posłużono się sygnałem z jednego czujnika - zakładając,
+ że czujniki działają poprawnie, sygnał z obu powinien mieć przebieg różniący
+ się wyłącznie fazą.
+ Sygnał przetwarzany był przez funkcję zaprezentowaną na listingu 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:counter-fun"
+
+\end_inset
+
+, przy nastawach 
+\shape italic
+Y
+\shape default
+ = 2, 
+\shape italic
+H
+\shape default
+ = 0,1.
+ Sygnał z czujników piezoelektrycznych powinien być zbliżony do sygnału
+ binarnego 0-5 i pozbawiony dgrać, wybór poziomu odniesienia w okolicy środka
+ tego przedziału zapewnia więc dokładność odczytu.
+\end_layout
+
+\begin_layout Standard
+Wyznaczenie liczby osi stanowi koniec pierwszej fazy testu.
+ W przypadku, gdy nie jest ona równa liczbie wyznaczonej przez algorytm
+ detekcji osi, program kończy działanie.
+ W przeciwnym razie tworzony jest nowy sygnał, 
+\shape italic
+CP
+\shape default
+, który stanowi złożenie sygnału z piezo P
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+ oraz sygnału K
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+u
+\end_layout
+
+\end_inset
+
+ przetworzonego przez filtr dwupołożeniowy.
+ Sposób tworzenia sygnału CP pokazano na listingu 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:cp-signal"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=C,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color{green}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color{magenta}}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+for (unsigned i = 0; i < length; i++) {
+\end_layout
+
+\begin_layout Plain Layout
+
+    if (is_high == 0 && Ku[i] >= level_top) {
+\end_layout
+
+\begin_layout Plain Layout
+
+        is_high = 5;
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    else if (is_high == 5 && Ku[i] < level_bottom) {
+\end_layout
+
+\begin_layout Plain Layout
+
+        is_high = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    CP[i] = is_high + P1[i];
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Generowanie sygnału CP.
+\begin_inset CommandInset label
+LatexCommand label
+name "lis:cp-signal"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Otrzymany sygnał CP przetwarzany jest ponownie przez funkcję z listingu
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:counter-fun"
+
+\end_inset
+
+ z parametrami 
+\shape italic
+Y
+\shape default
+ = 8, 
+\shape italic
+H
+\shape default
+ = 0.
+ Wyjście funkcji stanowi liczbę osi wykrytych przez algorytm weryfikacji
+ wyników.
 \end_layout
 
 \begin_layout Chapter
-Weryfikacja z piezo
+Detekcja długości pojazdu i położenia osi
+\end_layout
+
+\begin_layout Standard
+Program wykorzystywany do detekcji osi został zbudowany w taki sposób, by
+ łatwo było dodawać do niego kolejne funkcje.
+ Wykorzystano to w celu zaimplementowania algorytmu wyznaczającego przybliżoną
+ długość pojazdu oraz położenia poszczególnych osi.
+\end_layout
+
+\begin_layout Standard
+W tym celu wykorzystano już 
 \end_layout
 
 \begin_layout Chapter
