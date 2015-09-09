@@ -2276,6 +2276,30 @@ for (unsigned i = 0; i < length; i++)
 	Ku[i] = 5 * Kp[i] / Kp_max; 
 \end_layout
 
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Normalizacja sygnału K
+\shape italic
+p
+\shape default
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lis:kp-signal"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \end_inset
 
 
@@ -2768,14 +2792,409 @@ Detekcja długości pojazdu i położenia osi
 \end_layout
 
 \begin_layout Standard
-Program wykorzystywany do detekcji osi został zbudowany w taki sposób, by
- łatwo było dodawać do niego kolejne funkcje.
- Wykorzystano to w celu zaimplementowania algorytmu wyznaczającego przybliżoną
- długość pojazdu oraz położenia poszczególnych osi.
+Informacja na temat liczby osi pojazdu nie pozwala określić dokładnie klasy
+ pojazdu.
+ Dwie osie posiadają zarówno małe auta osobowe, jak i pojazdy ciężarowe.
+ Z tego powodu, dane na temat osi można uzupełnić o długość pojazdu oraz
+ o rozstaw poszczególnych osi.
+ Taki zbiór danych umożliwia dokładniejsze określenie typu pojazdu, którego
+ dotyczy próbka pomiarów.
 \end_layout
 
 \begin_layout Standard
-W tym celu wykorzystano już 
+W celu wyznaczenia przybliżonej długości pojazdu, zaimlementowano algorytm
+ na bazie odczytów z czujników indukcyjnych.
+\end_layout
+
+\begin_layout Standard
+Stworzono sygnał 
+\shape italic
+M
+\shape default
+ opisany funkcją
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+M(R_{1},X_{1})=R_{1}^{2}+X_{1}^{2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Gdzie R
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+ i X
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+ stanowią wartości sygnałów dla pętli indukcyjnej 1m.
+\end_layout
+
+\begin_layout Standard
+W większości przypadków, sygnał taki stanowi dobrą bazę do badania położenia
+ pojazdu względem czujnika.
+ Przebieg sygnału w czasie przedstawiono na wykresie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:m-signal"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przebieg badanego sygnału M.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:m-signal"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wykorzystując pokazaną na wykresie własność, można stworzyć algorytm, który
+ określi przybliżoną długość pojazdu.
+ Algorytmem jest proste wyznaczenie przedziału, w którym wartości sygnału
+ 
+\shape italic
+M 
+\shape default
+przekraczają przyjęty próg odcięcia 
+\shape italic
+K
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+l
+\end_layout
+
+\end_inset
+
+
+\shape default
+.
+ W trakcie tworzenia implementacji programowej przyjęto wartość 
+\shape italic
+K
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+l
+\end_layout
+
+\end_inset
+
+
+\shape default
+ = 0,5.
+ Implementację funkcji wyznaczającej okno, w którym znajduje się w przybliżeniu
+ wykryte podwozie pojazdu zaprezentowano na listingu 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:veh-length"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=C,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color{green}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color{magenta}}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+    for (unsigned i = 0; i < length; i++) {
+\end_layout
+
+\begin_layout Plain Layout
+
+        if (M[i] > K_level) {
+\end_layout
+
+\begin_layout Plain Layout
+
+            index_start = i;
+\end_layout
+
+\begin_layout Plain Layout
+
+            break;
+\end_layout
+
+\begin_layout Plain Layout
+
+        }
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+    for (unsigned i = length - 1; i > 0; i--) {
+\end_layout
+
+\begin_layout Plain Layout
+
+        if (M[i] > K_level) {
+\end_layout
+
+\begin_layout Plain Layout
+
+            index_end = i;
+\end_layout
+
+\begin_layout Plain Layout
+
+            break;
+\end_layout
+
+\begin_layout Plain Layout
+
+        }
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "lis:veh-length"
+
+\end_inset
+
+Sposób określania okna przejazdu.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Znając długość okna
+\shape italic
+ l
+\shape default
+ opisanego zależnością
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+l=index_{end}-index_{start}\label{eq:roznica-indeksow}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+można, dzięki znajomości różnicy czasu pomiędzy dwoma próbkami 
+\shape italic
+dt
+\shape default
+ oraz prędkości pojazdu w metrach na sekundę 
+\shape italic
+v
+\shape default
+, wyznaczyć długość pojazdu 
+\shape italic
+L 
+\shape default
+w metrach
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+L=l\cdot v\cdot dt
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wartość ta jest tylko przybliżeniem rzeczywistej długości pojazdu, może
+ posłużyć jednak do wstępnej analizy rodzaju pojazdu.
+\end_layout
+
+\begin_layout Standard
+Położenia poszczególnych osi wyznaczane są we wcześniejszej części algorytmu
+ (w trakcie wyznaczania liczby osi pojazdu).
+ Przyjmuje się, że środek osi znajduje sie w punkcie, gdzie wartość sygnału
+ 
+\shape italic
+K
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+
+\shape italic
+p
+\end_layout
+
+\end_inset
+
+
+\shape default
+[
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:kp-signal"
+
+\end_inset
+
+] osiąga lokalne maksimum.
+ Znając indeks położenia osi 
+\shape italic
+p
+\begin_inset script subscript
+
+\begin_layout Plain Layout
+
+\shape italic
+i
+\end_layout
+
+\end_inset
+
+
+\shape default
+ oraz prędkość pojazdu 
+\shape italic
+v
+\shape default
+ i różnicę czasu pomiędzy kolejnymi próbkami 
+\shape italic
+dt
+\shape default
+, można wyznaczyć odległość osi od początku pojazdu, zgodnie z zależnością
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+P_{i}=p_{i}\cdot v\cdot dt\label{eq:polozenie-osi}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wynik jest następnie weryfikowany - różnica wyznaczonej długości pojazdu
+ oraz sumy odległości pierwszej osi od początku pojazdu, odległości pomiędzy
+ poszczególnymi osiami oraz odległości ostatniej osi od końca pojazdu nie
+ może być większa od przyjętego progu błędu 
+\shape italic
+e
+\shape default
+=0,02.
+ W przypadku, gdy wynik spełnia warunek, uznawany jest za poprawny i algorytm
+ kończy pracę.
+ W przeciwnym razie, użytkownik może zostać poinformowany o błędzie.
+\end_layout
+
+\begin_layout Standard
+Wartości położenia osi można zweryfikować również na podstawie odczytów
+ z czujników piezoeletrycznych.
+ Funkcja odpowiedzialna za to zadanie uruchamiania jest, gdy użytkownik
+ zdefiniował odpowiednią flagę przy starcie programu.
+\end_layout
+
+\begin_layout Standard
+Za indeks położenia osi przyjmuje się moment, w którym pojawi się narastające
+ zbocze sygnału czujnika.
+ Znając indeksy wszystkich osi, można wyznaczyć odległości pomiędzy kolejnymi
+ osiami zgodnie z zależnościami 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:roznica-indeksow"
+
+\end_inset
+
+oraz 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:polozenie-osi"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Ze względu na uproszczenia przyjęte w algorytmie wyznaczającym odległości
+ na bazie odczytów z czujników indukcyjnych, wartości uzyskane z piezo gwarantuj
+ą zazwyczaj większą dokładność.
+ Uznano jednak to zjawisko za dopuszczalne, ponieważ informacja na temat
+ długości pojazdu ma pełnić jedynie pomocniczą rolę - z dużym prawdopodobieństwe
+m można określić typ pojazdu, znając dokładną ilość osi oraz ich położenia
+ i długość pojazdu z dokładnością do kilkunastu centymetrów.
 \end_layout
 
 \begin_layout Chapter
