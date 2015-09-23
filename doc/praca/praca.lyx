@@ -32,6 +32,7 @@
 % \setlength{\itemsep}{-1\parsep}
 %---------------------------------------------------------------------------
 %\usepackage{epstopdf}
+\usepackage{mciteplus}
 \end_preamble
 \options pdflatex
 \use_default_options true
@@ -269,8 +270,8 @@ Informację na temat parametrów pojazdu można wykorzystać w wielu sytuacjach.
  który ostrzegałby kierowców w sytuacji, gdy pojazd może mieć problemy z
  pokonaniem odcinka drogi - ze względu na znajdujący się na trasie niski
  wiadukt czy zwężenie jezdni.
- Intormację o prędkości pojazdu można użyć przy tworzeniu podobnego systemu,
- ale ostrzegającego przed przekroczeniem dopuszczalnej prędkości.
+ Informację o prędkości pojazdu można użyć w trakcie projektowania podobnego
+ systemu, ale ostrzegającego przed przekroczeniem dopuszczalnej prędkości.
  Często stosuje się również czujniki określające wagę pojazdów, zazwyczaj
  przez służby odpowiedzialne za kontrole drogowe.
  
@@ -279,6 +280,7 @@ Informację na temat parametrów pojazdu można wykorzystać w wielu sytuacjach.
 \begin_layout Standard
 Znajomość danych na temat ilości osi pojazdu i ich położenia również jest
  użyteczna - pozwala na klasyfikację pojazdu na podstawie schematów FHWA
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "fhwaclasses"
@@ -290,7 +292,7 @@ key "fhwaclasses"
  kategoryzować badane zagadnienie.
  Klasyfikację pojazdu można wykorzystać w celu automatyzacji systemu przydzielan
 ia opłat na płatnych odcinkach dróg lub do analizy wykorzystania drogi przez
- pojazdy różnych katerogii - dane takie mogą posłużyć w przyszłości do jak
+ pojazdy różnych kategorii - dane takie mogą posłużyć w przyszłości do jak
  najlepszego rozwoju infrastruktury, stanowią bardziej użyteczną informację,
  niż dane wyłącznie o liczbie przejeżdżających pojazdów.
 \end_layout
@@ -302,12 +304,12 @@ Często nie jest potrzebna żadna informacja na temat pojazdu ponad sam fakt
  pojazdów są systemy sterowania sygnalizacją świetlną na wielu skrzyżowaniach.
  W ich przypadku nie są istotne parametry poszczególnych pojazdów, choć
  przydatna może być informacja na temat natężenia ruchu w poszczególnych
- kierunkach, co pozwala na otymalizację płynności ruchu.
+ kierunkach, co pozwala na optymalizację płynności ruchu.
 \end_layout
 
 \begin_layout Standard
 Ze względu na liczbę możliwych zastosować, zachęcające wydaje się zagadnienie
- projektowania jak najbardziej dokładych czujników i algorytmów przetwarzania
+ projektowania jak najbardziej dokładnych czujników i algorytmów przetwarzania
  danych, które jednocześnie zachowują przystępną cenę i gwarantują dużą
  wydajność.
 \end_layout
@@ -334,25 +336,27 @@ key "Gajd2012"
  Cechują się one dużą trwałością, niską ceną i niedużym skomplikowaniem
  instalacji, umożliwiający przy tym wyznaczanie szeregu parametrów pojazdu.
  Zaprojektowany algorytm pozwala, na bazie odczytów z czujników, na klasyfikację
- liczby osi pojazdu z dużą dokładnością, rzędu ponad 95% w większości przypadków.
+ liczby osi pojazdu z dużą dokładnością, rzędu ponad 95% w większości przypadków
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "marszalek2013"
 
 \end_inset
 
+.
  
 \end_layout
 
 \begin_layout Standard
-Praca podejmuje temat wykorzystania możliwości języka programowania C
+Praca podejmuje temat wykorzystania możliwości języka programowania C 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "cman"
 
 \end_inset
 
- i środowiska Linux
+ i środowiska Linux 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "linuxwww"
@@ -364,7 +368,7 @@ key "linuxwww"
 yjścia na niskim poziomie, metody zarządzania pamięcią - pozwalają na zaprojekto
 wanie bardzo wydajnych narzędzi.
  Natomiast dzięki użycia systemu Linux, skorzystać można z jego przydatnych
- funkcji, jak potoki
+ funkcji, jak potoki 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "linuxpipes"
@@ -372,7 +376,7 @@ key "linuxpipes"
 \end_inset
 
  umożliwiające kolejkowanie programów w celu zbudowania pełnoprawnej aplikacji
- czy obsługa błędów
+ czy 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "linuxsignals"
@@ -387,10 +391,10 @@ W trakcie pisania pracy podjęto zadanie implementacji algorytmu detekcji
  liczby osi pojazdu oraz rozbudowę funkcji programu o możliwość wyznaczania
  przybliżonej długości pojazdu oraz odległości pomiędzy osiami.
  Ponadto, zaimplementowano zbiór narzędzi umożliwiających użycie programu
- do wyznaczania parametrów w trybie ciągłym, bez konieczności interkacji
+ do wyznaczania parametrów w trybie ciągłym, bez konieczności interakcji
  ze strony użytkownika, oraz prosty model graficznego interfejsu użytkownika,
- wyświetljącego wyjście programu.
- Przy użyciu języka Python
+ wyświetlającego wyjście programu.
+ Przy użyciu języka Python 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "pythonman"
@@ -406,8 +410,8 @@ key "pythonman"
 \begin_layout Standard
 Główne założenia przyjęte w trakcie projektowania programu obejmowały dużą
  szybkość działania, bezwzględną poprawność implementacji - szczelne zarządzanie
- zasobami pamięci, uniknięcie ostrzeżeń w trakcie kompilacji -, obsługę
- strumieni wejścia/wyjścia i zgodność ze standardem POSIX i ideą GNU
+ zasobami pamięci, uniknięcie ostrzeżeń w trakcie kompilacji, obsługę strumieni
+ wejścia/wyjścia i zgodność ze standardem POSIX i ideą GNU 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gnustandard"
@@ -425,25 +429,25 @@ Pomiary parametrów pojazdów samochodowych przy użyciu pętli indukcyjnych
 W celu badania parametrów pojazdów samochodowych można wykorzystać zasadę
  działania cewki indukcyjnej w interakcji z przemieszczającymi się w jej
  otoczeniu przedmiotami o powierzchniach z różnych materiałów.
- Tworzy się układy pomiarowe składajace się z szeregu czujników indukcyjnych
+ Projektuje się układy pomiarowe składające się z szeregu czujników indukcyjnych
  pętlowych, układu kondycjonowania sygnału oraz układu elektronicznego odpowiedz
 ialnego za rejestrację sygnałów w celu dalszej ich interpretacji.
 \end_layout
 
 \begin_layout Standard
 Czujnik indukcyjny pętlowy zbudowany jest ze zwojów izolowanego przewodu,
- który zazwyczaj umieszczas się pod nawierzchnią jezdni.
+ który zazwyczaj umieszcza się pod nawierzchnią jezdni.
  Wykorzystuje się różne kształty i wymiary czujników, w zależności od przyjętych
  wymagań.
  W celu badania parametrów pojazdów na katedrze Metrologii AGH wykorzystano
- serię czujników pętlowych o różnych długościach.
- 
+ serię czujników pętlowych o różnych długościach 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Gajd2012"
 
 \end_inset
 
+.
  Dzięki wykorzystaniu czujników o innych kształtach, możliwe jest profilowanie
  stref czujności, a co za tym idzie, uzyskanie dokładniejszych pomiarów
  dla badanego zagadnienia.
@@ -487,6 +491,14 @@ p
 o
 \series default
  pomiędzy zwojami.
+ Źródło: 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "marszalek2013"
+
+\end_inset
+
+.
 \end_layout
 
 \end_inset
@@ -645,8 +657,8 @@ Założenia projektowe
 \end_layout
 
 \begin_layout Standard
-Przed przystąpieniem do tworzenia programu, przyjęte zostały pewne założenia,
- opisujące sposób implementacji i cel projektu.
+Przed przystąpieniem do implementacji programu, przyjęte zostały pewne założenia
+, opisujące sposób implementacji i cel projektu.
  Umożliwiło to określenie wymagań już na samym początku pracy i dzięki temu
  zwiększyło sprawność pracy.
  Podstawowym założeniem, przyjętym na samym początku pracy była decyzja
@@ -655,8 +667,8 @@ Przed przystąpieniem do tworzenia programu, przyjęte zostały pewne założeni
  omówione są po części poniżej.
  Ponadto system ten cieszy się dużym wsparciem społeczności, dzięki czemu
  nietrudno znaleźć materiały opisujące jego funkcje.
- Zdecydowano się na stworzenie oprogramowania w języku C, ze względu na
- oferowane przez to narzędzie wydajność i możliwość kontroli nad zasobami.
+ Zdecydowano się na przygotowanie oprogramowania w języku C, ze względu
+ na oferowane przez to narzędzie wydajność i możliwość kontroli nad zasobami.
 \end_layout
 
 \begin_layout Standard
@@ -673,7 +685,8 @@ Praca zgodnie z ideą oprogramowania GNU i standardem POSIX
 \end_layout
 
 \begin_layout Standard
-W trakcie pracy inspirowano się programami stworzonymi wokół ruchu GNU
+W trakcie pracy inspirowano się programami powstającymi wokół ruchu GNU
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gnupage"
@@ -681,8 +694,9 @@ key "gnupage"
 \end_inset
 
 .
- W przęciągu wielu lat, gdy tworzone było oprogramowanie związane z nim,
+ W przeciągu wielu lat, gdy publikowane było oprogramowanie związane z nim,
  udało się przyjąć pewne założenia programowania, zwane GNU Coding Standards
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gnustandard"
@@ -690,44 +704,45 @@ key "gnustandard"
 \end_inset
 
 .
- Opisują one zagadnienia, które często pojawiają się w trakcie tworzenia
- oprogramowania, takie jak styl formatowania kodu, obsługiwane flagi czy
- sposób tworzenia komentarzy.
+ Opisują one zagadnienia, które często pojawiają się w trakcie pracy nad
+ projektami programistycznymi, takie jak styl formatowania kodu, obsługiwane
+ flagi czy sposób pisania komentarzy.
  
 \end_layout
 
 \begin_layout Standard
-System Linux implementuje większość elementów wchodząch w skład standardu
- POSIX
+System Linux implementuje większość elementów wchodzących w skład standardu
+ POSIX 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "posixstd"
 
 \end_inset
 
-, dzięki zastosowaniu się do reguł opisywanych w standardzie w trakcie tworzenia
- programu, udało się uzyskać pewną formę przenośności - główny moduł programu
- powinien działać na wszystkich systemach, które implementują ten standard.
+, dzięki zastosowaniu się do reguł opisywanych w standardzie w trakcie pracy
+ nad projektem, udało się uzyskać pewną formę przenośności - główny moduł
+ programu powinien działać na wszystkich systemach, które implementują ten
+ standard.
 \end_layout
 
 \begin_layout Standard
 W trakcie pisania kodu programu, starano się stosować do Google C++ Style
- Guide
+ Guide - szeregu reguł opisujących sposób formatowania kodu w taki sposób,
+ aby zwiększyć jego przejrzystość i czytelność 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "googlestyleguide"
 
 \end_inset
 
- - szeregu reguł opisujących sposób formatowania kodu w taki sposób, aby
- zwiększyć jego przejrzystość i czytelność.
+.
  Pozwala to na utrzymanie podobnego stylu dla całego kodu źródłowego programu,
  a dzięki zwiększeniu czytelności wyszukiwanie błędów działania i rozwój
  programu staje się łatwiejszy.
 \end_layout
 
 \begin_layout Subsection
-Modułowość
+Podział na moduły
 \end_layout
 
 \begin_layout Standard
@@ -738,7 +753,7 @@ Zdecydowano się podzielić program na mniejsze elementy, moduły, z których
 \end_layout
 
 \begin_layout Standard
-Wyszczególniłono kilka głównych funkcji pakietu
+Wyszczególniono kilka głównych funkcji pakietu
 \end_layout
 
 \begin_layout Itemize
@@ -762,15 +777,15 @@ Potoki
 \end_layout
 
 \begin_layout Standard
-Połączenia pomiędzy poszczególnymi omodułami zostały zaimplementowane przy
- użyciu potoków
+Połączenia pomiędzy poszczególnymi modułami zostały zaimplementowane przy
+ użyciu potoków dostępnych w systemie Linux 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "linuxpipes"
 
 \end_inset
 
- dostępnych w systemie Linux.
+.
  Pozwalają one na łączenie dwóch programów w taki sposób, by wyjście jednego
  programu wysłane zostało na wejście drugiego.
  Jest to funkcja silnie wykorzystywana w trakcie pracy z systemem Linux.
@@ -823,7 +838,7 @@ Symbol
 \emph on
 |
 \emph default
- oznacza potok łączacy dwa sąsiednie programy, przy czym przepływ danych
+ oznacza potok łączący dwa sąsiednie programy, przy czym przepływ danych
  następuje od lewej do prawej, a więc wyjście programu 
 \shape italic
 ls
@@ -840,8 +855,8 @@ Obsługa flag
 \end_layout
 
 \begin_layout Standard
-Tworzony program miał być wywoływany z poziomu konsoli sytemu Linux, której
- wygląda podobnie do przedstawionej na rysunku 
+Projektowany program miał być wywoływany z poziomu konsoli sytemu Linux,
+ której wygląda podobnie do przedstawionej na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:linux-console"
@@ -850,7 +865,7 @@ reference "fig:linux-console"
 
 .
  W celu umożliwienia interakcji z programem wywoływanym w ten sposób, zaimplemen
-towano obsługę szeregu flag
+towano obsługę szeregu flag 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gnucli"
@@ -873,9 +888,16 @@ Zaimplementowano flagi odpowiedzialne za tryb pracy algorytmu, umożliwiające
  weryfikację wyników z czujników piezo, zarządzające ilością informacji
  wyświetlanych na ekranie w trakcie pracy czy przekierowujące wyjście do
  pliku.
- Ponadto, zachowano zgodność ze standardem GNU, który zaleca stworzenie
- obsługi flag --version i --help, wyświetlających odpowiednio informację
- o wersji programu i stronę pomocy.
+ Ponadto, zachowano zgodność ze standardem GNU, który zaleca implementację
+ obsługi flag 
+\shape italic
+--version
+\shape default
+ i
+\shape italic
+ --help
+\shape default
+, wyświetlających odpowiednio informację o wersji programu i stronę pomocy.
 \end_layout
 
 \begin_layout Standard
@@ -939,8 +961,7 @@ Wydajność
 \begin_layout Standard
 Analiza zebranych wyników często wymaga przetworzenia danych dla setek czy
  tysięcy pojazdów.
- Z tego względu przed programem stawiane są silne wymagania dotyczącze wydajnośc
-i.
+ Z tego względu przed programem stawiane są silne wymagania dotyczące wydajności.
  Dzięki wykorzystaniu języka C do implementacji modułu odpowiedzialnego
  za obliczenia, możliwa była duża kontrola nad takimi elementami jak operacje
  wejścia-wyjścia i zarządzanie pamięcią, możliwa była duża optymalizacja
@@ -956,7 +977,7 @@ reference "sub:efficiency"
 \end_layout
 
 \begin_layout Subsection
-Wielofukcyjność
+Wielofunkcyjność
 \end_layout
 
 \begin_layout Standard
@@ -975,10 +996,10 @@ Pierwszy umożliwia jednorazową analizę jednego lub wielu plików, które są
 Program może również zostać wywołany w trybie oczekiwania na dane.
  W momencie, gdy pojawia się nowy plik z danymi, są one natychmiast analizowane.
  Jest to przydatne, gdy program działa bezpośrednio na systemie odpowiedzialnym
- za zbieranie danych - praktyczne wydaje się stworzenie ciągu operacji,
+ za zbieranie danych - praktyczne wydaje się zaprojektowanie ciągu operacji,
  w którym dane odczytane trafiają do określonego folderu, są analizowane
- przez stworzony program, a następnie prezentowane w czytelnej formie, na
- przykład poprzez stronę internetową.
+ przez przygotowany program, a następnie prezentowane w czytelnej formie,
+ na przykład poprzez stronę internetową.
  Pozwalałoby to na nadzorowanie pracy czujnika i zbieranie wyników bez konieczno
 ści fizycznego kontaktu z urządzeniem.
 \end_layout
@@ -1023,7 +1044,7 @@ Jednocześnie do przyjmowania założeń projektowych, przyjęte zostały równi
 \end_layout
 
 \begin_layout Itemize
-Program nie jest odpowiedzalny za wstępną analizę sygnałów czujnika w celu
+Program nie jest odpowiedzialny za wstępną analizę sygnałów czujnika w celu
  wykrycia pojazdu.
  Przyjęto założenie, że próbka została już wstępnie przeanalizowana w celu
  odseparowania danych dotyczących krótkiego okresu, gdy pojazd znajdował
@@ -1031,7 +1052,7 @@ Program nie jest odpowiedzalny za wstępną analizę sygnałów czujnika w celu
 \end_layout
 
 \begin_layout Itemize
-Jedna próbka danych powinna zawierać informacje dotyczącze wyłącznie jednego
+Jedna próbka danych powinna zawierać informacje dotyczące wyłącznie jednego
  pojazdu.
  W przypadku, gdy w jednym pliku danych pojawią się informacje dotyczące
  wielu pojazdów, zostaną one błędnie zinterpretowane.
@@ -1085,7 +1106,7 @@ Dostosowanie się do założeń przyjętych przed rozpoczęciem pracy powinno
  Wybór języka C również przyniosło pozytywne skutki - poza opisywanymi wcześniej
  cechami języka, które wykorzystano, przydatne okazały się również silne
  związki pomiędzy tym językiem a jądrem systemu Linux.
- Ten kluczowy składnik systemu w ponad 95% zaimplementowany jest w C
+ Ten kluczowy składnik systemu w ponad 95% zaimplementowany jest w C 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "githublinux"
@@ -1116,7 +1137,7 @@ Przed uruchomieniem programu, konieczne jest zebranie danych z czujników,
 \end_layout
 
 \begin_layout Standard
-Układ pomiarowy składa się z zestawu pięci pętli indukcyjnych o rożnych
+Układ pomiarowy składa się z zestawu pięciu pętli indukcyjnych o rożnych
  parametrach oraz dwóch czujników piezoelektrycznych ułożonych wzdłuż pasa
  ruchu.
  Układ zbiera informacje w formie pary wartości sygnałów R
@@ -1376,7 +1397,7 @@ Gdzie
 \shape italic
 d
 \shape default
- oznacza długośc pojazdu a wartości 
+ oznacza długość pojazdu a wartości 
 \shape italic
 l
 \begin_inset script subscript
@@ -1593,22 +1614,22 @@ status open
 \end_layout
 
 \begin_layout Standard
-W związku z tym, stworzona implementacja musiała być wykonana uważnie i
- starannie.
+W związku z tym, przygotowywana implementacja musiała być wykonana uważnie
+ i starannie.
  Dzięki temu, udało się uzyskać algorytm równie dokładny, jak wersja bazowa,
  oferujący jednak wygodniejszy interfejs pracy i większą wydajność.
 \end_layout
 
 \begin_layout Standard
 Algorytm składa się szeregu akcji, wywoływanych po załadowaniu pliku z danymi.
- Przedstawiono je poniżej, wraz z nazwami funkcji odpowiedzalnych za akcję.
+ Przedstawiono je poniżej, wraz z nazwami funkcji odpowiedzialnych za akcję.
 \end_layout
 
 \begin_layout Itemize
 Usunięcie offsetu z sygnału.
  
 \shape italic
-remove_offset
+remove_offset 
 \begin_inset CommandInset label
 LatexCommand label
 name "alg-remove-offset"
@@ -1668,7 +1689,7 @@ Przycięcie danych do okna
 \begin_deeper
 \begin_layout Standard
 Następuje kolejne zmniejszenie okna opisującego użyteczne dane.
- W tym celu wykorzystywane są własności transformaty Fouriera
+ W tym celu wykorzystywane są własności transformaty Fouriera 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Zielinski2002,Lyons2010"
@@ -1696,8 +1717,8 @@ F(X_{\sim},R_{\sim})=\sqrt{X_{\sim}^{2}+R_{\sim}^{2}}
 \end_layout
 
 \begin_layout Standard
-W tym celu wykorzystany został algorytm tworzenia szybiej transformaty Fouriera
- FFT
+W tym celu wykorzystany został algorytm wyznaczania szybkiej transformaty
+ Fouriera FFT 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Rockmore1999"
@@ -1707,7 +1728,7 @@ key "Rockmore1999"
 .
  Posłużono się implementacją oferowaną przez bibliotekę 
 \shape italic
-kissfft
+kissfft 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kissfft"
@@ -1722,7 +1743,7 @@ poprawna implementacja algorytmu FFT wymaga dużego nakładu czasu, ponadto
 \end_layout
 
 \begin_layout Standard
-Wygenerowany przebieg transformatyw dziedzinie częstotliwości ograniczany
+Wygenerowany przebieg transformaty w dziedzinie częstotliwości ograniczany
  jest następnie do pierwszych 30 próbek i poddawany przekształceniu odwrotnemu,
  by uzyskać ponownie sygnał w dziedzinie czasu.
  Pozwala to w teorii na pozbycie się zakłóceń o wysokich częstotliwościach.
@@ -1736,7 +1757,7 @@ remove_offset.
  
 \shape default
 Ostatnim krokiem jest określenie położenia okna, w tym celu zastosowano
- prostą implementację komparatora z histerezą
+ prostą implementację komparatora z histerezą 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lis:komparator-histereza"
@@ -2151,7 +2172,7 @@ p
 
 \begin_deeper
 \begin_layout Standard
-Kolejnym krokiem jest wyznacznie sygnału 
+Kolejnym krokiem jest wyznaczenie sygnału 
 \shape italic
 K
 \begin_inset script subscript
@@ -2647,7 +2668,7 @@ H
 \shape default
  = 0,1.
  Sygnał z czujników piezoelektrycznych powinien być zbliżony do sygnału
- binarnego 0-5 i pozbawiony dgrać, wybór poziomu odniesienia w okolicy środka
+ binarnego 0-5 i pozbawiony drgać, wybór poziomu odniesienia w okolicy środka
  tego przedziału zapewnia więc dokładność odczytu.
 \end_layout
 
@@ -2655,7 +2676,7 @@ H
 Wyznaczenie liczby osi stanowi koniec pierwszej fazy testu.
  W przypadku, gdy nie jest ona równa liczbie wyznaczonej przez algorytm
  detekcji osi, program kończy działanie.
- W przeciwnym razie tworzony jest nowy sygnał, 
+ W przeciwnym razie wyznaczany jest nowy sygnał, 
 \shape italic
 CP
 \shape default
@@ -2678,7 +2699,7 @@ u
 \end_inset
 
  przetworzonego przez filtr dwupołożeniowy.
- Sposób tworzenia sygnału CP pokazano na listingu 
+ Sposób obliczania wartości sygnału CP pokazano na listingu 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lis:cp-signal"
@@ -2802,12 +2823,12 @@ Informacja na temat liczby osi pojazdu nie pozwala określić dokładnie klasy
 \end_layout
 
 \begin_layout Standard
-W celu wyznaczenia przybliżonej długości pojazdu, zaimlementowano algorytm
+W celu wyznaczenia przybliżonej długości pojazdu, zaimplementowano algorytm
  na bazie odczytów z czujników indukcyjnych.
 \end_layout
 
 \begin_layout Standard
-Stworzono sygnał 
+Wyznaczono sygnał 
 \shape italic
 M
 \shape default
@@ -2894,8 +2915,8 @@ name "fig:m-signal"
 \end_layout
 
 \begin_layout Standard
-Wykorzystując pokazaną na wykresie własność, można stworzyć algorytm, który
- określi przybliżoną długość pojazdu.
+Wykorzystując pokazaną na wykresie własność, można zaprojektować algorytm,
+ który określi przybliżoną długość pojazdu.
  Algorytmem jest proste wyznaczenie przedziału, w którym wartości sygnału
  
 \shape italic
@@ -2915,7 +2936,7 @@ l
 
 \shape default
 .
- W trakcie tworzenia implementacji programowej przyjęto wartość 
+ W trakcie pracy nad implementacją programową przyjęto wartość 
 \shape italic
 K
 \begin_inset script subscript
@@ -3084,7 +3105,7 @@ Wartość ta jest tylko przybliżeniem rzeczywistej długości pojazdu, może
 \begin_layout Standard
 Położenia poszczególnych osi wyznaczane są we wcześniejszej części algorytmu
  (w trakcie wyznaczania liczby osi pojazdu).
- Przyjmuje się, że środek osi znajduje sie w punkcie, gdzie wartość sygnału
+ Przyjmuje się, że środek osi znajduje się w punkcie, gdzie wartość sygnału
  
 \shape italic
 K
@@ -3161,7 +3182,7 @@ e
 
 \begin_layout Standard
 Wartości położenia osi można zweryfikować również na podstawie odczytów
- z czujników piezoeletrycznych.
+ z czujników piezoelektrycznych.
  Funkcja odpowiedzialna za to zadanie uruchamiania jest, gdy użytkownik
  zdefiniował odpowiednią flagę przy starcie programu.
 \end_layout
@@ -3266,9 +3287,8 @@ name "sub:stability"
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-btprint "btPrintAll"
 bibfiles "bibliografia"
-options "bibtotoc,plplain"
+options "bibtotoc,IEEEtranM"
 
 \end_inset
 
