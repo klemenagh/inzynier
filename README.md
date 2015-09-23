@@ -24,3 +24,25 @@ plikWejściowy LiczbaOsi DługośćPojazdu wartościOdległości S1 S2 S3
   - [ ] Buforowanie odrzucanej obecnie próbki danych w trybie pracy ciągłej. (po ustaleniu przydatności)
   - [ ] Bardziej generyczna metoda zadawania poprawnych wartości w pliku testów.
   - [ ] Cleanup kodu.
+
+
+Uwagi
+Bibliografia
+  - czas dostępu online
+  - wszyscy autorzy - "and" w jabref
+  - jabref - IEEE...S
+  - ALT... -> article
+
+Praca
+  - unikać słowa `tworzyć`
+  - spacje wokół odnośników, na końcu zdania
+  - forma bezosobowa
+  - w trakcie prezentacji - forma pierwszej osoby
+  - cel i zakres pracy
+  - grafiki - ze źródłem
+  
+Lyx
+  - wtyczka Hunspell
+
+Schematy
+  - visio / inkscape
