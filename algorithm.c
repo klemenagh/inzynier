@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <math.h>
-#include "algorithm.h"
 
+#include "algorithm.h"
 #include "kiss_fft/kiss_fft.h"
 
 extern int verbosity_level;
@@ -19,7 +19,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
 
     remove_offset(vector, OFFSET_NUM);
 
-    //wyliczenie ilości próbek do obcięcia dla każdej pary czujników
+    // wyliczenie ilości próbek do obcięcia dla każdej pary czujników
     double velocity = 0; // prędkość w m/s
     double distance = 0; // odległość w m
 
@@ -32,23 +32,23 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
         printf(" Długość okna: %d\n", vector->size);
     }
 
-    //właściwa część algorytmu
+    // właściwa część algorytmu
     if (is_verbosity_at_least(DEBUG)) {
         puts("\nUruchamianie algorytmu poszukiwania osi.");
     }
     const unsigned length = vector->size;
-    double R[length], X[length];    // tablice sygnałów R01 i X01
-    double M[length];               // sygnal M = R^2 + X^2
-    double Kp[length];              // sygnal K' = a_b * R + X
+    double R[length], X[length];        // tablice sygnałów R01 i X01
+    double M[length];                   // sygnal M = R^2 + X^2
+    double Kp[length];                  // sygnal K' = a_b * R + X
     double Kp_max = 0;                  // wartość maksymalna sygnału K'
-    double Ku[length];              // sygnał K' unormowany
-    unsigned Lx, Lm;                // wartości liczników dla sygnałów X oraz M.
-    unsigned num_axles;             // ilość osi
-    unsigned axle_locations[5];     // zmienna pomocnicza, przechowująca numery próbek z przybliżonymi położeniami osi
-    unsigned piezo_axle_locations[5]; // jak wyżej, wykorzystywana w przypadku weryfikacji wyników z piezo
+    double Ku[length];                  // sygnał K' unormowany
+    unsigned Lx, Lm;                    // wartości liczników dla sygnałów X oraz M.
+    unsigned num_axles;                 // ilość osi
+    unsigned axle_locations[5];         // zmienna pomocnicza, przechowująca numery próbek z przybliżonymi położeniami osi
+    unsigned piezo_axle_locations[5];   // jak wyżej, wykorzystywana w przypadku weryfikacji wyników z piezo
 
-    //nastawy algorytmu
-    //w porównaniu do matlaba, a_b = r, Y = S, H = H
+    // nastawy algorytmu
+    // w porównaniu do matlaba, a_b = r, Y = S, H = H
     double a_b, Y, H;
     vehicle_data_t vehicle;
     vehicle.velocity = velocity;
@@ -56,32 +56,30 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
     for (unsigned i = 0; i < length; i++) {
         R[i] = vector->vector[i].data[DATA_R01];
         X[i] = vector->vector[i].data[DATA_X01];
-
         M[i] = pow(R[i], 2) + pow(X[i], 2);
     }
 
     Lx = count_compare(X, length, 0.1); //todo matlab=0.1, praca=0.2 ?
     Lm = count_compare(M, length, 0.5);
 
-    if (Lm == 0) {
+    if (Lm == 0) { // można przyjąć, że stosunek Lx/Lm = 0 i kontynuować pracę
         if (is_verbosity_at_least(DEBUG)) {
             puts(" Liczba próbek sygnału Lm = 0.");
-            // można przyjąć, że stosunek Lx/Lm = 0 i kontynuować pracę
         }
     }
 
-    if (1.0 * Lx > 0.1 * Lm) { //wybor nastaw zestawu A
+    if (1.0 * Lx > 0.1 * Lm) { // wybór nastaw zestawu A
         a_b = 0.21;
         Y = 0.8;
         H = 0.45;
     }
-    else { //nastawy zestawu B
+    else { // nastawy zestawu B
         a_b = 0.5;
         Y = 4;
         H = 0.5;
     }
 
-    //stworzenie sygnalu K'
+    // stworzenie sygnalu K'
     for (unsigned i = 0; i < length; i++) {
         Kp[i] = a_b * R[i] + X[i];
 
@@ -89,22 +87,21 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
     }
 
     if (Kp_max > 3) {
-        //zgodnie z implementacja w matlab, zmiana wartości nastaw na podane
+        // zgodnie z implementacja w matlab, zmiana wartości nastaw na podane
         Y = 0.8;
         H = 0.45;
     }
 
-    //normalizacja sygnału K'
+    // normalizacja sygnału K'
     for (unsigned i = 0; i < length; i++) {
         Ku[i] = 5 * Kp[i] / Kp_max;
     }
 
     num_axles = counter(Ku, length, Y, H, axle_locations);
-    //procedura szukania drugiej osi
+    // procedura szukania drugiej osi
     if (num_axles < 2) {
         if (is_verbosity_at_least(DEBUG)) {
-            printf(" Znaleziono %1d osi, procedura szukania do 2...\n",
-                   num_axles);
+            printf(" Znaleziono %1d osi, procedura szukania do 2...\n", num_axles);
         }
 
         H = 0.1;
@@ -115,15 +112,15 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
     }
     vehicle.class = (vehicle_class) num_axles;
 
-    //procedura szukania podniesionej piątej osi
+    // procedura szukania podniesionej piątej osi
     if (num_axles == 4) {
         if (is_verbosity_at_least(DEBUG)) {
             puts(" Znaleziono 4 osie, procedura szukania 5...");
         }
         H = 0.1;
-        a_b = 0.3; //zwiększenie znaczenia sygnału R
+        a_b = 0.3; // zwiększenie znaczenia sygnału R
 
-        //przepisanie sygnału K' i Ku
+        // przepisanie sygnału K' i Ku
         for (unsigned i = 0; i < length; i++) {
             Kp[i] = a_b * R[i] + X[i];
             if (i == 0 || Kp[i] > Kp_max) Kp_max = Kp[i];
@@ -132,7 +129,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
             Ku[i] = 5 * Kp[i] / Kp_max;
         }
         unsigned axle_loc_tmp[5];
-        //wlasciwe poszukiwanie 5. osi
+        // wlasciwe poszukiwanie 5. osi
         while (num_axles != 5 && Y > 0.15) {
             Y -= 0.1;
             num_axles = counter(Ku, length, Y, H, axle_loc_tmp);
@@ -149,7 +146,7 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
             }
         }
 
-        if (num_axles == 5) {//znaleziono podniesiona os
+        if (num_axles == 5) { // znaleziono podniesiona os
             vehicle.class = POJAZD_5OS_UP;
 
             for (unsigned i = 0; i < 5; i++)
@@ -189,12 +186,12 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
         }
 
         if (num_axles == piezo_axles) {
-            //druga faza weryfikacji
+            // druga faza weryfikacji
 
-            //symulacja pracy komparatora dla sygnalu Ku
-            //0 - stan niski, 5 - stan wysoki
-            //sygnał CP to złożenie sygnału C z powyzszego komparatora
-            //oraz sygnału P z piezo1
+            // symulacja pracy komparatora dla sygnalu Ku
+            // 0 - stan niski, 5 - stan wysoki
+            // sygnał CP to złożenie sygnału C z powyzszego komparatora
+            // oraz sygnału P z piezo1
             double CP[length];
             double is_high = 5; //5 = true, 0 = false
             const double level_top = Y + H / 2;
@@ -210,10 +207,9 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
                 CP[i] = is_high + P1[i];
             }
 
-            //ostatni etap weryfikacji, licznik impulsów dla sygnału CP
+            // ostatni etap weryfikacji, licznik impulsów dla sygnału CP
             // licznik - próg = 8, histereza = 0
-            piezo_axles = counter(CP, length, 8, 0,
-                                  NULL); //todo NULL czy piezo_axle_locations
+            piezo_axles = counter(CP, length, 8, 0, NULL); // todo NULL czy piezo_axle_locations
 
             if (is_verbosity_at_least(DEBUG)) {
                 printf("  Druga faza testu piezo zakończona.\n  osie = %d\n",
@@ -243,13 +239,11 @@ void remove_offset(data_vector_t *vector, unsigned num) {
 
     if (num > vector->size) {
         fprintf(stderr, "Ilość próbek do usuwania offsetu musi być mniejsza od długości wektora!\n"
-                      "Ilość próbek: %d, długość wektora: %d\n", num, vector->size);
+                "Ilość próbek: %d, długość wektora: %d\n", num, vector->size);
         exit(EINVAL);
     }
 
-    /*
-     * deklaracja tablicy zawierającej offsety dla poszczególnych wektorów
-     */
+    // deklaracja tablicy zawierającej offsety dla poszczególnych wektorów
     double offsets[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     for (unsigned i = 0; i < num; i++) {
@@ -258,10 +252,10 @@ void remove_offset(data_vector_t *vector, unsigned num) {
         }
     }
 
-    //wyznaczenie ostatenczej wartości offsetu dla każdego wektora
+    // wyznaczenie ostatenczej wartości offsetu dla każdego wektora
     for (int i = 0; i < 12; i++) offsets[i] /= num;
 
-    //przesunięcie wszystkich wartości w wektorze o zadany offset
+    // przesunięcie wszystkich wartości w wektorze o zadany offset
     for (unsigned i = 0; i < vector->size; i++) {
         for (unsigned j = 1; j < 13; j++) {
             vector->vector[i].data[j] -= offsets[j - 1];
@@ -284,32 +278,28 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
      * Prędkość wyznaczana jest w jednostce m/s.
     */
 
-    /*
-     * Definiowanie parametrów
-     */
-
-    //zdefiniowanie progów histerezy [V]
+    // zdefiniowanie progów histerezy [V]
     double p1, p2;
     p1 = 3;
     p2 = 2;
 
-    //odległośc pomiędzy czujnikami
+    // odległośc pomiędzy czujnikami
     double dist = 1;
 
-    //zmienne
+    // zmienne
     bool is_impulse1 = false;
     bool is_impulse2 = false;
 
     unsigned num_impulse1 = 0;
     unsigned num_impulse2 = 0;
 
-    //parametry wykorzystywane do wyliczenia odległości i prędkości
+    // parametry wykorzystywane do wyliczenia odległości i prędkości
     int index1[2] = {0, 0};
     int index2[2] = {0, 0};
 
     for (unsigned i = 0; i < vector->size; i++) {
 
-        //piezo 1
+        // piezo 1
         if (vector->vector[i].data[DATA_P1] >= p1 && is_impulse1 == false) {
             is_impulse1 = true;
             num_impulse1 += 1;
@@ -319,7 +309,7 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
             is_impulse1 = false;
         }
 
-        //piezo2
+        // piezo2
         if (vector->vector[i].data[DATA_P2] >= p1 && is_impulse2 == false) {
             is_impulse2 = true;
             num_impulse2 += 1;
@@ -330,13 +320,13 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
         }
     }
 
-    double t1 = 0; //czas do wyznaczania prędkości
-    double t2 = 0; //czas do wyznaczania odległości
+    double t1 = 0; // czas do wyznaczania prędkości
+    double t2 = 0; // czas do wyznaczania odległości
 
     t1 = (index2[0] - index1[0] + index2[1] - index1[1]) / 2.0;
     t2 = (index1[1] - index1[0] + index2[1] - index2[0]) / 2.0;
 
-    //konwersja na s
+    // konwersja na s
     double dt = vector->vector[1].data[DATA_T] - vector->vector[0].data[DATA_T];
     t1 *= dt;
     t2 *= dt;
@@ -357,12 +347,12 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
 void trim_data(data_vector_t *vector, double velocity) {
 
     double sensor_distance; // odległość dla każdej pary czujników
-    unsigned trim_front; // ilość próbek do obcięcia z przodu
+    unsigned trim_front;    // ilość próbek do obcięcia z przodu
     unsigned trim_back;     // ilość próbek do obcięcia na końcu
-    const double dt = vector->vector[1].data[DATA_T]   // różnica czasów
-                      - vector->vector[0].data[DATA_T];// między próbkami
+    const double dt = vector->vector[1].data[DATA_T]    // różnica czasów
+                      - vector->vector[0].data[DATA_T]; // między próbkami
 
-    //ograniczenie z tylu
+    // ograniczenie z tylu
     trim_back = (unsigned) (25.0 / velocity / dt);
 
     // 1m
@@ -371,36 +361,36 @@ void trim_data(data_vector_t *vector, double velocity) {
     trim_values(vector, DATA_R1, trim_front, trim_back);
     trim_values(vector, DATA_X1, trim_front, trim_back);
 
-    //0.5m
+    // 0.5m
     sensor_distance += 1 + 0.5;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
     trim_values(vector, DATA_R05, trim_front, trim_back);
     trim_values(vector, DATA_X05, trim_front, trim_back);
 
-    //0.3m
+    // 0.3m
     sensor_distance += 1 + 0.3;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
     trim_values(vector, DATA_R03, trim_front, trim_back);
     trim_values(vector, DATA_X03, trim_front, trim_back);
 
-    //3m
+    // 3m
     sensor_distance += 1 + 1.5 + 0.1;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
     trim_values(vector, DATA_R3, trim_front, trim_back);
     trim_values(vector, DATA_X3, trim_front, trim_back);
 
-    //0.1m
+    // 0.1m
     sensor_distance += 1.5 + 1 + 1.5;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
     trim_values(vector, DATA_R01, trim_front, trim_back);
     trim_values(vector, DATA_X01, trim_front, trim_back);
 
-    //piezo 1
+    // piezo 1
     sensor_distance += 1 + 1.5 + 1.1 + 1 + 1;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
     trim_values(vector, DATA_P1, trim_front, trim_back);
 
-    //piezo 2
+    // piezo 2
     sensor_distance += 1;
     trim_front = (unsigned) (sensor_distance / velocity / dt);
     trim_values(vector, DATA_P2, trim_front, trim_back);
@@ -430,7 +420,7 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
 
     if (is_verbosity_at_least(DEBUG)) printf(" Wartość nfft to %5d\n", nfft);
 
-    //fft
+    // fft
     size_t buflen = sizeof(kiss_fft_cpx) * nfft;
 
     kiss_fft_cpx *signal = (kiss_fft_cpx *) malloc(buflen);
@@ -480,7 +470,7 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
         sig_out[i] = 2.0 * reverse[i].r / nfft;
     }
 
-    //oproznanie zasobow wykorzystywanych przy wyliczaniu fft
+    // oproznanie zasobow wykorzystywanych przy wyliczaniu fft
     free(cfg);
     free(signal);
     free(fft);
@@ -492,7 +482,7 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
             printf("%15.7f\n", sig_out[i]);
     }
 
-    //usuniecie offsetu z uzyskanego sygnalu na podstawie wartosci OFFSET_NUM
+    // usuniecie offsetu z uzyskanego sygnalu na podstawie wartosci OFFSET_NUM
     const unsigned OFFSET_NUM = 50;
     double offset = 0;
 
@@ -502,21 +492,17 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
     offset /= OFFSET_NUM;
 
     if (is_verbosity_at_least(DEBUG)) {
-        printf(" Usuwanie offsetu z danych po fft.\n  offset = %10.6f\n",
-               offset);
+        printf(" Usuwanie offsetu z danych po fft.\n  offset = %10.6f\n", offset);
     }
 
     for (unsigned i = 0; i < vector->size; i++) sig_out[i] -= offset;
 
     if (is_verbosity_at_least(ALL)) {
         printf(" Sygnał po usunięciu offsetu:\n");
-        for (unsigned i = 0; i < ftt_stripe + 2; i++)
-            printf("%15.7f\n", sig_out[i]);
+        for (unsigned i = 0; i < ftt_stripe + 2; i++) printf("%15.7f\n", sig_out[i]);
     }
 
-    /*
-     * Wyszukiwanie okna w sygnale sig_out.
-     */
+    //Wyszukiwanie okna w sygnale sig_out.
     unsigned w_start = 0;
     unsigned w_end = vector->size - 1;
     bool in_window = false;
@@ -533,16 +519,15 @@ void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
     }
 
     if (is_verbosity_at_least(DEBUG)) {
-        printf(" Ograniczanie sygnału do okna.\n  start = %5d\n  end   = %5d\n",
-               w_start, w_end);
+        printf(" Ograniczanie sygnału do okna.\n  start = %5d\n  end   = %5d\n", w_start, w_end);
     }
 
-    //ograniczanie sygnałów do znajdujących się w oknie
+    // ograniczanie sygnałów do znajdujących się w oknie
     for (int i = 0; i < 13; i++) { //dla każdej składowej wektora
         trim_values(vector, (data_field_t) i, w_start + 1, w_end - w_start);
     }
     vector->size = w_end - w_start + 1;
-    //usun offset czasu, by probka zaczynała się od t = 0
+    // usun offset czasu, by probka zaczynała się od t = 0
     double time_offset = vector->vector[0].data[DATA_T];
     for (unsigned i = 0; i < vector->size; i++) {
         vector->vector[i].data[DATA_T] -= time_offset;
@@ -569,7 +554,7 @@ unsigned counter(double *Ku, unsigned len, double Y, double H,
     }
 
     unsigned num_axles = 0;
-    unsigned is_high = 0; // flaga stanu [0 = stan niski, 1 = wysoki]
+    unsigned is_high = 0;   // flaga stanu [0 = stan niski, 1 = wysoki]
 
     const double level_top = Y + H / 2;
     const double level_bottom = Y - H / 2;
@@ -587,8 +572,7 @@ unsigned counter(double *Ku, unsigned len, double Y, double H,
         }
 
         if (axle_positions != NULL) {
-            //if (val_max < Ku[i]) ;
-            /*else*/ if (is_high && val_max < Ku[i]) {
+            if (is_high && val_max < Ku[i]) {
                 axle_positions[num_axles - 1] = i;
                 val_max = Ku[i];
             }
@@ -626,9 +610,9 @@ void find_lengths(data_vector_t *v,
     const unsigned num_axles =
             (vehicle->class == POJAZD_5OS_UP) ? 5 : (unsigned) vehicle->class;
 
-    const double K_level = 0.5; //poziom odcięcia
-    const double l_front = 0, l_back = 0; //stałe do odjęcia od profilu
-    //zmienne opisujące początek i koniec pojazdu
+    const double K_level = 0.5;             // poziom odcięcia
+    const double l_front = 0, l_back = 0;   // stałe do odjęcia od profilu
+    // zmienne opisujące początek i koniec pojazdu
     unsigned index_start = 0;
     unsigned index_end = length - 1;
 
@@ -669,8 +653,8 @@ void find_lengths(data_vector_t *v,
                index_end);
     }
 
-    //przejście w dziedzinę czasu
-    vehicle->lengths[0] = (index_end - index_start)/* * dt * vehicle.velocity*/;
+    // przejście w dziedzinę czasu
+    vehicle->lengths[0] = (index_end - index_start);
 
     if (is_verbosity_at_least(DEBUG)) {
         printf("  Długość pojazdu:  %.0f\n", vehicle->lengths[0]);
@@ -693,7 +677,7 @@ void find_lengths(data_vector_t *v,
         vehicle->lengths[i] *= dt * vehicle->velocity;
     }
 
-    //odjęcie stałych od długości przodu i tyłu pojazdu
+    // odjęcie stałych od długości przodu i tyłu pojazdu
     if (vehicle->lengths[1] > l_front) {
         vehicle->lengths[0] -= l_front;
         vehicle->lengths[1] -= l_front;
@@ -703,10 +687,10 @@ void find_lengths(data_vector_t *v,
         vehicle->lengths[num_axles + 1] -= l_back;
     }
 
-    //zerowanie pozostałych pól
+    // zerowanie pozostałych pól
     for (unsigned i = num_axles + 2; i < 7; i++) vehicle->lengths[i] = 0;
 
-    //sprawdzam poprawność danych
+    // sprawdzam poprawność danych
     double sum_lengths = 0;
     for (unsigned i = 1; i < num_axles + 2; i++) {
         sum_lengths += vehicle->lengths[i];

@@ -3,11 +3,12 @@
 //
 
 #include <stdio.h>
-#include "functions.h"
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-#define VERSION "0.9.0"
+
+#include "functions.h"
+#include "version.h"
 
 char output_filename[80];
 
@@ -48,17 +49,14 @@ bool read_file(char *filename, data_vector_t *vector) {
     }
 
     FILE *f = fopen(filename, "r");
-
     if (f == NULL) {
         fputs("Podano błędną nazwę pliku.\n", stderr);
         return false;
     }
-
     return read_stream(f, vector);
 }
 
 bool read_stdin(data_vector_t *vector) {
-
     return read_stream(stdin, vector);
 }
 
@@ -84,11 +82,7 @@ bool read_stream(FILE *s, data_vector_t *vector) {
 
             if (i < 12) splitted = strtok(NULL, " \t");
         }
-        if (data[0] == 0 && vector->size > 0) {//dane kolejnego pojazdu
-            //for(unsigned j = 0; buffer[j] != '\0'; j++) ungetc(buffer[j], s);
-            // bez powyższej linii gubiona jest pierwsza próbka - która i tak
-            // prawdopodobnie nie zawiera istotnych informacji. Nie udało się
-            // napisać kodu który zwracałby pełną linię do strumienia.
+        if (data[0] == 0 && vector->size > 0) { //dane kolejnego pojazdu
             return true;
         }
         pushback_data(vector, data);

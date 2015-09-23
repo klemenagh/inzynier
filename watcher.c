@@ -21,7 +21,8 @@
 #include <getopt.h>
 #include <stdlib.h>
 
-#define VERSION "1.0.0"
+#include "version.h"
+
 #define EVENT_SIZE  ( sizeof (struct inotify_event) )
 #define BUF_LEN     ( 1024 * ( EVENT_SIZE + 16 ) )
 
@@ -67,7 +68,7 @@ static void read_file_to_stdout(char *filename) {
 
 int main(int argc, char **argv) {
 
-    //obsługa flag
+    // obsługa flag
     debug = 0;
     static struct option long_options[] = {
             {"debug",     no_argument,       NULL, 'd'},
@@ -138,7 +139,7 @@ int main(int argc, char **argv) {
         directory_wds[i - optind] = wd;
     }
 
-    //obsługa ctrl-c
+    // obsługa ctrl-c
     signal(SIGINT, signal_handler);
 
     while (work) {
@@ -160,7 +161,7 @@ int main(int argc, char **argv) {
         for (p = buffer; p < buffer + num_read;) {
             event = (struct inotify_event *) p;
 
-            //ustalenie pełnej ścieżki do stworzonego pliku
+            // ustalenie pełnej ścieżki do stworzonego pliku
             strcpy(created_file_patch, "");
             for (i = 0; i < num_dirs; i++) {
                 if (event->wd == directory_wds[i]) {
@@ -180,7 +181,7 @@ int main(int argc, char **argv) {
             }
             if (strcmp(created_file_patch, "") != 0) {
 
-                //sprawdzam, czy rozszerzenie pliku jest dobre
+                // sprawdzam, czy rozszerzenie pliku jest dobre
                 char *ext = strrchr(event->name, '.');
                 if ((strcmp(extension, "*") == 0) ||
                     ((ext != NULL) && (strcmp(ext + 1, extension) == 0)) ||

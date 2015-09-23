@@ -2,19 +2,20 @@
 // Created by vka on 20.04.15.
 //
 
-#include "structures.h"
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+
+#include "structures.h"
 
 data_vector_t *init_data_vector() {
     const unsigned initial_size = 4;
     data_vector_t *v;
     v = (data_vector_t *) malloc(sizeof(data_vector_t));
-    if (v == NULL) exit(ENOMEM); //błąd alokacji
+    if (v == NULL) exit(ENOMEM); // błąd alokacji
 
     v->vector = (data_cell_t *) malloc(initial_size * sizeof(data_cell_t));
-    if (v->vector == NULL) exit(ENOMEM); //błąd alokacji
+    if (v->vector == NULL) exit(ENOMEM); // błąd alokacji
 
     v->size = 0;
     v->capacity = initial_size;

@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
     bool piezo_verify = false;
     bool compute_positions = false;
 
-    //parse args
+    // parsowanie argumentów wiersza poleceń
     static struct option long_options[] = {
             {"debug",     no_argument,       NULL, 'd'},
             {"all",       no_argument,       NULL, 'a'},
@@ -33,8 +33,7 @@ int main(int argc, char **argv) {
             {"version",   no_argument,       NULL, 'v'}
     };
     int c;
-    while ((c = getopt_long(argc, argv, "dqacvphs:o:", long_options, NULL)) !=
-           -1) {
+    while ((c = getopt_long(argc, argv, "dqacvphs:o:", long_options, NULL)) != -1) {
         switch (c) {
             case 'd':
                 verbosity_level = DEBUG;
@@ -91,19 +90,19 @@ int main(int argc, char **argv) {
 
     char *filename = NULL;
     if (optind == argc) {
-        //nie podano żadnego pliku jako argument, odczyt z stdin
+        // nie podano żadnego pliku jako argument, odczyt z stdin
         read_from_stdin = true;
     }
     else {
         read_from_stdin = false;
         filenames = &argv[optind];
-        num_files = argc - optind;
+        num_files = (unsigned) (argc - optind);
     }
 
     data_vector_t *data = init_data_vector();
     vehicle_data_t vehicle;
 
-    if (read_from_stdin) { //odczyt z stdin
+    if (read_from_stdin) { // odczyt z stdin
         if (is_verbosity_at_least(DEBUG)) {
             fputs("Odczyt z stdin.\n", stderr);
         }
@@ -116,7 +115,7 @@ int main(int argc, char **argv) {
 
         }
     }
-    else { //odczyt z plików
+    else { // odczyt z plików
         for (unsigned i = 0; i < num_files; i++) {
             filename = filenames[i];
 

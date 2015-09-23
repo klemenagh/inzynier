@@ -77,19 +77,6 @@ typedef struct data_cell {
     double data[13]; // dane ładowane ze strumienia
 } data_cell_t;
 
-/*
- * tablice trim_front oraz trim_back przechowują wartości ilości próbek, do
- * jakiej należy obciąć dane dla odowiednio:
- * 0 - czujnik 1m
- * 1 - czujnik 0.5m
- * 2 - czujnik 0.3m
- * 3 - czujnik 3m
- * 4 - czujnik 0.1m
- * 5 - piezo 1
- * 6 - piezo 2
- *
- * //wartość trim_back jest identyczna dla wszystkich czujników
- */
 typedef struct data_vector {
     data_cell_t *vector;
     unsigned size;
