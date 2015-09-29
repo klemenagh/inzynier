@@ -1,0 +1,16 @@
+{
+	"info": "w celu przeprowadzenia testu, należy umieścić listę katalogów wraz poprawną wartością liczby osi dla danego katalogu poniżej",
+	"directories": [
+		["ciezarowy_2os", "2"],
+		["ciezarowy_3os", "3"],
+		["ciezarowy_4os", "4"],
+		["ciezarowy_5os", "5"],
+		["ciezarowy_5os_up", "5up"],
+		["dostawczy", "2"],
+		["osobowy_alus", "2"],
+		["osobowy_stal", "2"]
+	],
+	"root_directory": "../algorytm2_in_matlab/BAZA_RX/",
+	"executable": "../build/axles",
+	"decorate": true
+}
