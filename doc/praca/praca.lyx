@@ -3219,7 +3219,7 @@ m można określić typ pojazdu, znając dokładną ilość osi oraz ich położ
 \end_layout
 
 \begin_layout Chapter
-Testy, porównanie, etc.
+Analiza skuteczności algorytmu
 \end_layout
 
 \begin_layout Part
@@ -3227,23 +3227,23 @@ Omówienie programu
 \end_layout
 
 \begin_layout Chapter
-Omówienie programu
+Wymagania i instalacja
+\end_layout
+
+\begin_layout Chapter
+Podział na moduły
+\end_layout
+
+\begin_layout Chapter
+Użytkowanie programu
 \end_layout
 
 \begin_layout Section
-Wymagania
+Metody uruchamiania
 \end_layout
 
 \begin_layout Section
-Instalacja
-\end_layout
-
-\begin_layout Section
-Użycie
-\end_layout
-
-\begin_layout Subsection
-Flagi etc.
+Obsługiwane parametry
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:flags"
@@ -3253,16 +3253,28 @@ name "sub:flags"
 
 \end_layout
 
-\begin_layout Subsection
-Dwa sposoby użycia - jednorazowe lub daemon
+\begin_layout Section
+Budowanie łańcucha modułów
 \end_layout
 
 \begin_layout Section
-Testowanie programu
+Przykładowe aplikacje
+\end_layout
+
+\begin_layout Section*
+Podsumowanie
+\end_layout
+
+\begin_layout Chapter
+Analiza poprawności pracy programu
 \end_layout
 
 \begin_layout Section
-Ocena wydajności.
+Poprawność algorytmu
+\end_layout
+
+\begin_layout Section
+Wydajność pracy programu
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:efficiency"
@@ -3273,8 +3285,7 @@ name "sub:efficiency"
 \end_layout
 
 \begin_layout Section
-Stabilność, wycieki etc.
- 
+Stabilność pracy programu
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:stability"
@@ -3282,6 +3293,10 @@ name "sub:stability"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Chapter
+Podsumowanie
 \end_layout
 
 \begin_layout Standard
