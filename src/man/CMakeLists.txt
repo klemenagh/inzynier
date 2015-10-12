@@ -1,0 +1,2 @@
+install(FILES axles.1 DESTINATION ${MAN_INSTALL_DIR}/man1/)
+install(FILES watcher.1 DESTINATION ${MAN_INSTALL_DIR}/man1/)

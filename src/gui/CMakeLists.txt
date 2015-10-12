@@ -4,12 +4,12 @@ find_package(Qt5Widgets)
 find_package(Qt5Core)
 
 set(GUI_SOURCE_FILES
-        main.cpp
-        gui.cpp
-        inputthread.cpp
+    main.cpp
+    gui.cpp
+    inputthread.cpp
 )
 set(GUI_HEADER_FILES
-        gui.h
+    gui.h
 )
 
 QT5_WRAP_CPP(GUI_SOURCE_FILES ${GUI_HEADER_FILES})

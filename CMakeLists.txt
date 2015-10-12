@@ -8,6 +8,7 @@ set(CMAKE_C_FLAGS "-std=c99 -Wall -Werror -Wextra -Wformat --pedantic-errors")
 set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -pthread")
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
+set(MAN_INSTALL_DIR /usr/share/man)
 
 include_directories("src")
 add_subdirectory(src)

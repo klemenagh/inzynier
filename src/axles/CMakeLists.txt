@@ -1,11 +1,11 @@
 set(AXLES_SOURCE_FILES
-        axles.c
-        structures.h
-        structures.c
-        functions.h
-        functions.c
-        algorithm.h
-        algorithm.c
+    axles.c
+    structures.h
+    structures.c
+    functions.h
+    functions.c
+    algorithm.h
+    algorithm.c
 )
 
 include_directories("kiss_fft")
