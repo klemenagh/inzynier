@@ -8,7 +8,7 @@
 #include <string.h>
 
 #include "functions.h"
-#include "version.h"
+#include "../include/version.h"
 
 char output_filename[80];
 
