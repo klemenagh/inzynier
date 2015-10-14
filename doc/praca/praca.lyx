@@ -3230,6 +3230,266 @@ Omówienie programu
 Wymagania i instalacja
 \end_layout
 
+\begin_layout Standard
+W trakcie implementacji programu przyjęto kilka założeń odnośnie środowiska
+ użytkownika końcowego.
+ Przede wszystkim, założono, że algorytm wykrywania osi uruchamiany będzie
+ z poziomu systemu rodziny Unix 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "unix-page"
+
+\end_inset
+
+ bądź uniksopodobnego - na przykład Linux 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "linux-page"
+
+\end_inset
+
+.
+ Przyjęto, że w systemie dostępna jest biblioteka języka C w standardowej
+ wersji GNU 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gnu-c-lib"
+
+\end_inset
+
+ .
+ W celu skompilowania modułu graficznego, konieczne jest również udostępnienie
+ standardowej biblioteki języka C++ GNU 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gnu-cpp-lib"
+
+\end_inset
+
+ oraz biblioteki Qt w wersji 5 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "qtman"
+
+\end_inset
+
+ .
+ W trakcie działania, program wykorzystuje elementy języka C, których implementa
+cja zależna jest od systemu - w przypadku środowiska Linux, konieczne moduły
+ wspierane są od jądra w wersji 2.6.13 i znajdują się w standardowej bibliotece
+ języka C.
+\end_layout
+
+\begin_layout Standard
+kompilatory
+\end_layout
+
+\begin_layout Standard
+W celu uproszczenia procesu budowana i instalacji, posłużono się oprogramowaniem
+ cmake 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cmake-page"
+
+\end_inset
+
+ - program ten umożliwia przeprowadzenie procesu budowania i rozwiązywanie
+ zależności niezależnie od systemu operacyjnego użytkownika.
+ Przeprowadzono testy z wersjami 2.6 oraz 3.3 i potwierdzono poprawność budowania
+ programu.
+ 
+\end_layout
+
+\begin_layout Standard
+Oprogramowanie to umożliwia również możliwość przeprowadzenia procesu budowania
+ przy użyciu kompilatora zdefiniowanego przez użytkownika.
+ W trakcie projektowania programów, duży nacisk położono na ich poprawność
+ implementacji - pełną zgodność ze standardem języka.
+ Dzięki temu, dowolny kompilator języka C implementujący standard C99 powinien
+ umożliwić zbudowanie modułów 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cstandard"
+
+\end_inset
+
+ .
+ Moduł graficzny może zostać zbudowany przy użyciu dowolnego kompilatora
+ języka C++ wspierającego standard C++11 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cpp-standard"
+
+\end_inset
+
+ .
+ Moduł zgodny jest również ze standardem C++14, nie wykorzystuje przy tym
+ jednak funkcji języka udostępnionych w tej normie.
+ Poprawność przebiegu procesu budowania potwierdzono w trakcie testów z
+ dwoma kompilatorami - clang w wersji 3.7.0 oraz gcc w wersjach 4.8.1 oraz 5.2.0
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "clang,gcc"
+
+\end_inset
+
+ .
+ Oba kompilatory przeprowadziły proces budowania, nie wskazując przy tym
+ na żadne problemy.
+\end_layout
+
+\begin_layout Section*
+Instalacja
+\end_layout
+
+\begin_layout Standard
+Proces budowania powinien zostać wykonany z poziomu katalogu, który nie
+ znajduje się wewnątrz głównego katalogu projektu.
+ Standardowym podejściem jest utworzenie katalogu 
+\shape italic
+build 
+\shape default
+i przejście do niego.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+[user@pc projekt]$ mkdir build && cd build
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Następnie, wykorzystując oprogramowanie 
+\shape italic
+cmake, 
+\shape default
+należy wygenerować zbiór plików wykorzystywanych w procesie budowania.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+[user@pc build]$ cmake ..
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Argumentem programu cmake jest ścieżka do głównego katalogu budowanego projektu.
+ W przypadku budowy w niestandardowej lokacji, konieczne jest podanie poprawnej
+ ścieżki do katalogu zawierającego kod programu i plik 
+\shape italic
+CMakeLists.txt
+\shape default
+.
+\end_layout
+
+\begin_layout Standard
+Domyślnie nie zostaną wygenerowane pliki potrzebne do zbudowania modułu
+ graficznego.
+ Można to zmienić, dodając do powyższego polecenia flagę:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+[user@pc build]$ cmake ..
+ -DCOMPILE_GUI=ON
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Proces ten powinien zakończyć się powodzeniem, jeśli spełnione zostały wszystkie
+ wymagania odnośnie środowiska, w którym budowany jest projekt.
+ Kolejnym krokiem jest wygenerowanie plików binarnych dla każdego modułu
+ poprzez polecenie:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+[user@pc build]$ make
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ten proces również powinien zakończyć działanie nie wskazując żadnego błędu,
+ jeśli spełnione zostały wymagania.
+ 
+\end_layout
+
+\begin_layout Standard
+Pliki modułów znajdują się wewnątrz podkatalogu 
+\shape italic
+/bin
+\shape default
+ obecnej ścieżki.
+ Możliwe jest również zainstalowanie uzyskanych w ostatnim kroku plików
+ w systemie, wykorzystując do tego poniższe polecenie.
+ Należy jednocześnie pamiętać o konieczności posiadania uprawnień administratora
+, by komenda się powiodła.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+[user@pc build]# make install
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+W przypadku powodzenia akcji, moduły i ich podręczniki zostały zainstalowane
+ i powinny być dostępne z poziomu terminala.
+ W dalszej części pracy przyjęto założenie, że użytkownik zdecydował się
+ na instalację, tak by maksymalnie uprościć prezentowane polecenia.
+\end_layout
+
 \begin_layout Chapter
 Podział na moduły
 \end_layout
@@ -3263,6 +3523,10 @@ Przykładowe aplikacje
 
 \begin_layout Section*
 Podsumowanie
+\end_layout
+
+\begin_layout Standard
+// manuale
 \end_layout
 
 \begin_layout Chapter
