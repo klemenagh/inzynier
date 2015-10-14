@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 project(inzynier)
 
+option(COMPILE_GUI "Compile GUI" OFF)
+
 set(CMAKE_C_COMPILER "gcc")
 set(CMAKE_CXX_COMPILER "g++")
 
