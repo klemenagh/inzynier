@@ -256,29 +256,37 @@ Wstęp
 \end_layout
 
 \begin_layout Standard
-Analiza parametrów pojazdów i klasyfikacja ich bazie stanowi zagadnienie
- podejmowane z różnych powodów.
- Na podstawie danych o liczbie przejeżdżających drogą pojazdów można ustalić
- poziom eksploatacji połączenia i w związku z tym zaplanować możliwości
- rozbudowy infrastruktury w najlepszym kierunku.
+Analiza parametrów pojazdów i klasyfikacja na ich bazie stanowi zagadnienie
+ często poruszane w pracach naukowych, których autorzy starają się wykorzystać
+ informacje statystyczne na temat ruchu samochodowego.
+\end_layout
+
+\begin_layout Standard
+Na podstawie danych o liczbie przejeżdżających drogą pojazdów może być ustalony
+ poziom eksploatacji połączenia i w związku z tym zaplanowane mogą być możliwośc
+i rozbudowy infrastruktury w najlepszym kierunku.
  
 \end_layout
 
 \begin_layout Standard
-Informację na temat parametrów pojazdu można wykorzystać w wielu sytuacjach.
+Informację na temat parametrów pojazdu również może być
+\begin_inset space ~
+\end_inset
+
+wykorzystana do wielu celów.
  Znając przybliżone wymiary pojazdu można zaprojektować system informacyjny,
  który ostrzegałby kierowców w sytuacji, gdy pojazd może mieć problemy z
- pokonaniem odcinka drogi - ze względu na znajdujący się na trasie niski
- wiadukt czy zwężenie jezdni.
- Informację o prędkości pojazdu można użyć w trakcie projektowania podobnego
- systemu, ale ostrzegającego przed przekroczeniem dopuszczalnej prędkości.
- Często stosuje się również czujniki określające wagę pojazdów, zazwyczaj
+ pokonaniem odcinka drogi - na przykład ze względu na znajdujący się na
+ trasie niski wiadukt czy zwężenie jezdni.
+ Informacja o prędkości pojazdu może być użyta w trakcie projektowania systemu
+ ostrzegającego przed przekroczeniem dopuszczalnej prędkości.
+ Często stosowane są również czujniki określające wagę pojazdów, zazwyczaj
  przez służby odpowiedzialne za kontrole drogowe.
  
 \end_layout
 
 \begin_layout Standard
-Znajomość danych na temat ilości osi pojazdu i ich położenia również jest
+Znajomość danych na temat liczby osi pojazdu i ich położenia również jest
  użyteczna - pozwala na klasyfikację pojazdu na podstawie schematów FHWA
  
 \begin_inset CommandInset citation
@@ -300,15 +308,15 @@ ia opłat na płatnych odcinkach dróg lub do analizy wykorzystania drogi przez
 \begin_layout Standard
 Często nie jest potrzebna żadna informacja na temat pojazdu ponad sam fakt
  wykrycia go.
- Oczywistym przykładem systemu wykorzystującego dane na temat obecności
- pojazdów są systemy sterowania sygnalizacją świetlną na wielu skrzyżowaniach.
+ Przykładem systemu wykorzystującego dane na temat obecności pojazdów są
+ systemy sterowania sygnalizacją świetlną na wielu skrzyżowaniach.
  W ich przypadku nie są istotne parametry poszczególnych pojazdów, choć
  przydatna może być informacja na temat natężenia ruchu w poszczególnych
  kierunkach, co pozwala na optymalizację płynności ruchu.
 \end_layout
 
 \begin_layout Standard
-Ze względu na liczbę możliwych zastosować, zachęcające wydaje się zagadnienie
+Ze względu na liczbę możliwych zastosowań, zachęcające staje się zagadnienie
  projektowania jak najbardziej dokładnych czujników i algorytmów przetwarzania
  danych, które jednocześnie zachowują przystępną cenę i gwarantują dużą
  wydajność.
@@ -363,7 +371,7 @@ key "linuxwww"
 
 \end_inset
 
- do budowy programu implementującego algorytm.
+ do budowy programu implementującego algorytm wykrywania osi.
  Założenia projektowe języka C - duża wydajność, umożliwienie operacji wejścia-w
 yjścia na niskim poziomie, metody zarządzania pamięcią - pozwalają na zaprojekto
 wanie bardzo wydajnych narzędzi.
@@ -376,20 +384,20 @@ key "linuxpipes"
 \end_inset
 
  umożliwiające kolejkowanie programów w celu zbudowania pełnoprawnej aplikacji
- czy 
+ czy obsługa sygnałów i kodów błędów
 \begin_inset CommandInset citation
 LatexCommand cite
 key "linuxsignals"
 
 \end_inset
 
-, ułatwiająca pracę z programem.
+, ułatwiająca projektowanie oprogramowania.
 \end_layout
 
 \begin_layout Standard
-W trakcie pisania pracy podjęto zadanie implementacji algorytmu detekcji
- liczby osi pojazdu oraz rozbudowę funkcji programu o możliwość wyznaczania
- przybliżonej długości pojazdu oraz odległości pomiędzy osiami.
+W pracy podjęto zadanie implementacji algorytmu detekcji liczby osi pojazdu
+ oraz rozbudowę funkcji programu o możliwość wyznaczania przybliżonej długości
+ pojazdu oraz odległości pomiędzy osiami.
  Ponadto, zaimplementowano zbiór narzędzi umożliwiających użycie programu
  do wyznaczania parametrów w trybie ciągłym, bez konieczności interakcji
  ze strony użytkownika, oraz prosty model graficznego interfejsu użytkownika,
@@ -429,9 +437,10 @@ Pomiary parametrów pojazdów samochodowych przy użyciu pętli indukcyjnych
 W celu badania parametrów pojazdów samochodowych można wykorzystać zasadę
  działania cewki indukcyjnej w interakcji z przemieszczającymi się w jej
  otoczeniu przedmiotami o powierzchniach z różnych materiałów.
- Projektuje się układy pomiarowe składające się z szeregu czujników indukcyjnych
- pętlowych, układu kondycjonowania sygnału oraz układu elektronicznego odpowiedz
-ialnego za rejestrację sygnałów w celu dalszej ich interpretacji.
+ By wykorzystać to zjawisko, projektowane są układy pomiarowe składające
+ się z szeregu czujników indukcyjnych pętlowych, układu kondycjonowania
+ sygnału oraz układu elektronicznego odpowiedzialnego za rejestrację sygnałów
+ w celu dalszej ich interpretacji.
 \end_layout
 
 \begin_layout Standard
@@ -522,7 +531,7 @@ name "fig:ind_sensor"
 \end_layout
 
 \begin_layout Standard
-Układ kondycjonowania sygnału to moduł elektroniczny, który ma za zadanie
+Układ kondycjonowania sygnału to moduł elektroniczny, który odpowiada za
  wstępną analizę sygnału.
  Stawia się przed nim zadanie szybkiej reakcji na pojawienie się pojazdu
  w otoczeniu czujnika.
@@ -623,9 +632,10 @@ Ostatnim elementem układu pomiarowego może być mikroprocesor lub komputer,
  Można zastosować w tym celu moduł odpowiedzialny za przesyłanie zebranych
  danych do bazy, by umożliwić ich dalszą obróbkę (na przykład gdy zbierane
  są dane, które mają być wykorzystane w pracy naukowej).
- Inną metodą byłaby bezpośrednia analiza danych zaraz po ich uzyskaniu -
- może to znaleźć zastosowanie w systemie odpowiedzialnym za sterowanie sygnaliza
-cją świetlną na skrzyżowaniu na podstawie natężeń ruchu w różnych kierunkach.
+ Inną metodą jest bezpośrednia analiza danych zaraz po ich uzyskaniu - może
+ to znaleźć zastosowanie w systemie odpowiedzialnym za sterowanie sygnalizacją
+ świetlną na skrzyżowaniu na podstawie natężenia ruchu pojazdów w różnych
+ kierunkach.
 \end_layout
 
 \begin_layout Standard
@@ -635,7 +645,7 @@ wych.
  pomiar prędkości i długości pojazdu, natężenia ruchu.
  Możliwe jest przy użyciu czujnika wykrywanie pojazdów spełniających zadane
  kryteria, na przykład tylko autobusów, czy pojazdów ciężarowych z przyczepą.
- W trakcie wykonywania pracy inżynierskiej, badana była możliwość wykrywania
+ W trakcie wykonywania niniejszej pracy, badana była możliwość wykrywania
  ilości osi pojazdu samochodowego oraz długości pojazdu i odległości pomiędzy
  poszczególnymi osiami.
 \end_layout
@@ -647,8 +657,9 @@ Wykorzystanie tej metody badania parametrów pojazdu niesie za sobą zalety,
 nych i kontakt fizyczny z podwoziem pojazdu.
  Ich montaż jest prosty, a układ pomiarowy nie wymaga zastosowania skomplikowany
 ch elementów elektronicznych.
- Ponadto, wykorzystując dobrze zaprojektowany algorytm analizujący pomiary,
- można otrzymać informacje na temat wielu parametrów pojazdu.
+ Ponadto, wykorzystując dobrze zaprojektowany algorytm analizujący dane
+ pomiarowe, możliwe jest uzyskanie informacji na temat licznych parametrów
+ pojazdu.
  
 \end_layout
 
