@@ -33,6 +33,9 @@
 %---------------------------------------------------------------------------
 %\usepackage{epstopdf}
 \usepackage{mciteplus}
+% umozliwia wykrycie nieznanych znaków unicode
+\usepackage{newunicodechar}
+\DeclareUnicodeCharacter{FFFD}{?????}
 \end_preamble
 \options pdflatex
 \use_default_options true
@@ -1137,6 +1140,13 @@ Implementacja algorytmu
 
 \begin_layout Chapter
 Interfejs wejścia-wyjścia programu
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:in-out-interface"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3292,10 +3302,6 @@ cja zależna jest od systemu - w przypadku środowiska Linux, konieczne moduły
 \end_layout
 
 \begin_layout Standard
-kompilatory
-\end_layout
-
-\begin_layout Standard
 W celu uproszczenia procesu budowana i instalacji, posłużono się oprogramowaniem
  cmake 
 \begin_inset CommandInset citation
@@ -3350,7 +3356,7 @@ key "clang,gcc"
  na żadne problemy.
 \end_layout
 
-\begin_layout Section*
+\begin_layout Section
 Instalacja
 \end_layout
 
@@ -3435,6 +3441,13 @@ status open
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "lis:compile-gui"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3501,16 +3514,186 @@ W przypadku powodzenia akcji, moduły i ich podręczniki zostały zainstalowane
  na instalację, tak by maksymalnie uprościć prezentowane polecenia.
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Section
 Podział na moduły
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:modules"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Projekt podzielony został na mniejsze moduły, co umożliwiło wykorzystanie
+ program w sposób bardziej elastyczny.
+ Dzięki temu, możliwe jest wykorzystanie projektu zarówno w prostych aplikacjach
+, jak i budowanie bardziej skomplikowanych łańcuchów wykonań.
+ 
+\end_layout
+
+\begin_layout Standard
+W podstawowym module, nazwanym 
+\shape italic
+axles, 
+\shape default
+zaimplementowany został algorytm służący do wyznaczania liczby osi pojazdu,
+ a także algorytm określania położenia osi i długości pojazdu.
+ Znalazły się w nim również funkcje odpowiedzialne za operacje wejścia-wyjścia.
+ Kolejny moduł, nazwany 
+\shape italic
+watcher
+\shape default
+, odpowiadał za komunikację z systemem użytkownika w celu śledzenia zmian
+ w systemie plików, dzięki czemu możliwa była detekcja pojawienia się nowych
+ danych i rozpoczęcie dalszej ich obróbki.
+ W trakcie pisania pracy powstał również prosty interfejs graficzny, nazwany
+ 
+\shape italic
+gui
+\shape default
+, który umożliwiał przedstawienie wyników działania algorytmu w sposób bardziej
+ przyjazny użytkownikowi.
+ Sposób jego kompilacji przedstawiony został w listingu 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:compile-gui"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Moduły nie zostały ze sobą powiązane na poziomie implementacji, dzięki czemu
+ możliwe było stworzenie kilku odrębnych metod obsługi programu, co zostało
+ dokładniej opisane w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:usage"
+
+\end_inset
+
+.
+ Moduły zostały dostosowane do pracy ze sobą na poziomie interfejsu w celu
+ zapewnienia kompatybilności.
+\end_layout
+
+\begin_layout Standard
+Projektowaniu interfejsu modułów programowych towarzyszyła inspiracja oprogramow
+aniem powstającym wokół ruchu GNU, co pozwoliło na implementację programu
+ w sposób sprzyjający dalszej rozbudowie.
+ Przykładem tego jest interfejs graficzny, którego projektowanie nie było
+ celem pracy, może on jednak stanowić dowód na potwierdzenie tezy o możliwości
+ rozwoju oprogramowania.
+ Przykładowe kierunki rozwoju to aplikacja odpowiedzialna za komunikację
+ sieciową z czujnikami i odbierająca dane - stanowiłaby pierwsze ogniwo
+ łańcucha wywołań bądź program zbierający dane uzyskiwane na wyjściu algorytmu
+ i przechowujący je w bazie danych - byłoby to ostatnie ogniwo łańcucha.
 \end_layout
 
 \begin_layout Chapter
 Użytkowanie programu
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:usage"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+W trakcie projektowania programu, zdecydowano się na zbudowanie rozbudowanego
+ interfejsu użytkownika, który pozwalał na elastyczne wykorzystanie oprogramowan
+ia.
+ W poszczególnych sekcjach przedstawiono funkcje programu, które mogą być
+ przydatne w trakcie jego użytkowania.
 \end_layout
 
 \begin_layout Section
 Metody uruchamiania
+\end_layout
+
+\begin_layout Standard
+Przyjęto założenie, że podstawową funkcją programu było wyznaczenie liczby
+ osi i innych parametrów pojazdu na podstawie danych przechowywanych w pliku
+ tekstowym.
+ Oprogramowanie zostało zaimplementowane w taki sposób, by domyślnym działaniem
+ było zgodne z tym założeniem.
+ Zbudowano również inne funkcje, których wywołanie jest możliwe poprzez
+ przekazanie parametrów przy starcie programu, co zostało opisane w sekcji
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:flags"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Wyszczególniono dwie podstawowe metody użytkowania programu.
+ Pierwszą z nich było uruchomienie modułu 
+\shape italic
+axles
+\shape default
+ i przekazanie jako argumenty wiersza poleceń ścieżek do plików, które powinno
+ zostać przeanalizowane.
+ Program analizował następnie każdy plik, traktując go jako kompletny zbiór
+ danych, a po zakończeniu pracy algorytmu dla każdego z nich, kończył działanie.
+ 
+\end_layout
+
+\begin_layout Standard
+Drugą metodą, która była badana w trakcie pracy nad programem było uruchomienie
+ go w trybie oczekiwania na dane.
+ Odbywało się to w przypadku, gdy przy uruchomieniu nie przekazano nazw
+ plików poprzez argumenty wiersza poleceń.
+ Program uruchamiał się wtedy w trybie odczytu danych ze standardowego strumieni
+a wejściowego - stdin, w przypadku wykrycia pojawienia się nowego zbioru
+ odczytów uruchamiany był algorytm detekcji, a po zakończeniu działania
+ algorytmu program pozostawał w trybie oczekiwania na kolejne dane.
+ Opisany tryb pracy był wyjątkowo użyteczny w połączeniu z wykorzystaniem
+ innych modułów, takich jak zaimplementowany - śledzący katalog w poszukiwaniu
+ zmian, lub zaproponowany w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:modules"
+
+\end_inset
+
+ - odpowiadający za komunikację sieciową z czujnikami.
+\end_layout
+
+\begin_layout Standard
+W trakcie pracy nad programem posłużono się ideą często wykorzystywaną w
+ oprogramowaniu GNU - zdecydowano się możliwość przekazywania danych pomiędzy
+ modułami przy użyciu standardowych strumieni.
+ Pozwoliło to na tworzenie łańcuchów wywołań modułów, które pozwalały na
+ obsługę zaawansowanych zadań.
+ Moduł 
+\shape italic
+axles
+\shape default
+ działający niezależnie pozwalał wyłącznie na wywołanie algorytmu dla zadanych
+ plików lub danych ze strumienia wejściowego.
+ Po połączeniu pracy z modułem 
+\shape italic
+watcher
+\shape default
+, możliwa stała się praca w trybie oczekiwania, bez konieczności uruchamiania
+ programu na nowo dla każdego zestawu danych.
+ Połączenie wyjścia modułu algorytmicznego z kolejnym modułem pozwoliło
+ na wyświetlanie informacji o pracy algorytmu w interfejsie graficznym.
+\end_layout
+
+\begin_layout Standard
+Były to jedynie przykłady możliwych zastosowań przy wykorzystaniu modułów
+ - możliwe było również wykorzystanie wbudowanych w system narzędzi lub
+ zaprojektowanie kolejnych modułów, dedykowanych do konkretnych zadań.
 \end_layout
 
 \begin_layout Section
@@ -3524,12 +3707,328 @@ name "sub:flags"
 
 \end_layout
 
-\begin_layout Section
-Budowanie łańcucha modułów
+\begin_layout Standard
+Zbudowano interfejs obsługujący szereg flag, które modyfikowały pracę modułów.
+ Pozwoliło to na zdefiniowanie reguł pracy programu na etapie uruchomienia
+ i wykluczenie konieczności dalszej interakcji z użytkownikiem w trakcie
+ pracy programu.
+ Poniżej przedstawiono flagi, których użycie może być przydatne dla użytkownika.
+\end_layout
+
+\begin_layout Subsection*
+Moduł 
+\shape italic
+axles
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+NAZWA_PLIKU_1 ...
+ NAZWA_PLIKU_N
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Uruchamia działanie algorytmu dla każdego z podanych plików.
+ W przypadku nie podania żadnego argumentu tego typu, nastąpi odczyt ze
+ strumienia wejściowego 
+\shape italic
+stdin
+\shape default
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+-c --verify 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Wymusza uruchomienie procedury weryfikacji poprawności wyniku algorytmu
+ przy użyciu czujników piezoelektrycznych.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+-p --positions
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Wymusza uruchomienie procedury określania położenia osi i przybliżonej długości
+ pojazdu.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+-o --output NAZWA_PLIKU
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Umożliwia zapisanie wyniku pracy algorytmu w pliku o podanej nazwie.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+-q
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Wymusza pracę w trybie cichym, a więc bez wyświetlania żadnych komunikatów
+ w trakcie pracy.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection*
+Moduł 
+\shape italic
+watcher
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+NAZWA_KATALOGU_1 ...
+ NAZWA_KATALOGU_N
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Lista ścieżek, które będą obserwowane przez moduł.
+ W przypadku nie podania żadnego argumentu tego typu, obserwowana będzie
+ ścieżka, w której uruchomiony został program.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
+-e --extension ROZSZERZENIE
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Wymusza śledzenie plików o zadanym rozszerzeniu.
+ W przypadku nie podania tego argumentu przy uruchomieniu, śledzone są pliki
+ o rozszerzeniu 
+\shape italic
+lvm
+\shape default
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Oba moduły obsługują ponadto wspólne flagi, 
+\family typewriter
+-h
+\family default
+ - wyświetlającą skróconą pomoc, oraz 
+\family typewriter
+-v
+\family default
+ - pokazującą informację o wersji programu.
 \end_layout
 
 \begin_layout Section
 Przykładowe aplikacje
+\end_layout
+
+\begin_layout Standard
+W celu wyznaczenia liczby osi pojazdu, dla którego dane pomiarowe znajdują
+ się w pliku 
+\shape italic
+PLIK.lvm
+\shape default
+, należy posłużyć się poniższym poleceniem.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+axles PLIK.lvm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Aby wykonać to zadanie dla wszystkich plików o rozszerzeniu 
+\shape italic
+lvm
+\shape default
+ w katalogu 
+\shape italic
+dane
+\shape default
+, można wykorzystać jedno z dwóch poleceń.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+axles dane/*.lvm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+cat dane/*.lvm | axles
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Drugie polecenie pokazuje ponadto ideę wykorzystania wbudowanych narzędzi
+ systemowych w celu zwiększenia możliwości programu.
+\end_layout
+
+\begin_layout Standard
+W celu wykrycia liczby osi, weryfikacji przy użyciu czujników piezoelektrycznych
+, a także położenia osi i długości pojazdu, można wykorzystać poniższe polecenie.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+axles -p -c PLIK.lvm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Na wyjściu pojawi się ciąg znaków podobny do poniższego.
+ Wyjaśnienie znaczenia poszczególnych elementów wyjścia przedstawiono w
+ rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:in-out-interface"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+PLIK.lvm 2 12.064 3.295 5.859 2.909
+\end_layout
+
+\begin_layout Plain Layout
+
+piezo 2 5.954
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Aby uruchomić program w trybie oczekiwania na dane, które przechowywane
+ są w plikach o rozszerzeniu 
+\shape italic
+data
+\shape default
+ w katalogu 
+\shape italic
+odczyty
+\shape default
+, a wyniki pracy programu przechowywać w pliku 
+\shape italic
+wyniki.txt
+\shape default
+ i nie wyświetlać ich bezpośrednio poprzez interfejs użytkownika, można
+ posłużyć się łańcuchem wywołań zbudowanym przy użyciu poniższego polecenia.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash,showstringspaces=false"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+watcher -e data odczyty | axles -o wyniki.txt
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ostatni przykład przedstawia możliwość rozbudowy powyższego polecenia w
+ taki sposób, by wyniki były prezentowane również poprzez interfejs graficzny.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+watcher -e data odczyty | axles -p -o wyniki.txt | gui
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
@@ -3537,7 +4036,82 @@ Podsumowanie
 \end_layout
 
 \begin_layout Standard
-// manuale
+W rozdziale przedstawiono szereg zagadnień związanych z obsługą programu
+ - metody uruchamiania, modyfikowania zasad działania programu, czy możliwe
+ aplikacje.
+ Zdecydowano się na ograniczenie do zwięzłej prezentacji możliwości programu,
+ bez zbędnego w tej sytuacji omawiania reguł działania poszczególnych elementów.
+ Dokładniejszy opis programu został przedstawiony przy użyciu mechanizmu
+ podręczników, dostępnego w systemie Linux 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "man-pages"
+
+\end_inset
+
+.
+ Strony zawierają przedstawiony w zwięzłej formie zbiór informacji na temat
+ reguł działania programu, który rozwija zagadnienia przedstawione w rozdziale
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:usage"
+
+\end_inset
+
+ pracy.
+ 
+\end_layout
+
+\begin_layout Standard
+Dostęp do stron podręcznika można uzyskać dzięki poleceniom z listingu 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:man-pages"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+man axles
+\end_layout
+
+\begin_layout Plain Layout
+
+man watcher
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "lis:man-pages"
+
+\end_inset
+
+Dostęp do stron podręcznika.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
