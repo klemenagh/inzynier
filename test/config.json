@@ -11,6 +11,6 @@
 		["osobowy_stal", "2"]
 	],
 	"root_directory": "../algorytm2_in_matlab/BAZA_RX/",
-	"executable": "../build/axles",
+	"executable": "../build/bin/axles",
 	"decorate": true
 }
