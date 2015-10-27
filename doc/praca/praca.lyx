@@ -4245,7 +4245,6 @@ man watcher
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
 \begin_inset CommandInset label
 LatexCommand label
 name "lis:man-pages"
@@ -4969,8 +4968,16 @@ Zastosowanie języka C gwarantowało duży wpływ na sposób realizacji operacji
  Język ten oferował dostęp do możliwie niskiego poziomu programowania przy
  użyciu instrukcji, które były kompilowane bezpośrednio do asemblera.
  W wyniku pracy nad optymalizacją działania programu, uzyskano ostatecznie
- zadowalającą wydajność, natomiast w tabeli przedstawiono dokładne wyniki
- analizy wydajności.
+ zadowalającą wydajność.
+ W tabeli 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:times"
+
+\end_inset
+
+ przedstawiono wyniki analizy wydajności dla kluczowych wartości, natomiast
+ na wykresie zamieszczono wszystkie uzyskane wyniki.
 \end_layout
 
 \begin_layout Standard
@@ -4980,46 +4987,55 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="12" columns="4">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<column alignment="left" valignment="top">
+<column alignment="right" valignment="top">
+<column alignment="right" valignment="top">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Liczba analizowanych pomiarów
+
+\size footnotesize
+Liczba pomiarów
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 Rodzaj uruchomienia
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Czas pracy programu
+
+\size footnotesize
+Czas pracy programu [s]
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Średni czas analizy pomiaru
+
+\size footnotesize
+Czas analizy pomiaru [s]
 \end_layout
 
 \end_inset
@@ -5030,34 +5046,55 @@ Czas pracy programu
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 1
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-stdin
+
+\size footnotesize
+Strumień wejścia
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+footnotemark
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,055
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,055
 \end_layout
 
 \end_inset
@@ -5073,29 +5110,48 @@ stdin
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-argument
+
+\size footnotesize
+Argument
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+footnotemark
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,054
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,054
 \end_layout
 
 \end_inset
@@ -5106,34 +5162,42 @@ argument
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 10
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-stdin
+
+\size footnotesize
+Strumień wejścia
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,508
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,051
 \end_layout
 
 \end_inset
@@ -5149,29 +5213,35 @@ stdin
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-argument
+
+\size footnotesize
+Argument
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,499
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,050
 \end_layout
 
 \end_inset
@@ -5182,34 +5252,42 @@ argument
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 100
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-stdin
+
+\size footnotesize
+Strumień wejścia
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+5,174
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,052
 \end_layout
 
 \end_inset
@@ -5225,29 +5303,35 @@ stdin
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-argument
+
+\size footnotesize
+Argument
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+4,947
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,049
 \end_layout
 
 \end_inset
@@ -5258,34 +5342,42 @@ argument
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 1000
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-stdin
+
+\size footnotesize
+Strumień wejścia
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+50,149
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,050
 \end_layout
 
 \end_inset
@@ -5301,29 +5393,35 @@ stdin
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-argument
+
+\size footnotesize
+Argument
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+47,597
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,048
 \end_layout
 
 \end_inset
@@ -5334,34 +5432,42 @@ argument
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 10000
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-stdin
+
+\size footnotesize
+Strumień wejścia
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+522,708
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,052
 \end_layout
 
 \end_inset
@@ -5377,29 +5483,35 @@ stdin
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-argument
+
+\size footnotesize
+Argument
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+510,345
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,051
 \end_layout
 
 \end_inset
@@ -5410,7 +5522,9 @@ argument
 \begin_inset Text
 
 \begin_layout Plain Layout
-Średni czas analizy pomiaru łącznie
+
+\size footnotesize
+Średni czas analizy pomiaru
 \end_layout
 
 \end_inset
@@ -5433,11 +5547,13 @@ argument
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="right" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
+\size footnotesize
+0,051
 \end_layout
 
 \end_inset
@@ -5474,259 +5590,181 @@ Analiza wydajności pracy programu
 \end_layout
 
 \begin_layout Standard
-num - arg - stdin
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addtocounter{footnote}{-2}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepcounter{footnote}
+\backslash
+footnotetext{
+\end_layout
+
+\begin_layout Plain Layout
+
+Program uruchomiony przy pomocy polecenia 
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\backslash
+fontfamily{cmtt}
+\backslash
+selectfont cat PLIKI
+\backslash
+char`_DANYCH 
+\backslash
+char`| axles 
+\backslash
+char`-q}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepcounter{footnote}
+\backslash
+footnotetext{
+\end_layout
+
+\begin_layout Plain Layout
+
+Program uruchomiony przy pomocy polecenia 
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\backslash
+fontfamily{cmtt}
+\backslash
+selectfont axles 
+\backslash
+char`-q PLIKI
+\backslash
+char`_DANYCH}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-1
+Pomiar wykonany został na komputerze klasy PC, w przypadku użycia oprogramowania
+ na urządzeniu oferującym większą wydajność, wyniki powinny proporcjonalnie
+ zmaleć.
 \end_layout
 
 \begin_layout Standard
-axles -q *.lvm 0,05s user 0,00s system 98% cpu 0,054 total
+Niezależnie od liczby analizowanych pomiarów, czas analizy jednego zestawu
+ danych zbliżony jest do 50 milisekund.
+ W trakcie realizacji projektu uznano ten wynik za zadowalający, umożliwiający
+ płynną pracę przy analizie danych nawet z najbardziej obciążonych ruchem
+ dróg.
 \end_layout
 
 \begin_layout Standard
-axles -q 0,05s user 0,00s system 96% cpu 0,055 total
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/wydajnosc_programu.svg
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:times"
+
+\end_inset
+
+Analiza wydajności pracy programu
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Wydajność programu w sytuacji, gdy dane przekazano poprzez strumień wejścia
+ była nieznacznie mniejsza.
+ Wytłumaczono to zwiększeniem złożoności obliczeń poprzez konieczność wykonania
+ polecenia 
+\family typewriter
+\size footnotesize
+cat
+\family default
+\size default
+ równolegle do pracy algorytmu.
+ Różnica ta nie była zauważalna w trakcie pracy wspomaganej modułem 
+\shape italic
+\size footnotesize
+watcher
+\shape default
+\size default
+.
+ 
 \end_layout
 
 \begin_layout Standard
-2
-\end_layout
-
-\begin_layout Standard
-axles -q *.lvm 0,10s user 0,01s system 99% cpu 0,104 total
-\end_layout
-
-\begin_layout Standard
-axles -q 0,12s user 0,00s system 97% cpu 0,120 total
-\end_layout
-
-\begin_layout Standard
-4
-\end_layout
-
-\begin_layout Standard
-axles -q *.lvm 0,20s user 0,01s system 98% cpu 0,206 total
-\end_layout
-
-\begin_layout Standard
-axles -q 0,23s user 0,01s system 99% cpu 0,235 total
-\end_layout
-
-\begin_layout Standard
-6
-\end_layout
-
-\begin_layout Standard
-axles -q *.lvm 0,29s user 0,01s system 99% cpu 0,301 total
-\end_layout
-
-\begin_layout Standard
-axles -q 0,30s user 0,01s system 99% cpu 0,309 total
-\end_layout
-
-\begin_layout Standard
-8
-\end_layout
-
-\begin_layout Standard
-axles -q *.lvm 0,40s user 0,00s system 99% cpu 0,402 total
-\end_layout
-
-\begin_layout Standard
-axles -q 0,45s user 0,01s system 99% cpu 0,462 total
-\end_layout
-
-\begin_layout Standard
-10
-\end_layout
-
-\begin_layout Standard
-axles -q *.lvm 0,50s user 0,00s system 99% cpu 0,499 total
-\end_layout
-
-\begin_layout Standard
-axles -q 0,51s user 0,00s system 99% cpu 0,508 total
-\end_layout
-
-\begin_layout Standard
-20
-\end_layout
-
-\begin_layout Standard
-axles -q *.lvm 0,98s user 0,01s system 99% cpu 0,988 total
-\end_layout
-
-\begin_layout Standard
-axles -q 1,05s user 0,02s system 99% cpu 1,071 total
-\end_layout
-
-\begin_layout Standard
-40
-\end_layout
-
-\begin_layout Standard
-axles -q *.lvm 1,96s user 0,01s system 99% cpu 1,968 total 
-\end_layout
-
-\begin_layout Standard
-axles -q 2,05s user 0,03s system 99% cpu 2,087 total 
-\end_layout
-
-\begin_layout Standard
-60
-\end_layout
-
-\begin_layout Standard
-axles -q *.lvm 2,95s user 0,03s system 99% cpu 2,986 total 
-\end_layout
-
-\begin_layout Standard
-axles -q 3,32s user 0,05s system 100% cpu 3,376 total 
-\end_layout
-
-\begin_layout Standard
-80
-\end_layout
-
-\begin_layout Standard
-axles -q *.lvm 3,88s user 0,05s system 100% cpu 3,923 total 
-\end_layout
-
-\begin_layout Standard
-axles -q 4,12s user 0,06s system 100% cpu 4,182 total 
-\end_layout
-
-\begin_layout Standard
-100
-\end_layout
-
-\begin_layout Standard
-axles -q *.lvm 4,87s user 0,08s system 100% cpu 4,947 total 
-\end_layout
-
-\begin_layout Standard
-axles -q 5,08s user 0,10s system 100% cpu 5,174 total 
-\end_layout
-
-\begin_layout Standard
-200
-\end_layout
-
-\begin_layout Standard
-real 0m9.603s user 0m9.537s sys 0m0.077s
-\end_layout
-
-\begin_layout Standard
-real 0m10.175s user 0m10.033s sys 0m0.500s
-\end_layout
-
-\begin_layout Standard
-400
-\end_layout
-
-\begin_layout Standard
-real 0m19.063s user 0m18.873s sys 0m0.203s
-\end_layout
-
-\begin_layout Standard
-real 0m20.043s user 0m19.783s sys 0m0.927s
-\end_layout
-
-\begin_layout Standard
-600
-\end_layout
-
-\begin_layout Standard
-real 0m29.814s user 0m29.513s sys 0m0.293s
-\end_layout
-
-\begin_layout Standard
-real 0m30.136s user 0m29.680s sys 0m1.477s
-\end_layout
-
-\begin_layout Standard
-800
-\end_layout
-
-\begin_layout Standard
-real 0m38.333s user 0m37.980s sys 0m0.363s
-\end_layout
-
-\begin_layout Standard
-real 0m40.524s user 0m40.050s sys 0m1.833s
-\end_layout
-
-\begin_layout Standard
-1000
-\end_layout
-
-\begin_layout Standard
-real 0m47.597s user 0m47.170s sys 0m0.437s
-\end_layout
-
-\begin_layout Standard
-real 0m50.149s user 0m49.383s sys 0m2.443s
-\end_layout
-
-\begin_layout Standard
-2000
-\end_layout
-
-\begin_layout Standard
-real 1m36.123s user 1m34.963s sys 0m1.107s
-\end_layout
-
-\begin_layout Standard
-real 1m40.769s user 1m39.433s sys 0m5.053s
-\end_layout
-
-\begin_layout Standard
-4000
-\end_layout
-
-\begin_layout Standard
-real 3m14.012s user 3m11.593s sys 0m2.253s
-\end_layout
-
-\begin_layout Standard
-real 3m29.098s user 3m26.260s sys 0m12.657s
-\end_layout
-
-\begin_layout Standard
-6000
-\end_layout
-
-\begin_layout Standard
-real 5m1.069s user 4m55.820s sys 0m4.547s
-\end_layout
-
-\begin_layout Standard
-real 5m11.295s user 5m7.070s sys 0m18.280s
-\end_layout
-
-\begin_layout Standard
-8000
-\end_layout
-
-\begin_layout Standard
-real 6m54.659s user 6m45.497s sys 0m7.273s
-\end_layout
-
-\begin_layout Standard
-real 6m59.741s user 6m53.973s sys 0m26.057s
-\end_layout
-
-\begin_layout Standard
-10000
-\end_layout
-
-\begin_layout Standard
-real 8m30.345s user 8m19.643s sys 0m8.647s
-\end_layout
-
-\begin_layout Standard
-real 8m42.708s user 8m34.593s sys 0m31.670s 
+Przeprowadzono również profilowanie, formę dynamicznej analizy kodu przy
+ użyciu oprogramowania 
+\shape italic
+\size footnotesize
+Valgrind
+\shape default
+\size default
+.
+ Uzyskano wyniki wskazujące, że około 85% czasu wykonania poświęcane było
+ na wczytanie danych z pliku tekstowego lub strumienia wejścia, natomiast
+ jedynie 15% czasu zajmowało wykonanie algorytmu i uzyskanie wyników.
+ Ze względu na użycie dostępnych w bibliotece języka C funkcji ładowania
+ danych, niemożliwa okazała się poprawa wydajności w tym względzie.
+ Jednym z możliwych rozwiązań było wykorzystanie kilku wątków programu do
+ ładowania danych, a tylko jednego do pracy algorytmu.
+ Pozwoliłoby znacznie zwiększyć wydajność zwłaszcza w przypadku wykorzystania
+ serwerów obliczeniowych, gwarantujących dostęp do wielu rdzeni procesora.
+ Nie było to jednak celem realizowanej pracy.
 \end_layout
 
 \begin_layout Chapter
