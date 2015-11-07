@@ -479,7 +479,6 @@ status open
 \align center
 \begin_inset Graphics
 	filename img/inductivedetector.png
-	display false
 	scale 70
 
 \end_inset
@@ -936,7 +935,6 @@ status open
 \align center
 \begin_inset Graphics
 	filename img/terminal.eps
-	display false
 
 \end_inset
 
@@ -1468,21 +1466,26 @@ status open
 
 \begin_layout Plain Layout
 \align center
+\begin_inset Graphics
+	filename img/schemat_odleglosci.svg
+	width 50text%
+	clip
+
+\end_inset
+
+
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Schemat odległości
-\end_layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:schemat-dlugosci"
 
 \end_inset
 
 
 \end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:schemat-dlugosci"
 
 \end_inset
 
@@ -1609,258 +1612,46 @@ Algorytm detekcji liczby osi pojazdu
 \end_layout
 
 \begin_layout Standard
-Algorytm detekcji liczby osi pojazdu stanowi podstawową funkcjonalność aplikacji
-, wokół której budowane były pozostałe funkcje.
- Implementacja algorytmu miała spełniać założenia projektu
-\end_layout
-
-\begin_layout Itemize
-wydajność
-\end_layout
-
-\begin_layout Itemize
-stabilność
-\end_layout
-
-\begin_layout Itemize
-poprawność działania, kompatybilność z implementacją bazową 
-\begin_inset Marginal
-status open
-
-\begin_layout Plain Layout
-??
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-W związku z tym, przygotowywana implementacja musiała być wykonana uważnie
- i starannie.
- Dzięki temu, udało się uzyskać algorytm równie dokładny, jak wersja bazowa,
- oferujący jednak wygodniejszy interfejs pracy i większą wydajność.
-\end_layout
-
-\begin_layout Standard
-Algorytm składa się szeregu akcji, wywoływanych po załadowaniu pliku z danymi.
- Przedstawiono je poniżej, wraz z nazwami funkcji odpowiedzialnych za akcję.
-\end_layout
-
-\begin_layout Itemize
-Usunięcie offsetu z sygnału.
- 
-\shape italic
-remove_offset 
-\begin_inset CommandInset label
-LatexCommand label
-name "alg-remove-offset"
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-Na podstawie pierwszych trzydziestu próbek wyznaczana jest wartość przesunięcia
- względem zera dla każdego z dwunastu sygnałów.
- Wartości przesunięć są następnie odejmowane od odpowiednich wartości w
- każdej próbce, by przesunąć sygnał względem zera.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Wyznaczenie prędkości pojazdu.
- 
-\shape italic
-find_velocity_distance
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-Na podstawie czujników piezoelektrycznych wyznaczana jest prędkość pojazdu
- w metrach na sekundę.
- Wartość ta jest wykorzystywana w kolejnym punkcie algorytmu.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Przycięcie danych do okna
-\shape italic
-.
- trim_data
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-Ciąg danych dla poszczególnych czujników przycinany jest do okresu, w którym
- w otoczeniu pętli indukcyjnej znajdował się badany pojazd.
- Pozwala to na zmniejszenie nakładu obliczeń wymaganych w dalszej części
- algorytmu.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-Przycięcie danych do okna
-\shape italic
-.
- trim_to_window
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-Następuje kolejne zmniejszenie okna opisującego użyteczne dane.
- W tym celu wykorzystywane są własności transformaty Fouriera 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Zielinski2002,Lyons2010"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Generowana jest transformata Fouriera dla funkcji F pary sygnałów pętli
- 3m.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-F(X_{\sim},R_{\sim})=\sqrt{X_{\sim}^{2}+R_{\sim}^{2}}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-W tym celu wykorzystany został algorytm wyznaczania szybkiej transformaty
- Fouriera FFT 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Rockmore1999"
-
-\end_inset
-
-.
- Posłużono się implementacją oferowaną przez bibliotekę 
-\shape italic
-kissfft 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "kissfft"
-
-\end_inset
-
- - 
-\shape default
-poprawna implementacja algorytmu FFT wymaga dużego nakładu czasu, ponadto
- biblioteka spełnia wszystkie wymagania projektu, jest lekka, nie wymaga
- wielu zasobów, a przy tym generuje transformatę z dużą wydajnością.
-\end_layout
-
-\begin_layout Standard
-Wygenerowany przebieg transformaty w dziedzinie częstotliwości ograniczany
- jest następnie do pierwszych 30 próbek i poddawany przekształceniu odwrotnemu,
- by uzyskać ponownie sygnał w dziedzinie czasu.
- Pozwala to w teorii na pozbycie się zakłóceń o wysokich częstotliwościach.
-\end_layout
-
-\begin_layout Standard
-Uzyskany sygnał poddawany jest operacji usunięcia offsetu, analogicznie
- do metody 
-\shape italic
-remove_offset.
- 
-\shape default
-Ostatnim krokiem jest określenie położenia okna, w tym celu zastosowano
- prostą implementację komparatora z histerezą 
+Dane pomiarowe z pętli indukcyjnych nie umożliwiały detekcji liczby osi
+ pojazdu bez dalszej analizy.
+ Na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "lis:komparator-histereza"
+reference "fig:sygnaly-r-x-wstepne"
 
 \end_inset
 
-.
+ przedstawiono wartości sygnałów R oraz X dla pętli o długościach 10cm oraz
+ 3m, oraz, pomocniczo, sygnały 
+\begin_inset Formula $M_{i}=\sqrt{R_{i}^{2}+X_{i}^{2}}$
+\end_inset
+
+ każdej pary.
+ 
 \end_layout
 
 \begin_layout Standard
-\begin_inset listings
-lstparams "language=C,basicstyle={\ttfamily},breaklines=true,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color{green}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color{magenta}}"
-inline false
+\begin_inset Float figure
+wide false
+sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/r-x-wstepne.svg
+	width 50theight%
 
-const double l_bound = 0.5; // próg dolny
-\end_layout
+\end_inset
 
-\begin_layout Plain Layout
 
-const double u_bound = 0.8; // próg górny
-\end_layout
-
-\begin_layout Plain Layout
-
-for (unsigned i = 0; i < length; i++) {
-\end_layout
-
-\begin_layout Plain Layout
-
-	if (signal[i] > u_bound && in_window == false) {
-\end_layout
-
-\begin_layout Plain Layout
-
-		in_window = true;
-\end_layout
-
-\begin_layout Plain Layout
-
-		w_start = i;
-\end_layout
-
-\begin_layout Plain Layout
-
-	}
-\end_layout
-
-\begin_layout Plain Layout
-
-	else if (signal[i] < l_bound && in_window == true) {
-\end_layout
-
-\begin_layout Plain Layout
-
-		w_end = i;
-\end_layout
-
-\begin_layout Plain Layout
-
-		break;
-\end_layout
-
-\begin_layout Plain Layout
-
-	}
-\end_layout
-
-\begin_layout Plain Layout
-
-}
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Implementacja komparatora z histerezą.
+Przebieg sygnałów R i X dla pętli o długościach 10cm oraz 3m.
 \begin_inset CommandInset label
 LatexCommand label
-name "lis:komparator-histereza"
+name "fig:sygnaly-r-x-wstepne"
 
 \end_inset
 
@@ -1869,6 +1660,10 @@ name "lis:komparator-histereza"
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -1878,79 +1673,253 @@ name "lis:komparator-histereza"
 \end_layout
 
 \begin_layout Standard
-Przebiegi wszystkich sygnałów są następnie ograniczane do przedziału próbek
- [
-\shape italic
-w_start
-\shape default
-, 
-\shape italic
-w_end
-\shape default
-].
- 
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-Wykonanie tych operacji kończy etap wstępnego przetwarzania sygnału i pozwala
- na uruchomienie właściwej części algorytmu.
- Składają się to poniższe kroki.
-\end_layout
-
-\begin_layout Itemize
-wyznaczenie sygnałów 
-\shape italic
-R, X, M
-\shape default
- oraz wartości parametrów 
-\shape italic
-L
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-x
-\end_layout
+Zaproponowano algorytm umożliwiający detekcję liczby osi pojazdu poprzez
+ analizę sygnałów przedstawionych na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sygnaly-r-x-wstepne"
 
 \end_inset
 
-
-\shape default
- i
-\shape italic
- L
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-m
-\end_layout
+.
+ Uproszczony schemat tego algorytmu przedstawiono na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:alg-flowchart"
 
 \end_inset
 
 .
 \end_layout
 
-\begin_deeper
 \begin_layout Standard
-Wyznaczane są sygnały 
-\shape italic
-R 
-\shape default
-i 
-\shape italic
-X,
-\shape default
- odpowiadające parze sygnałów dla pętli 0,1m, oraz sygnał
-\shape italic
- M
-\shape default
-, opisany funkcją
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/Algorytm detekcji osi.svg
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat blokowy algorytmu detekcji liczby osi pojazdu.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:alg-flowchart"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+W kolejnych sekcjach opisano etapy pracy algorytmu wraz z wynikami pracy
+ dla danych wejściowych zaprezentowanych na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sygnaly-r-x-wstepne"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section*
+Przetwarzanie wstępne
+\end_layout
+
+\begin_layout Standard
+Przed przystąpieniem do analizy danych, konieczne było wstępne ich przetworzenie
+, w taki sposób, by ze zbioru danych wejściowych wyłuskać wyłącznie użyteczne
+ informacje.
+ 
+\end_layout
+
+\begin_layout Standard
+Analizując przebiegi sygnałów przedstawione na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sygnaly-r-x-wstepne"
+
+\end_inset
+
+ można zaobserwować przesunięcie w czasie dla okien, w których sygnały uzyskują
+ niezerowe wartości.
+ Wynika to z budowy stanowiska pomiarowego, w którym kilka pętli indukcyjnych
+ umieszczone było kolejno wzdłuż jezdni.
+ Z tego powodu w odczytach pojawia się przesunięcie, które należało usunąć
+ w pierwszej fazie wstępnego przetwarzania danych.
+ 
+\end_layout
+
+\begin_layout Standard
+Na podstawie pierwszych 30 wartości dla każdego sygnału, wyznaczane było
+ średnie przesunięcie sygnału względem wartości zerowej.
+ Przyjęto, że w pierwsze pomiary powinny być w idealnym środowisku równe
+ zero, ponieważ pojazd nie znajdował się wtedy w zasięgu pracy czujnika
+ indukcyjnego.
+ Dzięki temu możliwe było 
+\begin_inset Quotes pld
+\end_inset
+
+wyzerowanie
+\begin_inset Quotes prd
+\end_inset
+
+ sygnału, a więc odjęcie od wszystkich wartości wyznaczonego przesunięcia.
+\end_layout
+
+\begin_layout Standard
+Przejeżdżający pojazd pozostawał w obszarze aktywnym pętli indukcyjnej (to
+ znaczy w obszarze, w którym wartości sygnałów pętli przyjmują niezerowe
+ wartości) nie dłużej niż kilka dziesiątych sekundy.
+ Z tego powodu, dysponując danymi odczytanymi na przestrzeni kilku sekund,
+ duża ich część nie była użyteczna z punktu widzenia algorytmu.
+ Zdecydowano się na usunięcie zbędnych wartości w celu uniknięcia niepotrzebnych
+ obliczeń, a zatem zwiększenia wydajności algorytmu.
+\end_layout
+
+\begin_layout Standard
+Na etapie wstępnego przetwarzania sygnałów wyznaczana była również prędkość
+ pojazdu.
+ Wykorzystano do tego dwa czujniki piezoelektryczne, których odczyty znajdowały
+ się w zbiorze danych wejściowych.
+ Czujniki te cechowały się binarną wartością sygnału.
+ Przy braku nacisku, odczyt wynosił 0V, natomiast w przeciwnym przypadku
+ 5V.
+ Dzięki znajomości odległości pomiędzy dwoma czujnikami oraz okresu próbkowania,
+ możliwe było wyznaczenie prędkości poprzez wykrycie zbocza sygnalizującego
+ nacisk wywołany przez pierwszą oś przejeżdżającego pojazdu.
+ Uzyskana wartość nie była wykorzystywana przez algorytm detekcji liczby
+ osi, znalazła jednak zastosowanie w algorytmie wyznaczania długości pojazdu,
+ szerzej opisanym w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Detekcja-długości-pojazdu"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sygnaly-r-x-prz-wstepne"
+
+\end_inset
+
+ przedstawiono sygnału po zakończeniu przetwarzania wstępnego.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/r-x-przetwarzanie.svg
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przebiegi sygnałów R i X po przetwarzaniu wstępnym.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:sygnaly-r-x-prz-wstepne"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Przygotowanie sygnału i parametrów
+\end_layout
+
+\begin_layout Standard
+Po zakończeniu przetwarzania wstępnego, możliwe było przystąpienie do wyznaczeni
+a sygnału, na podstawie którego przeprowadzona zostanie detekcja osi oraz
+ parametrów Y i H, decydujących o przebiegu detekcji.
+\end_layout
+
+\begin_layout Standard
+Na podstawie sygnałów 
+\begin_inset Formula $R_{0.1m}$
+\end_inset
+
+ i 
+\begin_inset Formula $X_{0.1m}$
+\end_inset
+
+ pętli o długości 10cm wyznaczony został sygnał 
+\begin_inset Formula $M$
+\end_inset
+
+, opisany wzorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:m-signal"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-M(X,R)=X^{2}+R^{2}
+M(R_{0.1m},X_{0.1m})=R_{0.1m}^{2}+X_{0.1m}^{2}\label{eq:m-signal}
 \end{equation}
 
 \end_inset
@@ -1959,81 +1928,104 @@ M(X,R)=X^{2}+R^{2}
 \end_layout
 
 \begin_layout Standard
-Następnie wyznaczane są wartości 
-\shape italic
-L
-\begin_inset script subscript
+Na bazie sygnałów 
+\begin_inset Formula $X_{0.1m}$
+\end_inset
 
-\begin_layout Plain Layout
-x
-\end_layout
+ oraz 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
 
+\begin_inset Formula $M$
 \end_inset
 
 
+\family default
+\series default
 \shape default
- - liczba próbek sygnału 
-\shape italic
-X
-\shape default
- o wartości większej od 0,1, oraz 
-\shape italic
-L
-\begin_inset script subscript
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+\lang polish
+ wyznaczano wartości 
+\begin_inset Formula $L_{x}$
+\end_inset
 
-\begin_layout Plain Layout
-m
-\end_layout
+- liczby próbek dla których wartość sygnału 
+\begin_inset Formula $X_{0.1m}$
+\end_inset
 
+ przekracza 0,1V oraz 
+\begin_inset Formula $L_{m}$
+\end_inset
+
+- liczby próbek dla których sygnał
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+ 
+\begin_inset Formula $M$
 \end_inset
 
 
+\family default
+\series default
 \shape default
- - liczba próbek sygnału 
-\shape italic
-M
-\shape default
- o wartości większej od 0,5.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-określenie wartości parametrów 
-\shape italic
-a/b, H i Y
-\shape default
-.
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-Na podstawie wartości parametrów 
-\shape italic
-L
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-x
-\end_layout
-
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+\lang polish
+ przyjmuje wartość większą od 0,5V.
+ Poprzez analizę stosunku 
+\begin_inset Formula $L_{x}$
 \end_inset
 
-
-\shape default
-oraz
-\shape italic
- L
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-m
-\end_layout
-
+ do 
+\begin_inset Formula $L_{m}$
 \end_inset
 
+ przyjmowano wartości parametrów 
+\begin_inset Formula $a/b$
+\end_inset
 
-\shape default
-definiowane są wartości parametrów zgodnie z tabelą 
+, 
+\begin_inset Formula $Y$
+\end_inset
+
+, 
+\begin_inset Formula $H$
+\end_inset
+
+ zgodnie z tabelą 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:parameters"
@@ -2097,7 +2089,10 @@ warunek
 \begin_inset Text
 
 \begin_layout Plain Layout
-a/b
+\begin_inset Formula $a/b$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2126,7 +2121,10 @@ a/b
 \begin_inset Text
 
 \begin_layout Plain Layout
-H
+\begin_inset Formula $H$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2155,7 +2153,10 @@ H
 \begin_inset Text
 
 \begin_layout Plain Layout
-Y
+\begin_inset Formula $Y$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2204,58 +2205,42 @@ Dobór wartości parametrów.
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-Parametry te są następnie wykorzystywane w trakcie właściwego poszukiwania
- osi.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-wyznaczenie sygnału 
-\shape italic
-K
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-p
-\end_layout
-
+Parametr 
+\begin_inset Formula $H$
 \end_inset
 
+ określa szerokość pętli histerezy, natomiast parametr 
+\begin_inset Formula $Y$
+\end_inset
 
+ - poziom odniesienia, względem którego wyznaczana jest pętla histerezy.
 \end_layout
 
-\begin_deeper
 \begin_layout Standard
-Kolejnym krokiem jest wyznaczenie sygnału 
-\shape italic
-K
-\begin_inset script subscript
+Kolejnym krokiem było wyznaczenie sygnału 
+\begin_inset Formula $K_{p}$
+\end_inset
 
-\begin_layout Plain Layout
-p
-\end_layout
+, opisanego wzorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:signal-kp"
 
 \end_inset
 
-
-\shape default
- zgodnie z formułą
+.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-K_{p}=a/b\cdot R+X
+K_{p}=a/b\cdot R+X\label{eq:signal-kp}
 \end{equation}
 
 \end_inset
@@ -2264,116 +2249,145 @@ K_{p}=a/b\cdot R+X
 \end_layout
 
 \begin_layout Standard
-Pomocniczo wyznacza się również wartość 
+Pomocniczo wyznaczano wartość 
 \shape italic
-K
-\begin_inset script subscript
 
-\begin_layout Plain Layout
-pmax
-\end_layout
-
+\begin_inset Formula $K_{pmax}=max(K_{p})$
 \end_inset
 
-=max(K
-\begin_inset script subscript
 
-\begin_layout Plain Layout
-p
-\end_layout
-
-\end_inset
-
-)
 \shape default
 .
- Jeśli wartość 
+ Jeśli spełniony był warunek 
 \shape italic
-K
-\begin_inset script subscript
 
-\begin_layout Plain Layout
-pmax
-\end_layout
-
+\begin_inset Formula $K_{pmax}>3$
 \end_inset
 
 
 \shape default
- jest większa od 3, wprowadza się modyfikacje do wartości parametrów algorytmu:
-\end_layout
-
-\begin_layout Standard
-
+, wartości parametrów ulegały zmianie,
 \shape italic
-Y
-\shape default
- = 0,8, 
-\shape italic
-H
-\shape default
- = 0,45.
-\end_layout
-
-\begin_layout Standard
-Dokonuje się również normalizacji sygnału 
-\shape italic
-K
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-p
-\end_layout
-
+ 
+\begin_inset Formula $Y=0.8$
 \end_inset
 
 
 \shape default
- na sygnał
+, 
 \shape italic
- K
-\begin_inset script subscript
 
-\begin_layout Plain Layout
-u
-\end_layout
-
+\begin_inset Formula $H=0.45$
 \end_inset
 
 
 \shape default
-o wartościach z przedziału 0-5.
+.
 \end_layout
 
 \begin_layout Standard
-\begin_inset listings
-lstparams "language=C,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color{green}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color{magenta}}"
-inline false
+Sygnał 
+\begin_inset Formula $K_{p}$
+\end_inset
+
+ poddawany był normalizacji opisanej równaniem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:signal-ku"
+
+\end_inset
+
+, w wyniku której uzyskiwany był sygnał 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+ o wartościach nie przekraczających 5V.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+K_{u}=\frac{K_{p}}{K_{pmax}}5V\label{eq:signal-ku}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sygnał M oraz sygnały K_p i K_u przedstawiono na wykresie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sygnaly-m-kp-ku"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/r-x-m-kp-ku.svg
+	width 100text%
 
-for (unsigned i = 0; i < length; i++)
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
-
-	Ku[i] = 5 * Kp[i] / Kp_max; 
-\end_layout
-
-\begin_layout Plain Layout
-
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Normalizacja sygnału K
-\shape italic
-p
-\shape default
+Sygnały 
+\begin_inset Formula $M$
+\end_inset
 
+, 
+\begin_inset Formula $K_{p}$
+\end_inset
+
+ i 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+.
+ Dla powyższych sygnałów uzyskano wartości poszczególnych parametrów: 
+\begin_inset Formula $L_{x}=91$
+\end_inset
+
+, 
+\begin_inset Formula $L_{m}=1697$
+\end_inset
+
+, 
+\begin_inset Formula $K_{pmax}=0.77$
+\end_inset
+
+,
+\begin_inset Formula $a/b=0.5$
+\end_inset
+
+, 
+\begin_inset Formula $H=0.5$
+\end_inset
+
+, 
+\begin_inset Formula $Y=4$
+\end_inset
+
+.
 \begin_inset CommandInset label
 LatexCommand label
-name "lis:kp-signal"
+name "fig:sygnaly-m-kp-ku"
 
 \end_inset
 
@@ -2390,35 +2404,58 @@ name "lis:kp-signal"
 
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
-wyszukiwanie osi
-\end_layout
-
-\begin_deeper
 \begin_layout Standard
-Mając sygnał 
-\shape italic
-K
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-u
-\end_layout
-
+Sygnał 
+\begin_inset Formula $K_{u}$
 \end_inset
 
-
-\shape default
  oraz parametry 
-\shape italic
-a/b, H i Y
-\shape default
- można przystąpić do procedury szukania osi.
- Odpowiada za nią poniższa funkcja 
+\begin_inset Formula $H$
+\end_inset
+
+ i 
+\begin_inset Formula $Y$
+\end_inset
+
+ stanowiły dane wejściowe właściwej części algorytmu.
+\end_layout
+
+\begin_layout Section*
+Detekcja osi
+\end_layout
+
+\begin_layout Standard
+Sygnał 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+, którego typowy przebieg przedstawiono na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "lis:counter-fun"
+reference "fig:sygnaly-m-kp-ku"
+
+\end_inset
+
+, pozwala zazwyczaj na detekcję liczby osi pojazdu poprzez wyznaczenie liczby
+ impulsów sygnału.
+\end_layout
+
+\begin_layout Standard
+W tym celu zastosowano licznik impulsów z histerezą, opisaną wyznaczonymi
+ wcześniej parametrami 
+\begin_inset Formula $H$
+\end_inset
+
+ i 
+\begin_inset Formula $Y$
+\end_inset
+
+.
+ Uproszczony sposób implementacji licznika został przedstawiony na listingu
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:hist-counter"
 
 \end_inset
 
@@ -2433,31 +2470,12 @@ status open
 
 \begin_layout Plain Layout
 
-unsigned counter(double *Ku, unsigned len, double Y, double H,
+unsigned counter(double *Ku, unsigned len, double Y, double H)
 \end_layout
 
 \begin_layout Plain Layout
 
-                 unsigned *axle_positions) {
-\end_layout
-
-\begin_layout Plain Layout
-
-    if (Ku == NULL) {
-\end_layout
-
-\begin_layout Plain Layout
-
-        exit(EINVAL);
-\end_layout
-
-\begin_layout Plain Layout
-
-    }
-\end_layout
-
-\begin_layout Plain Layout
-
+{
 \end_layout
 
 \begin_layout Plain Layout
@@ -2472,25 +2490,12 @@ unsigned counter(double *Ku, unsigned len, double Y, double H,
 
 \begin_layout Plain Layout
 
-\end_layout
-
-\begin_layout Plain Layout
-
     const double level_top = Y + H / 2;
 \end_layout
 
 \begin_layout Plain Layout
 
     const double level_bottom = Y - H / 2;
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-    double val_max = 0;
 \end_layout
 
 \begin_layout Plain Layout
@@ -2534,55 +2539,12 @@ unsigned counter(double *Ku, unsigned len, double Y, double H,
 
 \begin_layout Plain Layout
 
-            val_max = 0;
-\end_layout
-
-\begin_layout Plain Layout
-
-        }
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-        if (axle_positions != NULL) {
-\end_layout
-
-\begin_layout Plain Layout
-
-			if (is_high && val_max < Ku[i]) {
-\end_layout
-
-\begin_layout Plain Layout
-
-                axle_positions[num_axles - 1] = i;
-\end_layout
-
-\begin_layout Plain Layout
-
-                val_max = Ku[i];
-\end_layout
-
-\begin_layout Plain Layout
-
-            }
-\end_layout
-
-\begin_layout Plain Layout
-
         }
 \end_layout
 
 \begin_layout Plain Layout
 
     }
-\end_layout
-
-\begin_layout Plain Layout
-
 \end_layout
 
 \begin_layout Plain Layout
@@ -2596,10 +2558,10 @@ unsigned counter(double *Ku, unsigned len, double Y, double H,
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Funkcja poszukująca osie.
+Implementacja licznika osi.
 \begin_inset CommandInset label
 LatexCommand label
-name "lis:counter-fun"
+name "lis:hist-counter"
 
 \end_inset
 
@@ -2617,72 +2579,368 @@ name "lis:counter-fun"
 \end_layout
 
 \begin_layout Standard
-W przypadku znalezienia dwóch, trzech lub pięciu osi, algorytm kończy działanie,
- zakładając, że wynik jest poprawny.
+W wyniku wywołania funkcji dla sygnału K_u przedstawionego na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sygnaly-m-kp-ku"
+
+\end_inset
+
+, uzyskano wynik informujący o wykryciu dwóch osi.
+ Na wykresie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sygnaly-ku-piezo"
+
+\end_inset
+
+ przedstawiono sygnał 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+ i sygnał z czujnika piezoelektrycznego, potwierdzający poprawność wyniku.
+ Algorytm mógł zakończyć działanie nie wykrywając poprawnie żadnej osi,
+ lub wykrywając tylko jedną oś.
+ Taki wynik traktowany był jako błędny i w celu rozwiązania błędu zaimplementowa
+no metodę detekcji brakujących osi.
  
 \end_layout
 
-\end_deeper
 \begin_layout Standard
-Wprowadzono ponadto dwa dodatkowe warunki, które poprawiają skuteczność
- algorytmu.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/r-x-ku-piezo.svg
+	width 100text%
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Itemize
-szukanie drugiej osi
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sygnał 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+oraz sygnał czujnika piezoelektrycznego.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:sygnaly-ku-piezo"
+
+\end_inset
+
+
 \end_layout
 
-\begin_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Detekcja brakujących osi
+\end_layout
+
 \begin_layout Standard
-Jeśli udało znaleźć się tylko jedną oś, modyfikuje się parametry i ponawia
- poszukiwania.
- Przyjmuje się wartość parametru 
-\shape italic
-H 
-\shape default
-= 0,1, natomiast wartość parametru 
-\shape italic
-Y
-\shape default
- zmniejsza się każdorazowo o 0,1 i ponawia poszukiwania do czasu odnalezienia
- co najmniej dwóch osi lub osiągnięcia przez parametr
-\shape italic
- Y 
-\shape default
-wartości nie większej niż 0,15.
- Wystąpienie dowolnego warunku kończy działanie algorytmu.
+Autor przyjął, że wykrycie minimum dwóch osi jest wymagane, by uznać wynik
+ pracy algorytmu za poprawny.
+ W przypadku wykrycia zera lub jednej osi, parametry algorytmu ulegały zmianie,
+ po czym próba detekcji była ponawiana.
+ Metoda była powtarzana do czasu uzyskania poprawnego wyniku lub osiągnięcia
+ wartości parametrów nie pozwalających na dalszą analizę.
+ Schemat opisujący algorytm przedstawiono na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Algorytm-detekcji-brakujących"
+
+\end_inset
+
+.
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
-szukanie podniesionej piątej osi
-\end_layout
-
-\begin_deeper
 \begin_layout Standard
-Jeśli odnaleziono 4 osie, uruchamia się procedura poszukiwania podniesionej
- piątej osi.
- Zmiany sygnału w takiej sytuacji są niewielkie, stąd konieczność wprowadzenia
- modyfikacji do wartości parametru 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/Algorytm brakujące osie.svg
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Algorytm detekcji brakujących osi.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Algorytm-detekcji-brakujących"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wykorzystanie algorytmu detekcji brakujących osi pozwoliło na zwiększenie
+ skuteczności programu w poszukiwaniu osi na podstawie danych zawierających
+ większe zakłócenia i mniej dokładne odczyty.
+ Przykład działania algorytmu zaprezentowano na wykresie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sygnaly-ku-piezo-brakujace"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/r-x-ku-piezo-brakujace.svg
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sygnał 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+oraz sygnał czujnika piezoelektrycznego.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:sygnaly-ku-piezo-brakujace"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Badając przebieg sygnału K_u można zauważyć zwiększone wartości wielkości
+ impulsów zakłóceń w stosunku do impulsów sygnalizujących istnienie osi.
+ Może to doprowadzić do sytuacji, kiedy wykryta została by nieistniejąca
+ oś, jednak nie zaobserwowano takiego przypadku w trakcie testowania algorytmu.
+\end_layout
+
+\begin_layout Section*
+Detekcja podniesionej osi
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Detekcja-podniesionej-osi"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ciekawe zagadnienie z punktu widzenia detekcji liczby osi stanowiły pojazdu
+ ciężarowe pięcioosiowe, które posiadały możliwość uniesienia jednej z osi.
+ W ich przypadku zawodna stawała się metoda detekcji osi przy użyciu czujników
+ naciskowych, natomiast czujniki indukcyjne wciąż pozwalały na przeprowadzenie
+ próby detekcji.
+\end_layout
+
+\begin_layout Standard
+Zaprojektowano algorytm detekcji osi podniesionej, który uruchamiany był
+ w przypadku wykrycia pojazdu czteroosiowego.
+\end_layout
+
+\begin_layout Standard
+Przed przystąpieniem do wykonania algorytmu przyjmowano nowe wartości parametrów
+: 
 \shape italic
-Y
+
+\begin_inset Formula $a/b=0.3$
+\end_inset
+
+ 
+\shape default
+, 
+\shape italic
+
+\begin_inset Formula $H=0.1$
+\end_inset
+
+
 \shape default
 .
- Zmniejsza się go każdorazowo o 0,1 i ponawia poszukiwania do czasu, do
- póki wartość parametru 
-\shape italic
-Y
-\shape default
- jest większa od 0,15 oraz odnaleziono wciąż 4 osie.
- W przypadku odnalezienia piątej osi, uznaje się ją za poszukiwaną oś podniesion
-ą, natomiast w przypadku wykrycia wartości innej niż 4 lub 5 osi w dowolnym
- miejscu procedury, uznaje się to za błąd i przyjmuje wartość 4 osi za poprawny
- wynik algorytmu.
+ Następnie wyznaczano nowy sygnał 
+\begin_inset Formula $K_{p}$
+\end_inset
+
+ zgodnie z formułą 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:signal-kp"
+
+\end_inset
+
+ oraz wykonywano kolejne kroki algorytmu bazowego do uzyskania znormalizowanego
+ sygnału 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+, opisanego równaniem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:signal-ku"
+
+\end_inset
+
+.
 \end_layout
 
-\end_deeper
 \begin_layout Standard
-Powyższe operacje stanowią kompletny algorytm poszukiwania osi pojazdu.
+Po wyznaczeniu sygnału 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+, uruchamiany był algorytm analogiczny do opisanego na schemacie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Algorytm-detekcji-brakujących"
+
+\end_inset
+
+, z uwzględnieniem nowego warunku stopu, którym było wykrycie liczby osi
+ różnej od czterech.
+ W przypadku wykrycia pięciu osi, uznawano wynik za poprawny.
+ W przeciwnym razie, za poprawny uznawano wcześniej uzyskany wynik czterech
+ osi.
+ 
+\end_layout
+
+\begin_layout Standard
+Przykład działania algorytmu i położenia wykrytych osi zaprezentowano na
+ wykresie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sygnaly-ku-piezo-podniesiona"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/r-x-ku-piezo-podniesiona.svg
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sygnał 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+oraz sygnał czujnika piezoelektrycznego.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:sygnaly-ku-piezo-podniesiona"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Powyższe operacje stanowiły kompletny algorytm poszukiwania osi pojazdu.
  W kolejnych rozdziałach przedstawiono modyfikacje algorytmu, które zwiększają
  jego funkcjonalność oraz umożliwiają weryfikację wyników.
 \end_layout
@@ -2874,6 +3132,13 @@ H
 
 \begin_layout Chapter
 Detekcja długości pojazdu i położenia osi
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Detekcja-długości-pojazdu"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2896,13 +3161,20 @@ Wyznaczono sygnał
 \shape italic
 M
 \shape default
- opisany funkcją
+ opisany zależnością 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:signal-m"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-M(R_{1},X_{1})=R_{1}^{2}+X_{1}^{2}
+M(R_{1},X_{1})=R_{1}^{2}+X_{1}^{2}\label{eq:signal-m}
 \end{equation}
 
 \end_inset
@@ -2911,30 +3183,29 @@ M(R_{1},X_{1})=R_{1}^{2}+X_{1}^{2}
 \end_layout
 
 \begin_layout Standard
-Gdzie R
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-1
-\end_layout
-
+Gdzie 
+\begin_inset Formula $R_{1}$
 \end_inset
 
- i X
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-1
-\end_layout
-
+ i 
+\begin_inset Formula $X_{1}$
 \end_inset
 
- stanowią wartości sygnałów dla pętli indukcyjnej 1m.
+ stanowiły wartości sygnałów dla pętli indukcyjnej o długości jednego metra.
 \end_layout
 
 \begin_layout Standard
-W większości przypadków, sygnał taki stanowi dobrą bazę do badania położenia
- pojazdu względem czujnika.
+W większości przypadków sygnał taki stanowi
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ dobrą bazę do badania położenia pojazdu względem czujnika.
  Przebieg sygnału w czasie przedstawiono na wykresie 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2953,18 +3224,17 @@ status open
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Przebieg badanego sygnału M.
-\end_layout
+\begin_inset Graphics
+	filename img/dlugosc-m.svg
+	width 100text%
 
 \end_inset
 
 
-\end_layout
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
+Przebieg badanego sygnału M.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:m-signal"
@@ -2979,149 +3249,42 @@ name "fig:m-signal"
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
-Wykorzystując pokazaną na wykresie własność, można zaprojektować algorytm,
- który określi przybliżoną długość pojazdu.
- Algorytmem jest proste wyznaczenie przedziału, w którym wartości sygnału
- 
-\shape italic
-M 
-\shape default
-przekraczają przyjęty próg odcięcia 
-\shape italic
-K
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-l
-\end_layout
-
+Wykorzystując pokazaną na wykresie własność, zaprojektowano metodę określania
+ przybliżonej długości pojazdu.
+ W tym celu na podstawie wartości sygnału M wybierano ciągły przedział,
+ w którym przyjmuje on wartości większe od progu odcięcia 
+\begin_inset Formula $K_{l}$
 \end_inset
 
-
-\shape default
 .
- W trakcie pracy nad implementacją programową przyjęto wartość 
-\shape italic
-K
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-l
-\end_layout
-
+ Przyjęto wartość
+\begin_inset Formula $K_{l}=0.5V$
 \end_inset
 
+.
+ Wyznaczony przedział opisany był jako para indeksów określających elementy
+ brzegowe 
+\begin_inset Formula $[index_{start};index_{end}]$
+\end_inset
 
-\shape default
- = 0,5.
- Implementację funkcji wyznaczającej okno, w którym znajduje się w przybliżeniu
- wykryte podwozie pojazdu zaprezentowano na listingu 
+.
+\end_layout
+
+\begin_layout Standard
+Wyznaczano następnie długość okna zgodnie z równaniem 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "lis:veh-length"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\begin_inset listings
-lstparams "language=C,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color{green}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color{magenta}}"
-inline false
-status open
-
-\begin_layout Plain Layout
-
-    for (unsigned i = 0; i < length; i++) {
-\end_layout
-
-\begin_layout Plain Layout
-
-        if (M[i] > K_level) {
-\end_layout
-
-\begin_layout Plain Layout
-
-            index_start = i;
-\end_layout
-
-\begin_layout Plain Layout
-
-            break;
-\end_layout
-
-\begin_layout Plain Layout
-
-        }
-\end_layout
-
-\begin_layout Plain Layout
-
-    }
-\end_layout
-
-\begin_layout Plain Layout
-
-    for (unsigned i = length - 1; i > 0; i--) {
-\end_layout
-
-\begin_layout Plain Layout
-
-        if (M[i] > K_level) {
-\end_layout
-
-\begin_layout Plain Layout
-
-            index_end = i;
-\end_layout
-
-\begin_layout Plain Layout
-
-            break;
-\end_layout
-
-\begin_layout Plain Layout
-
-        }
-\end_layout
-
-\begin_layout Plain Layout
-
-    }
-\end_layout
-
-\begin_layout Plain Layout
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "lis:veh-length"
-
-\end_inset
-
-Sposób określania okna przejazdu.
-\end_layout
+reference "eq:roznica-indeksow"
 
 \end_inset
 
 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Znając długość okna
-\shape italic
- l
-\shape default
- opisanego zależnością
 \end_layout
 
 \begin_layout Standard
@@ -3136,25 +3299,38 @@ l=index_{end}-index_{start}\label{eq:roznica-indeksow}
 \end_layout
 
 \begin_layout Standard
-można, dzięki znajomości różnicy czasu pomiędzy dwoma próbkami 
+A następnie, na podstawie znajomości różnicy czasu pomiędzy dwoma próbkami
+ 
 \shape italic
-dt
+
+\begin_inset Formula $dt$
+\end_inset
+
+
 \shape default
  oraz prędkości pojazdu w metrach na sekundę 
-\shape italic
-v
-\shape default
-, wyznaczyć długość pojazdu 
+\begin_inset Formula $v$
+\end_inset
+
+, której wartość wyznaczono w trakcie przetwarzania wstępnego algorytmu
+ detekcji osi, można było uzyskać długość pojazdu 
 \shape italic
 L 
 \shape default
-w metrach
+w metrach, zgodnie z równania 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:dlugosc-pojazdu"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-L=l\cdot v\cdot dt
+L=l\cdot v\cdot dt\label{eq:dlugosc-pojazdu}
 \end{equation}
 
 \end_inset
@@ -3163,25 +3339,18 @@ L=l\cdot v\cdot dt
 \end_layout
 
 \begin_layout Standard
-Wartość ta jest tylko przybliżeniem rzeczywistej długości pojazdu, może
- posłużyć jednak do wstępnej analizy rodzaju pojazdu.
+Wartość ta była wyłącznie przybliżeniem rzeczywistej długości pojazdu, wystarcza
+jącą do wstępnej selekcji pojazdów.
 \end_layout
 
 \begin_layout Standard
-Położenia poszczególnych osi wyznaczane są we wcześniejszej części algorytmu
- (w trakcie wyznaczania liczby osi pojazdu).
- Przyjmuje się, że środek osi znajduje się w punkcie, gdzie wartość sygnału
+Położenia poszczególnych osi wyznaczane są we wcześniejszej części algorytmu,
+ w trakcie wyznaczania liczby osi pojazdu.
+ Przyjęto , że środek osi znajdował się w punkcie, gdzie wartość sygnału
  
 \shape italic
-K
-\begin_inset script subscript
 
-\begin_layout Plain Layout
-
-\shape italic
-p
-\end_layout
-
+\begin_inset Formula $K_{p}$
 \end_inset
 
 
@@ -3189,35 +3358,35 @@ p
 [
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "lis:kp-signal"
+reference "eq:signal-kp"
 
 \end_inset
 
-] osiąga lokalne maksimum.
+] osiągała lokalne maksimum.
  Znając indeks położenia osi 
 \shape italic
-p
-\begin_inset script subscript
 
-\begin_layout Plain Layout
-
-\shape italic
-i
-\end_layout
-
+\begin_inset Formula $p_{i}$
 \end_inset
 
 
 \shape default
  oraz prędkość pojazdu 
-\shape italic
-v
-\shape default
+\begin_inset Formula $v$
+\end_inset
+
  i różnicę czasu pomiędzy kolejnymi próbkami 
-\shape italic
-dt
-\shape default
-, można wyznaczyć odległość osi od początku pojazdu, zgodnie z zależnością
+\begin_inset Formula $dt$
+\end_inset
+
+, wyznaczono odległość osi od początku pojazdu, zgodnie z zależnością 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:polozenie-osi"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3232,41 +3401,54 @@ P_{i}=p_{i}\cdot v\cdot dt\label{eq:polozenie-osi}
 \end_layout
 
 \begin_layout Standard
-Wynik jest następnie weryfikowany - różnica wyznaczonej długości pojazdu
- oraz sumy odległości pierwszej osi od początku pojazdu, odległości pomiędzy
- poszczególnymi osiami oraz odległości ostatniej osi od końca pojazdu nie
- może być większa od przyjętego progu błędu 
-\shape italic
-e
-\shape default
-=0,02.
- W przypadku, gdy wynik spełnia warunek, uznawany jest za poprawny i algorytm
- kończy pracę.
- W przeciwnym razie, użytkownik może zostać poinformowany o błędzie.
-\end_layout
-
-\begin_layout Standard
-Wartości położenia osi można zweryfikować również na podstawie odczytów
- z czujników piezoelektrycznych.
- Funkcja odpowiedzialna za to zadanie uruchamiania jest, gdy użytkownik
- zdefiniował odpowiednią flagę przy starcie programu.
-\end_layout
-
-\begin_layout Standard
-Za indeks położenia osi przyjmuje się moment, w którym pojawi się narastające
- zbocze sygnału czujnika.
- Znając indeksy wszystkich osi, można wyznaczyć odległości pomiędzy kolejnymi
- osiami zgodnie z zależnościami 
+Wynik był następnie weryfikowany - suma długości opisujących segmenty pojazdu,
+ zgodnie z rysunkiem 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "eq:roznica-indeksow"
+reference "fig:schemat-dlugosci"
 
 \end_inset
 
-oraz 
+, nie mogła różnić się od wyznaczonej długości o więcej niż próg błędu 
+\begin_inset Formula $e$
+\end_inset
+
+, co opisuje równanie 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "eq:polozenie-osi"
+reference "eq:dlugosc-weryfikacja"
+
+\end_inset
+
+.
+ Przyjęto wartość 
+\shape italic
+
+\begin_inset Formula $e=0.02$
+\end_inset
+
+
+\shape default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+|L-\sum_{i=0}^{liczba\,osi}l_{i}|\leq e\label{eq:dlugosc-weryfikacja}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wynik pracy algorytmu dla pojazdu ciężarowego trzyosiowego, wraz z określeniem
+ położenia osi, przedstawiono na wykresie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:m-signal-piezo"
 
 \end_inset
 
@@ -3274,13 +3456,77 @@ reference "eq:polozenie-osi"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/dlugosc-m-piezo.svg
+	width 100text%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przebieg badanego sygnału M.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:m-signal-piezo"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Badając wykres można zaobserwować brak zależności pomiędzy wartościami sygnału
+ 
+\begin_inset Formula $M$
+\end_inset
+
+ a położeniami kolejnych osi, co uzasadnia konieczność użycia pomiarów przy
+ użyciu pętli indukcyjnej o różnych parametrach dla tych dwóch zagadnień.
+\end_layout
+
+\begin_layout Standard
+Na żądanie użytkownika możliwa była również weryfikacja poprawności wyznaczonych
+ wartości położeń osi na podstawie odczytów z czujników piezoelektrycznych.
+ Wymagało to wybrania właściwej instrukcji przy starcie programu.
+\end_layout
+
+\begin_layout Standard
 Ze względu na uproszczenia przyjęte w algorytmie wyznaczającym odległości
- na bazie odczytów z czujników indukcyjnych, wartości uzyskane z piezo gwarantuj
-ą zazwyczaj większą dokładność.
+ na bazie odczytów z czujników indukcyjnych, wartości uzyskane z piezo gwarantow
+ały zazwyczaj większą dokładność.
  Uznano jednak to zjawisko za dopuszczalne, ponieważ informacja na temat
- długości pojazdu ma pełnić jedynie pomocniczą rolę - z dużym prawdopodobieństwe
-m można określić typ pojazdu, znając dokładną ilość osi oraz ich położenia
- i długość pojazdu z dokładnością do kilkunastu centymetrów.
+ długości pojazdu miała pełnić jedynie pomocniczą rolę - z dużym prawdopodobieńs
+twem można określić typ pojazdu, znając dokładną ilość osi oraz ich położenia
+ i długość pojazdu z dokładnością do kilkunastu centymetrów, bez konieczności
+ określania długości wewnątrz pojazdu z dokładnością do milimetrów.
+ Ponadto, przewagą czujników indukcyjnych była z pewnością możliwość wykrycia
+ położenia osi podniesionej, co opisano w sekcji 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Detekcja-podniesionej-osi"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Chapter
