@@ -157,7 +157,7 @@ titleEN{Implementation of algorithm for vehicle axles detection based on
 
 
 \backslash
-shorttitle{Detekcja ilości osi pojazdów}
+shorttitle{Detekcja liczby osi pojazdu}
 \end_layout
 
 \begin_layout Plain Layout
@@ -248,10 +248,6 @@ LatexCommand tableofcontents
 \end_inset
 
 
-\end_layout
-
-\begin_layout Part
-Teoria
 \end_layout
 
 \begin_layout Chapter
@@ -1131,10 +1127,6 @@ key "githublinux"
  Dzięki podjęciu tych decyzji, możliwe stało się wykorzystanie przydatnych
  funkcjonalności systemu - potoki, strumienie, obsługa flag, oraz języka
  C - implementacja sygnałów systemowych czy obsługa błędów.
-\end_layout
-
-\begin_layout Part
-Implementacja algorytmu
 \end_layout
 
 \begin_layout Chapter
@@ -2946,7 +2938,20 @@ Powyższe operacje stanowiły kompletny algorytm poszukiwania osi pojazdu.
 \end_layout
 
 \begin_layout Chapter
-Weryfikacja przy użyciu czujników piezoelektrycznych
+Detekcja długości i położenia osi w bryle pojazdu.
+ Weryfikacja poprawności działania algorytmu.
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Detekcja-długości-pojazdu"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Weryfikacja poprawności działania algorytmu przy użyciu sygnałów z czujników
+ piezoelektrycznych
 \end_layout
 
 \begin_layout Standard
@@ -2976,19 +2981,27 @@ W celu weryfikacji posłużono się sygnałem z jednego czujnika - zakładając,
  Sygnał przetwarzany był przez funkcję zaprezentowaną na listingu 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "lis:counter-fun"
+reference "lis:hist-counter"
 
 \end_inset
 
 , przy nastawach 
 \shape italic
-Y
+
+\begin_inset Formula $Y=2$
+\end_inset
+
+
 \shape default
- = 2, 
+, 
 \shape italic
-H
+
+\begin_inset Formula $H=0.1$
+\end_inset
+
+
 \shape default
- = 0,1.
+.
  Sygnał z czujników piezoelektrycznych powinien być zbliżony do sygnału
  binarnego 0-5 i pozbawiony drgać, wybór poziomu odniesienia w okolicy środka
  tego przedziału zapewnia więc dokładność odczytu.
@@ -2999,25 +3012,15 @@ Wyznaczenie liczby osi stanowi koniec pierwszej fazy testu.
  W przypadku, gdy nie jest ona równa liczbie wyznaczonej przez algorytm
  detekcji osi, program kończy działanie.
  W przeciwnym razie wyznaczany jest nowy sygnał, 
-\shape italic
-CP
-\shape default
-, który stanowi złożenie sygnału z piezo P
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-1
-\end_layout
-
+\begin_inset Formula $CP$
 \end_inset
 
- oraz sygnału K
-\begin_inset script subscript
+, który stanowi złożenie sygnału z piezo 
+\begin_inset Formula $P_{1}$
+\end_inset
 
-\begin_layout Plain Layout
-u
-\end_layout
-
+ oraz sygnału 
+\begin_inset Formula $K_{u}$
 \end_inset
 
  przetworzonego przez filtr dwupołożeniowy.
@@ -3109,36 +3112,40 @@ name "lis:cp-signal"
 \end_layout
 
 \begin_layout Standard
-Otrzymany sygnał CP przetwarzany jest ponownie przez funkcję z listingu
- 
+Otrzymany sygnał 
+\begin_inset Formula $CP$
+\end_inset
+
+ przetwarzany jest ponownie przez funkcję z listingu 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "lis:counter-fun"
+reference "lis:hist-counter"
 
 \end_inset
 
  z parametrami 
 \shape italic
-Y
+
+\begin_inset Formula $Y=8$
+\end_inset
+
+
 \shape default
- = 8, 
+, 
 \shape italic
-H
+
+\begin_inset Formula $H=0$
+\end_inset
+
+
 \shape default
- = 0.
+.
  Wyjście funkcji stanowi liczbę osi wykrytych przez algorytm weryfikacji
  wyników.
 \end_layout
 
-\begin_layout Chapter
-Detekcja długości pojazdu i położenia osi
-\begin_inset CommandInset label
-LatexCommand label
-name "chap:Detekcja-długości-pojazdu"
-
-\end_inset
-
-
+\begin_layout Section*
+Algorytm detekcji przybliżonej długości i położenia osi w bryle pojazdu
 \end_layout
 
 \begin_layout Standard
@@ -3195,17 +3202,8 @@ Gdzie
 \end_layout
 
 \begin_layout Standard
-W większości przypadków sygnał taki stanowi
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
- dobrą bazę do badania położenia pojazdu względem czujnika.
+W większości przypadków sygnał taki stanowi dobrą bazę do badania położenia
+ pojazdu względem czujnika.
  Przebieg sygnału w czasie przedstawiono na wykresie 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3234,7 +3232,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Przebieg badanego sygnału M.
+Przebieg badanego sygnału M dla pojazdu ciężarowego trzyosiowego.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:m-signal"
@@ -3315,7 +3313,7 @@ A następnie, na podstawie znajomości różnicy czasu pomiędzy dwoma próbkami
 , której wartość wyznaczono w trakcie przetwarzania wstępnego algorytmu
  detekcji osi, można było uzyskać długość pojazdu 
 \shape italic
-L 
+d 
 \shape default
 w metrach, zgodnie z równania 
 \begin_inset CommandInset ref
@@ -3330,7 +3328,7 @@ reference "eq:dlugosc-pojazdu"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-L=l\cdot v\cdot dt\label{eq:dlugosc-pojazdu}
+d=l\cdot v\cdot dt\label{eq:dlugosc-pojazdu}
 \end{equation}
 
 \end_inset
@@ -3435,7 +3433,7 @@ reference "eq:dlugosc-weryfikacja"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-|L-\sum_{i=0}^{liczba\,osi}l_{i}|\leq e\label{eq:dlugosc-weryfikacja}
+|d-\sum_{i=0}^{liczba\,osi}l_{i}|\leq e\label{eq:dlugosc-weryfikacja}
 \end{equation}
 
 \end_inset
@@ -3444,8 +3442,8 @@ reference "eq:dlugosc-weryfikacja"
 \end_layout
 
 \begin_layout Standard
-Wynik pracy algorytmu dla pojazdu ciężarowego trzyosiowego, wraz z określeniem
- położenia osi, przedstawiono na wykresie 
+Wynik pracy algorytmu dla pojazdu ciężarowego trzyosiowego przedstawiono
+ na wykresie 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:m-signal-piezo"
@@ -3453,6 +3451,10 @@ reference "fig:m-signal-piezo"
 \end_inset
 
 .
+ Sygnał detekcji nadwozia (z ang.
+ body) pozwalał na estymację rzeczywistej długości pojazdu.
+ Pomocniczo zaprezentowano również sygnał detekcji osi, ułatwiający wyobrażenie
+ rzeczywistej budowy pojazdu.
 \end_layout
 
 \begin_layout Standard
@@ -3473,7 +3475,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Przebieg badanego sygnału M.
+Wynik pracy algorytmu dla pojazdu ciężarowego trzyosiowego.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:m-signal-piezo"
@@ -3541,14 +3543,552 @@ name "chap:alg-analysis"
 \end_layout
 
 \begin_layout Standard
-porównanie matlab
+Wyniki pracy algorytmu detekcji liczby osi oraz ich położenia i długości
+ pojazdu silnie uzależniony jest od jakości danych wejściowych.
+ Wystąpienie zakłóceń wpływa zwłaszcza na wynik estymowania długości pojazdu.
+ Ponadto, kształt uzyskiwanych charakterystyk sygnałów czujnika pętlowego
+ uzależniony jest od kategorii pojazdu - inne wartości przyjmuje dla pojazdów
+ osobowych, inne dla autobusów czy ciężarówek.
 \end_layout
 
-\begin_layout Part
-Omówienie programu
+\begin_layout Standard
+Zdecydowano się na analizę wyników pracy algorytmu dla pojazdów różnych
+ kategorii - pojazdów osobowych, dostawczych oraz ciężarowych dwuosiowych
+ i pięcioosiowych, co powinno pozwolić na zbadanie wpływu wymienionych czynników
+ na skuteczność programu.
+\end_layout
+
+\begin_layout Standard
+Na wykresie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:analiza-osobowy"
+
+\end_inset
+
+ przedstawiono przykładowy wynik algorytmu dla pojazdu osobowego.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/osobowy-alus-M120620_154404.svg
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wynik działania algorytmu dla pojazdu osobowego.
+ Wykryto dwie osie, estymowana długość pojazdu wynosiła 
+\begin_inset Formula $d=4.37m$
+\end_inset
+
+, natomiast odległości pokazane na schemacie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:schemat-dlugosci"
+
+\end_inset
+
+: 
+\begin_inset Formula $l_{1}=1.194m,l_{2}=2.653m,l_{3}=0.523m$
+\end_inset
+
+.
+ Weryfikacja przy użyciu czujnika piezoelektrycznego zwróciła wartość 
+\begin_inset Formula $lp_{2}=2.865m$
+\end_inset
+
+.
+ Pojazd poruszał się z prędkością 
+\begin_inset Formula $v=21.62\frac{m}{s}$
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:analiza-osobowy"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wykres u góry przedstawia wartości sygnałów R i X uzyskanych z czujnika
+ indukcyjnego o długości 10cm oraz sygnału piezoelektrycznego, zsynchronizowane
+ w czasie i ograniczone do okna.
+ Kolejny wykres zawiera dane opisujące sygnały wykorzystane w trakcie działania
+ algorytmu.
+ Sygnał 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+, opisany zależnością 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:signal-ku"
+
+\end_inset
+
+, wykorzystywany był do detekcji osi, natomiast sygnał 
+\begin_inset Formula $M$
+\end_inset
+
+, opisany formułą 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:signal-m"
+
+\end_inset
+
+, pozwalał wyznaczyć przybliżoną długość pojazdu.
+ Sygnał 
+\begin_inset Formula $M$
+\end_inset
+
+ został poddany przekształceniu (pierwiastek czwartego stopnia) w celu zwiększen
+ia przejrzystości wykresów.
+ Ponadto, dołączono sygnały pokazujące przedziały, w których algorytm wykrył
+ osie oraz nadwozie pojazdu.
+\end_layout
+
+\begin_layout Standard
+Na wykresie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:analiza-dostawczy"
+
+\end_inset
+
+ przedstawiono natomiast wynik pracy algorytmu dla pojazdu dostawczego,
+ przyjmując takie same oznaczenia.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/dostawczy2-M120620_155719.svg
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wynik działania algorytmu dla pojazdu dostawczego.
+ Wykryto dwie osie, wartości parametrów opisanych pod wykresem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:analiza-osobowy"
+
+\end_inset
+
+ wyniosły: 
+\begin_inset Formula $d=6.803m,l_{1}=1.057m,l_{2}=4.048m,l_{3}=1.698m,lp_{2}=3.994m,v=20.96\frac{m}{s}$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:analiza-dostawczy"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wykresy 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:analiza-osobowy"
+
+\end_inset
+
+ oraz 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:analiza-dostawczy"
+
+\end_inset
+
+ prezentują typowe charakterystyki sygnałów czujnika indykcyjnego dla pojazdów
+ osobowych oraz dostawczych.
+ Wyznaczenie położenia osi poprzez bezpośrednią analizę tych sygnałów jest
+ utrudnione, natomiast dzięki procedurze wykonywanej przez algorytm, w wyniku
+ której powstaje sygnał 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+, detekcja osi staje się zagadnieniem stosunkowo łatwym, polegającym na
+ wykryciu silnych impulsów.
+\end_layout
+
+\begin_layout Standard
+W obu zaprezentowanych powyżej przypadkach algorytm detekcji osi zwrócił
+ poprawny wynik, co potwierdziła analiza sygnałów z czujników piezoelektrycznych.
+ Wyznaczona przez algorytm położenia osi odległość pomiędzy osiami również
+ była poprawna, zachowując dokładność około dwudziestu centymetrów.
+ Utrudniona natomiast okazała się poprawna detekcja długości pojazdu.
+ W trakcie projektowania i testowania algorytmu nie udało się uzyskać wartości
+ parametrów gwarantujących dokładność większą niż kilkadziesiąt centymetrów.
+\end_layout
+
+\begin_layout Standard
+Na wykresie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:analiza-ciezarowy-3"
+
+\end_inset
+
+ przedstawiono wynik pracy algorytmu dla pojazdu ciężarowego trzyosiowego.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/ciezarowy3-M120621_110208.svg
+	width 100text%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wynik działania algorytmu dla pojazdu ciężarowego trzyosiowego.
+ Wykryto trzy osie, wartości parametrów opisanych pod wykresem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:analiza-osobowy"
+
+\end_inset
+
+ wyniosły: 
+\begin_inset Formula $d=7.797m,l_{1}=1.311m,l_{2}=4.875m,l_{3}=1.361m,l_{4}=0.250m,lp_{2}=4.937m,lp_{3}=1.350m,v=15.62\frac{m}{s}$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:analiza-ciezarowy-3"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wykres prezentuje typowe charakterystyki sygnałów dla pojazdów ciężarowych
+ trzyosiowych.
+ Widoczne stały się się impulsy sygnału 
+\begin_inset Formula $X_{0.1m}$
+\end_inset
+
+, na podstawie których możliwa stałaby się detekcja osi bez wykorzystania
+ algorytmu.
+ Procedura wyznaczania sygnału 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+ pozwoliła jednak na uzyskanie jeszcze dokładniejszego wyniku.
+ Stało się to istotne zwłaszcza w trakcie działania algorytmu detekcji położenia
+ osi, gwarantując dokładność detekcji rzędu kilku centymetrów względem detekcji
+ przy użyciu czujników piezoelektrycznych.
+ Typowym problemem stała się poprawna detekcja długości pojazdu, zwłaszcza
+ wykrycie odległości pomiędzy ostatnią osią a końcem pojazdu.
+ Uzasadniono to budową pojazdów ciężarowych i większą odległością podwozia
+ od jezdni.
+ Powodowało to szybszy zanik indukowanych prądów w trakcie przejazdu pojazdu,
+ a w konsekwencji uniemożliwiło detekcję długości pojazdu z dokładnością
+ większą niż metr.
+ Problem ten wystąpił dla około 30 procent danych.
+ Analogiczne wyniki uzyskano dla pojazdów ciężarowych dwu i czteroosiowych.
+\end_layout
+
+\begin_layout Standard
+Na wykresach 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:analiza-ciezarowy-5"
+
+\end_inset
+
+ i 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:analiza-ciezarowy-5up"
+
+\end_inset
+
+ pokazano wynik pracy algorytmu dla pojazdu ciężarowego pięcioosiowego jadącego
+ z opuszczoną oraz uniesioną jedną z osi.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/ciezarowy5-M120620_154810.svg
+	width 100text%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wynik działania algorytmu dla pojazdu ciężarowego pięciosiowego.
+ Wykryto pięć osi, wartości parametrów opisanych pod wykresem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:analiza-osobowy"
+
+\end_inset
+
+ wyniosły: 
+\begin_inset Formula $d=15.826m,l_{1}=1.756m,l_{2}=3.524m,l_{3}=5.923m,l_{4}=1.295m,l_{5}=1.297m,l_{6}=2.031m,lp_{2}=3.559m,lp_{3}=5.832m,lp_{4}=1.317m,lp_{5}=1.320m,v=19.36\frac{m}{s}$
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:analiza-ciezarowy-5"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/ciezarowy5up-M120620_194751.svg
+	width 100text%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wynik działania algorytmu dla pojazdu ciężarowego pięcioosiowego jadącego
+ z podniesioną osią.
+ Wykryto pięć osi, wartości parametrów opisanych pod wykresem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:analiza-osobowy"
+
+\end_inset
+
+ wyniosły: 
+\begin_inset Formula $d=16.566m,l_{1}=2.188m,l_{2}=3.673m,l_{3}=5.807m,l_{4}=1.247m,l_{5}=1.300m,l_{6}=2.352m,lp_{2}=3.630m,lp_{3}=7.051m,lp_{5}=1.310m,v=18.60\frac{m}{s}$
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:analiza-ciezarowy-5up"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wykresy prezentują typowe charakterystyki sygnałów dla pojazdów pięcioosiowych
+ w dwóch konfiguracjach.
+ Ponownie pojawieniu się osi towarzyszy impuls sygnału 
+\begin_inset Formula $X$
+\end_inset
+
+, nie jest on jednak widoczny dla podniesionej osi, co uniemożliwia detekcję
+ poprzez bezpośrednią analizę tego sygnału.
+ Sukcesem zakończyła się procedura detekcji osi podniesionej, pomimo znacznie
+ mniejszej wartości impulsu w tym przypadku.
+ Algorytm detekcji położenia osi zagwarantował dokładność rzędu kilku centymetró
+w.
+ Ponownie zaobserwowano problem z poprawną detekcją odległości ostatniej
+ osi od końca pojazdu, występujący dla około 30-40% pomiarów.
+\end_layout
+
+\begin_layout Subsubsection*
+Podsumowanie
+\end_layout
+
+\begin_layout Standard
+Interesująca jest możliwość próby detekcji liczby i położenia osi pojazdu
+ wyłącznie na podstawie wartości sygnału 
+\begin_inset Formula $X$
+\end_inset
+
+ pochodzącego z pętli indukcyjnej o długości dziesięciu centymetrów.
+ Sygnał ten zawiera impulsy towarzyszące osiom, widoczne zwłaszcza dla pojazdów
+ dostawczych i ciężarowych.
+ Wykluczono jednak możliwość praktycznego wykorzystania tej metody, uzasadniając
+ to kilkoma argumentami.
+ Korzystając z tej metody, utrudniona staje się detekcja położenia osi samochodó
+w osobowych.
+ Detekcja osi podniesionej również uznana została za niemożliwą.
+ Ponadto, wykorzystanie zaimplementowanego algorytmu gwarantowało większą
+ dokładność wyniku, co przekładało się na uzyskane wartości opisujące wzajemne
+ położenie osi.
+\end_layout
+
+\begin_layout Standard
+O ile wartości opisujące położenie osi uzyskiwane były z dokładnością kilku
+ centymetrów, to detekcja długości pojazdu wymagała uwzględnienia większej
+ wartości błędu.
+ Było to widoczne w niewielkim stopniu dla pojazdów osobowych i dostawczych,
+ gdzie dokładność wyniosła kilkadziesiąt centymetrów, a znacznie bardziej
+ dla pojazdów ciężarowych, gwarantując dokładność około metra.
+ Sytuacja ta może wynikać z ze specyfiki budowy samochodów ciężarowych,
+ cechującej się dużą odległością podwodzia od jezdni i jego strukturą budowy.
+ Niewykluczony był również wpływ przewożonego ładunku lub jego braku na
+ uzyskiwane wyniki.
+\end_layout
+
+\begin_layout Subsubsection*
+Wpływ zakłóceń
+\end_layout
+
+\begin_layout Standard
+Algorytm jest odporny na zakłócenia o stałej wartości - są one filtrowane
+ na etapie przetwarzania wstępnego poprzez synchronizację sygnału względem
+ zera poprzez wyznaczenie średniej wartości na podstawie pierwszych kilkudziesię
+ciu pomiarów i usunięcie wyznaczonego offsetu.
+\end_layout
+
+\begin_layout Standard
+Nie zaobserwowano również wpływu naturalnie występujących błędów pomiaru
+ na wynik działania algorytmu detekcji liczby i położenia osi.
+ Zbadano wpływ wprowadzenia zewnętrznego zakłócenia o rozkładzie Gaussa,
+ wartości oczekiwanej równej zero oraz odchyleniu standardowym przekraczającym
+ 0,1.
+ W wyniku wystąpienia opisanego zakłócenia algorytm wyznaczający przybliżoną
+ długość pojazdu zwracał wartość zawyżoną nawet o kilkanaście procent.
+ Wykluczono również wpływ innych pojazdów na wynik pomiaru, zakładając,
+ że minimalna odległość pomiędzy kolejnymi pojazdami wynosi kilka metrów.
 \end_layout
 
 \begin_layout Chapter
+Omówienie programu
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:usage"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+W trakcie implementacji programu, zdecydowano się na zaprojektowanie rozbudowane
+go interfejsu użytkownika, który pozwalał na elastyczne wykorzystanie oprogramow
+ania.
+ W poszczególnych sekcjach przedstawiono zagadnienia opisujące instalację,
+ metody uruchamiania oraz sposób użycia aplikacji.
+\end_layout
+
+\begin_layout Section
 Wymagania i instalacja
 \end_layout
 
@@ -3657,7 +4197,7 @@ key "clang,gcc"
  na żadne problemy.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection*
 Instalacja
 \end_layout
 
@@ -3815,7 +4355,7 @@ W przypadku powodzenia akcji, moduły i ich podręczniki zostały zainstalowane
  na instalację, tak by maksymalnie uprościć prezentowane polecenia.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection*
 Podział na moduły
 \begin_inset CommandInset label
 LatexCommand label
@@ -3828,7 +4368,7 @@ name "sec:modules"
 
 \begin_layout Standard
 Projekt podzielony został na mniejsze moduły, co umożliwiło wykorzystanie
- program w sposób bardziej elastyczny.
+ programu w sposób bardziej elastyczny.
  Dzięki temu, możliwe jest wykorzystanie projektu zarówno w prostych aplikacjach
 , jak i budowanie bardziej skomplikowanych łańcuchów wykonań.
  
@@ -3892,25 +4432,6 @@ aniem powstającym wokół ruchu GNU, co pozwoliło na implementację programu
  sieciową z czujnikami i odbierająca dane - stanowiłaby pierwsze ogniwo
  łańcucha wywołań bądź program zbierający dane uzyskiwane na wyjściu algorytmu
  i przechowujący je w bazie danych - byłoby to ostatnie ogniwo łańcucha.
-\end_layout
-
-\begin_layout Chapter
-Użytkowanie programu
-\begin_inset CommandInset label
-LatexCommand label
-name "chap:usage"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-W trakcie projektowania programu, zdecydowano się na zbudowanie rozbudowanego
- interfejsu użytkownika, który pozwalał na elastyczne wykorzystanie oprogramowan
-ia.
- W poszczególnych sekcjach przedstawiono funkcje programu, które mogą być
- przydatne w trakcie jego użytkowania.
 \end_layout
 
 \begin_layout Section
@@ -4433,8 +4954,8 @@ Podsumowanie
 
 \begin_layout Standard
 W rozdziale przedstawiono szereg zagadnień związanych z obsługą programu
- - metody uruchamiania, modyfikowania zasad działania programu, czy możliwe
- aplikacje.
+ - instalację, metody uruchamiania, modyfikowania zasad działania programu,
+ czy możliwe aplikacje.
  Zdecydowano się na ograniczenie do zwięzłej prezentacji możliwości programu,
  bez zbędnego w tej sytuacji omawiania reguł działania poszczególnych elementów.
  Dokładniejszy opis programu został przedstawiony przy użyciu mechanizmu
@@ -4565,7 +5086,7 @@ config.json
 
 \begin_layout Standard
 Po zakończeniu wstępnej konfiguracji, możliwe było uruchomienie zestawu
- testu, stosując poniższe polecenie z poziomu podkatalogu 
+ testów, stosując poniższe polecenie z poziomu podkatalogu 
 \shape italic
 test
 \shape default
