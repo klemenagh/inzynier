@@ -1,7 +1,7 @@
 #include "inputthread.h"
 
 void InputThread::loop() {
-    while(true) {
+    while(this->work) {
         if(DEBUG) std::cout <<"try get data" << std::endl;
         QString type;
         unsigned axles;

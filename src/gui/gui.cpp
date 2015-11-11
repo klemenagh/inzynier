@@ -6,14 +6,16 @@ GUI::GUI(QWidget *parent) :
     ui(new Ui::GUI)
 {
     ui->setupUi(this);
+    this->automaticMode = true;
+    this->ui->automaticModeCheckBox->setChecked(this->automaticMode);
 
     this->currentVehicle = -1;
     this->GUIupdate();
 
     this->timer = new QTimer(this);
-    this->timer->start(100);
+    this->timer->start(10);
 
-    connect(timer, SIGNAL(timeout()), this, SLOT(GUIupdate()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(checkForUpdate()));
 
     InputThread i(this->vehicles);
     this->inputThread = std::thread{i};
@@ -22,10 +24,9 @@ GUI::GUI(QWidget *parent) :
 GUI::~GUI()
 {
     this->inputThread.detach();
-
     delete ui;
 
-    std::cout << "Quitting..." << std::endl;
+    std::cerr << "Quitting..." << std::endl;
 }
 
 void GUI::paintEvent(QPaintEvent *event) {
@@ -44,7 +45,7 @@ void GUI::paintEvent(QPaintEvent *event) {
         positions[i] = v.getAxlePosition(i);
     }
 
-    const double scale = 1000 / 24; //1000pix = 24m;
+    const double scale = 1000 / this->scale_length; //1000pix = 24m;
 
     QPoint vehicleStart, vehicleEnd;
     vehicleStart.setX(this->startx);
@@ -56,10 +57,10 @@ void GUI::paintEvent(QPaintEvent *event) {
     vehicle.setTopLeft(vehicleStart);
     vehicle.setBottomRight(vehicleEnd);
 
-    painter.drawRect(vehicle);
-    painter.fillRect(vehicle, Qt::blue);
+    painter.drawRoundedRect(vehicle, 40, 10);
+    painter.fillRect(vehicle, QColor(0, 0, 0, 70));
 
-    painter.setBrush(Qt::red);
+
     for(unsigned i = 0; i < axles; i++) {
         //sprawdz warunek na podniesioną oś
         unsigned axle_offset_y = 0;
@@ -68,20 +69,27 @@ void GUI::paintEvent(QPaintEvent *event) {
         center.setX(this->startx + scale * positions[i]);
         center.setY(this->starty + this->v_height + axle_offset_y);
 
+        painter.setBrush(QWidget::palette().color(QWidget::backgroundRole()));
+        painter.setPen(QWidget::palette().color(QWidget::backgroundRole()));
+        painter.drawEllipse(center, this->wheel_size + 5, this->wheel_size + 5);
+        painter.setPen(Qt::black);
+        painter.setBrush(Qt::black);
         painter.drawEllipse(center, this->wheel_size, this->wheel_size);
+        painter.setBrush(Qt::white);
+        painter.drawEllipse(center, this->wheel_size - 5, this->wheel_size - 5);
     }
 
     const unsigned scale_offset = 100;
     QPoint scaleStart, scaleEnd;
     scaleStart.setX(this->startx);
     scaleStart.setY(this->starty + this->v_height + scale_offset);
-    scaleEnd.setX(this->startx + scale * 24);
+    scaleEnd.setX(this->startx + scale * this->scale_length);
     scaleEnd.setY(this->starty + this->v_height + scale_offset);
 
     painter.drawLine(scaleStart, scaleEnd);
 
     //rysuj skale co 4m
-    for(int pos = 0; pos <= 24; pos += 4) {
+    for(int pos = 0; pos <= this->scale_length; pos += 4) {
         QPoint scaleTop, scaleBottom, scaleCenter;
 
         scaleTop.setX(this->startx + pos * scale);
@@ -211,29 +219,68 @@ void GUI::paintEvent(QPaintEvent *event) {
 
 }
 
+void GUI::stopAutomaticMode() {
+    this->automaticMode = false;
+    this->ui->automaticModeCheckBox->setChecked(false);
+}
+
 void GUI::keyPressEvent(QKeyEvent *event) {
 
     if(event->key() == Qt::Key_Left) this->on_vehiclePrevious_clicked();
     else if(event->key() == Qt::Key_Right) this->on_vehicleNext_clicked();
+    if(event->key() == Qt::Key_Up) this->on_vehicleLast_clicked();
+    else if(event->key() == Qt::Key_Down) this->on_vehicleFirst_clicked();
+    else if(event->key() == Qt::Key_A) {
+        this->ui->automaticModeCheckBox->toggle();
+    }
 }
 
 void GUI::on_vehicleNext_clicked() {
-    if(currentVehicle + 1 < this->vehicles.size()) currentVehicle++;
+    if(this->currentVehicle + 1 < this->vehicles.size()) this->currentVehicle++;
 
+    this->stopAutomaticMode();
     this->GUIupdate();
 }
 
 void GUI::on_vehiclePrevious_clicked() {
-    if(currentVehicle > 0) currentVehicle--;
+    if(this->currentVehicle > 0) this->currentVehicle--;
+
+    this->stopAutomaticMode();
+    this->GUIupdate();
+}
+
+void GUI::on_vehicleLast_clicked() {
+    this->currentVehicle = numVehicles;
 
     this->GUIupdate();
 }
 
+void GUI::on_vehicleFirst_clicked() {
+    this->currentVehicle = 0;
+
+    this->stopAutomaticMode();
+    this->GUIupdate();
+}
+
+void GUI::on_automaticModeCheckBox_stateChanged() {
+    this->automaticMode = this->ui->automaticModeCheckBox->isChecked();
+    this->on_vehicleLast_clicked();
+}
+
+void GUI::checkForUpdate() {
+    if (this->numVehicles != this->vehicles.size() - 1)
+        this->GUIupdate();
+}
+
 void GUI::GUIupdate() {
-    if(currentVehicle == this->vehicles.size() - 1) this->ui->vehicleNext->setEnabled(false);
-    else this->ui->vehicleNext->setEnabled(true);
-    if(currentVehicle <= 0) this->ui->vehiclePrevious->setEnabled(false);
-    else this->ui->vehiclePrevious->setEnabled(true);
+    if (this->automaticMode)
+        this->currentVehicle = this->vehicles.size() - 1;
+    this->ui->vehicleNext->setEnabled(currentVehicle != this->vehicles.size() - 1);
+    this->ui->vehicleLast->setEnabled(currentVehicle != this->vehicles.size() - 1);
+    this->ui->vehiclePrevious->setEnabled(currentVehicle > 0);
+    this->ui->vehicleFirst->setEnabled(currentVehicle > 0);
+
+    this->numVehicles = this->vehicles.size() - 1;
 
     this->ui->positionLabel->setText(QString("Aktualna pozycja: %1 / %2").arg(currentVehicle + 1).arg(this->vehicles.size()));
 

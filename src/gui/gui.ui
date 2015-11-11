@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1120</width>
-    <height>362</height>
+    <height>368</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -78,6 +78,20 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="automaticModeCheckBox">
+        <property name="text">
+         <string>Tryb śledzenia</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="vehicleFirst">
+        <property name="text">
+         <string>Pierwszy</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="vehiclePrevious">
         <property name="text">
          <string>Poprzedni</string>
@@ -88,6 +102,13 @@
        <widget class="QPushButton" name="vehicleNext">
         <property name="text">
          <string>Następny</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="vehicleLast">
+        <property name="text">
+         <string>Ostatni</string>
         </property>
        </widget>
       </item>

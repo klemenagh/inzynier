@@ -14,15 +14,21 @@
 class InputThread
 {
 public:
-    InputThread(QVector<Vehicle> & v) :vehicles(v) {}
+    InputThread(QVector<Vehicle> & v) :vehicles(v), work(true) {
+    }
     void operator()() {
         loop();
+    }
+    void close() {
+        this->work = false;
     }
 
 private:
     void loop();
 
     QVector<Vehicle> & vehicles;
+
+    bool work;
 };
 
 #endif // INPUTTHREAD_H
