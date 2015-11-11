@@ -28,7 +28,7 @@
 %  }%
 %  \PrintGraphicsExtensions % see .log file
 %}
-% \usepackage[style=numeric-comp]{biblatex}
+% \usepackage[sort=none]{biblatex}
 % \setlength{\itemsep}{-1\parsep}
 %---------------------------------------------------------------------------
 %\usepackage{epstopdf}
@@ -429,39 +429,44 @@ key "gnustandard"
 \end_layout
 
 \begin_layout Chapter
-Pomiary parametrów pojazdów samochodowych przy użyciu pętli indukcyjnych
+Czujniki indukcyjne pętlowe w pomiarach parametrów ruchu pojazdów
 \end_layout
 
 \begin_layout Standard
-W celu badania parametrów pojazdów samochodowych można wykorzystać zasadę
- działania cewki indukcyjnej w interakcji z przemieszczającymi się w jej
- otoczeniu przedmiotami o powierzchniach z różnych materiałów.
- By wykorzystać to zjawisko, projektowane są układy pomiarowe składające
- się z szeregu czujników indukcyjnych pętlowych, układu kondycjonowania
- sygnału oraz układu elektronicznego odpowiedzialnego za rejestrację sygnałów
- w celu dalszej ich interpretacji.
-\end_layout
-
-\begin_layout Standard
-Czujnik indukcyjny pętlowy zbudowany jest ze zwojów izolowanego przewodu,
- który zazwyczaj umieszcza się pod nawierzchnią jezdni.
- Wykorzystuje się różne kształty i wymiary czujników, w zależności od przyjętych
- wymagań.
- W celu badania parametrów pojazdów na katedrze Metrologii AGH wykorzystano
- serię czujników pętlowych o różnych długościach 
+Pośród parametrów ruchu drogowego, które podlegają analizie znajdują się
+ wartości związane ze strumieniem pojazdów, takie jak natężenie ruchu, interwały
+ czasowe pomiędzy kolejnymi pojazdami, czy płynność ruchu.
+ Celem badań są również parametry pojazdu, do których należą prędkość, długość,
+ masa pojazdu, liczba osi i ich położenie.
+ Przedmiotem badania może być również klasyfikacja pojazdu na podstawie
+ standardów stworzonych przez organizację 
+\shape italic
+Federal Highway Administration
+\shape default
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "Gajd2012"
+key "fhwaclasses"
+
+\end_inset
+
+, wyszczególniającej 13 kategorii, lub innej, zaprojektowanej w celu klasyfikacj
+i dedykowanego zagadnienia.
+ 
+\end_layout
+
+\begin_layout Standard
+Wśród metod wykorzystywanych do pomiarów parametru ruchu znajdują się czujniki
+ indukcyjne, wykorzystywane do badania prędkości, długości, liczby i rozkładu
+ osi pojazdu czy klasyfikacji pojazdów.
+ Budowę czujnika tego typu przedstawiono na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:schemat-czujnika-ind"
 
 \end_inset
 
 .
- Dzięki wykorzystaniu czujników o innych kształtach, możliwe jest profilowanie
- stref czujności, a co za tym idzie, uzyskanie dokładniejszych pomiarów
- dla badanego zagadnienia.
- Wybór kształtu czujnika podyktowany jest rodzajem pomiarów - zbieranie
- informacji na temat parametrów pojazdu, sterowanie sygnalizacją świetlną,
- wyzwalanie pracy innych systemów w chwili aktywności czujnika.
  
 \end_layout
 
@@ -517,7 +522,7 @@ key "marszalek2013"
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:ind_sensor"
+name "fig:schemat-czujnika-ind"
 
 \end_inset
 
@@ -530,140 +535,220 @@ name "fig:ind_sensor"
 \end_layout
 
 \begin_layout Standard
-Układ kondycjonowania sygnału to moduł elektroniczny, który odpowiada za
- wstępną analizę sygnału.
- Stawia się przed nim zadanie szybkiej reakcji na pojawienie się pojazdu
- w otoczeniu czujnika.
- Jest to konieczne, by uzyskać dokładny pomiar.
- Na wyjściu układu, w zależności od jego typu, można uzyskać jeden sygnał
- - M
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-~
-\end_layout
-
+Czujnik indukcyjny pętlowy zbudowany jest z kilku zwojów izolowanego przewodu,
+ który zazwyczaj umieszcza się pod nawierzchnią jezdni.
+ Szerokość czujnika 
+\begin_inset Formula $p$
 \end_inset
 
-, lub dwa - R
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-~
-\end_layout
-
+ jest zazwyczaj co najmniej równa szerokości pasa ruchu, natomiast długość
+ 
+\begin_inset Formula $w$
 \end_inset
 
- i X
-\begin_inset script subscript
+ w typowych zagadnieniach, jak detekcja długości pojazdu czy położenia osi,
+ nie przekracza metra.
+ Odległość 
+\begin_inset Formula $o$
+\end_inset
 
-\begin_layout Plain Layout
-~
+ pomiędzy zwojami wynika z grubości izolacji sąsiadujących ze sobą przewodów.
+ W praktyce wykorzystuje się różne kształty i wymiary, oraz stanowiska składając
+e się z jednego lub wielu czujników, zależnie od celów stawianych aplikacji.
+ Wybór kształtu czujnika podyktowany jest jego zastosowaniem.
+ Znajdują się wśród nich zbieranie informacji o parametrach przejeżdżających
+ pojazdów, sterowanie sygnalizacją świetlną czy współpraca z czujnikami
+ innego typu, na przykład w celu sygnalizacji detekcji auta i wyzwalania
+ w tej sposób dalszych pomiarów.
 \end_layout
+
+\begin_layout Standard
+Wykorzystanie czujników indukcyjnych pętlowych wymaga zbudowania systemu,
+ w skład którego wchodzą również układ kondycjonowania i system przetwarzania
+ danych.
+ Budowę systemu pomiarowego przedstawiono na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:schemat-systemu"
 
 \end_inset
 
 .
- Sygnały R
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-~
-\end_layout
-
-\end_inset
-
- i X
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-~
-\end_layout
-
-\end_inset
-
- odpowiadają magnetycznym profilom rezystancji i reaktancji.
- Sygnał M
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-~
-\end_layout
-
-\end_inset
-
- opisuje natomiast pewną funkcję profili R
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-~
-\end_layout
-
-\end_inset
-
- i X
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-~
-\end_layout
-
-\end_inset
-
- (może być to pierwiastek z sumy profili z pewnymi współczynnikami).
- Znając tylko sygnał M
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-~
-\end_layout
-
-\end_inset
-
-, niemożliwe jest uzyskanie sygnałów magnetycznych profili rezystancji i
- reaktancji, co może znacznie ograniczyć możliwości zastosowania układów
- kondycjonowania sygnału tego typu do badania parametrów pojazdu.
 \end_layout
 
 \begin_layout Standard
-Ostatnim elementem układu pomiarowego może być mikroprocesor lub komputer,
- odpowiedzialny za zbieranie danych i ich dalszą analizę.
- Można zastosować w tym celu moduł odpowiedzialny za przesyłanie zebranych
- danych do bazy, by umożliwić ich dalszą obróbkę (na przykład gdy zbierane
- są dane, które mają być wykorzystane w pracy naukowej).
- Inną metodą jest bezpośrednia analiza danych zaraz po ich uzyskaniu - może
- to znaleźć zastosowanie w systemie odpowiedzialnym za sterowanie sygnalizacją
- świetlną na skrzyżowaniu na podstawie natężenia ruchu pojazdów w różnych
- kierunkach.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/schemat-systemu.svg
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Schemat systemu pomiarowego.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:schemat-systemu"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Czujniki indukcyjne pętlowe mogą służyć do badania parametrów pojazdów samochodo
-wych.
- Możliwe jest zliczanie ilości przejeżdżających przez czujnik pojazdów,
- pomiar prędkości i długości pojazdu, natężenia ruchu.
- Możliwe jest przy użyciu czujnika wykrywanie pojazdów spełniających zadane
- kryteria, na przykład tylko autobusów, czy pojazdów ciężarowych z przyczepą.
- W trakcie wykonywania niniejszej pracy, badana była możliwość wykrywania
- ilości osi pojazdu samochodowego oraz długości pojazdu i odległości pomiędzy
- poszczególnymi osiami.
+Układ kondycjonowania jest modułem elektronicznym odpowiedzialnym za pomiar
+ stanu czujnika indukcyjnego.
+ Stan ten można opisać poprzez wartości dwóch składowych impedancji czujnika.
+ Uzyskuje się w ten sposób sygnały (profile) R i X, proporcjonalne do wartości
+ rezystancji zastępczej i reaktancji zastępczej czujnika indukcyjnego.
+ Stosuje się również układy kondycjonowania pozwalające na uzyskanie jednego
+ sygnału M, będącego pewną określoną funkcją (na przykład pierwiastkiem
+ z sumy kwadratów) profili R i X.
+ Metoda ta uniemożliwia jednak uzyskanie wartości obu sygnałów na dalszym
+ etapie przetwarzania, co znacznie ogranicza możliwe zastosowania układów
+ kondycjonowania tego typu.
+ Metody projektowania układów kondycjonowania opisane zostały w pracach
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gajd2012,kaewkamnerd2010,marszalek2013"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-Wykorzystanie tej metody badania parametrów pojazdu niesie za sobą zalety,
- które tłumaczą popularność tego typu narzędzi - są one tanie, a dzięki
- umieszczeniu pod nawierzchnią jezdni odporne na większość czynników atmosferycz
-nych i kontakt fizyczny z podwoziem pojazdu.
- Ich montaż jest prosty, a układ pomiarowy nie wymaga zastosowania skomplikowany
-ch elementów elektronicznych.
- Ponadto, wykorzystując dobrze zaprojektowany algorytm analizujący dane
- pomiarowe, możliwe jest uzyskanie informacji na temat licznych parametrów
- pojazdu.
+Układ kondycjonowania komunikuje się z systemem przetwarzania danych.
+ Jego rolę może pełnić układ FPGA, układ mikroprocesorowy lub komputer PC.
+ Do zadań systemu przetwarzania należeć może analiza danych w celu uzyskania
+ wyników, zapis pomiarów do bazy danych lub przesłanie uzyskanych informacji
+ przez sieć do innego stanowiska.
+ Dzięki wykorzystaniu komunikacji sieciowej możliwa jest ciągła obserwacja
+ pracy układu z oddalonego laboratorium.
+ Możliwość wykorzystania stosunkowo tanich i nie wymagających wiele energii
+ układów mikroprocesorowych ułatwia natomiast montaż stanowiska pomiarowego
+ w trudnych warunkach, na przykład w miejscu uniemożliwiającym wykorzystanie
+ komunikacji sieciowej.
+\end_layout
+
+\begin_layout Standard
+Zdaniem autora, liczba publikacji naukowych poruszających temat wykorzystania
+ czujników indukcyjnych do badania parametrów ruchu drogowego jest wciąż
+ niewielka.
+ Jedną z organizacji pracujących nad tym zagadnieniem jest Katedra Metrologii
+ i Elektroniki Akademii Górniczo-Hutniczej.
+ Powstałe tam publikacje poruszają tematy budowy i właściwości czujników
+ pętlowych 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "marszalek2013-2"
+
+\end_inset
+
+, projektowania układów kondycjonowania
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Marszalek2011"
+
+\end_inset
+
+ i zastosowań pętli indukcyjnych do pomiarów parametrów ruchu drogowego
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gajda2000,Gajda2010,zeglen2001"
+
+\end_inset
+
+.
+ Powstała również praca podsumowująca dotychczas zdobyte informacje w formie
+ podręcznika akademickiego 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gajd2012"
+
+\end_inset
+
+.
+ W rozprawie doktorskiej 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "marszalek2013"
+
+\end_inset
+
+ zaproponowano algorytm detekcji liczby osi pojazdu, którego implementacji
+ podjęto się w niniejszej pracy, zwiększając jego możliwości o określanie
+ położenia osi oraz przybliżonej długości pojazdu.
+\end_layout
+
+\begin_layout Standard
+Do stawianych przed indukcyjnymi czujnikami pętlowymi zadań należy detekcja
+ obecności pojazdu 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ali2012"
+
+\end_inset
+
+.
+ Może to znaleźć zastosowanie w systemach sterujących sygnalizacją świetlną
+ czy zliczających pojazdy.
+ Znane są metody detekcji prędkości pojazdu korzystając z właściwości czujników
+ indukcyjnych 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Robbins2005"
+
+\end_inset
+
+, co może być wykorzystane do badania płynności ruchu.
+ Informacja na ten temat jest jedną z funkcji współczesnych systemów nawigacji.
+ Czujniki tego typu są również wykorzystywane do klasyfikacji pojazdów 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Cheung2004,Sun2000"
+
+\end_inset
+
+.
+ Dzięki temu możliwe staje się projektowanie systemów automatycznego pobierania
+ opłat czy planowania rozwoju połączeń.
+\end_layout
+
+\begin_layout Standard
+Czujniki indukcyjne wykorzystywane do badania parametrów ruchu drogowego
+ są tanie i odporne na większość czynników atmosferycznych i kontakt fizyczny
+ z podwoziem pojazdu, dzięki umieszczeniu pod nawierzchnią jezdni.
+ Montaż jest prosty a budowa czujnika pozwala na wykorzystanie uzyskiwanych
+ informacji w układzie mikroprocesorowym lub komputerze wyposażonym w kartę
+ pomiarową.
+ Uzyskane w ten sposób profile pozwalają na analizę szeregu parametrów opisujący
+ch pojazd, ale również charakterystyki przepływu pojazdów.
  
 \end_layout
 
 \begin_layout Chapter
-Założenia projektowe
+Cel i zakres realizacji projektu
 \end_layout
 
 \begin_layout Standard
@@ -690,7 +775,7 @@ Poniżej przedstawiono pozostałe główne założenia projektu i ograniczenia
 Przyjęte założenia
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsection*
 Praca zgodnie z ideą oprogramowania GNU i standardem POSIX
 \end_layout
 
@@ -751,7 +836,7 @@ key "googlestyleguide"
  programu staje się łatwiejszy.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsection*
 Podział na moduły
 \end_layout
 
@@ -782,7 +867,7 @@ moduł graficzny - umożliwiający przedstawienie wyników pracy algorytmu poprz
  interfejs 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsection*
 Potoki
 \end_layout
 
@@ -860,7 +945,7 @@ grep
 .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsection*
 Obsługa flag
 \end_layout
 
@@ -964,7 +1049,7 @@ name "fig:linux-console"
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsection*
 Wydajność
 \end_layout
 
@@ -986,7 +1071,7 @@ reference "sub:efficiency"
 .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsection*
 Wielofunkcyjność
 \end_layout
 
@@ -1014,7 +1099,7 @@ Program może również zostać wywołany w trybie oczekiwania na dane.
 ści fizycznego kontaktu z urządzeniem.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsection*
 Stabilność pracy 
 \end_layout
 
@@ -1071,20 +1156,10 @@ Jedna próbka danych powinna zawierać informacje dotyczące wyłącznie jednego
 Próbka danych powinna mieć stosunkowo niewielką długość.
  Powinna zwierać wszystkie użyteczne informacje, a jednocześnie unikać przechowy
 wania informacji nieistotnych.
- Zwiększenie rozmiaru próbki wpłynie liniowo
-\begin_inset Marginal
-status open
-
-\begin_layout Plain Layout
-liniowo?
-\end_layout
-
-\end_inset
-
- na czas pracy algorytmu.
- Nie przyjęto jednak żadnej konkretnej długości próbki, ani limitów długości
+ Zwiększenie rozmiaru próbki wpływa liniowo na czas pracy algorytmu.
+ Nie przyjęto jednak żadnej konkretnej długości pomiaru ani jej limitów
  - program powinien zachowywać się poprawnie dla danych o dowolnej długości,
- ograniczeniem może być jedynie ilość dostępnej pamięci i czasu pracy procesora.
+ ograniczeniem może być jedynie ilość dostępnej pamięci i czas pracy procesora.
 \end_layout
 
 \begin_layout Itemize
@@ -1100,36 +1175,7 @@ Algorytm wykrywa poprawnie pojazdy o liczbie osi od dwóch do pięciu.
  za błędną.
 \end_layout
 
-\begin_layout Section*
-Podsumowanie
-\end_layout
-
-\begin_layout Standard
-Dostosowanie się do założeń przyjętych przed rozpoczęciem pracy powinno
- umożliwić większą kontrolę nad powstającym oprogramowaniem.
- Dzięki przyjęciu, że implementacja będzie pracować pod konkretnym systemem,
- od początku dostępne były narzędzia oferowane przez środowisko.
- Odbyło się to kosztem przenośności programów, których wykorzystanie na
- innych systemach, w tym tych z rodziny Windows byłoby czasochłonne i mniej
- wygodne.
- Wybór języka C również przyniosło pozytywne skutki - poza opisywanymi wcześniej
- cechami języka, które wykorzystano, przydatne okazały się również silne
- związki pomiędzy tym językiem a jądrem systemu Linux.
- Ten kluczowy składnik systemu w ponad 95% zaimplementowany jest w C 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "githublinux"
-
-\end_inset
-
-, dzięki czemu korzystanie z oferowanych interfejsów jest stosunkowo łatwe,
- gdy używa się tego samego języka.
- Dzięki podjęciu tych decyzji, możliwe stało się wykorzystanie przydatnych
- funkcjonalności systemu - potoki, strumienie, obsługa flag, oraz języka
- C - implementacja sygnałów systemowych czy obsługa błędów.
-\end_layout
-
-\begin_layout Chapter
+\begin_layout Section
 Interfejs wejścia-wyjścia programu
 \begin_inset CommandInset label
 LatexCommand label
@@ -1459,8 +1505,8 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/schemat_odleglosci.svg
-	width 50text%
+	filename img/schemat_odleglosci-2.svg
+	width 100text%
 	clip
 
 \end_inset
@@ -1469,7 +1515,8 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Schemat odległości
+Schemat odległości wewnątrz pojazdu osobowego oraz trójosiowego pojazdu
+ ciężarowego.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:schemat-dlugosci"
@@ -1494,7 +1541,6 @@ name "fig:schemat-dlugosci"
 Funkcja weryfikacji z czujnikami piezoelektrycznymi dodaje drugą linię wyjścia
 \end_layout
 
-\begin_deeper
 \begin_layout Standard
 \begin_inset listings
 lstparams "frame=tblr"
@@ -1524,15 +1570,14 @@ N
  to liczba osi wyznaczona poprzez czujniki piezoelektryczne.
 \end_layout
 
-\end_deeper
 \begin_layout Itemize
 W przypadku wywołania jednocześnie funkcji wyznaczania położeń osi oraz
  weryfikacji na postawie czujników piezoelektrycznych, wyjście przyjmuje
  postać
 \end_layout
 
-\begin_deeper
 \begin_layout Standard
+i
 \begin_inset listings
 inline false
 status open
@@ -1592,11 +1637,39 @@ reference "fig:schemat-dlugosci"
 .
 \end_layout
 
-\end_deeper
 \begin_layout Itemize
 Ilość informacji na wyjściu może zmienić się na żądanie użytkownika - możliwe
  jest wytłumienie wszelkich komunikatów, bądź wyświetlenie informacji na
  temat przeprowadzanych obliczeń.
+\end_layout
+
+\begin_layout Section*
+Podsumowanie
+\end_layout
+
+\begin_layout Standard
+Dostosowanie się do założeń przyjętych przed rozpoczęciem pracy powinno
+ umożliwić większą kontrolę nad powstającym oprogramowaniem.
+ Dzięki przyjęciu, że implementacja będzie pracować pod konkretnym systemem,
+ od początku dostępne były narzędzia oferowane przez środowisko.
+ Odbyło się to kosztem przenośności programów, których wykorzystanie na
+ innych systemach, w tym tych z rodziny Windows, wymagałoby czasochłonnych
+ korekt kodu.
+ Wybór języka C również przyniósł pozytywne skutki - poza opisywanymi wcześniej
+ cechami języka, które wykorzystano, przydatne okazały się również silne
+ związki pomiędzy tym językiem a jądrem systemu Linux.
+ Ten kluczowy składnik systemu w ponad 95% zaimplementowany jest w C 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "githublinux"
+
+\end_inset
+
+, dzięki czemu korzystanie z oferowanych interfejsów jest stosunkowo łatwe,
+ gdy używa się tego samego języka.
+ Dzięki podjęciu tych decyzji, możliwe stało się wykorzystanie przydatnych
+ funkcjonalności systemu - potoki, strumienie, obsługa flag, oraz języka
+ C - implementacja sygnałów systemowych czy obsługa błędów.
 \end_layout
 
 \begin_layout Chapter
@@ -6542,7 +6615,7 @@ Podsumowanie
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 bibfiles "bibliografia"
-options "bibtotoc,IEEEtranM"
+options "bibtotoc,IEEEtranS"
 
 \end_inset
 
