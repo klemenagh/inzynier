@@ -228,14 +228,6 @@ titlepages
 setcounter{tocdepth}{1}
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -244,6 +236,22 @@ setcounter{tocdepth}{1}
 \begin_layout Standard
 \begin_inset CommandInset toc
 LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cleardoublepage{}
+\end_layout
 
 \end_inset
 
@@ -426,6 +434,22 @@ key "gnustandard"
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cleardoublepage{}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
@@ -745,6 +769,22 @@ Czujniki indukcyjne wykorzystywane do badania parametrów ruchu drogowego
  Uzyskane w ten sposób profile pozwalają na analizę szeregu parametrów opisujący
 ch pojazd, ale również charakterystyki przepływu pojazdów.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cleardoublepage{}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
@@ -1670,6 +1710,22 @@ key "githublinux"
  Dzięki podjęciu tych decyzji, możliwe stało się wykorzystanie przydatnych
  funkcjonalności systemu - potoki, strumienie, obsługa flag, oraz języka
  C - implementacja sygnałów systemowych czy obsługa błędów.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cleardoublepage{}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
@@ -3010,6 +3066,22 @@ Powyższe operacje stanowiły kompletny algorytm poszukiwania osi pojazdu.
  jego funkcjonalność oraz umożliwiają weryfikację wyników.
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cleardoublepage{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
 Detekcja długości i położenia osi w bryle pojazdu.
  Weryfikacja poprawności działania algorytmu.
@@ -3604,6 +3676,22 @@ reference "sec:Detekcja-podniesionej-osi"
 .
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cleardoublepage{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
 Analiza skuteczności algorytmu
 \begin_inset CommandInset label
@@ -4140,6 +4228,22 @@ Nie zaobserwowano również wpływu naturalnie występujących błędów pomiaru
  długość pojazdu zwracał wartość zawyżoną nawet o kilkanaście procent.
  Wykluczono również wpływ innych pojazdów na wynik pomiaru, zakładając,
  że minimalna odległość pomiędzy kolejnymi pojazdami wynosi kilka metrów.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cleardoublepage{}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
@@ -4943,11 +5047,11 @@ Po zakończeniu pracy nad podstawowymi modułami aplikacji, zdecydowano się
  na zaimplementowanie prostego interfejsu graficznego.
  Wykorzystanie interfejsu tego typu umożliwiło prezentację przetwarzanych
  przez algorytm danych w uproszczonej, czytelnej formie.
- Taka forma przetwarzania otrzymanych danych mogła znaleźć zastosowanie
- w sytuacji, gdy wyniki pracy algorytmu przechowywane były w pliku, natomiast
- użytkownik powinien mieć dostęp do przeglądu danych, by móc zweryfikować
- poprawność działania całego układu natychmiast po wystąpieniu problemu.
- Sposób uruchamiania, umożliwiający pracę w opisany sposób przedstawiono
+ Taka forma przetwarzania otrzymanych danych może znaleźć zastosowanie w
+ sytuacji, gdy wyniki pracy algorytmu przechowywane są w pliku, natomiast
+ użytkownik powinien mieć dostęp do przeglądu danych w celu weryfikacji
+ poprawności działania całego układu.
+ Sposób uruchamiania umożliwiający pracę w opisany sposób przedstawiono
  na listingu 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -4977,6 +5081,13 @@ status open
 
 \begin_layout Plain Layout
 \align center
+\begin_inset Graphics
+	filename img/okno-gui.png
+	width 100text%
+
+\end_inset
+
+
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -5002,9 +5113,9 @@ Okno interfejsu graficznego.
 \begin_layout Standard
 Przy użyciu interfejsu graficznego możliwe było odczytanie wartości określającyc
 h wzajemne położenie poszczególnych osi.
- Ponadto przedstawiana była bryła przedstawiająca przybliżony wygląd pojazdu,
- dzięki czemu w intuicyjny sposób możliwe stało się odczytywanie liczby
- osi pojazdu na podstawie grafiki.
+ Ponadto przedstawiana była bryła przybliżonego wyglądu pojazdu, dzięki
+ czemu w intuicyjny sposób możliwe stało się odczytywanie liczby osi pojazdu
+ na podstawie grafiki.
  Informacja na temat wykrycia uniesionej osi przedstawiana była poprzez
  wizualne uniesienie figury związanej z odpowiednią osią na grafice.
  W dolnej części okna umiejscowiono również stałą skalę, ułatwiającą wizualny
@@ -5097,6 +5208,22 @@ Dostęp do stron podręcznika.
 \end_inset
 
 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cleardoublepage{}
 \end_layout
 
 \end_inset
@@ -6605,6 +6732,22 @@ Valgrind
  Pozwoliłoby znacznie zwiększyć wydajność zwłaszcza w przypadku wykorzystania
  serwerów obliczeniowych, gwarantujących dostęp do wielu rdzeni procesora.
  Nie było to jednak celem realizowanej pracy.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cleardoublepage{}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
