@@ -258,101 +258,83 @@ cleardoublepage{}
 
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Chapter*
 Wstęp
 \end_layout
 
 \begin_layout Standard
-Analiza parametrów pojazdów i klasyfikacja na ich bazie stanowi zagadnienie
- często poruszane w pracach naukowych, których autorzy starają się wykorzystać
- informacje statystyczne na temat ruchu samochodowego.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addcontentsline{toc}{chapter}{Wstęp}
 \end_layout
 
-\begin_layout Standard
-Na podstawie danych o liczbie przejeżdżających drogą pojazdów może być ustalony
- poziom eksploatacji połączenia i w związku z tym zaplanowane mogą być możliwośc
-i rozbudowy infrastruktury w najlepszym kierunku.
- 
-\end_layout
-
-\begin_layout Standard
-Informację na temat parametrów pojazdu również może być
-\begin_inset space ~
 \end_inset
 
-wykorzystana do wielu celów.
- Znając przybliżone wymiary pojazdu można zaprojektować system informacyjny,
- który ostrzegałby kierowców w sytuacji, gdy pojazd może mieć problemy z
- pokonaniem odcinka drogi - na przykład ze względu na znajdujący się na
- trasie niski wiadukt czy zwężenie jezdni.
- Informacja o prędkości pojazdu może być użyta w trakcie projektowania systemu
- ostrzegającego przed przekroczeniem dopuszczalnej prędkości.
- Często stosowane są również czujniki określające wagę pojazdów, zazwyczaj
- przez służby odpowiedzialne za kontrole drogowe.
- 
+
 \end_layout
 
 \begin_layout Standard
-Znajomość danych na temat liczby osi pojazdu i ich położenia również jest
- użyteczna - pozwala na klasyfikację pojazdu na podstawie schematów FHWA
- 
+Zadanie wykrywania osi pojazdów samochodowych w ruchu drogowym wykonywane
+ jest przy użyciu czujników różnego typu.
+ Wśród najpopularniejszych metod wymienić można piezoelektryczne czujniki
+ nacisku i czujniki kwarcowe.
+ Znane są również aplikacje wykorzystujące metody wizyjne 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "fhwaclasses"
+key "Meller1997"
 
 \end_inset
 
-, wyróżniającego 13 kategorii, ALTernative vehicle classification, która
- wyróżnia 20 kategorii, lub dowolnej innej, zaprojektowanej by jak najlepiej
- kategoryzować badane zagadnienie.
- Klasyfikację pojazdu można wykorzystać w celu automatyzacji systemu przydzielan
-ia opłat na płatnych odcinkach dróg lub do analizy wykorzystania drogi przez
- pojazdy różnych kategorii - dane takie mogą posłużyć w przyszłości do jak
- najlepszego rozwoju infrastruktury, stanowią bardziej użyteczną informację,
- niż dane wyłącznie o liczbie przejeżdżających pojazdów.
-\end_layout
-
-\begin_layout Standard
-Często nie jest potrzebna żadna informacja na temat pojazdu ponad sam fakt
- wykrycia go.
- Przykładem systemu wykorzystującego dane na temat obecności pojazdów są
- systemy sterowania sygnalizacją świetlną na wielu skrzyżowaniach.
- W ich przypadku nie są istotne parametry poszczególnych pojazdów, choć
- przydatna może być informacja na temat natężenia ruchu w poszczególnych
- kierunkach, co pozwala na optymalizację płynności ruchu.
-\end_layout
-
-\begin_layout Standard
-Ze względu na liczbę możliwych zastosowań, zachęcające staje się zagadnienie
- projektowania jak najbardziej dokładnych czujników i algorytmów przetwarzania
- danych, które jednocześnie zachowują przystępną cenę i gwarantują dużą
- wydajność.
-\end_layout
-
-\begin_layout Section*
-Cel i zakres pracy
-\end_layout
-
-\begin_layout Standard
-Zadanie wykrywania osi pojazdów samochodowych w ruchu drogowym wykonuje
- się przy użyciu czujników różnego typu.
- Wykorzystuje się piezoelektryczne czujniki nacisku, czujniki kwarcowe i
- inne.
- Podejmowane są również próby klasyfikacji pojazdów metodami wizyjnymi.
- Na Katedrze Metrologii i Elektroniki AGH zaprojektowany został system wyznaczan
-ia parametrów pojazdów przy użyciu czujników indukcyjnych
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Gajd2012"
-
-\end_inset
-
-.
- Cechują się one dużą trwałością, niską ceną i niedużym skomplikowaniem
- instalacji, umożliwiający przy tym wyznaczanie szeregu parametrów pojazdu.
- Zaprojektowany algorytm pozwala, na bazie odczytów z czujników, na klasyfikację
- liczby osi pojazdu z dużą dokładnością, rzędu ponad 95% w większości przypadków
+, niezależnie lub we współpracy z detektorami innego typu.
  
+\end_layout
+
+\begin_layout Standard
+Pośród innych parametrów pojazdu, które podlegają analizie wymienić należy
+ prędkość, kolor oraz wymiary pojazdu i jego wagę (lub nacisk wywierany
+ przez poszczególne osie).
+ Uzyskanie tych informacji wymaga często wykorzystania czujników różnych
+ typów.
+ Konieczna bywa również kategoryzacja pojazdów na podstawie ich cech - na
+ przykład liczby osi lub długości.
+ 
+\end_layout
+
+\begin_layout Standard
+Uzyskiwane w ten sposób informacje znajdują wiele zastosowań.
+ Systemy badania wagi pojazdu 
+\shape italic
+WIM
+\shape default
+ (ang.
+ weigh-in-motion) wykorzystywane są przez służby policji do wykrywania pojazdów
+ przeciążonych i ich eliminacji z dróg, zwiększając w ten sposób bezpieczeństwo.
+ Czujniki określające liczbę osi pozwalają na budowę systemów automatycznego
+ naliczania opłat na płatnych odcinkach dróg.
+ Układy detekcji pojazdów wykorzystywane są do budowy oprogramowania sterującego
+ sygnalizacją świetlną na skrzyżowaniach.
+ Ponadto, zbiór danych zawierający informacje o natężeniu ruchu oraz parametrach
+ pojazdów pozwala na analizę ruchu i zaplanowanie rozwoju infrastruktury
+ drogowej.
+\end_layout
+
+\begin_layout Standard
+Pracownicy Katedry Metrologii i Elektroniki Akademii Górniczo-Hutniczej
+ w swych badaniach poruszają temat wykorzystania czujników indukcyjnych
+ w celu badania parametrów pojazdu.
+ Wykorzystanie czujników tego typu można uzasadnić ich dużą trwałością,
+ niską ceną i niedużym skomplikowaniem instalacji.
+ Pozwalają na badanie szeregu parametrów pojazdów, takich jak prędkość,
+ długość czy liczba osi, oraz parametrów strumienia ruchu, na przykład natężenia
+ ruchu czy odległości czasowych pomiędzy kolejnymi pojazdami.
+ Algorytm wykorzystujący czujniki indukcyjne, którego implementacja zostanie
+ zbudowana pozwala na detekcję liczby osi pojazdu z dokładnością ponad 95%,
+ cechując się przy tym niewielką złożonością obliczeniową 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "marszalek2013"
@@ -360,80 +342,87 @@ key "marszalek2013"
 \end_inset
 
 .
- 
 \end_layout
 
 \begin_layout Standard
-Praca podejmuje temat wykorzystania możliwości języka programowania C 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "cman"
+Zagadnienie wykorzystania czujników indukcyjnych do badania parametrów pojazdów
+ samochodowych wciąż nie zostało omówione w sposób obszerny.
+ Zaprojektowanie oprogramowania umożliwiającego analizę uzyskiwanych ze
+ stanowisk pomiarowych danych w sposób wydajny pozwoli na rozwój zagadnienia
+ oraz zademonstruje sposób praktycznego wykorzystania systemu czujników
+ przez użytkownika.
+\end_layout
 
-\end_inset
-
- i środowiska Linux 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "linuxwww"
-
-\end_inset
-
- do budowy programu implementującego algorytm wykrywania osi.
- Założenia projektowe języka C - duża wydajność, umożliwienie operacji wejścia-w
-yjścia na niskim poziomie, metody zarządzania pamięcią - pozwalają na zaprojekto
-wanie bardzo wydajnych narzędzi.
- Natomiast dzięki użycia systemu Linux, skorzystać można z jego przydatnych
- funkcji, jak potoki 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "linuxpipes"
-
-\end_inset
-
- umożliwiające kolejkowanie programów w celu zbudowania pełnoprawnej aplikacji
- czy obsługa sygnałów i kodów błędów
-\begin_inset CommandInset citation
-LatexCommand cite
-key "linuxsignals"
-
-\end_inset
-
-, ułatwiająca projektowanie oprogramowania.
+\begin_layout Subsection*
+Cel i zakres pracy
 \end_layout
 
 \begin_layout Standard
-W pracy podjęto zadanie implementacji algorytmu detekcji liczby osi pojazdu
- oraz rozbudowę funkcji programu o możliwość wyznaczania przybliżonej długości
- pojazdu oraz odległości pomiędzy osiami.
- Ponadto, zaimplementowano zbiór narzędzi umożliwiających użycie programu
- do wyznaczania parametrów w trybie ciągłym, bez konieczności interakcji
- ze strony użytkownika, oraz prosty model graficznego interfejsu użytkownika,
- wyświetlającego wyjście programu.
- Przy użyciu języka Python 
+Celem pracy jest implementacja algorytmu detekcji osi pojazdów samochodowych
+ w oparciu o profile R i X pochodzące z czujników indukcyjnych pętlowych.
+ W ramach pracy zrealizowane zostanie oprogramowanie do detekcji osi pojazdów
+ na podstawie profili indukcyjnych, wykorzystując do tego język programowania
+ C 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "pythonman"
+key "cstandard"
 
 \end_inset
 
- zaprojektowano narzędzie do wygodnego testowania poprawności działania
- programu dla dużego zbioru danych, przeprowadzono testy działania programu
- oraz porównano wyniki i wydajność z wersją algorytmu zaimplementowaną w
- programie Matlab.
-\end_layout
+ w środowisku Linux 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "linux-page"
 
-\begin_layout Standard
-Główne założenia przyjęte w trakcie projektowania programu obejmowały dużą
- szybkość działania, bezwzględną poprawność implementacji - szczelne zarządzanie
- zasobami pamięci, uniknięcie ostrzeżeń w trakcie kompilacji, obsługę strumieni
- wejścia/wyjścia i zgodność ze standardem POSIX i ideą GNU 
+\end_inset
+
+.
+ Implementacja algorytmu rozbudowana zostanie o funkcje określania położeń
+ osi oraz estymacji długości pojazdu.
+ Zaimplementowane zostaną funkcje charakterystyczne dla oprogramowania GNU-Coreu
+tils 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gnustandard"
 
 \end_inset
 
+, w tym obsługa wejść i wyjść, kodów błędu, potoków oraz argumentów wiersza
+ poleceń 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "linuxgetopt,linuxpipes,gnucli"
+
+\end_inset
+
 .
+\end_layout
+
+\begin_layout Standard
+Zaprojektowane zostaną narzędzia umożliwiające pracę programu w trybie ciągłym
+ oraz jego testowanie przy użyciu języka Python 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pythonman"
+
+\end_inset
+
+.
+ Zademonstrowana zostanie możliwość rozbudowy programu na przykładzie projektu
+ 
+\shape italic
+GUI
+\shape default
+ - graficznego interfejsu użytkownika.
+ Projekt zgodny będzie ze standardem języka C oraz POSIX 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "posix-c-std"
+
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -3700,7 +3689,7 @@ name "chap:alg-analysis"
 
 \end_inset
 
-
+Wstęp
 \end_layout
 
 \begin_layout Standard
@@ -4340,7 +4329,7 @@ Oprogramowanie to umożliwia również możliwość przeprowadzenia procesu budo
  przy użyciu kompilatora zdefiniowanego przez użytkownika.
  W trakcie projektowania programów, duży nacisk położono na ich poprawność
  implementacji - pełną zgodność ze standardem języka.
- Dzięki temu, dowolny kompilator języka C implementujący standard C99 powinien
+ Dzięki temu, dowolny kompilator języka C implementujący standard C11 powinien
  umożliwić zbudowanie modułów 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -6750,8 +6739,24 @@ cleardoublepage{}
 
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Chapter*
 Podsumowanie
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+addcontentsline{toc}{chapter}{Podsumowanie}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
