@@ -426,6 +426,57 @@ key "posix-c-std"
 \end_layout
 
 \begin_layout Standard
+Prezentowany materiał zgromadzony został w siedmiu rozdziałach.
+ 
+\end_layout
+
+\begin_layout Standard
+Rozdział pierwszy zawiera opis czujnika indukcyjnego pętlowego oraz przedstawien
+ie jego roli w pomiarach parametrów pojazdów samochodowych.
+\end_layout
+
+\begin_layout Standard
+Rozdział drugi przedstawia założenia oraz zakres realizowanego projektu,
+ wymienione są kluczowe funkcje programu oraz wykorzystany interfejs.
+\end_layout
+
+\begin_layout Standard
+W rozdziale trzecim omawia algorytm detekcji osi pojazdu, wraz z procedurą
+ poszukiwania brakujących osi, która znajduje zastosowanie w przypadku pracy
+ z danymi niepozbawionymi zakłóceń oraz metodę detekcji podniesionej osi,
+ umożliwiającą wykrywanie pojazdów pięcioosiowych poruszających się z uniesioną
+ osią.
+\end_layout
+
+\begin_layout Standard
+W rozdziale czwartym opisane są moduły, które dodają kolejne funkcje do
+ algorytmu detekcji osi.
+ Są to algorytmy detekcji położenia osi wewnątrz pojazdu oraz estymacji
+ jego długości.
+\end_layout
+
+\begin_layout Standard
+Rozdział piąty zawiera analizę skuteczności algorytmu dla wyselekcjonowanych
+ kategorii pojazdów - samochodów osobowych, dostawczych oraz ciężarowych,
+ z uwzględnieniem różnej liczby osi.
+\end_layout
+
+\begin_layout Standard
+W rozdziale szóstym przedstawiono funkcje powstałego oprogramowania, w tym
+ sposób instalacji i uruchamiania, omówienie interfejsu wejściowego i przykładow
+e aplikacje.
+ Uzasadniono również możliwość dalszej rozbudowy programu na przykładzie
+ graficznego interfejsu użytkownika do prezentacji wyników.
+\end_layout
+
+\begin_layout Standard
+Rozdział siódmy zawiera analizę pracy programu.
+ Poruszono w nim zagadnienia stabilności i wydajności pracy.
+ Przedstawiono również oprogramowanie, przy użyciu którego przeprowadzono
+ testy poprawności działania algorytmu.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status open
 
@@ -3689,7 +3740,7 @@ name "chap:alg-analysis"
 
 \end_inset
 
-Wstęp
+
 \end_layout
 
 \begin_layout Standard
