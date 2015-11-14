@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
             if (is_verbosity_at_least(DEBUG)) {
                 printf("Załadowano dane. Ilość próbek: %d\n", data->size);
             }
-            vehicle = algorithm2(data, piezo_verify, compute_positions);
+            vehicle = algorithm(data, piezo_verify, compute_positions);
             handle_output(vehicle, piezo_verify, compute_positions, NULL);
 
         }
@@ -129,7 +129,7 @@ int main(int argc, char **argv) {
                 if (is_verbosity_at_least(DEBUG)) {
                     printf("Załadowano dane. Ilość próbek: %d\n", data->size);
                 }
-                vehicle = algorithm2(data, piezo_verify, compute_positions);
+                vehicle = algorithm(data, piezo_verify, compute_positions);
                 handle_output(vehicle, piezo_verify, compute_positions,
                               filename);
             }

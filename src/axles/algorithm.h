@@ -13,7 +13,7 @@
  * glówna funkcja odpowiadająca za detekcję ilości osi pojazdu,
  * którego profil przekazany jest przy pomocy argumentu.
  */
-vehicle_data_t algorithm2(data_vector_t *, bool, bool);
+vehicle_data_t algorithm(data_vector_t *, bool, bool);
 
 /*
  * usuwa offset ze składowych wektora
@@ -34,11 +34,6 @@ void trim_data(data_vector_t *, double);
  * funkcja pomocnicza dla trim_data, usuwa zbędne próbki danych dla zadanych parametrów
  */
 void trim_values(data_vector_t *, data_field_t, unsigned, unsigned);
-
-/*
- * funkcja ograniczająca rozmiar wektora do wartości okna.
- */
-void trim_to_window(data_vector_t *, unsigned);
 
 /*
  * zwraca wartość ilości próbek tablicy o zadanej długości,

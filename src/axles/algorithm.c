@@ -8,11 +8,10 @@
 #include <math.h>
 
 #include "algorithm.h"
-#include "kiss_fft/kiss_fft.h"
 
 extern int verbosity_level;
 
-vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
+vehicle_data_t algorithm(data_vector_t *vector, bool verify,
                           bool check_lengths) {
 
     const unsigned OFFSET_NUM = 50;
@@ -27,7 +26,6 @@ vehicle_data_t algorithm2(data_vector_t *vector, bool verify,
 
     trim_data(vector, velocity);
 
-    trim_to_window(vector, 30);
     if (is_verbosity_at_least(DEBUG)) {
         printf(" Długość okna: %d\n", vector->size);
     }
@@ -411,127 +409,6 @@ void trim_values(data_vector_t *vector, data_field_t field, unsigned trim_front,
     }
 
     vector->size = trim_back;
-}
-
-void trim_to_window(data_vector_t *vector, unsigned ftt_stripe) {
-
-    unsigned nfft;
-    for (nfft = 2; nfft < vector->size; nfft *= 2);
-
-    if (is_verbosity_at_least(DEBUG)) printf(" Wartość nfft to %5d\n", nfft);
-
-    // fft
-    size_t buflen = sizeof(kiss_fft_cpx) * nfft;
-
-    kiss_fft_cpx *signal = (kiss_fft_cpx *) malloc(buflen);
-    kiss_fft_cpx *fft = (kiss_fft_cpx *) malloc(buflen);
-    kiss_fft_cpx *reverse = (kiss_fft_cpx *) malloc(buflen);
-
-    for (unsigned i = 0; i < vector->size; i++) {
-        signal[i].r = (float) (10 * sqrt(pow(vector->vector[i].data[DATA_R3], 2)
-                                         + pow(vector->vector[i].data[DATA_X3], 2)));
-        signal[i].i = 0;
-    }
-    for (unsigned i = vector->size; i < nfft; i++) {
-        signal[i].r = 0;
-        signal[i].i = 0;
-    }
-
-    kiss_fft_cfg cfg = kiss_fft_alloc(nfft, 0, 0, 0);
-    kiss_fft(cfg, signal, fft);
-    free(cfg);
-
-    cfg = kiss_fft_alloc(nfft, 1, 0, 0);
-
-    for (unsigned i = ftt_stripe; i < nfft; i++) {
-        fft[i].r = 0;
-        fft[i].i = 0;
-    }
-    kiss_fft(cfg, fft, reverse);
-
-    if (is_verbosity_at_least(ALL)) {
-        for (unsigned i = 0; i < ftt_stripe + 2; i++)
-            printf("%15.7f %15.7f\n", signal[i].r, signal[i].i);
-        putchar('\n');
-        for (unsigned i = 0; i < ftt_stripe + 2; i++)
-            printf("%15.7f %15.7f\n", fft[i].r, fft[i].i);
-        putchar('\n');
-        for (unsigned i = 0; i < ftt_stripe + 2; i++)
-            printf("%15.7f %15.7f\n", reverse[i].r, reverse[i].i);
-    }
-    /*
-     * w przypadku użycia biblioteki kissfft, konieczne jest podzielenie
-     * wartości próbek przez ich ilość, by uzyskać wyniki zgodne z funkcją
-     * ifft matlaba.
-     */
-
-    double sig_out[vector->size];
-    for (unsigned i = 0; i < vector->size; i++) {
-        sig_out[i] = 2.0 * reverse[i].r / nfft;
-    }
-
-    // oproznanie zasobow wykorzystywanych przy wyliczaniu fft
-    free(cfg);
-    free(signal);
-    free(fft);
-    free(reverse);
-
-    if (is_verbosity_at_least(ALL)) {
-        putchar('\n');
-        for (unsigned i = 0; i < ftt_stripe + 2; i++)
-            printf("%15.7f\n", sig_out[i]);
-    }
-
-    // usuniecie offsetu z uzyskanego sygnalu na podstawie wartosci OFFSET_NUM
-    const unsigned OFFSET_NUM = 50;
-    double offset = 0;
-
-    for (unsigned i = 0; i < OFFSET_NUM; i++) {
-        offset += sig_out[i];
-    }
-    offset /= OFFSET_NUM;
-
-    if (is_verbosity_at_least(DEBUG)) {
-        printf(" Usuwanie offsetu z danych po fft.\n  offset = %10.6f\n", offset);
-    }
-
-    for (unsigned i = 0; i < vector->size; i++) sig_out[i] -= offset;
-
-    if (is_verbosity_at_least(ALL)) {
-        printf(" Sygnał po usunięciu offsetu:\n");
-        for (unsigned i = 0; i < ftt_stripe + 2; i++) printf("%15.7f\n", sig_out[i]);
-    }
-
-    //Wyszukiwanie okna w sygnale sig_out.
-    unsigned w_start = 0;
-    unsigned w_end = vector->size - 1;
-    bool in_window = false;
-
-    for (unsigned i = 0; i < vector->size; i++) {
-        if (sig_out[i] > 0.8 && in_window == false) {
-            in_window = true;
-            w_start = i;
-        }
-        else if (sig_out[i] < 0.5 && in_window == true) {
-            w_end = i;
-            break;
-        }
-    }
-
-    if (is_verbosity_at_least(DEBUG)) {
-        printf(" Ograniczanie sygnału do okna.\n  start = %5d\n  end   = %5d\n", w_start, w_end);
-    }
-
-    // ograniczanie sygnałów do znajdujących się w oknie
-    for (int i = 0; i < 13; i++) { //dla każdej składowej wektora
-        trim_values(vector, (data_field_t) i, w_start + 1, w_end - w_start);
-    }
-    vector->size = w_end - w_start + 1;
-    // usun offset czasu, by probka zaczynała się od t = 0
-    double time_offset = vector->vector[0].data[DATA_T];
-    for (unsigned i = 0; i < vector->size; i++) {
-        vector->vector[i].data[DATA_T] -= time_offset;
-    }
 }
 
 unsigned count_compare(double *array, unsigned len, double threshold) {
