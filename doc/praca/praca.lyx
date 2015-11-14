@@ -502,8 +502,8 @@ Pośród parametrów ruchu drogowego, które podlegają analizie znajdują się
  czasowe pomiędzy kolejnymi pojazdami, czy płynność ruchu.
  Celem badań są również parametry pojazdu, do których należą prędkość, długość,
  masa pojazdu, liczba osi i ich położenie.
- Przedmiotem badania może być również klasyfikacja pojazdu na podstawie
- standardów stworzonych przez organizację 
+ Celem obserwacji może być również klasyfikacja pojazdu na podstawie standardów
+ stworzonych przez organizację 
 \shape italic
 Federal Highway Administration
 \shape default
@@ -515,14 +515,15 @@ key "fhwaclasses"
 \end_inset
 
 , wyszczególniającej 13 kategorii, lub innej, zaprojektowanej w celu klasyfikacj
-i dedykowanego zagadnienia.
+i dedykowanego zagadnienia - na przykład masy pojazdu.
  
 \end_layout
 
 \begin_layout Standard
-Wśród metod wykorzystywanych do pomiarów parametru ruchu znajdują się czujniki
- indukcyjne, wykorzystywane do badania prędkości, długości, liczby i rozkładu
- osi pojazdu czy klasyfikacji pojazdów.
+Wśród metod wykorzystywanych do pomiarów parametru ruchu znajdują się algorytmy
+ wykorzystujące czujniki indukcyjne.
+ Są one używane między innymi do badania prędkości, długości, liczby i rozkładu
+ osi pojazdu.
  Budowę czujnika tego typu przedstawiono na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -557,18 +558,22 @@ status open
 \begin_layout Plain Layout
 Schemat pętlowego czujnika indukcyjnego o wymiarach 
 \series bold
-w
-\series default
- x 
-\series bold
-p
+
+\begin_inset Formula $w\times p$
+\end_inset
+
+
 \series default
  w poziomie oraz odległości 
 \series bold
-o
+
+\begin_inset Formula $o$
+\end_inset
+
+
 \series default
  pomiędzy zwojami.
- Źródło: 
+ Źródło grafiki: 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "marszalek2013"
@@ -610,24 +615,25 @@ Czujnik indukcyjny pętlowy zbudowany jest z kilku zwojów izolowanego przewodu,
 \begin_inset Formula $w$
 \end_inset
 
- w typowych zagadnieniach, jak detekcja długości pojazdu czy położenia osi,
- nie przekracza metra.
+ w typowych zagadnieniach, takich jak detekcja długości pojazdu czy położenia
+ osi, nie przekracza jednego metra.
  Odległość 
 \begin_inset Formula $o$
 \end_inset
 
  pomiędzy zwojami wynika z grubości izolacji sąsiadujących ze sobą przewodów.
- W praktyce wykorzystuje się różne kształty i wymiary, oraz stanowiska składając
-e się z jednego lub wielu czujników, zależnie od celów stawianych aplikacji.
+ W praktyce wykorzystuje się różne kształty i wymiary czujników oraz stanowiska
+ składające się z jednego lub wielu sensorów tego typu, zależnie od celów
+ stawianych aplikacji.
  Wybór kształtu czujnika podyktowany jest jego zastosowaniem.
  Znajdują się wśród nich zbieranie informacji o parametrach przejeżdżających
  pojazdów, sterowanie sygnalizacją świetlną czy współpraca z czujnikami
  innego typu, na przykład w celu sygnalizacji detekcji auta i wyzwalania
- w tej sposób dalszych pomiarów.
+ w ten sposób pracy sensorów dokonujących dalsze pomiary.
 \end_layout
 
 \begin_layout Standard
-Wykorzystanie czujników indukcyjnych pętlowych wymaga zbudowania systemu,
+Wykorzystanie czujników indukcyjnych pętlowych wymaga zbudowania systemu
  w skład którego wchodzą również układ kondycjonowania i system przetwarzania
  danych.
  Budowę systemu pomiarowego przedstawiono na rysunku 
@@ -681,11 +687,31 @@ name "fig:schemat-systemu"
 Układ kondycjonowania jest modułem elektronicznym odpowiedzialnym za pomiar
  stanu czujnika indukcyjnego.
  Stan ten można opisać poprzez wartości dwóch składowych impedancji czujnika.
- Uzyskuje się w ten sposób sygnały (profile) R i X, proporcjonalne do wartości
- rezystancji zastępczej i reaktancji zastępczej czujnika indukcyjnego.
+ Uzyskuje się w ten sposób sygnały (profile) 
+\begin_inset Formula $R$
+\end_inset
+
+ i 
+\begin_inset Formula $X$
+\end_inset
+
+, proporcjonalne do wartości rezystancji zastępczej i reaktancji zastępczej
+ czujnika indukcyjnego.
  Stosuje się również układy kondycjonowania pozwalające na uzyskanie jednego
- sygnału M, będącego pewną określoną funkcją (na przykład pierwiastkiem
- z sumy kwadratów) profili R i X.
+ sygnału 
+\begin_inset Formula $M$
+\end_inset
+
+, będącego pewną określoną funkcją (na przykład pierwiastkiem z sumy kwadratów)
+ profili 
+\begin_inset Formula $R$
+\end_inset
+
+ i 
+\begin_inset Formula $X$
+\end_inset
+
+.
  Metoda ta uniemożliwia jednak uzyskanie wartości obu sygnałów na dalszym
  etapie przetwarzania, co znacznie ogranicza możliwe zastosowania układów
  kondycjonowania tego typu.
@@ -702,12 +728,18 @@ key "Gajd2012,kaewkamnerd2010,marszalek2013"
 
 \begin_layout Standard
 Układ kondycjonowania komunikuje się z systemem przetwarzania danych.
- Jego rolę może pełnić układ FPGA, układ mikroprocesorowy lub komputer PC.
+ Jego rolę może pełnić układ FPGA (rodzaj programowalnego układu logicznego,
+ ang.
+ 
+\shape italic
+field-programmable gate array
+\shape default
+), układ mikroprocesorowy lub komputer PC.
  Do zadań systemu przetwarzania należeć może analiza danych w celu uzyskania
  wyników, zapis pomiarów do bazy danych lub przesłanie uzyskanych informacji
  przez sieć do innego stanowiska.
- Dzięki wykorzystaniu komunikacji sieciowej możliwa jest ciągła obserwacja
- pracy układu z oddalonego laboratorium.
+ Wykorzystanie komunikacji sieciowej pozwala na ciągłą obserwację pracy
+ układu z oddalonego laboratorium.
  Możliwość wykorzystania stosunkowo tanich i nie wymagających wiele energii
  układów mikroprocesorowych ułatwia natomiast montaż stanowiska pomiarowego
  w trudnych warunkach, na przykład w miejscu uniemożliwiającym wykorzystanie
@@ -786,7 +818,8 @@ key "Robbins2005"
 \end_inset
 
 , co może być wykorzystane do badania płynności ruchu.
- Informacja na ten temat jest jedną z funkcji współczesnych systemów nawigacji.
+ Informacja na ten temat jest jedną z funkcji współczesnych systemów nawigacji,
+ które sugerują trasę korzystając z najlepiej przejezdnych połączeń.
  Czujniki tego typu są również wykorzystywane do klasyfikacji pojazdów 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -802,8 +835,8 @@ key "Cheung2004,Sun2000"
 \begin_layout Standard
 Czujniki indukcyjne wykorzystywane do badania parametrów ruchu drogowego
  są tanie i odporne na większość czynników atmosferycznych i kontakt fizyczny
- z podwoziem pojazdu, dzięki umieszczeniu pod nawierzchnią jezdni.
- Montaż jest prosty a budowa czujnika pozwala na wykorzystanie uzyskiwanych
+ z podwoziem pojazdu dzięki umieszczeniu pod nawierzchnią jezdni.
+ Montaż jest prosty, a budowa czujnika pozwala na wykorzystanie uzyskiwanych
  informacji w układzie mikroprocesorowym lub komputerze wyposażonym w kartę
  pomiarową.
  Uzyskane w ten sposób profile pozwalają na analizę szeregu parametrów opisujący
@@ -832,35 +865,54 @@ Cel i zakres realizacji projektu
 \end_layout
 
 \begin_layout Standard
-Przed przystąpieniem do implementacji programu, przyjęte zostały pewne założenia
-, opisujące sposób implementacji i cel projektu.
- Umożliwiło to określenie wymagań już na samym początku pracy i dzięki temu
- zwiększyło sprawność pracy.
- Podstawowym założeniem, przyjętym na samym początku pracy była decyzja
- o implementacji algorytmu z wykorzystaniem środowiska Linux.
+Przed przystąpieniem do wykonania programu, przyjęte zostały założenia opisujące
+ sposób implementacji i cel projektu.
+ Określone w ten sposób wymagania pozwoliły na zaplanowanie pracy i zachowanie
+ konsekwencji w sposobie jej realizacji.
+ Podstawowym założeniem była decyzja o wykorzystaniu systemu operacyjnego
+ Linux do uruchamiania zaprojektowanego oprogramowania.
  Kierowano się przy tym możliwościami oferowanymi przez ten system, które
- omówione są po części poniżej.
- Ponadto system ten cieszy się dużym wsparciem społeczności, dzięki czemu
- nietrudno znaleźć materiały opisujące jego funkcje.
- Zdecydowano się na przygotowanie oprogramowania w języku C, ze względu
- na oferowane przez to narzędzie wydajność i możliwość kontroli nad zasobami.
+ omówione zostały w sekcji 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Przyjęte-założenia"
+
+\end_inset
+
+.
+ Ponadto, system ten wciąż może liczyć na duże wsparcie społeczności programistó
+w i administratorów, dzięki czemu nietrudno było znaleźć materiały opisujące
+ jego funkcje.
+ Przygotowanie oprogramowania w języku C uzasadniono jego wydajnością oraz
+ możliwością kontroli zasobów na niskim poziomie.
 \end_layout
 
 \begin_layout Standard
 Poniżej przedstawiono pozostałe główne założenia projektu i ograniczenia
- przyjęte w trakcie realizacji projektu.
+ przyjęte w trakcie realizacji, a także opis interfejsów wejścia i wyjścia
+ systemu.
 \end_layout
 
 \begin_layout Section
 Przyjęte założenia
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Przyjęte-założenia"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
-Praca zgodnie z ideą oprogramowania GNU i standardem POSIX
+Idea oprogramowania GNU
 \end_layout
 
 \begin_layout Standard
-W trakcie pracy inspirowano się programami powstającymi wokół ruchu GNU
+W trakcie pracy inspirowano się programami powstającymi wokół ruchu 
+\shape italic
+GNU
+\shape default
  
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -869,8 +921,20 @@ key "gnupage"
 \end_inset
 
 .
- W przeciągu wielu lat, gdy publikowane było oprogramowanie związane z nim,
- udało się przyjąć pewne założenia programowania, zwane GNU Coding Standards
+ Na przestrzeni kilkunastu lat publikacji oprogramowania związanego z tym
+ systemem powstał zbiór zasad, zebranych w dokumencie 
+\shape italic
+GNU Coding Standard
+\shape default
+, których celem było 
+\begin_inset Quotes pld
+\end_inset
+
+zachowanie przejrzystości i jednolitości systemu oraz umożliwienie pisania
+ przenośnych, stabilnych i niezawodnych programów
+\begin_inset Quotes prd
+\end_inset
+
  
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -879,31 +943,17 @@ key "gnustandard"
 \end_inset
 
 .
- Opisują one zagadnienia, które często pojawiają się w trakcie pracy nad
- projektami programistycznymi, takie jak styl formatowania kodu, obsługiwane
- flagi czy sposób pisania komentarzy.
- 
+ Dokument ten opisuje takie zagadnienia, jak styl formatowania kodu i wykorzysta
+nie komentarzy, obsługa flag, czy dokumentacja programu.
 \end_layout
 
 \begin_layout Standard
-System Linux implementuje większość elementów wchodzących w skład standardu
- POSIX 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "posixstd"
-
-\end_inset
-
-, dzięki zastosowaniu się do reguł opisywanych w standardzie w trakcie pracy
- nad projektem, udało się uzyskać pewną formę przenośności - główny moduł
- programu powinien działać na wszystkich systemach, które implementują ten
- standard.
-\end_layout
-
-\begin_layout Standard
-W trakcie pisania kodu programu, starano się stosować do Google C++ Style
- Guide - szeregu reguł opisujących sposób formatowania kodu w taki sposób,
- aby zwiększyć jego przejrzystość i czytelność 
+Podszas pisania kodu programu, stosowano się do 
+\shape italic
+Google C++ Style Guide
+\shape default
+ - szeregu reguł opisujących sposób formatowania kodu w taki sposób, aby
+ zapewnić jego przejrzystość i czytelność 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "googlestyleguide"
@@ -911,9 +961,8 @@ key "googlestyleguide"
 \end_inset
 
 .
- Pozwala to na utrzymanie podobnego stylu dla całego kodu źródłowego programu,
- a dzięki zwiększeniu czytelności wyszukiwanie błędów działania i rozwój
- programu staje się łatwiejszy.
+ Pozwoliło to na utrzymanie podobnego stylu dla całego kodu źródłowego programu.
+ Dzięki temu wyszukiwanie błędów w kodzie i rozwój programu był łatwiejszy.
 \end_layout
 
 \begin_layout Subsection*
@@ -921,30 +970,30 @@ Podział na moduły
 \end_layout
 
 \begin_layout Standard
-Zdecydowano się podzielić program na mniejsze elementy, moduły, z których
- każdy odpowiedzialny był za wyłącznie jedną funkcjonalność.
- Dzięki temu, kod źródłowy stał się bardziej zwięzły a programy bardziej
- przenośne.
+Program podzielono na mniejsze elementy - moduły.
+ Każdy z nich jest odpowiedzialny za wyłącznie jedno zadanie.
+ Kod źródłowy każdego modułu stał się dzięki temu bardziej zwięzły, a program
+ przenośny.
 \end_layout
 
 \begin_layout Standard
-Wyszczególniono kilka głównych funkcji pakietu
+Wyszczególniono trzy główne funkcje pakietu:
 \end_layout
 
-\begin_layout Itemize
-moduł algorytmu - odpowiedzialny za główną funkcjonalność, czyli wyznaczanie
- liczby osi pojazdu i ich położeń
+\begin_layout Enumerate
+moduł algorytmu - odpowiedzialny za liczby osi pojazdu i ich położeń oraz
+ długości pojazdu,
 \end_layout
 
-\begin_layout Itemize
-moduł obserwatora - odpowiedzialny za śledzenie zmian w zadanych ścieżkach
- w oczekiwaniu na nowe pliki, które następnie mogą zostać wysłane do modułu
- algorytmu
+\begin_layout Enumerate
+moduł obserwatora - odpowiedzialny za śledzenie zmian w zawartości ścieżek
+ systemowych w oczekiwaniu na nowe pliki, których zawartość jest przekazywana
+ do modułu algorytmu,
 \end_layout
 
-\begin_layout Itemize
-moduł graficzny - umożliwiający przedstawienie wyników pracy algorytmu poprzez
- interfejs 
+\begin_layout Enumerate
+moduł graficzny - umożliwiający przedstawienie wyników pracy algorytmu przy
+ użyciu interfejsu użytkownika.
 \end_layout
 
 \begin_layout Subsection*
@@ -952,8 +1001,18 @@ Potoki
 \end_layout
 
 \begin_layout Standard
-Połączenia pomiędzy poszczególnymi modułami zostały zaimplementowane przy
- użyciu potoków dostępnych w systemie Linux 
+Komunikacja pomiędzy modułami została zaimplementowana przy użyciu potoków
+ dostępnych w systemie Linux.
+ Jest to forma 
+\begin_inset Quotes pld
+\end_inset
+
+przekierowania umożliwiającego przesłanie wyjścia jednego programu do dalszego
+ przetworzenia w kolejnym
+\begin_inset Quotes prd
+\end_inset
+
+.
 \begin_inset CommandInset citation
 LatexCommand cite
 key "linuxpipes"
@@ -961,12 +1020,25 @@ key "linuxpipes"
 \end_inset
 
 .
- Pozwalają one na łączenie dwóch programów w taki sposób, by wyjście jednego
- programu wysłane zostało na wejście drugiego.
- Jest to funkcja silnie wykorzystywana w trakcie pracy z systemem Linux.
- Można je wykorzystać na przykład w celu znalezienia wszystkich dokumentów
- tekstowych w danym katalogu i utworzenia archiwum je zawierającego, jak
- na listingu 
+ Dzięki wykorzystaniu tak zwanego operatora potoku (
+\begin_inset Formula $|$
+\end_inset
+
+) można uniknąć tworzenia plików tymczasowych, a forma wykonywanych poleceń
+ staje się bardziej zwięzła.
+ Z tego powodu, jest to jedna z najczęściej wykorzystywanych funkcji powłoki
+ systemu Linux
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Albing2012"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Przykład operacji potokowej przedstawiono na listingu 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lis:pipes-example"
@@ -988,7 +1060,37 @@ find dokumenty | grep '.doc' | tar cfz archiwum.tar -T -
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Przykład użycia potoków
+Przykład użycia potoków.
+ Operacja 
+\family typewriter
+find
+\family default
+ jako wynik zwróci wszystkie pliki znajdujące się w katalogu 
+\shape italic
+dokumenty
+\shape default
+ oraz jego podkatalogach.
+ Korzystając z polecenia 
+\family typewriter
+grep
+\family default
+ na wyjściu uzyskane zostaną tylko pliki o rozszerzeniu doc.
+ Przy użyciu polecenia 
+\family typewriter
+tar
+\family default
+ utworzone zostanie archiwum o nazwie 
+\shape italic
+archiwum.tar
+\shape default
+.
+ Argument 
+\family typewriter
+-T -
+\family default
+ informuje program, by odczytał listę plików do archiwizacji ze strumienia
+ wejściowego.
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "lis:pipes-example"
@@ -1008,39 +1110,14 @@ name "lis:pipes-example"
 
 \end_layout
 
-\begin_layout Standard
-Symbol 
-\emph on
-|
-\emph default
- oznacza potok łączący dwa sąsiednie programy, przy czym przepływ danych
- następuje od lewej do prawej, a więc wyjście programu 
-\shape italic
-ls
-\shape default
- kierowane jest na wejście programu 
-\shape italic
-grep
-\shape default
-.
-\end_layout
-
 \begin_layout Subsection*
 Obsługa flag
 \end_layout
 
 \begin_layout Standard
-Projektowany program miał być wywoływany z poziomu konsoli sytemu Linux,
- której wygląda podobnie do przedstawionej na rysunku 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:linux-console"
-
-\end_inset
-
-.
- W celu umożliwienia interakcji z programem wywoływanym w ten sposób, zaimplemen
-towano obsługę szeregu flag 
+Projektowany program jest wywoływany z poziomu linii poleceń sytemu Linux.
+ Aby umożliwić konfigurację, zdecydowano się na zaimplementowanie obsługi
+ flag programowych 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gnucli"
@@ -1048,38 +1125,39 @@ key "gnucli"
 \end_inset
 
 .
- Dzięki temu już w momencie uruchomienia programu wykonywana jest pełna
- konfiguracja i nie jest konieczna dalsza interakcja użytkownika w trakcie
- pracy.
- Umożliwia to wykorzystanie programu w skryptach, na przykład w celu uruchomieni
-a go na serwerze by wyznaczyć dane zebrane dla tysiąca pojazdów poprzez
- jedno wywołanie.
+ Jest to standardowa metoda wykorzystywana przez większość programów działającyc
+h z poziomu linii poleceń.
+ Korzystając z tej metody, cała konfiguracja może mieć miejsce przed uruchomieni
+em programu.
+ Umożliwia to wykorzystanie programów w skryptach, których praca odbywa
+ się bez ciągłego nadzoru użytkownika.
  
 \end_layout
 
 \begin_layout Standard
-Zaimplementowano flagi odpowiedzialne za tryb pracy algorytmu, umożliwiające
- wyznaczenie danych na temat położenia osi i długości pojazdu, włączające
- weryfikację wyników z czujników piezo, zarządzające ilością informacji
- wyświetlanych na ekranie w trakcie pracy czy przekierowujące wyjście do
- pliku.
- Ponadto, zachowano zgodność ze standardem GNU, który zaleca implementację
- obsługi flag 
-\shape italic
---version
-\shape default
- i
-\shape italic
- --help
-\shape default
-, wyświetlających odpowiednio informację o wersji programu i stronę pomocy.
-\end_layout
-
-\begin_layout Standard
-Dokładny opis obsługiwanych flag przedstawiono w rozdziale 
+W skład zaprojektowanego interfejsu wchodzą flagi konfigurujące tryb pracy
+ algorytmu, włączające funkcje detekcji położenia osi, wykrywania długości
+ pojazdu i weryfikacji przy użyciu czujników piezoelektrycznych.
+ Obsługiwane są również flagi konfigurujące ilość danych wyświetlanych na
+ ekran oraz wyświetlających informację o wersji programu i stronę pomocy,
+ zwyczajowo obsługiwane przez oprogramowanie GNU.
+ Listę obsługiwanych flag przedstawiono w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:flags"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Konsolę systemową, służącą do obsługi systemu i uruchamianych programów
+ przedstawiono na rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:linux-console"
 
 \end_inset
 
@@ -1106,7 +1184,18 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Konsola systemowa.
+Konsola systemowa z powłoką 
+\shape italic
+bash
+\shape default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Albing2012"
+
+\end_inset
+
+.
 \end_layout
 
 \end_inset
@@ -1130,17 +1219,19 @@ name "fig:linux-console"
 \end_layout
 
 \begin_layout Subsection*
-Wydajność
+Wysoka wydajność
 \end_layout
 
 \begin_layout Standard
-Analiza zebranych wyników często wymaga przetworzenia danych dla setek czy
- tysięcy pojazdów.
- Z tego względu przed programem stawiane są silne wymagania dotyczące wydajności.
- Dzięki wykorzystaniu języka C do implementacji modułu odpowiedzialnego
- za obliczenia, możliwa była duża kontrola nad takimi elementami jak operacje
- wejścia-wyjścia i zarządzanie pamięcią, możliwa była duża optymalizacja
- czasu pracy programu dla jednego zestawu danych.
+Analiza danych uzyskanych z czujników indukcyjnych może wymagać przetworzenia
+ informacji dla setek czy tysięcy pojazdów.
+ W stosunku do programów działających na takiej ilości danych stawiane są
+ wymagania związane z ich wydajnością.
+ Wymagania te spełniono dzięki wykorzystaniu języka C do zaprojektowania
+ modułu obliczeniowego.
+ Pozwoliło to na zachowanie dużej kontroli nad takimi elementami jak operacje
+ wejścia/wyjścia i zarządzanie pamięcią, co w konsekwencji umożliwiło optymaliza
+cję czasu pracy programu.
  Dokładna analiza tego zagadnienia przedstawiona została w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1152,7 +1243,7 @@ reference "sub:efficiency"
 \end_layout
 
 \begin_layout Subsection*
-Wielofunkcyjność
+Dwufunkcyjność
 \end_layout
 
 \begin_layout Standard
@@ -1161,44 +1252,53 @@ Program może być wywoływany na dwa sposoby.
 \end_layout
 
 \begin_layout Standard
-Pierwszy umożliwia jednorazową analizę jednego lub wielu plików, które są
- kompletne w momencie uruchomienia programu.
- Może to być przydatne w sytuacji, gdy konieczne jest przeprowadzenie analizy
- zebranych wcześniej danych.
+Pierwszy umożliwia przeprowadzenie obliczeń dla jednego lub wielu plików
+ zawierających dane pomiarowe, które są dostępne w chwili uruchomienia.
+ Pozwala to na przeprowadzenie analizy zebranych wcześniej danych.
 \end_layout
 
 \begin_layout Standard
 Program może również zostać wywołany w trybie oczekiwania na dane.
- W momencie, gdy pojawia się nowy plik z danymi, są one natychmiast analizowane.
- Jest to przydatne, gdy program działa bezpośrednio na systemie odpowiedzialnym
- za zbieranie danych - praktyczne wydaje się zaprojektowanie ciągu operacji,
- w którym dane odczytane trafiają do określonego folderu, są analizowane
- przez przygotowany program, a następnie prezentowane w czytelnej formie,
- na przykład poprzez stronę internetową.
- Pozwalałoby to na nadzorowanie pracy czujnika i zbieranie wyników bez konieczno
-ści fizycznego kontaktu z urządzeniem.
-\end_layout
-
-\begin_layout Subsection*
-Stabilność pracy 
+ W momencie pojawienia się nowego pliku jest on przekazywany do analizy.
+ Umożliwia to pracę bezpośrednio w systemie zbierania danych.
+ Praktyczne może być zaprojektowanie ciągu operacji, w którym dane pomiarowe
+ trafiają do określonego folderu, są analizowane przez przygotowany program,
+ a następnie prezentowane w czytelnej formie, na przykład przez stronę interneto
+wą.
+ Umożliwia to nadzorowanie pracy systemu pomiarowego i zbieranie wyników
+ bez konieczności fizycznej obecności na stanowisku pomiarowym.
+ 
 \end_layout
 
 \begin_layout Standard
-Ze względu na możliwość użycia programu w trybie ciągłym i analizy tysięcy
- zestawów danych w trakcie jednego uruchomienia programu, konieczne było
- zagwarantowanie stabilnej pracy programu w normalnych warunkach.
- W tym celu przyjęto założenie unikania jakichkolwiek niezdefiniowanych
- zachowań języka C, opisywanych w standardzie 
+Pozwalałoby to na nadzorowanie pracy czujnika i zbieranie wyników bez koniecznoś
+ci fizycznego kontaktu z urządzeniem.
+\end_layout
+
+\begin_layout Subsection*
+Wysoka stabilność pracy 
+\end_layout
+
+\begin_layout Standard
+Ze względu na możliwość użycia programu w trybie ciągłym i analizy dużego
+ zbioru danych w trakcie jednego uruchomienia konieczne jest zagwarantowanie
+ stabilności pracy w każdych warunkach.
+ Aby zagwarantować czytelność i przenośność projektu, nie wykorzystano niezdefin
+iowanych zachowań języka C, których nie opisano w standardzie 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "cstandard"
 
 \end_inset
 
- oraz rozwiązywania wszystkich ostrzeżeń przekazywanych przez kompilator
- języka.
- Ponadto, zadbano o zarządzanie pamięcią w taki sposób, by uniknąć wycieków.
- Dokładniejsza analiza tego zagadnienia znalazła się w rozdziale 
+, a których implementacja w środowiskach kompilacji może być różna i podlegać
+ zmianom w przyszłości.
+ Rozwiązano również przyczyny wszystkich ostrzeżeń, które przekazywał kompilator
+ języka C.
+\end_layout
+
+\begin_layout Standard
+Temat ten został poruszony również w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:stability"
@@ -1213,33 +1313,12 @@ Przyjęte ograniczenia
 \end_layout
 
 \begin_layout Standard
-Jednocześnie do przyjmowania założeń projektowych, przyjęte zostały również
- ograniczenia, opisujące pracę programu.
+Przyjęte zostały następujące ograniczenia w pracę programu.
 \end_layout
 
 \begin_layout Itemize
-Program nie jest odpowiedzialny za wstępną analizę sygnałów czujnika w celu
- wykrycia pojazdu.
- Przyjęto założenie, że próbka została już wstępnie przeanalizowana w celu
- odseparowania danych dotyczących krótkiego okresu, gdy pojazd znajdował
- się w otoczeniu czujnika.
-\end_layout
-
-\begin_layout Itemize
-Jedna próbka danych powinna zawierać informacje dotyczące wyłącznie jednego
- pojazdu.
- W przypadku, gdy w jednym pliku danych pojawią się informacje dotyczące
- wielu pojazdów, zostaną one błędnie zinterpretowane.
-\end_layout
-
-\begin_layout Itemize
-Próbka danych powinna mieć stosunkowo niewielką długość.
- Powinna zwierać wszystkie użyteczne informacje, a jednocześnie unikać przechowy
-wania informacji nieistotnych.
- Zwiększenie rozmiaru próbki wpływa liniowo na czas pracy algorytmu.
- Nie przyjęto jednak żadnej konkretnej długości pomiaru ani jej limitów
- - program powinien zachowywać się poprawnie dla danych o dowolnej długości,
- ograniczeniem może być jedynie ilość dostępnej pamięci i czas pracy procesora.
+Przyjęto, że jeden pomiar, identyfikowany na podstawie wektora czasu, zawiera
+ dane dotyczące jednego pojazdu.
 \end_layout
 
 \begin_layout Itemize
@@ -1250,9 +1329,18 @@ W trakcie projektowania programu, dostosowano go do pracy z konkretnym zestawem
 \end_layout
 
 \begin_layout Itemize
+Program jest dostosowany do pracy z danymi uzyskiwanymi ze znanego stanowiska
+ pomiarowego.
+ Konfiguracja do pracy z innym stanowiskiem może odbyć się poprzez modyfikację
+ kodu źródłowego programu.
+\end_layout
+
+\begin_layout Itemize
 Algorytm wykrywa poprawnie pojazdy o liczbie osi od dwóch do pięciu.
- W przypadku wykrycia sześciu lub więcej osi, dana próbka uznana zostanie
- za błędną.
+ Wynik powyżej pięciu osi uważany jest za błąd.
+ Pojazdy o takiej liczbie osi stanowią niewielki podzbiór ruchu samochodowego,
+ a przyjęte założenie pozwala na analizę poprawności pracy algorytmu.
+ Wartość ta również może być zmodyfikowana w kodzie źródłowym.
 \end_layout
 
 \begin_layout Section
@@ -1513,7 +1601,6 @@ W przypadku wywołania dodatkowych funkcji programu, wyjście ulega rozwinięciu
 Funkcja wyznaczania położeń osi pojazdu wyświetla na wyjściu dodatkowy ciąg
 \end_layout
 
-\begin_deeper
 \begin_layout Standard
 \begin_inset listings
 inline false
@@ -1616,7 +1703,6 @@ name "fig:schemat-dlugosci"
 
 \end_layout
 
-\end_deeper
 \begin_layout Itemize
 Funkcja weryfikacji z czujnikami piezoelektrycznymi dodaje drugą linię wyjścia
 \end_layout
@@ -1657,7 +1743,6 @@ W przypadku wywołania jednocześnie funkcji wyznaczania położeń osi oraz
 \end_layout
 
 \begin_layout Standard
-i
 \begin_inset listings
 inline false
 status open
