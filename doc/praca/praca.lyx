@@ -1318,21 +1318,13 @@ Przyjęte zostały następujące ograniczenia w pracę programu.
 
 \begin_layout Itemize
 Przyjęto, że jeden pomiar, identyfikowany na podstawie wektora czasu, zawiera
- dane dotyczące jednego pojazdu.
+ dane dotyczące jednego przejazdu.
 \end_layout
 
 \begin_layout Itemize
-W trakcie projektowania programu, dostosowano go do pracy z konkretnym zestawem
- czujników.
- Praca z innymi czujnikami wymagałaby zmian w kodzie programu, a w przypadku,
- gdy czujniki posiadałyby inne parametry - również w kodzie algorytmu.
-\end_layout
-
-\begin_layout Itemize
-Program jest dostosowany do pracy z danymi uzyskiwanymi ze znanego stanowiska
- pomiarowego.
- Konfiguracja do pracy z innym stanowiskiem może odbyć się poprzez modyfikację
- kodu źródłowego programu.
+Program współpracuje ze stanowiskiem pomiarowym wyposażonym w dwie pętle
+ indukcyjne oraz dwa czujniki nacisku.
+ Czujniki nacisku wykorzystywane są do dokładnego określenia prędkości pojazdu.
 \end_layout
 
 \begin_layout Itemize
@@ -1344,7 +1336,7 @@ Algorytm wykrywa poprawnie pojazdy o liczbie osi od dwóch do pięciu.
 \end_layout
 
 \begin_layout Section
-Interfejs wejścia-wyjścia programu
+Interfejsy wejścia i wyjścia programu
 \begin_inset CommandInset label
 LatexCommand label
 name "chap:in-out-interface"
@@ -1354,55 +1346,31 @@ name "chap:in-out-interface"
 
 \end_layout
 
-\begin_layout Standard
-Przed uruchomieniem programu, konieczne jest zebranie danych z czujników,
- zawierających informacje dla jednego pojazdu.
- Z tego względu konieczna była implementacja programu w taki sposób, by
- zintegrować go z systemem odpowiedzialnym za zbieranie odczytów.
- 
+\begin_layout Subsection*
+Interfejs wejścia
 \end_layout
 
 \begin_layout Standard
-Układ pomiarowy składa się z zestawu pięciu pętli indukcyjnych o rożnych
- parametrach oraz dwóch czujników piezoelektrycznych ułożonych wzdłuż pasa
- ruchu.
- Układ zbiera informacje w formie pary wartości sygnałów R
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-~
-\end_layout
-
+Przed uruchomieniem programu konieczne jest przygotowanie danych z czujników
+ pętlowych, zawierających informacje dotyczące jednego pojazdu.
+ Projekt zorganizowano w taki sposób, by zintegrować go z systemem odpowiedzialn
+ym za rejestrację profili 
+\begin_inset Formula $R$
 \end_inset
 
- i X
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-~
-\end_layout
-
+ i 
+\begin_inset Formula $X$
 \end_inset
 
- dla każdej pętli oraz sygnały P
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-1
+.
 \end_layout
 
-\end_inset
-
- i P
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-
- dla czujników piezo.
+\begin_layout Standard
+Algorytm wymaga informacji pochodzących z dwóch pętli indukcyjnych, węższej
+ - wykorzystywanej do detekcji liczby osi oraz ich położenia, oraz szerszej
+ - służącej do estymacji długości pojazdu.
+ Ponadto wykorzystywane są dwa czujniki nacisku umożliwiające wyznaczenie
+ prędkości pojazdu.
 \end_layout
 
 \begin_layout Standard
@@ -1414,10 +1382,10 @@ Dane dostarczane są w formie tekstowej poprzez strumień wejściowy lub plik.
 \end_layout
 
 \begin_layout Itemize
-Każdy wiersz zawiera próbkę danych dla jednej chwili czasowej w formacie
- trzynastu liczb.
- Pierwsza liczba oznacza czas odczytu próbki w sekundach, a pozostałe dwanaście
- opisuje sześć par sygnałów.
+Każdy wiersz zawiera dane dla jednej chwili czasowej w formacie siedmiu
+ liczb.
+ Pierwsza liczba oznacza czas pomiaru w sekundach, a pozostałe opisują wartości
+ uzyskane z czujników pętlowych i piezoelektrycznych.
  
 \end_layout
 
@@ -1438,13 +1406,17 @@ Symbolem dziesiętnym jest znak kropki
 \begin_inset Quotes prd
 \end_inset
 
- bez odstępu, na przykład: -2.4321.
+ bez odstępu, na przykład: 
+\begin_inset Formula $-2.4321$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Itemize
-Dane są uporządkowane względem czasu, a więc każda kolejna próbka wystąpiła
- po poprzedniej - jest to wykorzystywane w przypadku przekazywania danych
- wielu pojazdów poprzez standardowy strumień wejścia.
+Dane są uporządkowane względem czasu.
+ Pozwala to na odseparowanie danych pomiarowych dotyczących wielu pojazdów
+ w przypadku wykorzystania strumienia wejściowego.
 \end_layout
 
 \begin_layout Standard
@@ -1467,12 +1439,12 @@ status open
 
 \begin_layout Plain Layout
 
-0.023	0.16	-0.08	0.12	-0.06	0.07	-0.01	0.09	-0.17	0.11	0.38	0.02	0.03
+0.023	0.16	-0.08	0.12	-0.06	0.07	-0.01
 \end_layout
 
 \begin_layout Plain Layout
 
-0.024	0.18	-0.06	0.12	-0.08	0.10	 0.02	0.09	-0.21	0.14	0.44	0.02	0.00
+0.024	0.18	-0.06	0.12	-0.08	0.10	 0.02
 \end_layout
 
 \begin_layout Plain Layout
@@ -1506,39 +1478,42 @@ name "lis:input-data"
 \end_layout
 
 \begin_layout Standard
-Kolejność danych to:
+Przyjęto następującą kolejność danych:
 \end_layout
 
 \begin_layout Itemize
-czas w sekundach
+czas w sekundach,
 \end_layout
 
 \begin_layout Itemize
-pętla 3m (2sygnały: X i R)
+pętla szeroka (sygnały X i R),
 \end_layout
 
 \begin_layout Itemize
-pętla 1m (2sygnały: X i R)
+pętla wąska (sygnały X i R),
 \end_layout
 
 \begin_layout Itemize
-pętla 0,5m (2sygnały: X i R)
+czujnik nacisku pierwszy,
 \end_layout
 
 \begin_layout Itemize
-pętla 0,3m (2sygnały: X i R)
+czujnik nacisku drugi.
 \end_layout
 
-\begin_layout Itemize
-pętla 0,1m (2sygnały: X i R)
+\begin_layout Subsection*
+Interfejs wyjścia
 \end_layout
 
-\begin_layout Itemize
-czujnik piezo 1
+\begin_layout Standard
+Program wykonuje algorytm korzystając z załadowanych danych wejściowych
+ i wyświetla wynik pracy poprzez standardowy strumień wyjściowy.
 \end_layout
 
-\begin_layout Itemize
-czujnik piezo 2
+\begin_layout Standard
+W podstawowej konfiguracji wykonywana jest wyłącznie procedura detekcji
+ liczby osi.
+ Wyście programu ma wtedy postać przedstawioną na listingu 
 \end_layout
 
 \begin_layout Standard
@@ -1547,7 +1522,14 @@ Przyjęto również następującą konwencję formatu wyjścia programu.
 
 \begin_layout Standard
 Format w przypadku korzystania z podstawowej funkcji programu, a więc wykrywania
- liczby osi pojazdu, przyjmuje postać
+ liczby osi pojazdu, przyjmuje postać przedstawioną na listingu 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:wyjscie-default"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -1560,45 +1542,66 @@ status open
 źródło n
 \end_layout
 
-\end_inset
+\begin_layout Plain Layout
 
+\begin_inset Caption Standard
 
-\end_layout
-
-\begin_layout Standard
-Gdzie 
-\shape italic
+\begin_layout Plain Layout
+Wynik działania programu w podstawowej konfiguracji.
+ 
+\family typewriter
 źródło
-\shape default
- to nazwa pliku który przekazany był jako argument programu, lub ciąg 
-\begin_inset Quotes pld
-\end_inset
-
+\family default
+ to nazwa pliku wejściowego lub ciąg 
+\family typewriter
 stdin
-\begin_inset Quotes prd
-\end_inset
-
- w przypadku wykorzystania strumienia wejściowego, a 
-\shape italic
-n 
-\shape default
-to liczba osi pojazdu (z wyszczególnieniem ciągu 
-\begin_inset Quotes pld
-\end_inset
-
+\family default
+ w przypadku wykorzystania strumienia wejściowego.
+ n to liczba lub ciąg znaków będący wynikiem działania algorytmu detekcji
+ liczby osi.
+ Wystąpienie ciągu 
+\family typewriter
 5up
-\begin_inset Quotes prd
+\family default
+ informuje o wykryciu pojazdu pięcioosiowego jadącego z podniesioną osią,
+ natomiast ciąg 
+\family typewriter
+error
+\family default
+ informuje o błędzie działania algorytmu.
+\begin_inset CommandInset label
+LatexCommand label
+name "lis:wyjscie-default"
+
 \end_inset
 
- oznaczającego wykrycie pojazdu pięcioosiowego, z podniesioną jedną osią).
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-W przypadku wywołania dodatkowych funkcji programu, wyjście ulega rozwinięciu
+Format wyjścia zmienia się wraz z aktywowaniem kolejnych funkcji programu.
 \end_layout
 
-\begin_layout Itemize
-Funkcja wyznaczania położeń osi pojazdu wyświetla na wyjściu dodatkowy ciąg
+\begin_layout Standard
+Funkcja wyznaczania położeń osi i długości pojazdu wyświetla na wyjściu
+ dodatkowy ciąg, przedstawiony na listingu 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:wyjscie-dlugosci"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -1608,52 +1611,26 @@ status open
 
 \begin_layout Plain Layout
 
-źródło n d l_1 ...
+źródło n d l_1 l_2 l_3 ...
  l_n+1
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Gdzie 
-\shape italic
-d
-\shape default
- oznacza długość pojazdu a wartości 
-\shape italic
-l
-\begin_inset script subscript
-
 \begin_layout Plain Layout
 
-\shape italic
-1
-\end_layout
-
-\end_inset
-
-
-\shape default
- ...
- 
-\shape italic
-l
-\begin_inset script subscript
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
-\shape italic
-n+1
-\end_layout
+Wynik działania programu po włączeniu funkcji wyznaczania położeń osi i
+ długości pojazdu.
+ Początek linii ma formę zgodną z listingiem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:wyjscie-default"
 
 \end_inset
 
-
-\shape default
- oznaczają poszczególne odległości zgodnie z rysunkiem 
+, natomiast kolejne wartości opisują odległości wyrażone w metrach, których
+ znaczenie przedstawiono na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:schemat-dlugosci"
@@ -1661,6 +1638,23 @@ reference "fig:schemat-dlugosci"
 \end_inset
 
 .
+\begin_inset CommandInset label
+LatexCommand label
+name "lis:wyjscie-dlugosci"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1703,43 +1697,17 @@ name "fig:schemat-dlugosci"
 
 \end_layout
 
-\begin_layout Itemize
-Funkcja weryfikacji z czujnikami piezoelektrycznymi dodaje drugą linię wyjścia
-\end_layout
-
 \begin_layout Standard
-\begin_inset listings
-lstparams "frame=tblr"
-inline false
-status open
-
-\begin_layout Plain Layout
-
-źródło n
-\end_layout
-
-\begin_layout Plain Layout
-
-piezo N
-\end_layout
+W przypadku weryfikacji wyników algorytmu przy pomocy czujników piezoelektryczny
+ch, na wyjściu pojawia się druga linia.
+ Jej znaczenie opisano na listingu 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lis:wyjscie-piezo"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-Gdzie 
-\shape italic
-N
-\shape default
- to liczba osi wyznaczona poprzez czujniki piezoelektryczne.
-\end_layout
-
-\begin_layout Itemize
-W przypadku wywołania jednocześnie funkcji wyznaczania położeń osi oraz
- weryfikacji na postawie czujników piezoelektrycznych, wyjście przyjmuje
- postać
+.
 \end_layout
 
 \begin_layout Standard
@@ -1749,50 +1717,24 @@ status open
 
 \begin_layout Plain Layout
 
-źródło n d l_1 ...
+źródło n d l_1 l_2 l_3 ...
  l_n+1
 \end_layout
 
 \begin_layout Plain Layout
 
-piezo N L_1 ...
- L_n-1
+piezo N L_2 L_3 ...
+ L_n
 \end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Gdzie wartości 
-\shape italic
-L
-\begin_inset script subscript
 
 \begin_layout Plain Layout
-1
-\end_layout
 
-\end_inset
+\begin_inset Caption Standard
 
-
-\shape default
- ...
+\begin_layout Plain Layout
+Wynik działania programu przy włączonej weryfikacji wyników.
+ Kolejne wartości stanowią porównanie dla wyników pracy algorytmu.
  
-\shape italic
-L
-\begin_inset script subscript
-
-\begin_layout Plain Layout
-n-1
-\end_layout
-
-\end_inset
-
-
-\shape default
- oznaczają odległości pomiędzy osiami zgodnie z rysunkiem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:schemat-dlugosci"
@@ -1800,12 +1742,35 @@ reference "fig:schemat-dlugosci"
 \end_inset
 
 .
+\begin_inset CommandInset label
+LatexCommand label
+name "lis:wyjscie-piezo"
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Itemize
-Ilość informacji na wyjściu może zmienić się na żądanie użytkownika - możliwe
- jest wytłumienie wszelkich komunikatów, bądź wyświetlenie informacji na
- temat przeprowadzanych obliczeń.
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Możliwe jest również manipulowanie ilością informacji wyświetlanymi na wyjściu.
+ Funkcja ta została opisana w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:flags"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section*
@@ -1813,28 +1778,14 @@ Podsumowanie
 \end_layout
 
 \begin_layout Standard
-Dostosowanie się do założeń przyjętych przed rozpoczęciem pracy powinno
- umożliwić większą kontrolę nad powstającym oprogramowaniem.
- Dzięki przyjęciu, że implementacja będzie pracować pod konkretnym systemem,
- od początku dostępne były narzędzia oferowane przez środowisko.
- Odbyło się to kosztem przenośności programów, których wykorzystanie na
- innych systemach, w tym tych z rodziny Windows, wymagałoby czasochłonnych
- korekt kodu.
- Wybór języka C również przyniósł pozytywne skutki - poza opisywanymi wcześniej
- cechami języka, które wykorzystano, przydatne okazały się również silne
- związki pomiędzy tym językiem a jądrem systemu Linux.
- Ten kluczowy składnik systemu w ponad 95% zaimplementowany jest w C 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "githublinux"
-
-\end_inset
-
-, dzięki czemu korzystanie z oferowanych interfejsów jest stosunkowo łatwe,
- gdy używa się tego samego języka.
- Dzięki podjęciu tych decyzji, możliwe stało się wykorzystanie przydatnych
- funkcjonalności systemu - potoki, strumienie, obsługa flag, oraz języka
- C - implementacja sygnałów systemowych czy obsługa błędów.
+Sprecyzowanie zakresu realizacji projektu pozwala zwiększyć kontrolę nad
+ powstającym oprogramowaniem na dalszym etapie prac.
+ Dzięki sprecyzowaniu interfejsów wejścia i wyjścia uzyskuje się pewność
+ w kontekście poprawności ich realizacji.
+ Możliwe staje się również napisanie testów weryfikujących wyniki pracy
+ programu.
+ Opis zakresu realizacji projektu stanowi również dokumentację w użytecznej
+ formie.
 \end_layout
 
 \begin_layout Standard
@@ -1858,7 +1809,7 @@ Algorytm detekcji liczby osi pojazdu
 \end_layout
 
 \begin_layout Standard
-Dane pomiarowe z pętli indukcyjnych nie umożliwiały detekcji liczby osi
+Dane pomiarowe z pętli indukcyjnych nie umożliwiają detekcji liczby osi
  pojazdu bez dalszej analizy.
  Na rysunku 
 \begin_inset CommandInset ref
@@ -1999,8 +1950,8 @@ Przetwarzanie wstępne
 \end_layout
 
 \begin_layout Standard
-Przed przystąpieniem do analizy danych, konieczne było wstępne ich przetworzenie
-, w taki sposób, by ze zbioru danych wejściowych wyłuskać wyłącznie użyteczne
+Przed przystąpieniem do analizy danych, konieczne jest wstępne ich przetworzenie
+ w taki sposób, by ze zbioru danych wejściowych wyłuskać wyłącznie użyteczne
  informacje.
  
 \end_layout
@@ -2016,19 +1967,19 @@ reference "fig:sygnaly-r-x-wstepne"
  można zaobserwować przesunięcie w czasie dla okien, w których sygnały uzyskują
  niezerowe wartości.
  Wynika to z budowy stanowiska pomiarowego, w którym kilka pętli indukcyjnych
- umieszczone było kolejno wzdłuż jezdni.
- Z tego powodu w odczytach pojawia się przesunięcie, które należało usunąć
+ umieszczone jest kolejno wzdłuż jezdni.
+ Z tego powodu w odczytach pojawia się przesunięcie, które należy usunąć
  w pierwszej fazie wstępnego przetwarzania danych.
  
 \end_layout
 
 \begin_layout Standard
-Na podstawie pierwszych 30 wartości dla każdego sygnału, wyznaczane było
+Na podstawie pierwszych 30 wartości dla każdego sygnału wyznaczane jest
  średnie przesunięcie sygnału względem wartości zerowej.
  Przyjęto, że w pierwsze pomiary powinny być w idealnym środowisku równe
- zero, ponieważ pojazd nie znajdował się wtedy w zasięgu pracy czujnika
- indukcyjnego.
- Dzięki temu możliwe było 
+ zero, ponieważ pojazd nie znajduje się wtedy w zasięgu pracy czujnika indukcyjn
+ego.
+ Dzięki temu możliwe jest 
 \begin_inset Quotes pld
 \end_inset
 
@@ -2040,27 +1991,34 @@ wyzerowanie
 \end_layout
 
 \begin_layout Standard
-Przejeżdżający pojazd pozostawał w obszarze aktywnym pętli indukcyjnej (to
+Przejeżdżający pojazd pozostaje w obszarze aktywnym pętli indukcyjnej (to
  znaczy w obszarze, w którym wartości sygnałów pętli przyjmują niezerowe
  wartości) nie dłużej niż kilka dziesiątych sekundy.
  Z tego powodu, dysponując danymi odczytanymi na przestrzeni kilku sekund,
- duża ich część nie była użyteczna z punktu widzenia algorytmu.
+ duża ich część nie jest użyteczna z punktu widzenia algorytmu.
  Zdecydowano się na usunięcie zbędnych wartości w celu uniknięcia niepotrzebnych
  obliczeń, a zatem zwiększenia wydajności algorytmu.
 \end_layout
 
 \begin_layout Standard
-Na etapie wstępnego przetwarzania sygnałów wyznaczana była również prędkość
+Na etapie wstępnego przetwarzania sygnałów wyznaczana jest również prędkość
  pojazdu.
- Wykorzystano do tego dwa czujniki piezoelektryczne, których odczyty znajdowały
+ Wykorzystano do tego dwa czujniki piezoelektryczne, których odczyty znajdują
  się w zbiorze danych wejściowych.
- Czujniki te cechowały się binarną wartością sygnału.
- Przy braku nacisku, odczyt wynosił 0V, natomiast w przeciwnym przypadku
- 5V.
- Dzięki znajomości odległości pomiędzy dwoma czujnikami oraz okresu próbkowania,
- możliwe było wyznaczenie prędkości poprzez wykrycie zbocza sygnalizującego
+ Czujniki te cechują się binarną wartością sygnału.
+ Przy braku nacisku, odczyt wynosi 
+\begin_inset Formula $0V$
+\end_inset
+
+, natomiast w przeciwnym przypadku 
+\begin_inset Formula $5V$
+\end_inset
+
+.
+ Dzięki znajomości odległości pomiędzy dwoma czujnikami oraz okresu próbkowania
+ możliwe jest wyznaczenie prędkości poprzez wykrycie zbocza sygnalizującego
  nacisk wywołany przez pierwszą oś przejeżdżającego pojazdu.
- Uzyskana wartość nie była wykorzystywana przez algorytm detekcji liczby
+ Uzyskana wartość nie jest wykorzystywana przez algorytm detekcji liczby
  osi, znalazła jednak zastosowanie w algorytmie wyznaczania długości pojazdu,
  szerzej opisanym w rozdziale 
 \begin_inset CommandInset ref
@@ -2134,9 +2092,17 @@ Przygotowanie sygnału i parametrów
 \end_layout
 
 \begin_layout Standard
-Po zakończeniu przetwarzania wstępnego, możliwe było przystąpienie do wyznaczeni
+Po zakończeniu przetwarzania wstępnego, możliwe jest przystąpienie do wyznaczeni
 a sygnału, na podstawie którego przeprowadzona zostanie detekcja osi oraz
- parametrów Y i H, decydujących o przebiegu detekcji.
+ parametrów 
+\begin_inset Formula $Y$
+\end_inset
+
+ i 
+\begin_inset Formula $H$
+\end_inset
+
+, decydujących o przebiegu detekcji.
 \end_layout
 
 \begin_layout Standard
@@ -2148,7 +2114,7 @@ Na podstawie sygnałów
 \begin_inset Formula $X_{0.1m}$
 \end_inset
 
- pętli o długości 10cm wyznaczony został sygnał 
+ pętli o długości 10cm wyznaczany jest sygnał 
 \begin_inset Formula $M$
 \end_inset
 
@@ -2208,7 +2174,7 @@ Na bazie sygnałów
 \noun default
 \color inherit
 \lang polish
- wyznaczano wartości 
+ wyznacza się wartości 
 \begin_inset Formula $L_{x}$
 \end_inset
 
@@ -2216,7 +2182,11 @@ Na bazie sygnałów
 \begin_inset Formula $X_{0.1m}$
 \end_inset
 
- przekracza 0,1V oraz 
+ przekracza 
+\begin_inset Formula $0,1V$
+\end_inset
+
+ oraz 
 \begin_inset Formula $L_{m}$
 \end_inset
 
@@ -2250,7 +2220,11 @@ Na bazie sygnałów
 \noun default
 \color inherit
 \lang polish
- przyjmuje wartość większą od 0,5V.
+ przyjmuje wartość większą od 
+\begin_inset Formula $0,5V$
+\end_inset
+
+.
  Poprzez analizę stosunku 
 \begin_inset Formula $L_{x}$
 \end_inset
@@ -2259,7 +2233,7 @@ Na bazie sygnałów
 \begin_inset Formula $L_{m}$
 \end_inset
 
- przyjmowano wartości parametrów 
+ przyjmuje się optymalne wartości parametrów 
 \begin_inset Formula $a/b$
 \end_inset
 
@@ -2469,7 +2443,7 @@ Parametr
 \end_layout
 
 \begin_layout Standard
-Kolejnym krokiem było wyznaczenie sygnału 
+Kolejnym krokiem jest wyznaczenie sygnału 
 \begin_inset Formula $K_{p}$
 \end_inset
 
@@ -2495,7 +2469,7 @@ K_{p}=a/b\cdot R+X\label{eq:signal-kp}
 \end_layout
 
 \begin_layout Standard
-Pomocniczo wyznaczano wartość 
+Pomocniczo wyznacza się wartość 
 \shape italic
 
 \begin_inset Formula $K_{pmax}=max(K_{p})$
@@ -2504,7 +2478,7 @@ Pomocniczo wyznaczano wartość
 
 \shape default
 .
- Jeśli spełniony był warunek 
+ Jeśli spełniony jest warunek 
 \shape italic
 
 \begin_inset Formula $K_{pmax}>3$
@@ -2512,7 +2486,7 @@ Pomocniczo wyznaczano wartość
 
 
 \shape default
-, wartości parametrów ulegały zmianie,
+, wartości parametrów ulegają zmianie na
 \shape italic
  
 \begin_inset Formula $Y=0.8$
@@ -2536,18 +2510,22 @@ Sygnał
 \begin_inset Formula $K_{p}$
 \end_inset
 
- poddawany był normalizacji opisanej równaniem 
+ poddawany jset normalizacji opisanej równaniem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:signal-ku"
 
 \end_inset
 
-, w wyniku której uzyskiwany był sygnał 
+, w wyniku której uzyskuje się sygnał 
 \begin_inset Formula $K_{u}$
 \end_inset
 
- o wartościach nie przekraczających 5V.
+ o wartościach nie przekraczających 
+\begin_inset Formula $5V$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -2562,7 +2540,19 @@ K_{u}=\frac{K_{p}}{K_{pmax}}5V\label{eq:signal-ku}
 \end_layout
 
 \begin_layout Standard
-Sygnał M oraz sygnały K_p i K_u przedstawiono na wykresie 
+Sygnał 
+\begin_inset Formula $M$
+\end_inset
+
+ oraz sygnały 
+\begin_inset Formula $K_{p}$
+\end_inset
+
+ i 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+ przedstawiono na wykresie 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:sygnaly-m-kp-ku"
@@ -2663,7 +2653,7 @@ Sygnał
 \begin_inset Formula $Y$
 \end_inset
 
- stanowiły dane wejściowe właściwej części algorytmu.
+ stanowią dane wejściowe właściwej części algorytmu.
 \end_layout
 
 \begin_layout Section*
@@ -2845,10 +2835,10 @@ reference "fig:sygnaly-ku-piezo"
 \end_inset
 
  i sygnał z czujnika piezoelektrycznego, potwierdzający poprawność wyniku.
- Algorytm mógł zakończyć działanie nie wykrywając poprawnie żadnej osi,
- lub wykrywając tylko jedną oś.
- Taki wynik traktowany był jako błędny i w celu rozwiązania błędu zaimplementowa
-no metodę detekcji brakujących osi.
+ Algorytm może zakończyć działanie nie wykrywając poprawnie żadnej osi lub
+ wykrywając tylko jedną oś.
+ Taki wynik traktowany jest jako błędny i w celu rozwiązania błędu wykorzystano
+ metodę detekcji brakujących osi.
  
 \end_layout
 
@@ -2908,9 +2898,9 @@ Detekcja brakujących osi
 \begin_layout Standard
 Autor przyjął, że wykrycie minimum dwóch osi jest wymagane, by uznać wynik
  pracy algorytmu za poprawny.
- W przypadku wykrycia zera lub jednej osi, parametry algorytmu ulegały zmianie,
- po czym próba detekcji była ponawiana.
- Metoda była powtarzana do czasu uzyskania poprawnego wyniku lub osiągnięcia
+ W przypadku wykrycia zera lub jednej osi, parametry algorytmu ulegają zmianie,
+ po czym próba detekcji jest ponawiana.
+ Metoda jest powtarzana do czasu uzyskania poprawnego wyniku lub osiągnięcia
  wartości parametrów nie pozwalających na dalszą analizę.
  Schemat opisujący algorytm przedstawiono na rysunku 
 \begin_inset CommandInset ref
@@ -2969,7 +2959,7 @@ name "fig:Algorytm-detekcji-brakujących"
 \end_layout
 
 \begin_layout Standard
-Wykorzystanie algorytmu detekcji brakujących osi pozwoliło na zwiększenie
+Wykorzystanie algorytmu detekcji brakujących osi pozwala na zwiększenie
  skuteczności programu w poszukiwaniu osi na podstawie danych zawierających
  większe zakłócenia i mniej dokładne odczyty.
  Przykład działania algorytmu zaprezentowano na wykresie 
@@ -3032,10 +3022,14 @@ name "fig:sygnaly-ku-piezo-brakujace"
 \end_layout
 
 \begin_layout Standard
-Badając przebieg sygnału K_u można zauważyć zwiększone wartości wielkości
- impulsów zakłóceń w stosunku do impulsów sygnalizujących istnienie osi.
- Może to doprowadzić do sytuacji, kiedy wykryta została by nieistniejąca
- oś, jednak nie zaobserwowano takiego przypadku w trakcie testowania algorytmu.
+Badając przebieg sygnału 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+ można zauważyć zwiększone wartości wielkości impulsów zakłóceń w stosunku
+ do impulsów sygnalizujących istnienie osi.
+ Może to doprowadzić do sytuacji, kiedy wykryta byłaby nieistniejąca oś,
+ jednak nie zaobserwowano takiego przypadku w trakcie testowania algorytmu.
 \end_layout
 
 \begin_layout Section*
@@ -3050,21 +3044,21 @@ name "sec:Detekcja-podniesionej-osi"
 \end_layout
 
 \begin_layout Standard
-Ciekawe zagadnienie z punktu widzenia detekcji liczby osi stanowiły pojazdu
- ciężarowe pięcioosiowe, które posiadały możliwość uniesienia jednej z osi.
- W ich przypadku zawodna stawała się metoda detekcji osi przy użyciu czujników
- naciskowych, natomiast czujniki indukcyjne wciąż pozwalały na przeprowadzenie
+Ciekawe zagadnienie z punktu widzenia detekcji liczby osi stanowią pojazdy
+ ciężarowe pięcioosiowe, które mają możliwość uniesienia jednej z osi.
+ W ich przypadku zawodna staje się metoda detekcji osi przy użyciu czujników
+ naciskowych, natomiast czujniki indukcyjne wciąż pozwalają na przeprowadzenie
  próby detekcji.
 \end_layout
 
 \begin_layout Standard
-Zaprojektowano algorytm detekcji osi podniesionej, który uruchamiany był
+Zaprojektowano algorytm detekcji osi podniesionej, który uruchamiany jest
  w przypadku wykrycia pojazdu czteroosiowego.
 \end_layout
 
 \begin_layout Standard
-Przed przystąpieniem do wykonania algorytmu przyjmowano nowe wartości parametrów
-: 
+Przed przystąpieniem do wykonania algorytmu przyjmuje się nowe wartości
+ parametrów: 
 \shape italic
 
 \begin_inset Formula $a/b=0.3$
@@ -3081,7 +3075,7 @@ Przed przystąpieniem do wykonania algorytmu przyjmowano nowe wartości parametr
 
 \shape default
 .
- Następnie wyznaczano nowy sygnał 
+ Następnie wyznaczany jest nowy sygnał 
 \begin_inset Formula $K_{p}$
 \end_inset
 
@@ -3092,8 +3086,8 @@ reference "eq:signal-kp"
 
 \end_inset
 
- oraz wykonywano kolejne kroki algorytmu bazowego do uzyskania znormalizowanego
- sygnału 
+ oraz wykonywane są kolejne kroki algorytmu bazowego do uzyskania znormalizowane
+go sygnału 
 \begin_inset Formula $K_{u}$
 \end_inset
 
@@ -3112,18 +3106,18 @@ Po wyznaczeniu sygnału
 \begin_inset Formula $K_{u}$
 \end_inset
 
-, uruchamiany był algorytm analogiczny do opisanego na schemacie 
+, uruchamiany jest algorytm analogiczny do opisanego na schemacie 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Algorytm-detekcji-brakujących"
 
 \end_inset
 
-, z uwzględnieniem nowego warunku stopu, którym było wykrycie liczby osi
+, z uwzględnieniem nowego warunku stopu, którym jest wykrycie liczby osi
  różnej od czterech.
- W przypadku wykrycia pięciu osi, uznawano wynik za poprawny.
- W przeciwnym razie, za poprawny uznawano wcześniej uzyskany wynik czterech
- osi.
+ W przypadku wykrycia pięciu osi, wynik uznawany jest za poprawny.
+ W przeciwnym razie, za poprawny uznawany jest wcześniej uzyskany wynik
+ czterech osi.
  
 \end_layout
 
@@ -3186,9 +3180,9 @@ name "fig:sygnaly-ku-piezo-podniesiona"
 \end_layout
 
 \begin_layout Standard
-Powyższe operacje stanowiły kompletny algorytm poszukiwania osi pojazdu.
- W kolejnych rozdziałach przedstawiono modyfikacje algorytmu, które zwiększają
- jego funkcjonalność oraz umożliwiają weryfikację wyników.
+Powyższe operacje stanowią kompletny algorytm poszukiwania osi pojazdu.
+ W kolejnym rozdziale przedstawiono modyfikacje, które zwiększają jego funkcjona
+lność oraz umożliwiają weryfikację wyników.
 \end_layout
 
 \begin_layout Standard
