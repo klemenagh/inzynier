@@ -24,4 +24,6 @@ void load_sensor_configuration(const char *);
 
 bool string_starts_with(const char *, const char *);
 
+bool is_between(const double val, const double from, const double to);
+
 #endif //INZYNIER_FUNCTIONS_H

@@ -21,12 +21,9 @@ vehicle_data_t algorithm(data_vector_t *vector, bool verify,
     remove_offset(vector, OFFSET_NUM);
 
     // wyliczenie ilości próbek do obcięcia dla każdej pary czujników
-    double velocity = 0; // prędkość w m/s
-    double distance = 0; // odległość w m
+    double velocity = find_velocity(vector); // prędkość w m/s
 
-    find_velocity_distance(vector, &velocity, &distance);
-
-    if (!isfinite(velocity)) {
+    if (!is_between(velocity, 0, 100)) {
         if (is_verbosity_at_least(DEBUG)) {
             puts("Błędne dane wejściowe, praca algorytmu zostanie przerwana.");
         }
@@ -66,7 +63,7 @@ vehicle_data_t algorithm(data_vector_t *vector, bool verify,
         M[i] = pow(R[i], 2) + pow(X[i], 2);
     }
 
-    Lx = count_compare(X, length, 0.1); //todo matlab=0.1, praca=0.2 ?
+    Lx = count_compare(X, length, 0.1);
     Lm = count_compare(M, length, 0.5);
 
     if (Lm == 0) { // można przyjąć, że stosunek Lx/Lm = 0 i kontynuować pracę
@@ -216,7 +213,7 @@ vehicle_data_t algorithm(data_vector_t *vector, bool verify,
 
             // ostatni etap weryfikacji, licznik impulsów dla sygnału CP
             // licznik - próg = 8, histereza = 0
-            piezo_axles = counter(CP, length, 8, 0, NULL); // todo NULL czy piezo_axle_locations
+            piezo_axles = counter(CP, length, 8, 0, NULL);
 
             if (is_verbosity_at_least(DEBUG)) {
                 printf("  Druga faza testu piezo zakończona.\n  osie = %d\n",
@@ -275,13 +272,10 @@ void remove_offset(data_vector_t *vector, unsigned num) {
     }
 }
 
-void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
+double find_velocity(data_vector_t *vector) {
     /*
      * Funkcja wykorzystuje wartości z czujników P1 i P2 wektora danych,
      * a także wektor czasu.
-     * parametry v i d odpowiadają za wskaźniki do pamięci, gdzie
-     * należy wpisać parametry ruchu
-     *
      * Prędkość wyznaczana jest w jednostce m/s.
     */
 
@@ -291,7 +285,7 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
     p2 = 2;
 
     // odległośc pomiędzy czujnikami
-    double dist = 1;
+    double dist = sensor_configuration.piezo2_position - sensor_configuration.piezo1_position;
 
     // zmienne
     bool is_impulse1 = false;
@@ -327,28 +321,22 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
         }
     }
 
-    double t1 = 0; // czas do wyznaczania prędkości
-    double t2 = 0; // czas do wyznaczania odległości
-
-    t1 = (index2[0] - index1[0] + index2[1] - index1[1]) / 2.0;
-    t2 = (index1[1] - index1[0] + index2[1] - index2[0]) / 2.0;
+    double t1 = (index2[0] - index1[0] + index2[1] - index1[1]) / 2.0; // czas do wyznaczania prędkości
 
     // konwersja na s
     double dt = vector->vector[1].data[DATA_T] - vector->vector[0].data[DATA_T];
     t1 *= dt;
-    t2 *= dt;
 
-    *v = dist / t1;
-    *d = (*v) * t2;
+    double v = dist / t1;
 
     if (is_verbosity_at_least(DEBUG)) {
         printf(" Wyznaczanie prędkości i odległości:\n");
         printf("  Wartości indeksów:\n");
         printf("  Indeks 1: %5d %5d\n", index1[0], index1[1]);
         printf("  Indeks 2: %5d %5d\n", index2[0], index2[1]);
-        printf("  Prędkość:  %8.4f m/s\n", *v);
-        printf("  Odległość: %8.4f m\n", *d);
+        printf("  Prędkość:  %8.4f m/s\n", v);
     }
+    return v;
 }
 
 void trim_data(data_vector_t *vector, double velocity) {

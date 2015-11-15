@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import subprocess
 import os
 import json
@@ -66,7 +68,7 @@ def test(cmd, data_dir, classes):
                 p = os.path.abspath(directory + '/' + f)
                 is_error = False
                 command = 'cat ' + p + ' | ' + cmd
-                proc = subprocess.Popen(['./test_runner.sh', command], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                proc = subprocess.Popen(['sh', 'test_runner.sh', command], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 output = proc.stdout.read()
                 txt = output.decode("utf-8").rstrip().split()
                 if txt[1] == desired_output:

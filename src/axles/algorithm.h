@@ -23,7 +23,7 @@ void remove_offset(data_vector_t *, unsigned);
 /*
  * funkcja służąca do określenia parametrów ruchu pojazdu
  */
-void find_velocity_distance(data_vector_t *, double *, double *);
+double find_velocity(data_vector_t *);
 
 /*
  * funkcja ogarniczająca zakres danych do istotnych

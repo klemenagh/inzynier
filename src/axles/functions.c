@@ -228,3 +228,7 @@ bool string_starts_with(const char *string, const char *pre) {
     size_t lenstr = strlen(string);
     return lenpre <= lenstr && (strncmp(string, pre, lenpre)) == 0;
 }
+
+bool is_between(const double val, const double from, const double to) {
+    return val >= from && val <= to;
+}
