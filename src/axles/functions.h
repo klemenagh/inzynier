@@ -20,4 +20,8 @@ void handle_output(vehicle_data_t, bool, bool, char *);
 
 bool is_verbosity_at_least(verb_level v);
 
+void load_sensor_configuration(const char *);
+
+bool string_starts_with(const char *, const char *);
+
 #endif //INZYNIER_FUNCTIONS_H

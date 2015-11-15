@@ -45,7 +45,7 @@ def h_line(lng=None):
     return '-' * lng
 
 
-def test(executable, data_dir, classes):
+def test(cmd, data_dir, classes):
     results = []
     files_invalid = []
 
@@ -65,11 +65,10 @@ def test(executable, data_dir, classes):
 
                 p = os.path.abspath(directory + '/' + f)
                 is_error = False
-
-                proc = subprocess.Popen([executable, p], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                command = 'cat ' + p + ' | ' + cmd
+                proc = subprocess.Popen(['./test_runner.sh', command], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 output = proc.stdout.read()
                 txt = output.decode("utf-8").rstrip().split()
-
                 if txt[1] == desired_output:
                     valid += 1
                     result = 'ok'
@@ -118,14 +117,18 @@ def main():
         json_config = json.loads(f.read())
 
     data_dir = json_config['root_directory']
-    executable = os.path.abspath(json_config['executable'])
+    cmd = os.path.abspath(json_config['executable'])
+
+    if 'swapper' in json_config.keys():
+        cmd = os.path.abspath(json_config['swapper']) + ' | ' + cmd
+
     Decorate.decorate = json_config['decorate']
 
     classes = []
     for c in json_config['directories']:
         classes.append(c)
 
-    results, files_invalid = test(executable, data_dir, classes)
+    results, files_invalid = test(cmd, data_dir, classes)
     present_results(results, files_invalid)
 
     sys.exit(0 if len(files_invalid) == 0 else 1)

@@ -10,6 +10,17 @@
 #include "functions.h"
 #include "../include/version.h"
 
+#define BUFFER_SIZE 160
+
+#define SENSOR_LONG_LENGTH      "SENSOR_LONG_LENGTH="
+#define SENSOR_SHORT_LENGTH     "SENSOR_SHORT_LENGTH="
+#define SENSOR_LONG_POSITION    "SENSOR_LONG_POSITION="
+#define SENSOR_SHORT_POSITION   "SENSOR_SHORT_POSITION="
+#define PIEZO1_POSITION         "PIEZO1_POSITION="
+#define PIEZO2_POSITION         "PIEZO2_POSITION="
+
+extern struct sensor_configuration sensor_configuration;
+
 char output_filename[80];
 
 void usage(int exit_status) {
@@ -65,14 +76,15 @@ bool read_stream(FILE *s, data_vector_t *vector) {
         clear_data_vector(vector);
     }
 
-    double data[13];
-    char buffer[160];
+    const unsigned data_size = 7;
+    double data[data_size];
+    char buffer[BUFFER_SIZE];
     char *splitted;
     while (fgets(buffer, sizeof(buffer), s)) {
         if (buffer[0] == '\n')
             break; //zakładam, że pusta linia oznacza koniec danych dla jednego pojazdu
         splitted = strtok(buffer, " \t");
-        for (int i = 0; i < 13; i++) {
+        for (unsigned i = 0; i < data_size; i++) {
             if (splitted == NULL) {
                 fputs("Błędny format danych (oczekiwano wartości, napotkano znak końca linii).\n",
                       stderr);
@@ -80,7 +92,7 @@ bool read_stream(FILE *s, data_vector_t *vector) {
             }
             data[i] = strtod(splitted, NULL);
 
-            if (i < 12) splitted = strtok(NULL, " \t");
+            if (i < data_size - 1) splitted = strtok(NULL, " \t");
         }
         if (data[0] == 0 && vector->size > 0) { //dane kolejnego pojazdu
             return true;
@@ -94,7 +106,7 @@ bool read_stream(FILE *s, data_vector_t *vector) {
 
 void handle_output(vehicle_data_t vehicle, bool piezo_verify,
                    bool compute_positions, char *filename) {
-    char str[160] = "";
+    char str[BUFFER_SIZE] = "";
     char tmp[20];
 
     if (filename != NULL) strcat(str, filename);
@@ -142,4 +154,77 @@ void handle_output(vehicle_data_t vehicle, bool piezo_verify,
 
 bool is_verbosity_at_least(verb_level v) {
     return ((int) v <= verbosity_level);
+}
+
+void load_sensor_configuration(const char *filename) {
+    FILE *file = NULL;
+    if (filename != NULL && (file = fopen(filename, "r")) != NULL) {
+        if (is_verbosity_at_least(DEBUG))
+            printf("Wczytywanie konfiguracji z pliku %s.\n", filename);
+
+        char buffer[BUFFER_SIZE];
+
+        while (fgets(buffer, sizeof(buffer), file)) {
+            if (string_starts_with(buffer, SENSOR_LONG_LENGTH)) {
+                sensor_configuration.sensor_long_length
+                        = strtod(buffer + strlen(SENSOR_LONG_LENGTH), NULL);
+            }
+            else if (string_starts_with(buffer, SENSOR_SHORT_LENGTH)) {
+                sensor_configuration.sensor_short_length
+                        = strtod(buffer + strlen(SENSOR_SHORT_LENGTH), NULL);
+            }
+            else if (string_starts_with(buffer, SENSOR_LONG_POSITION)) {
+                sensor_configuration.sensor_long_position
+                        = strtod(buffer + strlen(SENSOR_LONG_POSITION), NULL);
+            }
+            else if (string_starts_with(buffer, SENSOR_SHORT_POSITION)) {
+                sensor_configuration.sensor_short_position
+                        = strtod(buffer + strlen(SENSOR_SHORT_POSITION), NULL);
+            }
+            else if (string_starts_with(buffer, PIEZO1_POSITION)) {
+                sensor_configuration.piezo1_position
+                        = strtod(buffer + strlen(PIEZO1_POSITION), NULL);
+            }
+            else if (string_starts_with(buffer, PIEZO2_POSITION)) {
+                sensor_configuration.piezo2_position
+                        = strtod(buffer + strlen(PIEZO2_POSITION), NULL);
+            } else {
+                if (is_verbosity_at_least(RELEASE))
+                    printf("Nieznana linia w pliku konfiguracyjnym:\n %s", buffer);
+            }
+        }
+    }
+    else {
+        if (is_verbosity_at_least(DEBUG))
+            puts("Wczytywanie domyślnej konfiguracji.");
+
+        sensor_configuration.sensor_long_length = 1;
+        sensor_configuration.sensor_short_length = 0.1;
+        sensor_configuration.sensor_long_position = 1;
+        sensor_configuration.sensor_short_position = 10.4;
+        sensor_configuration.piezo1_position = 16;
+        sensor_configuration.piezo2_position = 17;
+    }
+
+    if (is_verbosity_at_least(DEBUG)) {
+        puts(" Konfiguracja czujników:");
+        printf("  Pozycja długiego czujnika:  %5.2f [m]\n",
+               sensor_configuration.sensor_long_position);
+        printf("  Pozycja krótkiego czujnika: %5.2f [m]\n",
+               sensor_configuration.sensor_short_position);
+        printf("  Pozycja piezo 1:            %5.2f [m]\n",
+               sensor_configuration.piezo1_position);
+        printf("  Pozycja piezo 2:            %5.2f [m]\n",
+               sensor_configuration.piezo2_position);
+        printf("  Długość długiego czujnika:  %5.2f [m]\n",
+               sensor_configuration.sensor_long_length);
+        printf("  Długość krótkiego czujnika: %5.2f [m]\n",
+               sensor_configuration.sensor_short_length);
+    }
+}
+
+bool string_starts_with(const char *string, const char *pre) {
+    size_t lenpre = strlen(pre);
+    size_t lenstr = strlen(string);
+    return lenpre <= lenstr && (strncmp(string, pre, lenpre)) == 0;
 }

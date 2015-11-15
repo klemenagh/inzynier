@@ -15,22 +15,25 @@ typedef enum VERBOSITY_LEVEL {
 
 int verbosity_level;
 
+struct sensor_configuration {
+    double sensor_long_position;
+    double sensor_short_position;
+    double piezo1_position;
+    double piezo2_position;
+
+    double sensor_long_length;
+    double sensor_short_length;
+} sensor_configuration;
+
 /*
  * enumerator wykorzystywany do zwiększenia czytelności
- * przy dostępie do pól data_cell_t_old
  */
 typedef enum data_field {
     DATA_T,
-    DATA_X3,
-    DATA_R3,
-    DATA_X1,
-    DATA_R1,
-    DATA_X05,
-    DATA_R05,
-    DATA_X03,
-    DATA_R03,
-    DATA_X01,
-    DATA_R01,
+    DATA_X_LONG,
+    DATA_R_LONG,
+    DATA_X_SHORT,
+    DATA_R_SHORT,
     DATA_P1,
     DATA_P2
 } data_field_t;
@@ -62,19 +65,15 @@ typedef struct vehicle_data {
      */
 } vehicle_data_t;
 
-
 /*
  * Kolejność danych w polu data to:
  *  1       czas
- *  2,3     pętla 3-metrowa
- *  4,5     pętla 1-metrowa
- *  6,7     pętla 0.5-metrowa
- *  8,9     pętla 0.3-metrowa
- *  10,11   pętla 0.1-metrowa
- *  12,13   dane z piezo 1 i 2
+ *  2,3     pętla 1-metrowa (wykorzystywana do badania długości pojazdu)
+ *  4,5     pętla 0.1-metrowa (wykorzystywana do badania liczby i położenia osi)
+ *  6,7     dane z piezo 1 i 2 (wykorzystywane do weryfikacji i wyznaczania prędkości
  */
 typedef struct data_cell {
-    double data[13]; // dane ładowane ze strumienia
+    double data[7]; // dane ładowane ze strumienia
 } data_cell_t;
 
 typedef struct data_vector {
@@ -85,7 +84,7 @@ typedef struct data_vector {
 
 data_vector_t *init_data_vector();
 
-void pushback_data(data_vector_t *, double data[13]);
+void pushback_data(data_vector_t *, double data[7]);
 
 void resize_vector(data_vector_t *);
 

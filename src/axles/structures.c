@@ -23,11 +23,11 @@ data_vector_t *init_data_vector() {
     return v;
 }
 
-void pushback_data(data_vector_t *v, double data[13]) {
+void pushback_data(data_vector_t *v, double data[7]) {
     if (v == NULL) exit(EFAULT);
 
     if (v->size == v->capacity) resize_vector(v);
-    for (int i = 0; i < 13; i++) v->vector[v->size].data[i] = data[i];
+    for (int i = 0; i < 7; i++) v->vector[v->size].data[i] = data[i];
 
     v->size++;
 }

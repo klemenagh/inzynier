@@ -1,4 +1,4 @@
-include_directories("axles" "watcher" "gui" "man")
+include_directories("axles" "watcher" "gui" "man" "swapper" "config")
 
 add_subdirectory(axles)
 add_subdirectory(watcher)
@@ -6,3 +6,5 @@ if(COMPILE_GUI)
     add_subdirectory(gui)
 endif()
 add_subdirectory(man)
+add_subdirectory(swapper)
+add_subdirectory(config)

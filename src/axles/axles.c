@@ -10,10 +10,14 @@
 
 extern int verbosity_level;
 extern char output_filename[80];
+extern struct sensor_configuration sensor_configuration;
 
 int main(int argc, char **argv) {
+
     verbosity_level = RELEASE;
+
     char **filenames = NULL;
+    char config_filename[80];
     unsigned num_files = 0;
     bool read_from_stdin;
     bool piezo_verify = false;
@@ -30,10 +34,11 @@ int main(int argc, char **argv) {
             {"positions", no_argument,       NULL, 'p'},
             {"help",      no_argument,       NULL, 'h'},
             {"output",    required_argument, NULL, 'o'},
+            {"config",    required_argument, NULL, 'f'},
             {"version",   no_argument,       NULL, 'v'}
     };
     int c;
-    while ((c = getopt_long(argc, argv, "dqacvphs:o:", long_options, NULL)) != -1) {
+    while ((c = getopt_long(argc, argv, "dqacvphs:o:f:", long_options, NULL)) != -1) {
         switch (c) {
             case 'd':
                 verbosity_level = DEBUG;
@@ -75,6 +80,9 @@ int main(int argc, char **argv) {
             case 'o':
                 strcpy(output_filename, optarg);
                 break;
+            case 'f':
+                strcpy(config_filename, optarg);
+                break;
             case 'h':
                 usage(EXIT_SUCCESS);
                 break;
@@ -98,6 +106,8 @@ int main(int argc, char **argv) {
         filenames = &argv[optind];
         num_files = (unsigned) (argc - optind);
     }
+
+    load_sensor_configuration(config_filename);
 
     data_vector_t *data = init_data_vector();
     vehicle_data_t vehicle;
@@ -130,8 +140,7 @@ int main(int argc, char **argv) {
                     printf("Załadowano dane. Ilość próbek: %d\n", data->size);
                 }
                 vehicle = algorithm(data, piezo_verify, compute_positions);
-                handle_output(vehicle, piezo_verify, compute_positions,
-                              filename);
+                handle_output(vehicle, piezo_verify, compute_positions, filename);
             }
         }
     }

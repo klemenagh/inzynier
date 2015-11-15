@@ -10,11 +10,13 @@
 #include "algorithm.h"
 
 extern int verbosity_level;
+extern struct sensor_configuration sensor_configuration;
 
 vehicle_data_t algorithm(data_vector_t *vector, bool verify,
                           bool check_lengths) {
 
     const unsigned OFFSET_NUM = 50;
+    vehicle_data_t vehicle;
 
     remove_offset(vector, OFFSET_NUM);
 
@@ -23,6 +25,14 @@ vehicle_data_t algorithm(data_vector_t *vector, bool verify,
     double distance = 0; // odległość w m
 
     find_velocity_distance(vector, &velocity, &distance);
+
+    if (!isfinite(velocity)) {
+        if (is_verbosity_at_least(DEBUG)) {
+            puts("Błędne dane wejściowe, praca algorytmu zostanie przerwana.");
+        }
+        vehicle.class = INVALID;
+        return vehicle;
+    }
 
     trim_data(vector, velocity);
 
@@ -48,12 +58,11 @@ vehicle_data_t algorithm(data_vector_t *vector, bool verify,
     // nastawy algorytmu
     // w porównaniu do matlaba, a_b = r, Y = S, H = H
     double a_b, Y, H;
-    vehicle_data_t vehicle;
     vehicle.velocity = velocity;
 
     for (unsigned i = 0; i < length; i++) {
-        R[i] = vector->vector[i].data[DATA_R01];
-        X[i] = vector->vector[i].data[DATA_X01];
+        R[i] = vector->vector[i].data[DATA_R_SHORT];
+        X[i] = vector->vector[i].data[DATA_X_SHORT];
         M[i] = pow(R[i], 2) + pow(X[i], 2);
     }
 
@@ -242,27 +251,27 @@ void remove_offset(data_vector_t *vector, unsigned num) {
     }
 
     // deklaracja tablicy zawierającej offsety dla poszczególnych wektorów
-    double offsets[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    double offsets[6] = {0, 0, 0, 0, 0, 0};
 
     for (unsigned i = 0; i < num; i++) {
-        for (unsigned j = 1; j < 13; j++) {
+        for (unsigned j = 1; j < 7; j++) {
             offsets[j - 1] += vector->vector[i].data[j];
         }
     }
 
     // wyznaczenie ostatenczej wartości offsetu dla każdego wektora
-    for (int i = 0; i < 12; i++) offsets[i] /= num;
+    for (int i = 0; i < 6; i++) offsets[i] /= num;
 
     // przesunięcie wszystkich wartości w wektorze o zadany offset
     for (unsigned i = 0; i < vector->size; i++) {
-        for (unsigned j = 1; j < 13; j++) {
+        for (unsigned j = 1; j < 7; j++) {
             vector->vector[i].data[j] -= offsets[j - 1];
         }
     }
 
     if (is_verbosity_at_least(DEBUG)) {
         printf(" Usuwanie offsetu z danych. Wartości offsetu dla poszczególnych parametrów:\n");
-        for (int i = 0; i < 12; i++) printf("  offset = %10.6f\n", offsets[i]);
+        for (int i = 0; i < 6; i++) printf(" [%d] offset = %10.6f\n", i, offsets[i]);
     }
 }
 
@@ -344,7 +353,6 @@ void find_velocity_distance(data_vector_t *vector, double *v, double *d) {
 
 void trim_data(data_vector_t *vector, double velocity) {
 
-    double sensor_distance; // odległość dla każdej pary czujników
     unsigned trim_front;    // ilość próbek do obcięcia z przodu
     unsigned trim_back;     // ilość próbek do obcięcia na końcu
     const double dt = vector->vector[1].data[DATA_T]    // różnica czasów
@@ -353,44 +361,18 @@ void trim_data(data_vector_t *vector, double velocity) {
     // ograniczenie z tylu
     trim_back = (unsigned) (25.0 / velocity / dt);
 
-    // 1m
-    sensor_distance = 1;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
-    trim_values(vector, DATA_R1, trim_front, trim_back);
-    trim_values(vector, DATA_X1, trim_front, trim_back);
+    trim_front = (unsigned) (sensor_configuration.sensor_long_position / velocity / dt);
+    trim_values(vector, DATA_R_LONG, trim_front, trim_back);
+    trim_values(vector, DATA_X_LONG, trim_front, trim_back);
 
-    // 0.5m
-    sensor_distance += 1 + 0.5;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
-    trim_values(vector, DATA_R05, trim_front, trim_back);
-    trim_values(vector, DATA_X05, trim_front, trim_back);
+    trim_front = (unsigned) (sensor_configuration.sensor_short_position / velocity / dt);
+    trim_values(vector, DATA_R_SHORT, trim_front, trim_back);
+    trim_values(vector, DATA_X_SHORT, trim_front, trim_back);
 
-    // 0.3m
-    sensor_distance += 1 + 0.3;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
-    trim_values(vector, DATA_R03, trim_front, trim_back);
-    trim_values(vector, DATA_X03, trim_front, trim_back);
-
-    // 3m
-    sensor_distance += 1 + 1.5 + 0.1;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
-    trim_values(vector, DATA_R3, trim_front, trim_back);
-    trim_values(vector, DATA_X3, trim_front, trim_back);
-
-    // 0.1m
-    sensor_distance += 1.5 + 1 + 1.5;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
-    trim_values(vector, DATA_R01, trim_front, trim_back);
-    trim_values(vector, DATA_X01, trim_front, trim_back);
-
-    // piezo 1
-    sensor_distance += 1 + 1.5 + 1.1 + 1 + 1;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    trim_front = (unsigned) (sensor_configuration.piezo1_position / velocity / dt);
     trim_values(vector, DATA_P1, trim_front, trim_back);
 
-    // piezo 2
-    sensor_distance += 1;
-    trim_front = (unsigned) (sensor_distance / velocity / dt);
+    trim_front = (unsigned) (sensor_configuration.piezo2_position / velocity / dt);
     trim_values(vector, DATA_P2, trim_front, trim_back);
 }
 
@@ -481,8 +463,8 @@ void find_lengths(data_vector_t *v,
     //tworzenie sygnalu m
     double M[length];
     for (unsigned i = 0; i < length; i++) {
-        M[i] = pow(v->vector[i].data[DATA_R1], 2)
-               + pow(v->vector[i].data[DATA_X1], 2);
+        M[i] = pow(v->vector[i].data[DATA_R_LONG], 2)
+               + pow(v->vector[i].data[DATA_X_LONG], 2);
     }
     const unsigned num_axles =
             (vehicle->class == POJAZD_5OS_UP) ? 5 : (unsigned) vehicle->class;
