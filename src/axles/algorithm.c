@@ -13,7 +13,7 @@ extern int verbosity_level;
 extern struct sensor_configuration sensor_configuration;
 
 vehicle_data_t algorithm(data_vector_t *vector, bool verify,
-                          bool check_lengths) {
+                         bool check_lengths) {
 
     const unsigned OFFSET_NUM = 50;
     vehicle_data_t vehicle;
@@ -65,7 +65,6 @@ vehicle_data_t algorithm(data_vector_t *vector, bool verify,
 
     Lx = count_compare(X, length, 0.1);
     Lm = count_compare(M, length, 0.5);
-
     if (Lm == 0) { // można przyjąć, że stosunek Lx/Lm = 0 i kontynuować pracę
         if (is_verbosity_at_least(DEBUG)) {
             puts(" Liczba próbek sygnału Lm = 0.");
@@ -102,6 +101,7 @@ vehicle_data_t algorithm(data_vector_t *vector, bool verify,
     }
 
     num_axles = counter(Ku, length, Y, H, axle_locations);
+
     // procedura szukania drugiej osi
     if (num_axles < 2) {
         if (is_verbosity_at_least(DEBUG)) {
@@ -113,6 +113,22 @@ vehicle_data_t algorithm(data_vector_t *vector, bool verify,
             Y -= 0.1;
             num_axles = counter(Ku, length, Y, H, axle_locations);
         }
+
+        if (num_axles < 2) {
+            if (is_verbosity_at_least(DEBUG)) {
+                printf(" Procedura szukania drugiej osi zawiodła. Znaleziono %d osi.\n", num_axles);
+                vehicle.class = INVALID;
+                return vehicle;
+            }
+        }
+    }
+    if (num_axles > 5) {
+        if (is_verbosity_at_least(DEBUG)) {
+            printf("Wykryto niedopuszczalną liczbę osi (%d), procedura zostanie przerwana.\n",
+                   num_axles);
+        }
+        vehicle.class = INVALID;
+        return vehicle;
     }
     vehicle.class = (vehicle_class) num_axles;
 
@@ -142,10 +158,6 @@ vehicle_data_t algorithm(data_vector_t *vector, bool verify,
                 if (is_verbosity_at_least(DEBUG)) {
                     puts(" Przerwanie procedury szukania piątej osi.");
                 }
-
-                Y = 1.8;
-                num_axles = counter(Ku, length, Y, H, axle_loc_tmp);
-
                 break;
             }
         }
@@ -155,6 +167,9 @@ vehicle_data_t algorithm(data_vector_t *vector, bool verify,
 
             for (unsigned i = 0; i < 5; i++)
                 axle_locations[i] = axle_loc_tmp[i];
+        } else {
+            num_axles = 4;
+            vehicle.class = POJAZD_4OS;
         }
     }
 
@@ -279,10 +294,8 @@ double find_velocity(data_vector_t *vector) {
      * Prędkość wyznaczana jest w jednostce m/s.
     */
 
-    // zdefiniowanie progów histerezy [V]
-    double p1, p2;
-    p1 = 3;
-    p2 = 2;
+    // zdefiniowanie progu [V]
+    double level = 3;
 
     // odległośc pomiędzy czujnikami
     double dist = sensor_configuration.piezo2_position - sensor_configuration.piezo1_position;
@@ -291,37 +304,25 @@ double find_velocity(data_vector_t *vector) {
     bool is_impulse1 = false;
     bool is_impulse2 = false;
 
-    unsigned num_impulse1 = 0;
-    unsigned num_impulse2 = 0;
+    // parametry wykorzystywane do wyliczenia prędkości
+    int index1 = 0;
+    int index2 = 0;
 
-    // parametry wykorzystywane do wyliczenia odległości i prędkości
-    int index1[2] = {0, 0};
-    int index2[2] = {0, 0};
-
-    for (unsigned i = 0; i < vector->size; i++) {
+    for (unsigned i = 0; i < vector->size && (!is_impulse1 || !is_impulse2); i++) {
 
         // piezo 1
-        if (vector->vector[i].data[DATA_P1] >= p1 && is_impulse1 == false) {
+        if (vector->vector[i].data[DATA_P1] >= level && is_impulse1 == false) {
             is_impulse1 = true;
-            num_impulse1 += 1;
-            if (num_impulse1 <= 2) index1[num_impulse1 - 1] = i;
+            index1 = i;
         }
-        else if (vector->vector[i].data[DATA_P1] < p2 && is_impulse1 == true) {
-            is_impulse1 = false;
-        }
-
         // piezo2
-        if (vector->vector[i].data[DATA_P2] >= p1 && is_impulse2 == false) {
+        if (vector->vector[i].data[DATA_P2] >= level && is_impulse2 == false) {
             is_impulse2 = true;
-            num_impulse2 += 1;
-            if (num_impulse2 <= 2) index2[num_impulse2 - 1] = i;
-        }
-        else if (vector->vector[i].data[DATA_P2] < p2 && is_impulse2 == true) {
-            is_impulse2 = false;
+            index2 = i;
         }
     }
 
-    double t1 = (index2[0] - index1[0] + index2[1] - index1[1]) / 2.0; // czas do wyznaczania prędkości
+    double t1 = index2 - index1; // czas do wyznaczania prędkości
 
     // konwersja na s
     double dt = vector->vector[1].data[DATA_T] - vector->vector[0].data[DATA_T];
@@ -332,8 +333,7 @@ double find_velocity(data_vector_t *vector) {
     if (is_verbosity_at_least(DEBUG)) {
         printf(" Wyznaczanie prędkości i odległości:\n");
         printf("  Wartości indeksów:\n");
-        printf("  Indeks 1: %5d %5d\n", index1[0], index1[1]);
-        printf("  Indeks 2: %5d %5d\n", index2[0], index2[1]);
+        printf("   %5d %5d\n", index1, index2);
         printf("  Prędkość:  %8.4f m/s\n", v);
     }
     return v;
@@ -347,7 +347,7 @@ void trim_data(data_vector_t *vector, double velocity) {
                       - vector->vector[0].data[DATA_T]; // między próbkami
 
     // ograniczenie z tylu
-    trim_back = (unsigned) (25.0 / velocity / dt);
+    trim_back = (unsigned) (sensor_configuration.total_length / velocity / dt);
 
     trim_front = (unsigned) (sensor_configuration.sensor_long_position / velocity / dt);
     trim_values(vector, DATA_R_LONG, trim_front, trim_back);
@@ -362,23 +362,26 @@ void trim_data(data_vector_t *vector, double velocity) {
 
     trim_front = (unsigned) (sensor_configuration.piezo2_position / velocity / dt);
     trim_values(vector, DATA_P2, trim_front, trim_back);
+
+    vector->size = get_between(trim_back, 0, vector->size - 1);;
 }
 
 void trim_values(data_vector_t *vector, data_field_t field, unsigned trim_front,
                  unsigned trim_back) {
 
-    trim_front--;
-    trim_back++;
+    trim_front = get_between(trim_front, 0, vector->size - 1);
+    trim_back = get_between(trim_back, 0, vector->size - 1);
 
+    if (is_verbosity_at_least(ALL)) {
+        printf("  Wycinanie do okna o wartościach:\n   %d %d\n", trim_front, trim_back);
+    }
     unsigned i = 0;
-    for (i = 0; i <= trim_back && i < vector->size; i++) {
+    for (i = 0; i <= trim_back && i + trim_front < vector->size; i++) {
         vector->vector[i].data[field] = vector->vector[i + trim_front].data[field];
     }
     for (; i < vector->size; i++) {
         vector->vector[i].data[field] = 0;
     }
-
-    vector->size = trim_back;
 }
 
 unsigned count_compare(double *array, unsigned len, double threshold) {

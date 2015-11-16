@@ -23,6 +23,8 @@ struct sensor_configuration {
 
     double sensor_long_length;
     double sensor_short_length;
+
+    double total_length;
 } sensor_configuration;
 
 /*
