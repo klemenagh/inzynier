@@ -9,15 +9,9 @@
 
 #include "functions.h"
 #include "../include/version.h"
+#include "../include/sensor_configuration.h"
 
 #define BUFFER_SIZE 160
-
-#define SENSOR_LONG_LENGTH      "SENSOR_LONG_LENGTH="
-#define SENSOR_SHORT_LENGTH     "SENSOR_SHORT_LENGTH="
-#define SENSOR_LONG_POSITION    "SENSOR_LONG_POSITION="
-#define SENSOR_SHORT_POSITION   "SENSOR_SHORT_POSITION="
-#define PIEZO1_POSITION         "PIEZO1_POSITION="
-#define PIEZO2_POSITION         "PIEZO2_POSITION="
 
 extern struct sensor_configuration sensor_configuration;
 
@@ -188,6 +182,10 @@ void load_sensor_configuration(const char *filename) {
             else if (string_starts_with(buffer, PIEZO2_POSITION)) {
                 sensor_configuration.piezo2_position
                         = strtod(buffer + strlen(PIEZO2_POSITION), NULL);
+            }
+            else if (string_starts_with(buffer, TOTAL_LENGTH)) {
+                    sensor_configuration.total_length
+                            = strtod(buffer + strlen(TOTAL_LENGTH), NULL);
             } else {
                 if (is_verbosity_at_least(RELEASE))
                     printf("Nieznana linia w pliku konfiguracyjnym:\n %s", buffer);
@@ -204,6 +202,7 @@ void load_sensor_configuration(const char *filename) {
         sensor_configuration.sensor_short_position = 10.4;
         sensor_configuration.piezo1_position = 16;
         sensor_configuration.piezo2_position = 17;
+        sensor_configuration.total_length = 25;
     }
 
     if (is_verbosity_at_least(DEBUG)) {
@@ -231,4 +230,12 @@ bool string_starts_with(const char *string, const char *pre) {
 
 bool is_between(const double val, const double from, const double to) {
     return val >= from && val <= to;
+}
+
+unsigned get_between(const unsigned val, const unsigned from, const unsigned to) {
+    if (val < from)
+        return from;
+    if (val > to)
+        return to;
+    return val;
 }

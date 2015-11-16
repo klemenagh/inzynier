@@ -26,4 +26,6 @@ bool string_starts_with(const char *, const char *);
 
 bool is_between(const double val, const double from, const double to);
 
+unsigned get_between(const unsigned val, const unsigned from, const unsigned to);
+
 #endif //INZYNIER_FUNCTIONS_H
