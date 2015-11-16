@@ -3203,7 +3203,7 @@ cleardoublepage{}
 
 \begin_layout Chapter
 Detekcja długości i położenia osi w bryle pojazdu.
- Weryfikacja poprawności działania algorytmu.
+ Weryfikacja poprawności działania algorytmu
 \begin_inset CommandInset label
 LatexCommand label
 name "chap:Detekcja-długości-pojazdu"
@@ -3213,43 +3213,31 @@ name "chap:Detekcja-długości-pojazdu"
 
 \end_layout
 
-\begin_layout Section*
+\begin_layout Section
 Weryfikacja poprawności działania algorytmu przy użyciu sygnałów z czujników
  piezoelektrycznych
 \end_layout
 
 \begin_layout Standard
-Stanowisko pomiarowe dysponuje dwoma czujnikami piezoelektrycznymi, które
+Stanowisko pomiarowe wyposażone jest w dwa czujniki piezoelektryczne, które
  wykorzystywane są do określania prędkości pojazdu.
- Odczyty te mogą również posłużyć do określenia ilości osi przejeżdżającego
+ Czujniki te mogą również posłużyć do określenia liczby osi przejeżdżającego
  pojazdu.
- Cecha ta została wykorzystana w programie w celu weryfikacji działania
- algorytmu.
+ Zostało to wykorzystane w programie w celu weryfikacji działania algorytmu.
 \end_layout
 
 \begin_layout Standard
-O ile wykorzystanie danych z czujników piezoelektrycznych do określenia
- liczby osi jest znacznie łatwiejsze niż implementacja algorytmu przy użyciu
- pomiarów z czujników indukcyjnych, to z wykorzystaniem tego typu czujników
- wiążą się ograniczenia.
- Przede wszystkim, niemożliwe jest wykrycie podniesionej osi.
- Odczyt ogranicza się do możliwości wykrycia nacisku osi, a przez to ich
- liczby oraz prędkości pojazdu.
- Czujniki te są również bardziej narażone na obciążenia mechaniczne.
-\end_layout
-
-\begin_layout Standard
-W celu weryfikacji posłużono się sygnałem z jednego czujnika - zakładając,
- że czujniki działają poprawnie, sygnał z obu powinien mieć przebieg różniący
- się wyłącznie fazą.
- Sygnał przetwarzany był przez funkcję zaprezentowaną na listingu 
+Posłużono się sygnałem z jednego czujnika - zakładając, że oba czujniki
+ działają poprawnie, ich odczyty powinny mieć przebieg różniący się wyłącznie
+ czasem wystąpienia impulsów.
+ Sygnał przetwarzany jest przez funkcję zaprezentowaną na listingu 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lis:hist-counter"
 
 \end_inset
 
-, przy nastawach 
+ z wartościami parametrów równymi 
 \shape italic
 
 \begin_inset Formula $Y=2$
@@ -3266,28 +3254,39 @@ reference "lis:hist-counter"
 
 \shape default
 .
- Sygnał z czujników piezoelektrycznych powinien być zbliżony do sygnału
- binarnego 0-5 i pozbawiony drgać, wybór poziomu odniesienia w okolicy środka
- tego przedziału zapewnia więc dokładność odczytu.
+ Sygnał z czujników piezoelektrycznych jest zbliżony do sygnału cyfrowego
+ osiągającego wyłącznie wartości 
+\begin_inset Formula $0V$
+\end_inset
+
+ (brak nacisku na czujnik) oraz 
+\begin_inset Formula $5V$
+\end_inset
+
+ (po pojawieniu się nacisku).
+ Wykorzystanie licznika impulsów z histerezą pozwala uzyskać wynik poprawny
+ w większości przypadków.
+ Wynikiem działania funkcji zliczającej jest liczba osi zarejestrowana w
+ pomiarach przejazdu przez czujnik piezoelektryczny.
 \end_layout
 
 \begin_layout Standard
 Wyznaczenie liczby osi stanowi koniec pierwszej fazy testu.
  W przypadku, gdy nie jest ona równa liczbie wyznaczonej przez algorytm
  detekcji osi, program kończy działanie.
- W przeciwnym razie wyznaczany jest nowy sygnał, 
+ W przeciwnym razie wyznaczany jest sygnał 
 \begin_inset Formula $CP$
 \end_inset
 
-, który stanowi złożenie sygnału z piezo 
+ będący funkcją sygnału z czujnika piezoelektrycznego 
 \begin_inset Formula $P_{1}$
 \end_inset
 
- oraz sygnału 
+ oraz uzyskanego wcześniej sygnału 
 \begin_inset Formula $K_{u}$
 \end_inset
 
- przetworzonego przez filtr dwupołożeniowy.
+.
  Sposób obliczania wartości sygnału CP pokazano na listingu 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3404,8 +3403,11 @@ reference "lis:hist-counter"
 
 \shape default
 .
- Wyjście funkcji stanowi liczbę osi wykrytych przez algorytm weryfikacji
- wyników.
+ Uzyskana wartość stanowi liczbę osi wyznaczoną przez algorytm detekcji
+ poprawności wyniku.
+ Informacja podsumowująca pracę algorytmu przekazywana jest użytkownikowi
+ programu, umożliwiając porównanie z wartością uzyskaną w trakcie działania
+ algorytmu detekcji osi.
 \end_layout
 
 \begin_layout Section*
@@ -3416,23 +3418,20 @@ Algorytm detekcji przybliżonej długości i położenia osi w bryle pojazdu
 Informacja na temat liczby osi pojazdu nie pozwala określić dokładnie klasy
  pojazdu.
  Dwie osie posiadają zarówno małe auta osobowe, jak i pojazdy ciężarowe.
- Z tego powodu, dane na temat osi można uzupełnić o długość pojazdu oraz
+ Z tego powodu dane na temat osi można uzupełnić o długość pojazdu oraz
  o rozstaw poszczególnych osi.
- Taki zbiór danych umożliwia dokładniejsze określenie typu pojazdu, którego
- dotyczy próbka pomiarów.
+ Taki zbiór danych umożliwia dokładniejsze określenie typu pojazdu, dla
+ którego badane są dane pomiarowe.
 \end_layout
 
 \begin_layout Standard
-W celu wyznaczenia przybliżonej długości pojazdu, zaimplementowano algorytm
- na bazie odczytów z czujników indukcyjnych.
+W celu wyznaczenia przybliżonej długości pojazdu, zaimplementowano algorytm,
+ który na bazie profili z czujników indukcyjnych określa przybliżoną długość
+ pojazdu oraz położenie osi w bryle pojazdu.
 \end_layout
 
 \begin_layout Standard
-Wyznaczono sygnał 
-\shape italic
-M
-\shape default
- opisany zależnością 
+Pierwszym etapem jest wyznaczenie sygnału M opisanego zależnością 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:signal-m"
@@ -3440,6 +3439,15 @@ reference "eq:signal-m"
 \end_inset
 
 .
+ Wykorzystuje się w tym celu profile 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+ i 
+\begin_inset Formula $X_{1}$
+\end_inset
+
+ opisujące zachowanie pętli indukcyjnej o długości jednego metra.
 \end_layout
 
 \begin_layout Standard
@@ -3454,20 +3462,8 @@ M(R_{1},X_{1})=R_{1}^{2}+X_{1}^{2}\label{eq:signal-m}
 \end_layout
 
 \begin_layout Standard
-Gdzie 
-\begin_inset Formula $R_{1}$
-\end_inset
-
- i 
-\begin_inset Formula $X_{1}$
-\end_inset
-
- stanowiły wartości sygnałów dla pętli indukcyjnej o długości jednego metra.
-\end_layout
-
-\begin_layout Standard
-W większości przypadków sygnał taki stanowi dobrą bazę do badania położenia
- pojazdu względem czujnika.
+W większości przypadków sygnał taki umożliwia badanie położenia pojazdu
+ względem czujnika.
  Przebieg sygnału w czasie przedstawiono na wykresie 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3496,7 +3492,11 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Przebieg badanego sygnału M dla pojazdu ciężarowego trzyosiowego.
+Sygnał 
+\begin_inset Formula $M$
+\end_inset
+
+ pojazdu ciężarowego trzyosiowego.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:m-signal"
@@ -3517,10 +3517,18 @@ name "fig:m-signal"
 \end_layout
 
 \begin_layout Standard
-Wykorzystując pokazaną na wykresie własność, zaprojektowano metodę określania
- przybliżonej długości pojazdu.
- W tym celu na podstawie wartości sygnału M wybierano ciągły przedział,
- w którym przyjmuje on wartości większe od progu odcięcia 
+Zbadano krzywe sygnału 
+\begin_inset Formula $M$
+\end_inset
+
+ dla różnych pojazdów, co pozwoliło opracować metodę wyznaczania przybliżonej
+ długości pojazdu.
+ Na podstawie wartości sygnału 
+\begin_inset Formula $M$
+\end_inset
+
+ wybierany jest ciągły przedział, w którym sygnał przyjmuje wartości większe
+ od progu odcięcia 
 \begin_inset Formula $K_{l}$
 \end_inset
 
@@ -3530,7 +3538,7 @@ Wykorzystując pokazaną na wykresie własność, zaprojektowano metodę określ
 \end_inset
 
 .
- Wyznaczony przedział opisany był jako para indeksów określających elementy
+ Wyznaczony przedział jest opisany parą indeksów określających elementy
  brzegowe 
 \begin_inset Formula $[index_{start};index_{end}]$
 \end_inset
@@ -3539,7 +3547,7 @@ Wykorzystując pokazaną na wykresie własność, zaprojektowano metodę określ
 \end_layout
 
 \begin_layout Standard
-Wyznaczano następnie długość okna zgodnie z równaniem 
+Następnie wyznaczana jest długość okna zgodnie z równaniem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:roznica-indeksow"
@@ -3561,7 +3569,7 @@ l=index_{end}-index_{start}\label{eq:roznica-indeksow}
 \end_layout
 
 \begin_layout Standard
-A następnie, na podstawie znajomości różnicy czasu pomiędzy dwoma próbkami
+Na podstawie znajomości przyrostu czasu pomiędzy dwoma kolejnymi pomiarami
  
 \shape italic
 
@@ -3574,19 +3582,31 @@ A następnie, na podstawie znajomości różnicy czasu pomiędzy dwoma próbkami
 \begin_inset Formula $v$
 \end_inset
 
-, której wartość wyznaczono w trakcie przetwarzania wstępnego algorytmu
- detekcji osi, można było uzyskać długość pojazdu 
+, można uzyskać długość pojazdu 
 \shape italic
-d 
+
+\begin_inset Formula $d$
+\end_inset
+
+ 
 \shape default
-w metrach, zgodnie z równania 
+w metrach, zgodnie z równaniem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:dlugosc-pojazdu"
 
 \end_inset
 
+.
+ Prędkość pojazdu wyznaczana jest w trakcie przetwarzania wstępnego algorytmu
+ detekcji osi, co pokazano na schemacie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:alg-flowchart"
 
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -3601,14 +3621,14 @@ d=l\cdot v\cdot dt\label{eq:dlugosc-pojazdu}
 \end_layout
 
 \begin_layout Standard
-Wartość ta była wyłącznie przybliżeniem rzeczywistej długości pojazdu, wystarcza
-jącą do wstępnej selekcji pojazdów.
+Wartość ta stanowi przybliżenie rzeczywistej długości pojazdu.
+ Umożliwia to przeprowadzenie wstępnej klasyfikacji pojazdów.
 \end_layout
 
 \begin_layout Standard
 Położenia poszczególnych osi wyznaczane są we wcześniejszej części algorytmu,
- w trakcie wyznaczania liczby osi pojazdu.
- Przyjęto , że środek osi znajdował się w punkcie, gdzie wartość sygnału
+ w trakcie pracy algorytmu detekcji liczby osi pojazdu.
+ Przyjęto , że środek osi znajduje się w punkcie, gdzie wartość sygnału
  
 \shape italic
 
@@ -3624,7 +3644,7 @@ reference "eq:signal-kp"
 
 \end_inset
 
-] osiągała lokalne maksimum.
+] osiąga lokalne maksimum.
  Znając indeks położenia osi 
 \shape italic
 
@@ -3641,7 +3661,8 @@ reference "eq:signal-kp"
 \begin_inset Formula $dt$
 \end_inset
 
-, wyznaczono odległość osi od początku pojazdu, zgodnie z zależnością 
+, wyznaczana jest odległość osi od początku pojazdu, zgodnie z zależnością
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:polozenie-osi"
@@ -3663,7 +3684,7 @@ P_{i}=p_{i}\cdot v\cdot dt\label{eq:polozenie-osi}
 \end_layout
 
 \begin_layout Standard
-Wynik był następnie weryfikowany - suma długości opisujących segmenty pojazdu,
+Wynik jest następnie weryfikowany - suma długości opisujących segmenty pojazdu,
  zgodnie z rysunkiem 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3671,7 +3692,8 @@ reference "fig:schemat-dlugosci"
 
 \end_inset
 
-, nie mogła różnić się od wyznaczonej długości o więcej niż próg błędu 
+, nie powinna różnić się od wyznaczonej długości o więcej niż próg błędu
+ 
 \begin_inset Formula $e$
 \end_inset
 
@@ -3715,8 +3737,12 @@ reference "fig:m-signal-piezo"
 \end_inset
 
 .
- Sygnał detekcji nadwozia (z ang.
- body) pozwalał na estymację rzeczywistej długości pojazdu.
+ Sygnał detekcji nadwozia (ang.
+ 
+\shape italic
+body
+\shape default
+) pozwala na estymację rzeczywistej długości pojazdu.
  Pomocniczo zaprezentowano również sygnał detekcji osi, ułatwiający wyobrażenie
  rzeczywistej budowy pojazdu.
 \end_layout
@@ -3760,35 +3786,58 @@ name "fig:m-signal-piezo"
 \end_layout
 
 \begin_layout Standard
-Badając wykres można zaobserwować brak zależności pomiędzy wartościami sygnału
+Na wykresie zaobserwować można brak zależności pomiędzy wartościami sygnału
  
 \begin_inset Formula $M$
 \end_inset
 
- a położeniami kolejnych osi, co uzasadnia konieczność użycia pomiarów przy
- użyciu pętli indukcyjnej o różnych parametrach dla tych dwóch zagadnień.
+ a położeniami kolejnych osi, co uzasadnia konieczność użycia profili pochodzący
+ch z pętli indukcyjnej o różnych parametrach do badania tych dwóch zagadnień.
 \end_layout
 
 \begin_layout Standard
-Na żądanie użytkownika możliwa była również weryfikacja poprawności wyznaczonych
+Na żądanie użytkownika możliwa jest również weryfikacja poprawności wyznaczonych
  wartości położeń osi na podstawie odczytów z czujników piezoelektrycznych.
- Wymagało to wybrania właściwej instrukcji przy starcie programu.
+ Wymaga to wybrania właściwej instrukcji przy starcie programu, co zostało
+ opisane w rozdziale 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:flags"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-Ze względu na uproszczenia przyjęte w algorytmie wyznaczającym odległości
- na bazie odczytów z czujników indukcyjnych, wartości uzyskane z piezo gwarantow
-ały zazwyczaj większą dokładność.
- Uznano jednak to zjawisko za dopuszczalne, ponieważ informacja na temat
- długości pojazdu miała pełnić jedynie pomocniczą rolę - z dużym prawdopodobieńs
-twem można określić typ pojazdu, znając dokładną ilość osi oraz ich położenia
- i długość pojazdu z dokładnością do kilkunastu centymetrów, bez konieczności
- określania długości wewnątrz pojazdu z dokładnością do milimetrów.
- Ponadto, przewagą czujników indukcyjnych była z pewnością możliwość wykrycia
+Algorytm detekcji położenia osi w bryle pojazdu oferuje dokładność podobną
+ do algorytmów wykorzystujących w tym celu czujniki nacisku.
+ Wyniki nie różnią się zwykle o więcej niż kilka centymetrów.
+ Korzystając z czujników indukcyjnych unika się również zjawiska drgań,
+ które może wystąpić w przypadku czujników piezoelektrycznych i powodować
+ błędne wyniki.
+ Ponadto, przewagą czujników indukcyjnych jest z pewnością możliwość wykrycia
  położenia osi podniesionej, co opisano w sekcji 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Detekcja-podniesionej-osi"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Znajomość liczby osi i ich położenia oraz długości pojazdu z dokładnością
+ do kilkudziesięciu centymetrów pozwala na jego klasyfikację, na przykład
+ korzystając ze standardu opracowanego przez organizację 
+\shape italic
+FHWA
+\shape default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fhwaclasses"
 
 \end_inset
 
