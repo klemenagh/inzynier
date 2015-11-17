@@ -3213,6 +3213,30 @@ name "chap:Detekcja-długości-pojazdu"
 
 \end_layout
 
+\begin_layout Standard
+Algorytm, którego implementacja opisana została w poprzednim rozdziale został
+ rozbudowany o dwie nowe funkcje.
+ Umożliwiono weryfikację wyników pracy algorytmu przez porównanie z wynikami
+ uzyskiwanymi na podstawie pomiarów pochodzących z czujników piezoelektrycznych.
+ Druga z zaprojektowanych procedur pozwala wyznaczyć położenie osi w bryle
+ pojazdu oraz oszacować długość pojazdu.
+ Znajomość tych parametrów pojazdu pozwala na jego klasyfikację, na przykład
+ korzystając ze standardu opracowanego przez organizację 
+\shape italic
+FHWA
+\shape default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "fhwaclasses"
+
+\end_inset
+
+.
+ Dzięki temu możliwe jest zaprojektowanie systemów odpowiedzialnych za automatyc
+zny pobór opłat za przejazd lub zbieranie informacji o użytkownikach drogi.
+\end_layout
+
 \begin_layout Section
 Weryfikacja poprawności działania algorytmu przy użyciu sygnałów z czujników
  piezoelektrycznych
@@ -3828,23 +3852,6 @@ reference "sec:Detekcja-podniesionej-osi"
 \end_layout
 
 \begin_layout Standard
-Znajomość liczby osi i ich położenia oraz długości pojazdu z dokładnością
- do kilkudziesięciu centymetrów pozwala na jego klasyfikację, na przykład
- korzystając ze standardu opracowanego przez organizację 
-\shape italic
-FHWA
-\shape default
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "fhwaclasses"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status open
 
@@ -3874,17 +3881,18 @@ name "chap:alg-analysis"
 \begin_layout Standard
 Wyniki pracy algorytmu detekcji liczby osi oraz ich położenia i długości
  pojazdu silnie uzależniony jest od jakości danych wejściowych.
- Wystąpienie zakłóceń wpływa zwłaszcza na wynik estymowania długości pojazdu.
- Ponadto, kształt uzyskiwanych charakterystyk sygnałów czujnika pętlowego
- uzależniony jest od kategorii pojazdu - inne wartości przyjmuje dla pojazdów
- osobowych, inne dla autobusów czy ciężarówek.
+ Wystąpienie zakłóceń wpływa zwłaszcza na wynik szacowania długości pojazdu.
+ Ponadto, kształt uzyskiwanych profili czujnika pętlowego uzależniony jest
+ od kategorii pojazdu - inne wartości uzyskiwane są dla pojazdów osobowych,
+ inne dla autobusów czy ciężarówek.
 \end_layout
 
 \begin_layout Standard
-Zdecydowano się na analizę wyników pracy algorytmu dla pojazdów różnych
- kategorii - pojazdów osobowych, dostawczych oraz ciężarowych dwuosiowych
- i pięcioosiowych, co powinno pozwolić na zbadanie wpływu wymienionych czynników
- na skuteczność programu.
+Zdecydowano się na przeprowadzenie analizy wyników algorytmu uzyskiwanych
+ dla pojazdów różnych kategorii - pojazdów osobowych, dostawczych oraz ciężarowy
+ch dwuosiowych i pięcioosiowych.
+ Powinno to pozwolić na zbadanie wpływu wymienionych czynników na skuteczność
+ programu.
 \end_layout
 
 \begin_layout Standard
@@ -3920,7 +3928,7 @@ status open
 
 \begin_layout Plain Layout
 Wynik działania algorytmu dla pojazdu osobowego.
- Wykryto dwie osie, estymowana długość pojazdu wynosiła 
+ Wykryto dwie osie, estymowana długość pojazdu wyniosła 
 \begin_inset Formula $d=4.37m$
 \end_inset
 
@@ -3971,23 +3979,34 @@ name "fig:analiza-osobowy"
 \end_layout
 
 \begin_layout Standard
-Wykres u góry przedstawia wartości sygnałów R i X uzyskanych z czujnika
- indukcyjnego o długości 10cm oraz sygnału piezoelektrycznego, zsynchronizowane
- w czasie i ograniczone do okna.
+Wykres u góry przedstawia wartości profili 
+\begin_inset Formula $R$
+\end_inset
+
+ i 
+\begin_inset Formula $X$
+\end_inset
+
+ uzyskanych z czujnika indukcyjnego o długości 
+\begin_inset Formula $10cm$
+\end_inset
+
+ oraz sygnału piezoelektrycznego, zsynchronizowane w czasie i ograniczone
+ do okna przejazdu.
  Kolejny wykres zawiera dane opisujące sygnały wykorzystane w trakcie działania
  algorytmu.
  Sygnał 
 \begin_inset Formula $K_{u}$
 \end_inset
 
-, opisany zależnością 
+, dany zależnością 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:signal-ku"
 
 \end_inset
 
-, wykorzystywany był do detekcji osi, natomiast sygnał 
+, wykorzystywany jest do detekcji osi, natomiast sygnał 
 \begin_inset Formula $M$
 \end_inset
 
@@ -3998,14 +4017,14 @@ reference "eq:signal-m"
 
 \end_inset
 
-, pozwalał wyznaczyć przybliżoną długość pojazdu.
+, pozwala wyznaczyć przybliżoną długość pojazdu.
  Sygnał 
 \begin_inset Formula $M$
 \end_inset
 
  został poddany przekształceniu (pierwiastek czwartego stopnia) w celu zwiększen
 ia przejrzystości wykresów.
- Ponadto, dołączono sygnały pokazujące przedziały, w których algorytm wykrył
+ Dołączono również sygnały pokazujące przedziały, w których algorytm wykrył
  osie oraz nadwozie pojazdu.
 \end_layout
 
@@ -4092,20 +4111,21 @@ reference "fig:analiza-dostawczy"
  prezentują typowe charakterystyki sygnałów czujnika indykcyjnego dla pojazdów
  osobowych oraz dostawczych.
  Wyznaczenie położenia osi poprzez bezpośrednią analizę tych sygnałów jest
- utrudnione, natomiast dzięki procedurze wykonywanej przez algorytm, w wyniku
- której powstaje sygnał 
+ utrudnione.
+ Dzięki procedurze wykonywanej przez algorytm, w wyniku której powstaje
+ sygnał 
 \begin_inset Formula $K_{u}$
 \end_inset
 
 , detekcja osi staje się zagadnieniem stosunkowo łatwym, polegającym na
- wykryciu silnych impulsów.
+ wykryciu i zliczeniu impulsów sygnału.
 \end_layout
 
 \begin_layout Standard
 W obu zaprezentowanych powyżej przypadkach algorytm detekcji osi zwrócił
  poprawny wynik, co potwierdziła analiza sygnałów z czujników piezoelektrycznych.
- Wyznaczona przez algorytm położenia osi odległość pomiędzy osiami również
- była poprawna, zachowując dokładność około dwudziestu centymetrów.
+ Wyznaczona odległość pomiędzy osiami również była poprawna, zachowując
+ dokładność około dwudziestu centymetrów.
  Utrudniona natomiast okazała się poprawna detekcja długości pojazdu.
  W trakcie projektowania i testowania algorytmu nie udało się uzyskać wartości
  parametrów gwarantujących dokładność większą niż kilkadziesiąt centymetrów.
@@ -4175,29 +4195,34 @@ name "fig:analiza-ciezarowy-3"
 \begin_layout Standard
 Wykres prezentuje typowe charakterystyki sygnałów dla pojazdów ciężarowych
  trzyosiowych.
- Widoczne stały się się impulsy sygnału 
+ Widoczne są impulsy sygnału 
 \begin_inset Formula $X_{0.1m}$
 \end_inset
 
-, na podstawie których możliwa stałaby się detekcja osi bez wykorzystania
- algorytmu.
+, czego nie dało się zaobserwować w przypadku pojazdów osobowych i dostawczych.
  Procedura wyznaczania sygnału 
 \begin_inset Formula $K_{u}$
 \end_inset
 
- pozwoliła jednak na uzyskanie jeszcze dokładniejszego wyniku.
- Stało się to istotne zwłaszcza w trakcie działania algorytmu detekcji położenia
- osi, gwarantując dokładność detekcji rzędu kilku centymetrów względem detekcji
- przy użyciu czujników piezoelektrycznych.
- Typowym problemem stała się poprawna detekcja długości pojazdu, zwłaszcza
- wykrycie odległości pomiędzy ostatnią osią a końcem pojazdu.
+ pozwala na uzyskanie poprawnej liczby osi dla sygnałów o zaprezentowanym
+ przebiegu.
+ Jest to istotne zwłaszcza w trakcie działania algorytmu detekcji położenia
+ osi, gwarantując dokładność detekcji rzędu kilku centymetrów względem wyników
+ uzyskiwanych przez analizę pomiarów z czujników piezoelektrycznych.
+ Problemem okazała się poprawna detekcja długości pojazdu, zwłaszcza oszacowanie
+ odległości pomiędzy ostatnią osią a końcem pojazdu.
  Uzasadniono to budową pojazdów ciężarowych i większą odległością podwozia
  od jezdni.
- Powodowało to szybszy zanik indukowanych prądów w trakcie przejazdu pojazdu,
- a w konsekwencji uniemożliwiło detekcję długości pojazdu z dokładnością
- większą niż metr.
- Problem ten wystąpił dla około 30 procent danych.
- Analogiczne wyniki uzyskano dla pojazdów ciężarowych dwu i czteroosiowych.
+ 
+\end_layout
+
+\begin_layout Standard
+Ogranicza to dokładność czujników indukcyjnych, a w konsekwencji uniemożliwia
+ detekcję długości pojazdu z dokładnością większą niż metr.
+ Powoduje to uzyskanie fałszywego wyniku, sugerującego znacznie mniejszą
+ od rzeczywistej odległość ostatniej osi od końa pojazdu.
+ Problem ten wystąpił dla około 30 procent przeanalizowanych danych.
+ Analogiczne wyniki uzyskano dla pojazdów ciężarowych dwu- i czteroosiowych.
 \end_layout
 
 \begin_layout Standard
@@ -4323,19 +4348,20 @@ name "fig:analiza-ciezarowy-5up"
 \end_layout
 
 \begin_layout Standard
-Wykresy prezentują typowe charakterystyki sygnałów dla pojazdów pięcioosiowych
- w dwóch konfiguracjach.
- Ponownie pojawieniu się osi towarzyszy impuls sygnału 
+Wykresy prezentują typowe charakterystyki profili uzyskane dla pojazdów
+ pięcioosiowych w dwóch konfiguracjach.
+ Pojawieniu się osi w sąsiedztwie czujnika ponownie towarzyszy impuls sygnału
+ 
 \begin_inset Formula $X$
 \end_inset
 
-, nie jest on jednak widoczny dla podniesionej osi, co uniemożliwia detekcję
- poprzez bezpośrednią analizę tego sygnału.
- Sukcesem zakończyła się procedura detekcji osi podniesionej, pomimo znacznie
- mniejszej wartości impulsu w tym przypadku.
- Algorytm detekcji położenia osi zagwarantował dokładność rzędu kilku centymetró
-w.
- Ponownie zaobserwowano problem z poprawną detekcją odległości ostatniej
+.
+ Impuls wywołany przejazdem osi uniesionej jest jednak znacznie mniejszy,
+ co utrudnia detekcję poprzez bezpośrednią analizę tego sygnału.
+ Zastosowanie znajduje w tej sytuacji procedura detekcji osi uniesionej,
+ pozwalająca z wysokim prawdopodobieństwem na wykrycie opisanego zjawiska.
+ Algorytm detekcji położenia osi gwarantuje dokładność rzędu kilku centymetrów.
+ Ponownie zaobserwowano problem nieprecyzyjnej detekcji odległości ostatniej
  osi od końca pojazdu, występujący dla około 30-40% pomiarów.
 \end_layout
 
@@ -4345,7 +4371,7 @@ Podsumowanie
 
 \begin_layout Standard
 Interesująca jest możliwość próby detekcji liczby i położenia osi pojazdu
- wyłącznie na podstawie wartości sygnału 
+ wyłącznie na podstawie wartości profilu 
 \begin_inset Formula $X$
 \end_inset
 
@@ -4356,46 +4382,57 @@ Interesująca jest możliwość próby detekcji liczby i położenia osi pojazdu
  to kilkoma argumentami.
  Korzystając z tej metody, utrudniona staje się detekcja położenia osi samochodó
 w osobowych.
- Detekcja osi podniesionej również uznana została za niemożliwą.
- Ponadto, wykorzystanie zaimplementowanego algorytmu gwarantowało większą
- dokładność wyniku, co przekładało się na uzyskane wartości opisujące wzajemne
+ Detekcja osi podniesionej również uznana została za znacznie utrudnioną.
+ Konieczne byłoby zaprojektowanie niezależnych procedur detekcji osi pojazdów
+ różnych kategorii, co wymusiłoby wstępną analizę sygnału i wydłużyło czas
+ pracy algorytmu.
+ Ponadto, wykorzystanie algorytmu badającego dwa profile gwarantuje większą
+ dokładność wyniku, co przekłada się na uzyskane wartości opisujące wzajemne
  położenie osi.
 \end_layout
 
 \begin_layout Standard
-O ile wartości opisujące położenie osi uzyskiwane były z dokładnością kilku
- centymetrów, to detekcja długości pojazdu wymagała uwzględnienia większej
- wartości błędu.
- Było to widoczne w niewielkim stopniu dla pojazdów osobowych i dostawczych,
+O ile wartości opisujące położenie osi uzyskiwane są z dokładnością kilku
+ centymetrów, to detekcja długości pojazdu wymaga uwzględnienia większej
+ wartości możliwego odchylenia od wartości długości rzeczywistej.
+ Jest to widoczne w niewielkim stopniu dla pojazdów osobowych i dostawczych,
  gdzie dokładność wyniosła kilkadziesiąt centymetrów, a znacznie bardziej
- dla pojazdów ciężarowych, gwarantując dokładność około metra.
+ dla pojazdów ciężarowych, gwarantując dokładność około jednego metra.
  Sytuacja ta może wynikać z ze specyfiki budowy samochodów ciężarowych,
  cechującej się dużą odległością podwodzia od jezdni i jego strukturą budowy.
- Niewykluczony był również wpływ przewożonego ładunku lub jego braku na
+ Niewykluczony jest również wpływ przewożonego ładunku lub jego braku na
  uzyskiwane wyniki.
-\end_layout
-
-\begin_layout Subsubsection*
-Wpływ zakłóceń
 \end_layout
 
 \begin_layout Standard
 Algorytm jest odporny na zakłócenia o stałej wartości - są one filtrowane
- na etapie przetwarzania wstępnego poprzez synchronizację sygnału względem
- zera poprzez wyznaczenie średniej wartości na podstawie pierwszych kilkudziesię
-ciu pomiarów i usunięcie wyznaczonego offsetu.
+ na etapie przetwarzania wstępnego.
+ Wyznaczana jest średnia wartość sygnału dla kilkudziesięciu pierwszych
+ pomiarów i odjęcie wyznaczonego offsetu od wszystkich wartości uzyskiwanych
+ przez sygnał.
 \end_layout
 
 \begin_layout Standard
-Nie zaobserwowano również wpływu naturalnie występujących błędów pomiaru
- na wynik działania algorytmu detekcji liczby i położenia osi.
- Zbadano wpływ wprowadzenia zewnętrznego zakłócenia o rozkładzie Gaussa,
- wartości oczekiwanej równej zero oraz odchyleniu standardowym przekraczającym
- 0,1.
- W wyniku wystąpienia opisanego zakłócenia algorytm wyznaczający przybliżoną
- długość pojazdu zwracał wartość zawyżoną nawet o kilkanaście procent.
- Wykluczono również wpływ innych pojazdów na wynik pomiaru, zakładając,
- że minimalna odległość pomiędzy kolejnymi pojazdami wynosi kilka metrów.
+Nie zaobserwowano również wpływu naturalnie występujących zakłóceń na wynik
+ działania algorytmu detekcji liczby i położenia osi.
+ Zbadano wpływ wprowadzenia zewnętrznego zakłócenia o rozkładzie Gaussa
+ i wartości oczekiwanej równej zero oraz odchyleniu standardowym przekraczającym
+ 
+\begin_inset Formula $0,1$
+\end_inset
+
+.
+ Zakłócenie miało marginalny wpływ na procedurę wyznaczania liczby osi i
+ ich położenia, w przeciwieństwie do algorytmu wyznaczania długości pojazdu.
+ Wartości uzyskiwane były zawyżone o kilkanaście procent.
+ Konieczne jest odfiltrowanie zakłóceń na etapie przetwarzania wstępnego,
+ co pozwala na zwiększenie dokładności wyników.
+\end_layout
+
+\begin_layout Standard
+Wykluczono również wpływ innych pojazdów na wynik pomiaru, zakładając, że
+ minimalna odległość pomiędzy kolejnymi pojazdami wynosi w normalnych warunkach
+ no najmniej kilka metrów.
 \end_layout
 
 \begin_layout Standard
