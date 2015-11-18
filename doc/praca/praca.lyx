@@ -4452,7 +4452,7 @@ cleardoublepage{}
 \end_layout
 
 \begin_layout Chapter
-Omówienie programu
+Opis wykonanego projektu
 \begin_inset CommandInset label
 LatexCommand label
 name "chap:usage"
@@ -4463,11 +4463,11 @@ name "chap:usage"
 \end_layout
 
 \begin_layout Standard
-W trakcie implementacji programu, zdecydowano się na zaprojektowanie rozbudowane
-go interfejsu użytkownika, który pozwalał na elastyczne wykorzystanie oprogramow
-ania.
- W poszczególnych sekcjach przedstawiono zagadnienia opisujące instalację,
- metody uruchamiania oraz sposób użycia aplikacji.
+Komunikacja pomiędzy użytkownikiem a programem odbywa się dzięki rozbudowanemu
+ interfejsowi, dostępnemu z linii poleceń.
+ W kolejnych sekcjach przedstawiono zagadnienia instalacji, uruchamiania
+ i sposobu użycia aplikacji.
+ Przedstawiono również przykłady użycia programu.
 \end_layout
 
 \begin_layout Section
@@ -4475,17 +4475,34 @@ Wymagania i instalacja
 \end_layout
 
 \begin_layout Standard
-W trakcie implementacji programu przyjęto kilka założeń odnośnie środowiska
- użytkownika końcowego.
- Przede wszystkim, założono, że algorytm wykrywania osi uruchamiany będzie
- z poziomu systemu rodziny Unix 
+W sekcji omówione zostały wymagania aplikacji wraz z uzasadnieniem.
+ Następnie opisano zwięźle przebieg procesu instalacji oprogramowania.
+ Omówiono również moduły będące składowymi projektu.
+\end_layout
+
+\begin_layout Subsection*
+Wymagania
+\end_layout
+
+\begin_layout Standard
+Jedno z założeń przyjętych przed wykonaniem projektu definiowało środowisko
+ wykonania, jakim powinien dysponować użytkownik.
+ Założono, że program uruchamiany jest z poziomu systemu z rodziny 
+\shape italic
+Unix
+\shape default
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "unix-page"
 
 \end_inset
 
- bądź uniksopodobnego - na przykład Linux 
+ bądź uniksopodobnego - na przykład 
+\shape italic
+Linux
+\shape default
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "linux-page"
@@ -4493,40 +4510,63 @@ key "linux-page"
 \end_inset
 
 .
- Przyjęto, że w systemie dostępna jest biblioteka języka C w standardowej
- wersji GNU 
+ Przyjęto, że w systemie dostępna jest biblioteka języka C w standardzie
+ 
+\shape italic
+POSIX
+\shape default
+, na przykład kompatybilna z tym standardem biblioteka 
+\shape italic
+GNU C
+\shape default
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gnu-c-lib"
 
 \end_inset
 
- .
- W celu skompilowania modułu graficznego, konieczne jest również udostępnienie
- standardowej biblioteki języka C++ GNU 
+.
+ Opcjonalnie wymagane są również standardowa biblioteka języka 
+\shape italic
+C++ GNU 
+\shape default
+
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gnu-cpp-lib"
 
 \end_inset
 
- oraz biblioteki Qt w wersji 5 
+ oraz biblioteka 
+\shape italic
+Qt
+\shape default
+ w wersji 5.0 lub wyższej 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "qtman"
 
 \end_inset
 
- .
- W trakcie działania, program wykorzystuje elementy języka C, których implementa
-cja zależna jest od systemu - w przypadku środowiska Linux, konieczne moduły
- wspierane są od jądra w wersji 2.6.13 i znajdują się w standardowej bibliotece
+.
+ Umożliwia to skompilowanie modułu graficznego.
+ Program wykorzystuje elementy języka C, których implementacja zależna jest
+ od systemu - w przypadku 
+\shape italic
+Linuxa
+\shape default
+ konieczne moduły dostępne są od wersji 2.6.13 i znajdują się w bibliotece
  języka C.
 \end_layout
 
 \begin_layout Standard
-W celu uproszczenia procesu budowana i instalacji, posłużono się oprogramowaniem
- cmake 
+W celu uproszczenia procesu budowana i instalacji posłużono się oprogramowaniem
+ 
+\shape italic
+cmake
+\shape default
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "cmake-page"
@@ -4534,19 +4574,24 @@ key "cmake-page"
 \end_inset
 
  - program ten umożliwia przeprowadzenie procesu budowania i rozwiązywanie
- zależności niezależnie od systemu operacyjnego użytkownika.
- Przeprowadzono testy z wersjami 2.6 oraz 3.3 i potwierdzono poprawność budowania
- programu.
+ zależności niezależnie od systemu operacyjnego użytkownika, przenosząc
+ odpowiedzialność na autora aplikacji.
+ Przeprowadzono testy z wersjami 2.6 oraz 3.3 tego programu i potwierdzono
+ poprawność budowania wszystkich modułów aplikacji.
  
 \end_layout
 
 \begin_layout Standard
-Oprogramowanie to umożliwia również możliwość przeprowadzenia procesu budowania
- przy użyciu kompilatora zdefiniowanego przez użytkownika.
- W trakcie projektowania programów, duży nacisk położono na ich poprawność
- implementacji - pełną zgodność ze standardem języka.
- Dzięki temu, dowolny kompilator języka C implementujący standard C11 powinien
- umożliwić zbudowanie modułów 
+Program 
+\shape italic
+cmake
+\shape default
+ umożliwia przeprowadzenie procesu budowania przy użyciu kompilatora zdefiniowan
+ego przez użytkownika.
+ W trakcie projektowania programy duży nacisk położono na poprawność implementac
+ji i pełną zgodność ze standardem języka.
+ Dzięki temu dowolny kompilator języka C kompatybilny ze standardem C11
+ umożliwia zbudowanie modułów 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "cstandard"
@@ -4563,11 +4608,18 @@ key "cpp-standard"
 \end_inset
 
  .
- Moduł zgodny jest również ze standardem C++14, nie wykorzystuje przy tym
- jednak funkcji języka udostępnionych w tej normie.
+ Moduł ten zgodny jest również ze standardem C++14, nie wykorzystuje przy
+ tym jednak funkcji języka udostępnionych w tej normie.
  Poprawność przebiegu procesu budowania potwierdzono w trakcie testów z
- dwoma kompilatorami - clang w wersji 3.7.0 oraz gcc w wersjach 4.8.1 oraz 5.2.0
- 
+ dwoma kompilatorami - 
+\shape italic
+clang
+\shape default
+ w wersji 3.7.0 oraz 
+\shape italic
+gcc
+\shape default
+ w wersjach 4.8.1 oraz 5.2.0 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "clang,gcc"
@@ -4575,8 +4627,8 @@ key "clang,gcc"
 \end_inset
 
  .
- Oba kompilatory przeprowadziły proces budowania, nie wskazując przy tym
- na żadne problemy.
+ Na podstawie logów, które są udostępniane przez oba kompilatory po zakończeniu
+ pracy, nie stwierdzono błędów związanych z projektem aplikacji.
 \end_layout
 
 \begin_layout Subsection*
@@ -4584,13 +4636,13 @@ Instalacja
 \end_layout
 
 \begin_layout Standard
-Proces budowania powinien zostać wykonany z poziomu katalogu, który nie
- znajduje się wewnątrz głównego katalogu projektu.
- Standardowym podejściem jest utworzenie katalogu 
+Proces kompilacji powinien zostać wykonany z poziomu katalogu nie będącego
+ głównym katalogiem projektu.
+ Jedna z najpopularniejszych metod kompilacji polega na stworzeniu podkatalogu
 \shape italic
-build 
+ build 
 \shape default
-i przejście do niego.
+wewnątrz katalogu projektu i przejście do niego.
 \end_layout
 
 \begin_layout Standard
@@ -4614,7 +4666,7 @@ Następnie, wykorzystując oprogramowanie
 \shape italic
 cmake, 
 \shape default
-należy wygenerować zbiór plików wykorzystywanych w procesie budowania.
+wygenerować należy zbiór plików wykorzystywanych w procesie budowania.
 \end_layout
 
 \begin_layout Standard
@@ -4674,10 +4726,10 @@ name "lis:compile-gui"
 \end_layout
 
 \begin_layout Standard
-Proces ten powinien zakończyć się powodzeniem, jeśli spełnione zostały wszystkie
- wymagania odnośnie środowiska, w którym budowany jest projekt.
- Kolejnym krokiem jest wygenerowanie plików binarnych dla każdego modułu
- poprzez polecenie:
+Proces ten powinien zakończyć się powodzeniem, o ile spełnione zostały wszystkie
+ wymagania związane ze środowiskiem, w którym budowany jest projekt.
+ Kolejnym krokiem jest wygenerowanie plików binarnych dla każdego modułu,
+ stosując poniższe polecenie.
 \end_layout
 
 \begin_layout Standard
@@ -4697,21 +4749,21 @@ status open
 \end_layout
 
 \begin_layout Standard
-Ten proces również powinien zakończyć działanie nie wskazując żadnego błędu,
- jeśli spełnione zostały wymagania.
- 
-\end_layout
-
-\begin_layout Standard
-Pliki modułów znajdują się wewnątrz podkatalogu 
+Proces powinien zakończyć działanie nie zgłaszając żadnego błędu, jeśli
+ spełnione zostały wymagania.
+ Wszystkie użyteczne pliki powstałe w trakcie kompilacji znajdują się wewnątrz
+ podkatalogu 
 \shape italic
 /bin
 \shape default
- obecnej ścieżki.
- Możliwe jest również zainstalowanie uzyskanych w ostatnim kroku plików
- w systemie, wykorzystując do tego poniższe polecenie.
+.
+\end_layout
+
+\begin_layout Standard
+Możliwe jest również zainstalowanie uzyskanych w ostatnim kroku plików w
+ systemie, wykorzystując do tego poniższe polecenie.
  Należy jednocześnie pamiętać o konieczności posiadania uprawnień administratora
-, by komenda się powiodła.
+ by komenda się powiodła.
 \end_layout
 
 \begin_layout Standard
@@ -4731,10 +4783,11 @@ status open
 \end_layout
 
 \begin_layout Standard
-W przypadku powodzenia akcji, moduły i ich podręczniki zostały zainstalowane
+W przypadku powodzenia akcji moduły i ich podręczniki zostały zainstalowane
  i powinny być dostępne z poziomu terminala.
- W dalszej części pracy przyjęto założenie, że użytkownik zdecydował się
- na instalację, tak by maksymalnie uprościć prezentowane polecenia.
+ W kolejnych sekcjach przyjęto założenie, że użytkownik zdecydował się na
+ instalację.
+ Pozwoliło to maksymalnie uprościć prezentowane polecenia.
 \end_layout
 
 \begin_layout Subsection*
@@ -4749,10 +4802,10 @@ name "sec:modules"
 \end_layout
 
 \begin_layout Standard
-Projekt podzielony został na mniejsze moduły, co umożliwiło wykorzystanie
- programu w sposób bardziej elastyczny.
- Dzięki temu, możliwe jest wykorzystanie projektu zarówno w prostych aplikacjach
-, jak i budowanie bardziej skomplikowanych łańcuchów wykonań.
+Projekt podzielony został na mniejsze moduły, co umożliwia wykorzystanie
+ w sposób bardziej elastyczny.
+ Możliwa jest współpraca zarówno w prostych aplikacjach, jak i budowanie
+ bardziej złożonych łańcuchów wykonań.
  
 \end_layout
 
@@ -4768,15 +4821,15 @@ zaimplementowany został algorytm służący do wyznaczania liczby osi pojazdu,
 \shape italic
 watcher
 \shape default
-, odpowiadał za komunikację z systemem użytkownika w celu śledzenia zmian
- w systemie plików, dzięki czemu możliwa była detekcja pojawienia się nowych
- danych i rozpoczęcie dalszej ich obróbki.
- W trakcie pisania pracy powstał również prosty interfejs graficzny, nazwany
- 
+, odpowiada za komunikację z systemem użytkownika w celu śledzenia zmian
+ w systemie plików.
+ Dzięki temu możliwa jest detekcja pojawienia się nowych plików z danymi
+ pomiarowymi i rozpoczęcie dalszej ich obróbki.
+ Powstał również prosty interfejs graficzny, nazwany 
 \shape italic
 axles_gui
 \shape default
-, który umożliwiał przedstawienie wyników działania algorytmu w sposób bardziej
+, który umożliwia przedstawienie wyników działania algorytmu w sposób bardziej
  przyjazny użytkownikowi.
  Sposób jego kompilacji przedstawiony został w listingu 
 \begin_inset CommandInset ref
@@ -4786,12 +4839,15 @@ reference "lis:compile-gui"
 \end_inset
 
 .
+ Udostępniono również dwa moduły pomocnicze odpowiedzialne za przystosowanie
+ danych pomiarowych w dwóch znanych konfiguracjach do współpracy z algorytmem
+ detekcji osi.
 \end_layout
 
 \begin_layout Standard
 Moduły nie zostały ze sobą powiązane na poziomie implementacji, dzięki czemu
- możliwe było stworzenie kilku odrębnych metod obsługi programu, co zostało
- dokładniej opisane w rozdziale 
+ możliwe było stworzenie kilku odrębnych metod obsługi programu.
+ Zostało to dokładniej opisane w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:usage"
@@ -4805,14 +4861,18 @@ reference "chap:usage"
 
 \begin_layout Standard
 Projektowaniu interfejsu modułów programowych towarzyszyła inspiracja oprogramow
-aniem powstającym wokół ruchu GNU, co pozwoliło na implementację programu
+aniem powstającym wokół ruchu GNU, co miało wpływ na zbudowanie programu
  w sposób sprzyjający dalszej rozbudowie.
  Przykładem tego jest interfejs graficzny, którego projektowanie nie było
- celem pracy, może on jednak stanowić dowód na potwierdzenie tezy o możliwości
- rozwoju oprogramowania.
- Przykładowe kierunki rozwoju to aplikacja odpowiedzialna za komunikację
+ celem pracy, stanowi dowód na potwierdzenie tezy o możliwości rozwoju oprogramo
+wania.
+ 
+\end_layout
+
+\begin_layout Standard
+Przykładowe kierunki rozwoju to aplikacja odpowiedzialna za komunikację
  sieciową z czujnikami i odbierająca dane - stanowiłaby pierwsze ogniwo
- łańcucha wywołań bądź program zbierający dane uzyskiwane na wyjściu algorytmu
+ łańcucha wywołań, bądź program zbierający dane uzyskiwane na wyjściu algorytmu
  i przechowujący je w bazie danych - byłoby to ostatnie ogniwo łańcucha.
 \end_layout
 
@@ -4821,12 +4881,12 @@ Metody uruchamiania
 \end_layout
 
 \begin_layout Standard
-Przyjęto założenie, że podstawową funkcją programu było wyznaczenie liczby
- osi i innych parametrów pojazdu na podstawie danych przechowywanych w pliku
- tekstowym.
- Oprogramowanie zostało zaimplementowane w taki sposób, by domyślnym działaniem
+Przyjęto założenie, że podstawową funkcją programu stanowić powinno wyznaczenie
+ liczby osi i innych parametrów pojazdu na podstawie danych przechowywanych
+ w pliku tekstowym.
+ Oprogramowanie zostało zaprojektowane w taki sposób, by domyślne działanie
  było zgodne z tym założeniem.
- Zbudowano również inne funkcje, których wywołanie jest możliwe poprzez
+ Udostępniono również inne funkcje, których wywołanie jest możliwe poprzez
  przekazanie parametrów przy starcie programu, co zostało opisane w sekcji
  
 \begin_inset CommandInset ref
@@ -4840,29 +4900,33 @@ reference "sub:flags"
 
 \begin_layout Standard
 Wyszczególniono dwie podstawowe metody użytkowania programu.
- Pierwszą z nich było uruchomienie modułu 
+ Pierwszą z nich jest uruchomienie modułu 
 \shape italic
 axles
 \shape default
- i przekazanie jako argumenty wiersza poleceń ścieżek do plików, które powinno
+ i przekazanie jako argumenty wiersza poleceń ścieżek do plików, które powinny
  zostać przeanalizowane.
- Program analizował następnie każdy plik, traktując go jako kompletny zbiór
- danych, a po zakończeniu pracy algorytmu dla każdego z nich, kończył działanie.
+ Program wczytuje następnie każdy plik, traktując go jako kompletny zbiór
+ danych i kończy działanie po wykonaniu procedury algorytmu dla wszystkich
+ plików.
  
 \end_layout
 
 \begin_layout Standard
-Drugą metodą, która była badana w trakcie pracy nad programem było uruchomienie
- go w trybie oczekiwania na dane.
- Odbywało się to w przypadku, gdy przy uruchomieniu nie przekazano nazw
- plików poprzez argumenty wiersza poleceń.
- Program uruchamiał się wtedy w trybie odczytu danych ze standardowego strumieni
-a wejściowego - stdin, w przypadku wykrycia pojawienia się nowego zbioru
- odczytów uruchamiany był algorytm detekcji, a po zakończeniu działania
- algorytmu program pozostawał w trybie oczekiwania na kolejne dane.
- Opisany tryb pracy był wyjątkowo użyteczny w połączeniu z wykorzystaniem
- innych modułów, takich jak zaimplementowany - śledzący katalog w poszukiwaniu
- zmian, lub zaproponowany w rozdziale 
+Druga metoda polega na uruchomieniu aplikacji w trybie oczekiwania na dane.
+ Ma to miejsce w sytuacji, gdy przy uruchomieniu nie przekazano nazw plików
+ poprzez argumenty wiersza poleceń.
+ Program uruchamiany jest wtedy w trybie odczytu danych ze standardowego
+ strumienia wejściowego (
+\shape italic
+stdin
+\shape default
+) i w chwili pojawienia się nowego zbioru pomiarów uruchamiany jest algorytm
+ detekcji, po zakończeniu działania którego program pozostaje w trybie oczekiwan
+ia na kolejne dane.
+ Opisany tryb pracy jest wyjątkowo użyteczny w połączeniu z wykorzystaniem
+ innych modułów, w tym zaprojektowanego, który obserwuje katalog w oczekiwaniu
+ na zmiany, lub zaproponowany w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:modules"
@@ -4874,48 +4938,45 @@ reference "sec:modules"
 
 \begin_layout Standard
 W trakcie pracy nad programem posłużono się ideą często wykorzystywaną w
- oprogramowaniu GNU - zdecydowano się możliwość przekazywania danych pomiędzy
- modułami przy użyciu standardowych strumieni.
- Pozwoliło to na tworzenie łańcuchów wywołań modułów, które pozwalały na
+ oprogramowaniu 
+\shape italic
+GNU
+\shape default
+ - zdecydowano się możliwość przekazywania danych pomiędzy modułami przy
+ użyciu strumieni.
+ Pozwoliło to na tworzenie łańcuchów wywołań modułów, które umożliwiają
  obsługę zaawansowanych zadań.
  Moduł 
 \shape italic
 axles
 \shape default
- działający niezależnie pozwalał wyłącznie na wywołanie algorytmu dla zadanych
+ działający niezależnie pozwala wyłącznie na wywołanie algorytmu dla zadanych
  plików lub danych ze strumienia wejściowego.
  Po połączeniu pracy z modułem 
 \shape italic
 watcher
 \shape default
-, możliwa stała się praca w trybie oczekiwania, bez konieczności uruchamiania
+, możliwa jest się praca w trybie oczekiwania, bez konieczności uruchamiania
  programu na nowo dla każdego zestawu danych.
- Połączenie wyjścia modułu algorytmicznego z kolejnym modułem pozwoliło
- na wyświetlanie informacji o pracy algorytmu w interfejsie graficznym.
+ Połączenie wyjścia modułu algorytmicznego z kolejnym modułem pozwala na
+ wyświetlanie informacji o pracy algorytmu przez interfejs graficzny.
 \end_layout
 
 \begin_layout Standard
-Były to jedynie przykłady możliwych zastosowań przy wykorzystaniu modułów
- - możliwe było również wykorzystanie wbudowanych w system narzędzi lub
- zaprojektowanie kolejnych modułów, dedykowanych do konkretnych zadań.
+Są to jedynie przykłady możliwych zastosowań oprogramowania- możliwe jest
+ również wykorzystanie wbudowanych w system narzędzi lub zaprojektowanie
+ kolejnych modułów, dedykowanych do konkretnych zadań.
 \end_layout
 
 \begin_layout Section
 Obsługiwane parametry
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:flags"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
-Zbudowano interfejs obsługujący szereg flag, które modyfikowały pracę modułów.
- Pozwoliło to na zdefiniowanie reguł pracy programu na etapie uruchomienia
+Interfejs programów obsługuje szereg flag modyfikujących ich pracę.
+ Pozwala to na zdefiniowanie reguł pracy programu na etapie uruchomienia
  i wykluczenie konieczności dalszej interakcji z użytkownikiem w trakcie
- pracy programu.
+ wykonywania.
  Poniżej przedstawiono flagi, których użycie może być przydatne dla użytkownika.
 \end_layout
 
@@ -4935,7 +4996,7 @@ NAZWA_PLIKU_1 ...
 \begin_deeper
 \begin_layout Standard
 Uruchamia działanie algorytmu dla każdego z podanych plików.
- W przypadku nie podania żadnego argumentu tego typu, nastąpi odczyt ze
+ W przypadku nie podania żadnego argumentu tego typu następuje odczyt ze
  strumienia wejściowego 
 \shape italic
 stdin
@@ -4973,6 +5034,19 @@ Wymusza uruchomienie procedury określania położenia osi i przybliżonej dług
 \begin_layout Itemize
 
 \family typewriter
+-f --config PLIK_KONFIGURACJI
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Umożliwia załadowanie konfiguracji opisującej stanowisko pomiarowe, z którego
+ pochodzą analizę danych.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family typewriter
 -o --output NAZWA_PLIKU
 \end_layout
 
@@ -4990,8 +5064,8 @@ Umożliwia zapisanie wyniku pracy algorytmu w pliku o podanej nazwie.
 
 \begin_deeper
 \begin_layout Standard
-Wymusza pracę w trybie cichym, a więc bez wyświetlania żadnych komunikatów
- w trakcie pracy.
+Wymusza pracę w trybie cichym, bez wyświetlania żadnych komunikatów w trakcie
+ pracy.
 \end_layout
 
 \end_deeper
@@ -5010,9 +5084,9 @@ NAZWA_KATALOGU_1 ...
 
 \begin_deeper
 \begin_layout Standard
-Lista ścieżek, które będą obserwowane przez moduł.
- W przypadku nie podania żadnego argumentu tego typu, obserwowana będzie
- ścieżka, w której uruchomiony został program.
+Lista ścieżek, które są obserwowane przez program.
+ W przypadku nie podania żadnego argumentu tego typu obserwowana jest ścieżka,
+ w której uruchomiony został program.
 \end_layout
 
 \end_deeper
@@ -5035,7 +5109,7 @@ lvm
 
 \end_deeper
 \begin_layout Standard
-Oba moduły obsługują ponadto wspólne flagi, 
+Oba moduły obsługują ponadto dwie wspólne flagi, 
 \family typewriter
 -h
 \family default
@@ -5051,8 +5125,8 @@ Przykładowe aplikacje
 \end_layout
 
 \begin_layout Standard
-W celu wyznaczenia liczby osi pojazdu, dla którego dane pomiarowe znajdują
- się w pliku 
+Aby wyznaczyć liczbę osi pojazdu, dla którego dane pomiarowe znajdują się
+ w pliku 
 \shape italic
 PLIK.lvm
 \shape default
@@ -5109,13 +5183,14 @@ cat dane/*.lvm | axles
 \end_layout
 
 \begin_layout Standard
-Drugie polecenie pokazuje ponadto ideę wykorzystania wbudowanych narzędzi
+Drugie polecenie pokazuje ponadto metodę wykorzystania wbudowanych narzędzi
  systemowych w celu zwiększenia możliwości programu.
 \end_layout
 
 \begin_layout Standard
 W celu wykrycia liczby osi, weryfikacji przy użyciu czujników piezoelektrycznych
-, a także położenia osi i długości pojazdu, można wykorzystać poniższe polecenie.
+ i określenia położenia osi oraz długości pojazdu, można wykorzystać poniższe
+ polecenie.
 \end_layout
 
 \begin_layout Standard
@@ -5126,7 +5201,7 @@ status open
 
 \begin_layout Plain Layout
 
-axles -p -c PLIK.lvm
+axles -pc PLIK.lvm
 \end_layout
 
 \end_inset
@@ -5170,8 +5245,8 @@ piezo 2 5.954
 \end_layout
 
 \begin_layout Standard
-Aby uruchomić program w trybie oczekiwania na dane, które przechowywane
- są w plikach o rozszerzeniu 
+Aby uruchomić program w trybie oczekiwania na dane przechowywane w plikach
+ o rozszerzeniu 
 \shape italic
 data
 \shape default
@@ -5179,7 +5254,7 @@ data
 \shape italic
 odczyty
 \shape default
-, a wyniki pracy programu przechowywać w pliku 
+, a wyniki pracy programu zapisać do pliku 
 \shape italic
 wyniki.txt
 \shape default
@@ -5204,7 +5279,7 @@ watcher -e data odczyty | axles -o wyniki.txt
 \end_layout
 
 \begin_layout Standard
-Ostatni przykład przedstawia możliwość rozbudowy powyższego polecenia w
+Następny przykład przedstawia możliwość rozbudowy powyższego polecenia w
  taki sposób, by wyniki były prezentowane również poprzez interfejs graficzny.
 \end_layout
 
@@ -5243,20 +5318,65 @@ Metoda uruchamiania interfejsu graficznego.
 
 \end_layout
 
+\begin_layout Standard
+Wykorzystanie programu we współpracy ze znanymi konfiguracjami stanowiska
+ pomiarowego możliwe jest dzięki zastosowaniu plików konfiguracyjnych oraz
+ narzędzi odpowiedzialnych za wstępne przetworzenie danych.
+ Przygotowano dwa skrypty formatujące dane wejściowe (nazwane 
+\shape italic
+swapper
+\shape default
+) oraz pliki konfiguracyjne.
+ Możliwe jest również przygotowanie własnym narzędzi odpowiedzialnych za
+ formatowanie danych, na przykład przy użyciu języka 
+\shape italic
+awk
+\shape default
+, dostępnego w większości dystrybucji systemu Linux 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "awk"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Poniżej przedstawiono przykładowe polecenie korzystające z omawianych funkcji.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=bash,showstringspaces=false"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+cat *.data | ./swapper | axles -f konfiguracja_stanowiska.cfg -pc
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Interfejs graficzny
 \end_layout
 
 \begin_layout Standard
-Po zakończeniu pracy nad podstawowymi modułami aplikacji, zdecydowano się
- na zaimplementowanie prostego interfejsu graficznego.
- Wykorzystanie interfejsu tego typu umożliwiło prezentację przetwarzanych
- przez algorytm danych w uproszczonej, czytelnej formie.
- Taka forma przetwarzania otrzymanych danych może znaleźć zastosowanie w
- sytuacji, gdy wyniki pracy algorytmu przechowywane są w pliku, natomiast
- użytkownik powinien mieć dostęp do przeglądu danych w celu weryfikacji
- poprawności działania całego układu.
- Sposób uruchamiania umożliwiający pracę w opisany sposób przedstawiono
+Po ukończeniu podstawowych modułów aplikacji, zdecydowano się na zaprojektowanie
+ prostego interfejsu graficznego.
+ Wykorzystanie interfejsu tego typu umożliwia prezentację wyświetlanych
+ przez program w terminalu danych w uproszczonej, czytelnej formie.
+ Taka metoda przetwarzania otrzymanych danych może znaleźć zastosowanie
+ w sytuacji, gdy wyniki pracy algorytmu przechowywane są w pliku, natomiast
+ użytkownik powinien mieć dostęp do przeglądu danych.
+ W ten sposób możliwa byłaby natychmiastowa weryfikacji poprawności działania
+ systemu bez wykorzystania innych narzędzi.
+ Sposób uruchamiania umożliwiający pracę w opisanej konfiguracji przedstawiono
  na listingu 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -5303,6 +5423,7 @@ name "fig:gui-window"
 \end_inset
 
 Okno interfejsu graficznego.
+ W oknie wyświetlany jest wynik działania algorytmu dla pojazdu pięcioosiowego.
 \end_layout
 
 \end_inset
@@ -5316,25 +5437,23 @@ Okno interfejsu graficznego.
 \end_layout
 
 \begin_layout Standard
-Przy użyciu interfejsu graficznego możliwe było odczytanie wartości określającyc
-h wzajemne położenie poszczególnych osi.
- Ponadto przedstawiana była bryła przybliżonego wyglądu pojazdu, dzięki
- czemu w intuicyjny sposób możliwe stało się odczytywanie liczby osi pojazdu
- na podstawie grafiki.
+W interfejsie graficznym przedstawiana jest bryła przybliżonego wyglądu
+ pojazdu, dzięki czemu w intuicyjny sposób możliwe jest odczytywanie liczby
+ osi na podstawie grafiki.
+ Zaprezentowane są również wartości opisujące położenie osi w bryle pojazdu.
  Informacja na temat wykrycia uniesionej osi przedstawiana była poprzez
  wizualne uniesienie figury związanej z odpowiednią osią na grafice.
+ Interfejs wyposażony jest w przyciski umożliwiające nawigację.
+ Wyświetlana jest również informacja o liczbie pojazdów w bazie.
  W dolnej części okna umiejscowiono również stałą skalę, ułatwiającą wizualny
- odbiór grafiki oraz przycisku umożliwiające przełączanie się pomiędzy danymi
- wielu pojazdów.
+ odbiór informacji.
 \end_layout
 
 \begin_layout Standard
-Zaprojektowany interfejs stanowił jedynie uproszczony przykład, demonstrujący
- możliwość realizacji takiego rozwiązania.
- W celu implementacji dedykowanego interfejsu graficznego konieczne byłoby
- zdefiniowane wymagań i poświęcenie uwagi na zaprojektowanie najlepszego
- rozwiązania, uzyskane efekty pozwoliłyby jednak rozwinąć program w użytecznym
- kierunku.
+Zaprojektowany interfejs stanowi jedynie uproszczony przykład demonstrujący
+ możliwość realizacji takiego zadania.
+ Zaprojektowanie dedykowanego interfejsu graficznego stanowi kierunek praktyczne
+go rozwoju omawianego oprogramowania, nie należało jednak do celów pracy.
 \end_layout
 
 \begin_layout Section*
@@ -5348,7 +5467,7 @@ W rozdziale przedstawiono szereg zagadnień związanych z obsługą programu
  Zdecydowano się na ograniczenie do zwięzłej prezentacji możliwości programu,
  bez zbędnego w tej sytuacji omawiania reguł działania poszczególnych elementów.
  Dokładniejszy opis programu został przedstawiony przy użyciu mechanizmu
- podręczników, dostępnego w systemie Linux 
+ podręczników dostępnego w systemie Linux 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "man-pages"
@@ -5357,20 +5476,13 @@ key "man-pages"
 
 .
  Strony zawierają przedstawiony w zwięzłej formie zbiór informacji na temat
- reguł działania programu, który rozwija zagadnienia przedstawione w rozdziale
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chap:usage"
-
-\end_inset
-
- pracy.
+ programu, który rozwija zagadnienia przedstawione w rozdziale tym pracy.
  
 \end_layout
 
 \begin_layout Standard
-Dostęp do stron podręcznika można uzyskać dzięki poleceniom z listingu 
+Dostęp do stron podręcznika można uzyskać wykonując polecenia przedstawione
+ na listingu 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lis:man-pages"
