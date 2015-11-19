@@ -5553,14 +5553,13 @@ Analiza pracy programu
 \end_layout
 
 \begin_layout Standard
-Przed rozpoczęciem realizacji pracy, przyjęto pewne założenia.
- Kluczowe z nich opisywały normy działania programu, gwarantujące użyteczność
- w wymaganych zastosowaniach.
- Wymagania opisane były w taki sposób, by zapewnić możliwość stabilnego
- działania aplikacji niezależnie od środowiska i czasu pracy programu.
- Istotne było również zapewnienie jak najwyższej skuteczności algorytmu.
- W kolejnych sekcjach opisano poszczególne wymagania i metody oceny ich
- spełnienia.
+Wśród cech wykonanego projektu, które gwarantują jego użyteczność są stabilne
+ działanie aplikacji niezależnie od środowiska i sposobu użycia.
+ Istotne jest również zapewnienie jak najwyższej skuteczności algorytmu
+ oraz optymalizacja wydajności działania aplikacji.
+ W kolejnych sekcjach opisano poszczególne wymagania oraz przedstawiono
+ metody ich weryfikacji.
+ Oceniono również zgodność wykonanego projektu z wymaganiami.
 \end_layout
 
 \begin_layout Section
@@ -5569,41 +5568,57 @@ Poprawność algorytmu
 
 \begin_layout Standard
 Niezależnie od pozostałych kryteriów oceny budowanej aplikacji, konieczne
- było zapewnienie wysokiej poprawności wyników pracy algorytmu.
- Detekcja liczby osi pojazdu stanowiła podstawową funkcję programu, tylko
- po osiągnięciu zadowalających wyników pracy algorytmów możliwe było przystąpien
-ie do kolejnych etapów implementacji.
+ jest zapewnienie poprawności wyników pracy algorytmu.
+ Detekcja liczby osi pojazdu oraz ich położeń i długości pojazdu stanowi
+ podstawową funkcję programu.
+ Tylko po osiągnięciu zadowalających wyników pracy algorytmów możliwe było
+ przystąpienie do kolejnych etapów projektu.
 \end_layout
 
 \begin_layout Standard
-W trakcie realizacji projektu, konieczne okazało się umożliwienie badania
+W trakcie realizacji aplikacji konieczne okazało się umożliwienie badania
  działania algorytmu wraz z powstawaniem kolejnych wersji programu.
  Zdecydowano się na zaprojektowanie skryptu testującego otrzymywane wyniki
- na podstawie skatalogowanej próby danych, zawierającej zbiór 220 pomiarów
- z czujników indukcyjnych.
- Skrypt zaimplementowany został przy użyciu języka programowania Python,
- uzasadniając to wygodą pisania narzędzi testowych w tym środowisku.
+ na podstawie skatalogowanej bazy pomiarów, zawierającej zbiór odczytów
+ z czujników indukcyjnych dla 220 pojazdów.
+ Skrypt zaimplementowany został przy użyciu języka programowania 
+\shape italic
+Python
+\shape default
+, uzasadniając to wygodą pisania narzędzi testowych korzystając z tego narzędzia
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pythonman"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-Przed rozpoczęciem testu konieczna była wstępna konfiguracja poprzez edycję
+Przed rozpoczęciem testu możliwa jest wstępna konfiguracja poprzez edycję
  załączonego pliku 
 \shape italic
 config.json
 \shape default
 .
- Wewnątrz należało zdefiniować ścieżkę katalogu zawierającego dane oraz
- podkatalogi, w których pogrupowane było próbki danych w formie plików o
- rozszerzeniu lvm, dodając do tego poprawną wartość wyniku algorytmu.
- Możliwe było również uruchomienie testu dla innego niż domyślny pliku binarnego
+ Wewnątrz można zdefiniować ścieżkę katalogu zawierającego dane.
+ Definiuje się również podkatalogi, w których pogrupowane są pliki danych
+ o rozszerzeniu 
+\shape italic
+lvm
+\shape default
+, dodając poprawną wartość wyniku algorytmu.
+ Możliwe jest również uruchomienie testu dla innego niż domyślny pliku binarnego
  poprzez edycję odpowiedniego pola.
- W projekcie zapewniono przykładową konfigurację, by ułatwić to zadanie
+ Do projetku dołączono przykładową konfigurację, aby ułatwić to zadanie
  w przyszłości.
 \end_layout
 
 \begin_layout Standard
-Po zakończeniu wstępnej konfiguracji, możliwe było uruchomienie zestawu
- testów, stosując poniższe polecenie z poziomu podkatalogu 
+Po zakończeniu wstępnej konfiguracji możliwe jest uruchomienie zestawu testów,
+ stosując poniższe polecenie z poziomu podkatalogu 
 \shape italic
 test
 \shape default
@@ -5626,8 +5641,8 @@ python3 test_alg2.py
 \end_layout
 
 \begin_layout Standard
-W wyniku uruchomienia polecenia w konsoli pojawiło się wyjście przedstawione
- na rysunku 
+W wyniku uruchomienia polecenia w wierwszu poleceń pojawił się tekst w formacie
+ przedstawionym na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:test-console"
@@ -5663,7 +5678,8 @@ name "fig:test-console"
 
 \end_inset
 
-Wynik pracy programu testowego.
+Wynik pracy programu testowego, badający poprawność pracy algorytmu dla
+ pojazdów ciężarowych czteroosiowych.
 \end_layout
 
 \end_inset
@@ -5702,18 +5718,22 @@ status open
 
 \begin_layout Plain Layout
 \align center
+
+\size footnotesize
 \begin_inset Tabular
 <lyxtabular version="3" rows="10" columns="4">
 <features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="35text%">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="18text%">
+<column alignment="center" valignment="top" width="18text%">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 Kategoria
 \end_layout
 
@@ -5723,6 +5743,8 @@ Kategoria
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 Wynik
 \end_layout
 
@@ -5732,7 +5754,9 @@ Wynik
 \begin_inset Text
 
 \begin_layout Plain Layout
-Błędy
+
+\size footnotesize
+Błędy pracy algorytmu
 \end_layout
 
 \end_inset
@@ -5741,7 +5765,9 @@ Błędy
 \begin_inset Text
 
 \begin_layout Plain Layout
-Niepoprawne
+
+\size footnotesize
+Niepoprawne dane wejściowe
 \end_layout
 
 \end_inset
@@ -5752,6 +5778,8 @@ Niepoprawne
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 Ciężarowe 2-osiowe
 \end_layout
 
@@ -5761,6 +5789,8 @@ Ciężarowe 2-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 27 / 27
 \end_layout
 
@@ -5770,6 +5800,8 @@ Ciężarowe 2-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -5779,6 +5811,8 @@ Ciężarowe 2-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -5790,6 +5824,8 @@ Ciężarowe 2-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 Ciężarowe 3-osiowe
 \end_layout
 
@@ -5799,6 +5835,8 @@ Ciężarowe 3-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 28 / 28
 \end_layout
 
@@ -5808,6 +5846,8 @@ Ciężarowe 3-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -5817,6 +5857,8 @@ Ciężarowe 3-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -5828,6 +5870,8 @@ Ciężarowe 3-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 Ciężarowe 4-osiowe
 \end_layout
 
@@ -5837,6 +5881,8 @@ Ciężarowe 4-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 14 / 14
 \end_layout
 
@@ -5846,6 +5892,8 @@ Ciężarowe 4-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -5855,6 +5903,8 @@ Ciężarowe 4-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -5866,6 +5916,8 @@ Ciężarowe 4-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 Ciężarowe 5-osiowe
 \end_layout
 
@@ -5875,6 +5927,8 @@ Ciężarowe 5-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 31 / 31
 \end_layout
 
@@ -5884,6 +5938,8 @@ Ciężarowe 5-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -5893,6 +5949,8 @@ Ciężarowe 5-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -5904,6 +5962,8 @@ Ciężarowe 5-osiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 Ciężarowe 2-osiowe, podn.
  oś
 \end_layout
@@ -5914,6 +5974,8 @@ Ciężarowe 2-osiowe, podn.
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 17 / 17
 \end_layout
 
@@ -5923,6 +5985,8 @@ Ciężarowe 2-osiowe, podn.
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -5932,6 +5996,8 @@ Ciężarowe 2-osiowe, podn.
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -5943,6 +6009,8 @@ Ciężarowe 2-osiowe, podn.
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 Dostawcze
 \end_layout
 
@@ -5952,6 +6020,8 @@ Dostawcze
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 33 / 34
 \end_layout
 
@@ -5961,6 +6031,8 @@ Dostawcze
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -5970,6 +6042,8 @@ Dostawcze
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 1
 \end_layout
 
@@ -5981,6 +6055,8 @@ Dostawcze
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 Osobowe, podwozie aluminiowe
 \end_layout
 
@@ -5990,6 +6066,8 @@ Osobowe, podwozie aluminiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 28 / 29
 \end_layout
 
@@ -5999,6 +6077,8 @@ Osobowe, podwozie aluminiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -6008,6 +6088,8 @@ Osobowe, podwozie aluminiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 1
 \end_layout
 
@@ -6019,6 +6101,8 @@ Osobowe, podwozie aluminiowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 Osobowe, podwozie stalowe
 \end_layout
 
@@ -6028,6 +6112,8 @@ Osobowe, podwozie stalowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 40 / 40
 \end_layout
 
@@ -6037,6 +6123,8 @@ Osobowe, podwozie stalowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -6046,6 +6134,8 @@ Osobowe, podwozie stalowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0
 \end_layout
 
@@ -6057,6 +6147,8 @@ Osobowe, podwozie stalowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 Łącznie
 \end_layout
 
@@ -6066,6 +6158,8 @@ Osobowe, podwozie stalowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 218 / 220 (99,09%)
 \end_layout
 
@@ -6075,6 +6169,8 @@ Osobowe, podwozie stalowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 0 (0%)
 \end_layout
 
@@ -6084,6 +6180,8 @@ Osobowe, podwozie stalowe
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size footnotesize
 2 ( 0,91%)
 \end_layout
 
@@ -6125,29 +6223,34 @@ Kolumna
 \shape italic
 Wynik
 \shape default
- zawiera liczbę poprawnych detekcji liczby osi dla pojazdu, kolumna 
+ zawiera liczbę poprawnych detekcji liczby osi dla pojazdu.
+ Kolumna 
 \shape italic
-Błędy
+Błędy pracy algorytmu
 \shape default
- informuje o liczbie pojazdów, dla których wyznaczono błędną liczbę osi,
- natomiast kolumna 
+ informuje o liczbie pojazdów, dla których wyznaczono błędną liczbę osi.
+ Kolumna 
 \shape italic
-Niepoprawne
+Niepoprawne dane wejściowe
 \shape default
- - informację o liczbie próbek, dla których detekcja zakończyła się błędem
- informującym o nieczytelności danych uniemożliwiającej jakąkolwiek detekcję.
+ zawiera natomiast informację o liczbie plików, dla których detekcja zakończyła
+ się błędem związanym z nieczytelnością danych wejściowych, co uniemożliwiło
+ przeprowadzenie procedury algorytmu.
 \end_layout
 
 \begin_layout Standard
-Należy wspomnieć, że zbiór testowy zawierał dane wstępnie przefiltrowane,
- których analiza nie powinna zakończyć się błędem pracy algorytmu.
+Należy wspomnieć, że badany zbiór testowy zawierał dane wstępnie wyselekcjonowan
+e, których analiza nie powinna zakończyć się błędem pracy algorytmu.
  Dzięki temu możliwe było badanie poprawności implementacji kolejnych wersji
  - pojawienie się niezerowej liczby błędów lub wzrost liczby niepoprawnych
  danych pozwalał na natychmiastowe wykrycie błędu implementacji.
+ Wystąpienie danych, które nie mogą zostać przeanalizowane przez algorytmu
+ wytłumaczono pojawieniem się zakłóceń pomiarowych, które znacznie zniekształcił
+y odczyt wyników.
 \end_layout
 
 \begin_layout Standard
-Bardziej szczegółową analizę pracy algorytmu zawarto w rozdziale 
+Szczegółową analizę pracy algorytmu zawarto w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:alg-analysis"
@@ -6169,47 +6272,54 @@ name "sub:stability"
 \end_layout
 
 \begin_layout Standard
-Do przewidywanych zastosowań projektowanego oprogramowania należały takie
- jak współpraca ze stanowiskiem pomiarowych i analiza napływających danych
- w sposób ciągły lub uruchomienie programu na serwerze oferującym wysoką
- wydajność w celu szybkiej analizy dużego zbioru danych.
- Z tego względu przez cały okres realizacji projektu, dużą wagę przykładano
- do zapewnienia stabilnej pracy programu, niezależnie od warunków.
+Do przyjętych zastosowań projektowanego oprogramowania należą współpraca
+ ze stanowiskiem pomiarowych i analiza napływających danych w sposób ciągły
+ lub uruchomienie programu na serwerze oferującym wysoką wydajność w celu
+ szybkiej analizy dużego zbioru danych.
+ Z tego względu przez cały okres realizacji projektu dużą wagę przykładano
+ do zapewnienia stabilności pracy programu, niezależnie od warunków - metody
+ uruchomienia, formatu danych wejściowych, konfiguracji stanowiska.
  
 \end_layout
 
 \begin_layout Standard
-By umożliwić wykrycie błędów implementacji na możliwie wczesnym etapie projektu,
- wymuszono ustawianie flag wykrywających niepoprawnie zaimplementowane elementy
+Wymuszono ustawianie flag wykrywających niepoprawnie zaimplementowane elementy
  programu.
- Ostrzeżenia - sugerujące niekoniecznie błędne, ale niebezpieczne i możliwie
- błędne zachowania - traktowane były jako błędy i wystrzegano się ich.
+ Umożliwiło to wykrycie błędów implementacji na możliwie wczesnym etapie
+ projektu.
+ Ostrzeżenia - wskazujące na niekoniecznie błędne instrukcje, ale nieudokumentow
+ane funkcje języka programowania i możliwie błędne zachowania - traktowane
+ były jako błędy i wystrzegano się ich.
  Ponadto wymuszono detekcję struktur, które domyślnie nie są traktowane
  jako niebezpieczne, ale mogą powodować błędy w specyficznych sytuacjach.
  
 \end_layout
 
 \begin_layout Standard
-Dzięki zastosowaniu takiego podejścia, zaprojektowane oprogramowanie budowane
- jest bez zgłoszenia błędu lub ostrzeżenia na testowanych kompilatorach,
- co znacznie ogranicza możliwość wystąpienia błędnego działania aplikacji.
+Dzięki zastosowaniu takiego podejścia zaprojektowane oprogramowanie budowane
+ jest bez zgłoszenia błędu lub ostrzeżenia na testowanych kompilatorach.
+ Znacznie ogranicza to możliwość wystąpienia niepoprawnego zachowania w
+ trakcie pracy aplikacji.
 \end_layout
 
 \begin_layout Standard
-Drugą metodą zagwarantowania stabilności pracy była uważna analiza wykorzystywan
-ych zasobów pamięci.
- Dostęp do pamięci nie należącej do uruchomienia programu stanowi naruszenie
- zasad pracy w środowisku Linux i mógł spowodować przerwanie pracy programu.
- Należało również pamiętać o zwolnieniu wszelkich wykorzystywanych zasobów.
- W przypadku uruchomienia programu dla zbioru zawierającego wiele pomiarów,
- liczba zajętych zasobów mogłaby wzrastać wraz z każdym pomiarem i ostatecznie
- doprowadzić do wyczerpania dostępnych zasobów pamięci i przerwania pracy
- programu.
+Drugą metodą zagwarantowania stabilności pracy jest uważna analiza wykorzystywan
+ych zasobów systemowych.
+ Dostęp do pamięci nie należącej do programu stanowi naruszenie zasad pracy
+ w środowisku Linux i może spowodować przerwanie działania programu.
+ Należy również pamiętać o zwolnieniu wszelkich wykorzystywanych zasobów.
+ W przeciwnym razie, w przypadku uruchomienia programu dla dużego zbioru
+ danych, liczba zajętych zasobów mogłaby wzrastać w trakcie wykonania i
+ ostatecznie doprowadzić do wyczerpania dostępnych zasobów pamięci i przerwania
+ pracy programu.
 \end_layout
 
 \begin_layout Standard
-Analizę pracy programu przeprowadzono przy użyciu programu Valgrind - dedykowane
-go narzędzia służącego do wykrywania wycieków pamięci 
+Analizę pracy programu przeprowadzono przy użyciu programu 
+\shape italic
+Valgrind
+\shape default
+ - narzędzia dedykowanego do wykrywania wycieków pamięci 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "valgrind-page"
@@ -6217,12 +6327,12 @@ key "valgrind-page"
 \end_inset
 
 .
- Proces badania programu przeprowadzono uruchamiając algorytm dla zbioru
- zawierającego kilkaset pomiarów.
+ Proces badania programu przeprowadzono w trakcie uruchomienia algorytmu
+ dla zbioru zawierającego kilkaset pomiarów.
  Narzędzie testowe nie wykryło jakichkolwiek problemów z alokacją i wyciekami
  pamięci.
- Pozwoliło to na wysunięcie założenia o poprawności implementacji, gwarantującej
- stabilność działania programu w tym zakresie.
+ Pozwoliło to na wysunięcie założenia o poprawności implementacji, co zwiększa
+ gwarancję stabilności działania programu.
 \end_layout
 
 \begin_layout Section
@@ -6237,22 +6347,23 @@ name "sub:efficiency"
 \end_layout
 
 \begin_layout Standard
-Algorytm detekcji liczby osi pojazdu mógł być uruchamiany dla zbioru zawierające
-go wiele pomiarów, mógł również pracować bezpośrednio połączony ze stanowiskiem
- pomiarowym, co wymagało szybkości przetwarzania danych pozwalającej na
- uzyskanie wyniku działania dla pomiaru przed pojawieniem się kolejnego.
- Z tego względu, konieczne było zapewnienie odpowiedniej szybkości działania
- programu.
+Algorytm detekcji liczby osi pojazdu może być uruchamiany dla zbioru zawierające
+go wiele pomiarów, a także pracować połączony bezpośrednio ze stanowiskiem
+ pomiarowym.
+ Wymaga to szybkości przetwarzania danych pozwalającej na uzyskanie wyniku
+ działania dla danych pomiarowych przed pojawieniem się kolejnego zbioru.
+ Konieczne było więc zapewnienie odpowiedniej szybkości działania programu.
  
 \end_layout
 
 \begin_layout Standard
-Zastosowanie języka C gwarantowało duży wpływ na sposób realizacji operacji
+Zastosowanie języka C gwarantuje duży wpływ na sposób realizacji operacji
  algorytmicznych.
- Język ten oferował dostęp do możliwie niskiego poziomu programowania przy
- użyciu instrukcji, które były kompilowane bezpośrednio do asemblera.
- W wyniku pracy nad optymalizacją działania programu, uzyskano ostatecznie
- zadowalającą wydajność.
+ Jest to język niskiego poziomu, wykorzystujący instrukcje, które są kompilowane
+ bezpośrednio do asemblera.
+ Kilkukrotnie podejmowano zadanie zwiększenia wydajności aplikacji na różnych
+ etapach wykonania projektu.
+ Pozwoliło to ostatecznie na osiągnięcie wyników, które uznano za zadowalające.
  W tabeli 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -6261,7 +6372,14 @@ reference "tab:times"
 \end_inset
 
  przedstawiono wyniki analizy wydajności dla kluczowych wartości, natomiast
- na wykresie zamieszczono wszystkie uzyskane wyniki.
+ na wykresie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:times"
+
+\end_inset
+
+ zamieszczono wyniki uzyskane dla większej liczby pomiarów.
 \end_layout
 
 \begin_layout Standard
@@ -6275,10 +6393,10 @@ status open
 \begin_inset Tabular
 <lyxtabular version="3" rows="12" columns="4">
 <features rotate="0" tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="left" valignment="top">
+<column alignment="center" valignment="top" width="15text%">
+<column alignment="left" valignment="top" width="20text%">
 <column alignment="right" valignment="top">
-<column alignment="right" valignment="top">
+<column alignment="right" valignment="top" width="25text%">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -6297,7 +6415,7 @@ Liczba pomiarów
 \begin_layout Plain Layout
 
 \size footnotesize
-Rodzaj uruchomienia
+Metoda uruchomienia
 \end_layout
 
 \end_inset
@@ -6319,14 +6437,14 @@ Czas pracy programu [s]
 \begin_layout Plain Layout
 
 \size footnotesize
-Czas analizy pomiaru [s]
+Czas analizy jednego zbioru danych [s]
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6385,7 +6503,7 @@ footnotemark
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6442,7 +6560,7 @@ footnotemark
 </cell>
 </row>
 <row>
-<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6488,7 +6606,7 @@ Strumień wejścia
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6532,7 +6650,7 @@ Argument
 </cell>
 </row>
 <row>
-<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6578,7 +6696,7 @@ Strumień wejścia
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6622,7 +6740,7 @@ Argument
 </cell>
 </row>
 <row>
-<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6668,7 +6786,7 @@ Strumień wejścia
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6712,7 +6830,7 @@ Argument
 </cell>
 </row>
 <row>
-<cell multirow="3" alignment="center" valignment="middle" leftline="true" usebox="none">
+<cell multirow="3" alignment="left" valignment="middle" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6758,7 +6876,7 @@ Strumień wejścia
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" leftline="true" usebox="none">
+<cell multirow="4" alignment="left" valignment="top" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -6860,7 +6978,7 @@ name "tab:times"
 
 \end_inset
 
-Analiza wydajności pracy programu
+Wyniki analizy wydajności pracy programu
 \end_layout
 
 \end_inset
@@ -6956,17 +7074,16 @@ char`_DANYCH}
 \end_layout
 
 \begin_layout Standard
-Pomiar wykonany został na komputerze klasy PC, w przypadku użycia oprogramowania
- na urządzeniu oferującym większą wydajność, wyniki powinny proporcjonalnie
- zmaleć.
+Analiza wykonana została na komputerze klasy PC.
+ Użycie urządzenia oferującego większą moc obliczeniową powinno wpłynąć
+ na czas pracy programu.
 \end_layout
 
 \begin_layout Standard
-Niezależnie od liczby analizowanych pomiarów, czas analizy jednego zestawu
- danych zbliżony jest do 50 milisekund.
- W trakcie realizacji projektu uznano ten wynik za zadowalający, umożliwiający
- płynną pracę przy analizie danych nawet z najbardziej obciążonych ruchem
- dróg.
+Czas analizy jednego zestawu danych zbliżony jest do 50 milisekund, niezależnie
+ od wielkości badanego zbioru danych.
+ Uznano ten wynik za zadowalający, umożliwiający płynną pracę przy analizie
+ danych nawet z najbardziej obciążonych ruchem połączeń drogowych.
 \end_layout
 
 \begin_layout Standard
@@ -6996,7 +7113,7 @@ name "fig:times"
 
 \end_inset
 
-Analiza wydajności pracy programu
+Wyniki analizy wydajności pracy programu
 \end_layout
 
 \end_inset
@@ -7011,44 +7128,42 @@ Analiza wydajności pracy programu
 \end_inset
 
 Wydajność programu w sytuacji, gdy dane przekazano poprzez strumień wejścia
- była nieznacznie mniejsza.
- Wytłumaczono to zwiększeniem złożoności obliczeń poprzez konieczność wykonania
- polecenia 
+ była nieznacznie gorsza.
+ Wytłumaczono to zwiększeniem nakładu obliczeń na etapie akwizycji danych,
+ ze względu na konieczność wykonania polecenia 
 \family typewriter
 \size footnotesize
 cat
 \family default
 \size default
- równolegle do pracy algorytmu.
- Różnica ta nie była zauważalna w trakcie pracy wspomaganej modułem 
-\shape italic
-\size footnotesize
-watcher
-\shape default
-\size default
-.
- 
+ przed uruchomieniem modułu algorytmu.
+ Różnica wydajności jest jednak niewielka, rzędu kilku procent, i nie ma
+ dużego wpływu na pracę programu w normalnych zastosowaniach.
 \end_layout
 
 \begin_layout Standard
-Przeprowadzono również profilowanie, formę dynamicznej analizy kodu przy
- użyciu oprogramowania 
+Przeprowadzono również profilowanie, dynamiczną analizę kodu przy użyciu
+ oprogramowania 
 \shape italic
 \size footnotesize
 Valgrind
 \shape default
 \size default
 .
- Uzyskano wyniki wskazujące, że około 85% czasu wykonania poświęcane było
- na wczytanie danych z pliku tekstowego lub strumienia wejścia, natomiast
- jedynie 15% czasu zajmowało wykonanie algorytmu i uzyskanie wyników.
- Ze względu na użycie dostępnych w bibliotece języka C funkcji ładowania
- danych, niemożliwa okazała się poprawa wydajności w tym względzie.
- Jednym z możliwych rozwiązań było wykorzystanie kilku wątków programu do
- ładowania danych, a tylko jednego do pracy algorytmu.
- Pozwoliłoby znacznie zwiększyć wydajność zwłaszcza w przypadku wykorzystania
- serwerów obliczeniowych, gwarantujących dostęp do wielu rdzeni procesora.
- Nie było to jednak celem realizowanej pracy.
+ Uzyskano wyniki wskazujące, że około 85% czasu wykonania poświęcane jest
+ na wczytanie danych z pliku tekstowego lub strumienia wejścia.
+ Jedynie 15% czasu zajmuje wykonanie algorytmu i uzyskanie wyników.
+ Ze względu na użycie dostępnych w bibliotece języka C funkcji wczytywania
+ danych, niemożliwa okazała się dalsza poprawa wydajności w tym względzie.
+ Jednym z możliwych rozwiązań, które umożliwiłyby wzrost wydajności jest
+ wykorzystanie wielowątkowego modelu pracy.
+ Użycie kilku wątków programu do ładowania danych, a tylko jednego do pracy
+ algorytmu pozwoliłoby znacznie zwiększyć wydajność.
+ Byłoby to zauważalne zwłaszcza w przypadku wykorzystania serwerów obliczeniowyc
+h, gwarantujących dostęp do wielu rdzeni procesora.
+ Zaprojektowanie aplikacji wielowątkowej znacznie przedłużyłoby jednak czas
+ wykonania aplikacji i utrudniło jej testowanie, przez co zdecydowano się
+ na użycie tylko jednego wątku.
 \end_layout
 
 \begin_layout Standard
