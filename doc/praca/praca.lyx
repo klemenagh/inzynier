@@ -359,7 +359,15 @@ Cel i zakres pracy
 
 \begin_layout Standard
 Celem pracy jest implementacja algorytmu detekcji osi pojazdów samochodowych
- w oparciu o profile R i X pochodzące z czujników indukcyjnych pętlowych.
+ w oparciu o profile 
+\begin_inset Formula $R$
+\end_inset
+
+ i 
+\begin_inset Formula $X$
+\end_inset
+
+ pochodzące z czujników indukcyjnych pętlowych.
  W ramach pracy zrealizowane zostanie oprogramowanie do detekcji osi pojazdów
  na podstawie profili indukcyjnych, wykorzystując do tego język programowania
  C 
@@ -514,8 +522,12 @@ key "fhwaclasses"
 
 \end_inset
 
-, wyszczególniającej 13 kategorii, lub innej, zaprojektowanej w celu klasyfikacj
-i dedykowanego zagadnienia - na przykład masy pojazdu.
+, wyszczególniającej 
+\begin_inset Formula $13$
+\end_inset
+
+ kategorii, lub innej, zaprojektowanej w celu klasyfikacji dedykowanego
+ zagadnienia - na przykład masy pojazdu.
  
 \end_layout
 
@@ -1086,7 +1098,15 @@ archiwum.tar
 .
  Argument 
 \family typewriter
+
+\begin_inset Quotes pld
+\end_inset
+
 -T -
+\begin_inset Quotes prd
+\end_inset
+
+
 \family default
  informuje program, by odczytał listę plików do archiwizacji ze strumienia
  wejściowego.
@@ -1486,11 +1506,27 @@ czas w sekundach,
 \end_layout
 
 \begin_layout Itemize
-pętla szeroka (sygnały X i R),
+pętla szeroka (sygnały 
+\begin_inset Formula $X$
+\end_inset
+
+ i 
+\begin_inset Formula $R$
+\end_inset
+
+),
 \end_layout
 
 \begin_layout Itemize
-pętla wąska (sygnały X i R),
+pętla wąska (sygnały 
+\begin_inset Formula $X$
+\end_inset
+
+ i 
+\begin_inset Formula $R$
+\end_inset
+
+),
 \end_layout
 
 \begin_layout Itemize
@@ -1818,8 +1854,23 @@ reference "fig:sygnaly-r-x-wstepne"
 
 \end_inset
 
- przedstawiono wartości sygnałów R oraz X dla pętli o długościach 10cm oraz
- 3m, oraz, pomocniczo, sygnały 
+ przedstawiono wartości sygnałów 
+\begin_inset Formula $R$
+\end_inset
+
+ oraz 
+\begin_inset Formula $X$
+\end_inset
+
+ dla pętli o długościach 
+\begin_inset Formula $10cm$
+\end_inset
+
+ oraz 
+\begin_inset Formula $3m$
+\end_inset
+
+, oraz, pomocniczo, sygnały 
 \begin_inset Formula $M_{i}=\sqrt{R_{i}^{2}+X_{i}^{2}}$
 \end_inset
 
@@ -1845,7 +1896,23 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Przebieg sygnałów R i X dla pętli o długościach 10cm oraz 3m.
+Przebieg sygnałów 
+\begin_inset Formula $R$
+\end_inset
+
+ i 
+\begin_inset Formula $X$
+\end_inset
+
+ dla pętli o długościach 
+\begin_inset Formula $10cm$
+\end_inset
+
+ oraz 
+\begin_inset Formula $3m$
+\end_inset
+
+.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:sygnaly-r-x-wstepne"
@@ -1974,8 +2041,12 @@ reference "fig:sygnaly-r-x-wstepne"
 \end_layout
 
 \begin_layout Standard
-Na podstawie pierwszych 30 wartości dla każdego sygnału wyznaczane jest
- średnie przesunięcie sygnału względem wartości zerowej.
+Na podstawie pierwszych 
+\begin_inset Formula $30$
+\end_inset
+
+ wartości dla każdego sygnału wyznaczane jest średnie przesunięcie sygnału
+ względem wartości zerowej.
  Przyjęto, że w pierwsze pomiary powinny być w idealnym środowisku równe
  zero, ponieważ pojazd nie znajduje się wtedy w zasięgu pracy czujnika indukcyjn
 ego.
@@ -2107,14 +2178,18 @@ a sygnału, na podstawie którego przeprowadzona zostanie detekcja osi oraz
 
 \begin_layout Standard
 Na podstawie sygnałów 
-\begin_inset Formula $R_{0.1m}$
+\begin_inset Formula $R_{0,1m}$
 \end_inset
 
  i 
-\begin_inset Formula $X_{0.1m}$
+\begin_inset Formula $X_{0,1m}$
 \end_inset
 
- pętli o długości 10cm wyznaczany jest sygnał 
+ pętli o długości 
+\begin_inset Formula $10cm$
+\end_inset
+
+ wyznaczany jest sygnał 
 \begin_inset Formula $M$
 \end_inset
 
@@ -2131,7 +2206,7 @@ reference "eq:m-signal"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-M(R_{0.1m},X_{0.1m})=R_{0.1m}^{2}+X_{0.1m}^{2}\label{eq:m-signal}
+M(R_{0,1m},X_{0,1m})=R_{0,1m}^{2}+X_{0,1m}^{2}\label{eq:m-signal}
 \end{equation}
 
 \end_inset
@@ -2141,7 +2216,7 @@ M(R_{0.1m},X_{0.1m})=R_{0.1m}^{2}+X_{0.1m}^{2}\label{eq:m-signal}
 
 \begin_layout Standard
 Na bazie sygnałów 
-\begin_inset Formula $X_{0.1m}$
+\begin_inset Formula $X_{0,1m}$
 \end_inset
 
  oraz 
@@ -2179,7 +2254,7 @@ Na bazie sygnałów
 \end_inset
 
 - liczby próbek dla których wartość sygnału 
-\begin_inset Formula $X_{0.1m}$
+\begin_inset Formula $X_{0,1m}$
 \end_inset
 
  przekracza 
@@ -2190,7 +2265,7 @@ Na bazie sygnałów
 \begin_inset Formula $L_{m}$
 \end_inset
 
-- liczby próbek dla których sygnał
+- liczby próbek dla których sygnał 
 \family roman
 \series medium
 \shape up
@@ -2203,7 +2278,7 @@ Na bazie sygnałów
 \noun off
 \color none
 \lang english
- 
+
 \begin_inset Formula $M$
 \end_inset
 
@@ -2489,7 +2564,7 @@ Pomocniczo wyznacza się wartość
 , wartości parametrów ulegają zmianie na
 \shape italic
  
-\begin_inset Formula $Y=0.8$
+\begin_inset Formula $Y=0,8$
 \end_inset
 
 
@@ -2497,7 +2572,7 @@ Pomocniczo wyznacza się wartość
 , 
 \shape italic
 
-\begin_inset Formula $H=0.45$
+\begin_inset Formula $H=0,45$
 \end_inset
 
 
@@ -2605,15 +2680,15 @@ Sygnały
 \end_inset
 
 , 
-\begin_inset Formula $K_{pmax}=0.77$
+\begin_inset Formula $K_{pmax}=0,77$
 \end_inset
 
 ,
-\begin_inset Formula $a/b=0.5$
+\begin_inset Formula $a/b=0,5$
 \end_inset
 
 , 
-\begin_inset Formula $H=0.5$
+\begin_inset Formula $H=0,5$
 \end_inset
 
 , 
@@ -2815,7 +2890,11 @@ name "lis:hist-counter"
 \end_layout
 
 \begin_layout Standard
-W wyniku wywołania funkcji dla sygnału K_u przedstawionego na rysunku 
+W wyniku wywołania funkcji dla sygnału 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+ przedstawionego na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:sygnaly-m-kp-ku"
@@ -3061,7 +3140,7 @@ Przed przystąpieniem do wykonania algorytmu przyjmuje się nowe wartości
  parametrów: 
 \shape italic
 
-\begin_inset Formula $a/b=0.3$
+\begin_inset Formula $a/b=0,3$
 \end_inset
 
  
@@ -3069,7 +3148,7 @@ Przed przystąpieniem do wykonania algorytmu przyjmuje się nowe wartości
 , 
 \shape italic
 
-\begin_inset Formula $H=0.1$
+\begin_inset Formula $H=0,1$
 \end_inset
 
 
@@ -3177,6 +3256,24 @@ name "fig:sygnaly-ku-piezo-podniesiona"
 \end_inset
 
 
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+usuń 
+\begin_inset Quotes pld
+\end_inset
+
+- 5 osi
+\begin_inset Quotes prd
+\end_inset
+
+ z podpisu sygnału
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3272,7 +3369,7 @@ reference "lis:hist-counter"
 , 
 \shape italic
 
-\begin_inset Formula $H=0.1$
+\begin_inset Formula $H=0,1$
 \end_inset
 
 
@@ -3558,7 +3655,7 @@ Zbadano krzywe sygnału
 
 .
  Przyjęto wartość
-\begin_inset Formula $K_{l}=0.5V$
+\begin_inset Formula $K_{l}=0,5V$
 \end_inset
 
 .
@@ -3837,8 +3934,8 @@ reference "sub:flags"
 Algorytm detekcji położenia osi w bryle pojazdu oferuje dokładność podobną
  do algorytmów wykorzystujących w tym celu czujniki nacisku.
  Wyniki nie różnią się zwykle o więcej niż kilka centymetrów.
- Korzystając z czujników indukcyjnych unika się również zjawiska drgań,
- które może wystąpić w przypadku czujników piezoelektrycznych i powodować
+ Wykorzystanie czujników indukcyjnych pozwala również na uniknięcie zjawiska
+ drgań, które może wystąpić w przypadku czujników piezoelektrycznych i powodować
  błędne wyniki.
  Ponadto, przewagą czujników indukcyjnych jest z pewnością możliwość wykrycia
  położenia osi podniesionej, co opisano w sekcji 
@@ -3940,17 +4037,17 @@ reference "fig:schemat-dlugosci"
 \end_inset
 
 : 
-\begin_inset Formula $l_{1}=1.194m,l_{2}=2.653m,l_{3}=0.523m$
+\begin_inset Formula $l_{1}=1,194m,l_{2}=2,653m,l_{3}=0,523m$
 \end_inset
 
 .
  Weryfikacja przy użyciu czujnika piezoelektrycznego zwróciła wartość 
-\begin_inset Formula $lp_{2}=2.865m$
+\begin_inset Formula $lp_{2}=2,865m$
 \end_inset
 
 .
  Pojazd poruszał się z prędkością 
-\begin_inset Formula $v=21.62\frac{m}{s}$
+\begin_inset Formula $v=21,62\frac{m}{s}$
 \end_inset
 
 .
@@ -4070,7 +4167,7 @@ reference "fig:analiza-osobowy"
 \end_inset
 
  wyniosły: 
-\begin_inset Formula $d=6.803m,l_{1}=1.057m,l_{2}=4.048m,l_{3}=1.698m,lp_{2}=3.994m,v=20.96\frac{m}{s}$
+\begin_inset Formula $d=6,803m,l_{1}=1,057m,l_{2}=4,048m,l_{3}=1,698m,lp_{2}=3,994m,v=20,96\frac{m}{s}$
 \end_inset
 
 .
@@ -4169,7 +4266,7 @@ reference "fig:analiza-osobowy"
 \end_inset
 
  wyniosły: 
-\begin_inset Formula $d=7.797m,l_{1}=1.311m,l_{2}=4.875m,l_{3}=1.361m,l_{4}=0.250m,lp_{2}=4.937m,lp_{3}=1.350m,v=15.62\frac{m}{s}$
+\begin_inset Formula $d=7,797m,l_{1}=1,311m,l_{2}=4,875m,l_{3}=1,361m,l_{4}=0,250m,lp_{2}=4,937m,lp_{3}=1,350m,v=15,62\frac{m}{s}$
 \end_inset
 
 .
@@ -4196,7 +4293,7 @@ name "fig:analiza-ciezarowy-3"
 Wykres prezentuje typowe charakterystyki sygnałów dla pojazdów ciężarowych
  trzyosiowych.
  Widoczne są impulsy sygnału 
-\begin_inset Formula $X_{0.1m}$
+\begin_inset Formula $X_{0,1m}$
 \end_inset
 
 , czego nie dało się zaobserwować w przypadku pojazdów osobowych i dostawczych.
@@ -4220,8 +4317,12 @@ Wykres prezentuje typowe charakterystyki sygnałów dla pojazdów ciężarowych
 Ogranicza to dokładność czujników indukcyjnych, a w konsekwencji uniemożliwia
  detekcję długości pojazdu z dokładnością większą niż metr.
  Powoduje to uzyskanie fałszywego wyniku, sugerującego znacznie mniejszą
- od rzeczywistej odległość ostatniej osi od końa pojazdu.
- Problem ten wystąpił dla około 30 procent przeanalizowanych danych.
+ od rzeczywistej odległość ostatniej osi od końca pojazdu.
+ Problem ten wystąpił dla około 
+\begin_inset Formula $30$
+\end_inset
+
+ procent przeanalizowanych danych.
  Analogiczne wyniki uzyskano dla pojazdów ciężarowych dwu- i czteroosiowych.
 \end_layout
 
@@ -4271,7 +4372,7 @@ reference "fig:analiza-osobowy"
 \end_inset
 
  wyniosły: 
-\begin_inset Formula $d=15.826m,l_{1}=1.756m,l_{2}=3.524m,l_{3}=5.923m,l_{4}=1.295m,l_{5}=1.297m,l_{6}=2.031m,lp_{2}=3.559m,lp_{3}=5.832m,lp_{4}=1.317m,lp_{5}=1.320m,v=19.36\frac{m}{s}$
+\begin_inset Formula $d=15,826m,l_{1}=1,756m,l_{2}=3,524m,l_{3}=5,923m,l_{4}=1,295m,l_{5}=1,297m,l_{6}=2,031m,lp_{2}=3,559m,lp_{3}=5,832m,lp_{4}=1,317m,lp_{5}=1,320m,v=19,36\frac{m}{s}$
 \end_inset
 
 .
@@ -4323,7 +4424,7 @@ reference "fig:analiza-osobowy"
 \end_inset
 
  wyniosły: 
-\begin_inset Formula $d=16.566m,l_{1}=2.188m,l_{2}=3.673m,l_{3}=5.807m,l_{4}=1.247m,l_{5}=1.300m,l_{6}=2.352m,lp_{2}=3.630m,lp_{3}=7.051m,lp_{5}=1.310m,v=18.60\frac{m}{s}$
+\begin_inset Formula $d=16,566m,l_{1}=2,188m,l_{2}=3,673m,l_{3}=5,807m,l_{4}=1,247m,l_{5}=1,300m,l_{6}=2,352m,lp_{2}=3,630m,lp_{3}=7,051m,lp_{5}=1,310m,v=18,60\frac{m}{s}$
 \end_inset
 
 .
@@ -4362,7 +4463,11 @@ Wykresy prezentują typowe charakterystyki profili uzyskane dla pojazdów
  pozwalająca z wysokim prawdopodobieństwem na wykrycie opisanego zjawiska.
  Algorytm detekcji położenia osi gwarantuje dokładność rzędu kilku centymetrów.
  Ponownie zaobserwowano problem nieprecyzyjnej detekcji odległości ostatniej
- osi od końca pojazdu, występujący dla około 30-40% pomiarów.
+ osi od końca pojazdu, występujący dla około 
+\begin_inset Formula $30-40\%$
+\end_inset
+
+ pomiarów.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -4861,8 +4966,11 @@ reference "chap:usage"
 
 \begin_layout Standard
 Projektowaniu interfejsu modułów programowych towarzyszyła inspiracja oprogramow
-aniem powstającym wokół ruchu GNU, co miało wpływ na zbudowanie programu
- w sposób sprzyjający dalszej rozbudowie.
+aniem powstającym wokół ruchu 
+\shape italic
+GNU
+\shape default
+, co miało wpływ na zbudowanie programu w sposób sprzyjający dalszej rozbudowie.
  Przykładem tego jest interfejs graficzny, którego projektowanie nie było
  celem pracy, stanowi dowód na potwierdzenie tezy o możliwości rozwoju oprogramo
 wania.
@@ -6221,17 +6329,41 @@ Wyniki testów
 \begin_layout Standard
 Kolumna 
 \shape italic
+
+\begin_inset Quotes pld
+\end_inset
+
 Wynik
+\begin_inset Quotes prd
+\end_inset
+
+
 \shape default
  zawiera liczbę poprawnych detekcji liczby osi dla pojazdu.
  Kolumna 
 \shape italic
+
+\begin_inset Quotes pld
+\end_inset
+
 Błędy pracy algorytmu
+\begin_inset Quotes prd
+\end_inset
+
+
 \shape default
  informuje o liczbie pojazdów, dla których wyznaczono błędną liczbę osi.
  Kolumna 
 \shape italic
+
+\begin_inset Quotes pld
+\end_inset
+
 Niepoprawne dane wejściowe
+\begin_inset Quotes prd
+\end_inset
+
+
 \shape default
  zawiera natomiast informację o liczbie plików, dla których detekcja zakończyła
  się błędem związanym z nieczytelnością danych wejściowych, co uniemożliwiło
@@ -7080,8 +7212,11 @@ Analiza wykonana została na komputerze klasy PC.
 \end_layout
 
 \begin_layout Standard
-Czas analizy jednego zestawu danych zbliżony jest do 50 milisekund, niezależnie
- od wielkości badanego zbioru danych.
+Czas analizy jednego zestawu danych zbliżony jest do 
+\begin_inset Formula $50$
+\end_inset
+
+ milisekund, niezależnie od wielkości badanego zbioru danych.
  Uznano ten wynik za zadowalający, umożliwiający płynną pracę przy analizie
  danych nawet z najbardziej obciążonych ruchem połączeń drogowych.
 \end_layout
@@ -7150,9 +7285,17 @@ Valgrind
 \shape default
 \size default
 .
- Uzyskano wyniki wskazujące, że około 85% czasu wykonania poświęcane jest
- na wczytanie danych z pliku tekstowego lub strumienia wejścia.
- Jedynie 15% czasu zajmuje wykonanie algorytmu i uzyskanie wyników.
+ Uzyskano wyniki wskazujące, że około 
+\begin_inset Formula $85\%$
+\end_inset
+
+ czasu wykonania poświęcane jest na wczytanie danych z pliku tekstowego
+ lub strumienia wejścia.
+ Jedynie 
+\begin_inset Formula $15\%$
+\end_inset
+
+ czasu zajmuje wykonanie algorytmu i uzyskanie wyników.
  Ze względu na użycie dostępnych w bibliotece języka C funkcji wczytywania
  danych, niemożliwa okazała się dalsza poprawa wydajności w tym względzie.
  Jednym z możliwych rozwiązań, które umożliwiłyby wzrost wydajności jest
