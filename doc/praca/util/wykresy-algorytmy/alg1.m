@@ -141,7 +141,7 @@ hold on;
 plot(t, nowe_piezo)
 xlabel('Czas [s]')
 ylabel('Profil [V]')
-legend('Sygnał K_{u} - 5 osi', 'Sygnał detekcji osi', ...
+legend('Sygnał K_{u}', 'Sygnał detekcji osi', ...
     'Location','northoutside','Orientation','horizontal')
 axis([0 t(end) -1 6])
 grid on;

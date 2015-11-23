@@ -125,7 +125,7 @@
     ><text x="-10.5" xml:space="preserve" y="13" style="stroke:none;"
       >0.7</text
     ></g
-    ><g transform="translate(290.0002,402)" style="font-size:15px; fill:rgb(38,38,38); text-rendering:geometricPrecision; color-rendering:optimizeQuality; image-rendering:optimizeQuality; font-family:'SansSerif'; color-interpolation:linearRGB; stroke:rgb(38,38,38);"
+    ><g transform="translate(290.0002,401.6667)" style="font-size:15px; fill:rgb(38,38,38); text-rendering:geometricPrecision; color-rendering:optimizeQuality; image-rendering:optimizeQuality; font-family:'SansSerif'; color-interpolation:linearRGB; stroke:rgb(38,38,38);"
     ><text x="-30" xml:space="preserve" y="14" style="stroke:none;"
       >Czas [s]</text
     ></g
@@ -470,30 +470,26 @@
       /><path d="M504.595 335.8571 L504.6567 335.8571 L504.7184 335.8571 L504.7801 335.8571 L504.8417 335.8571 L504.9034 335.8571 L504.9651 335.8571 L505.0267 335.8571 L505.0884 335.8571 L505.1501 335.8571 L505.2117 335.8571 L505.2733 335.8571 L505.335 335.8571 L505.3967 335.8571 L505.4584 335.8571 L505.52 335.8571 L505.5817 335.8571 L505.6434 335.8571 L505.705 335.8571 L505.7667 335.8571 L505.8284 335.8571 L505.89 335.8571 L505.9517 335.8571 L506.0134 335.8571 L506.075 335.8571 L506.1367 335.8571 L506.1983 335.8571 L506.26 335.8571 L506.3217 335.8571 L506.3833 335.8571 L506.445 335.8571 L506.5067 335.8571 L506.5684 335.8571 L506.63 335.8571 L506.6917 335.8571 L506.7534 335.8571 L506.815 335.8571 L506.8766 335.8571 L506.9383 335.8571 L507 335.8571" style="fill:none; fill-rule:evenodd; stroke:rgb(217,83,25);"
     /></g
     ><g style="fill:white; text-rendering:optimizeSpeed; color-rendering:optimizeSpeed; image-rendering:optimizeSpeed; shape-rendering:crispEdges; color-interpolation:sRGB; stroke:white;"
-    ><path style="stroke:none;" d="M130 55 L130 28 L450 28 L450 55 Z"
+    ><path style="stroke:none;" d="M151 55 L151 28 L429 28 L429 55 Z"
     /></g
-    ><g transform="translate(182,43)" style="text-rendering:geometricPrecision; font-family:'SansSerif'; color-interpolation:linearRGB; color-rendering:optimizeQuality; image-rendering:optimizeQuality;"
+    ><g transform="translate(203,43)" style="text-rendering:geometricPrecision; font-family:'SansSerif'; color-interpolation:linearRGB; color-rendering:optimizeQuality; image-rendering:optimizeQuality;"
     ><text x="0" xml:space="preserve" y="0" style="stroke:none;"
       >Sygnał K</text
     ></g
-    ><g transform="translate(235,49)" style="font-size:9px; text-rendering:geometricPrecision; color-rendering:optimizeQuality; image-rendering:optimizeQuality; font-family:'SansSerif'; color-interpolation:linearRGB;"
+    ><g transform="translate(256,49)" style="font-size:9px; text-rendering:geometricPrecision; color-rendering:optimizeQuality; image-rendering:optimizeQuality; font-family:'SansSerif'; color-interpolation:linearRGB;"
     ><text x="0" xml:space="preserve" y="0" style="stroke:none;"
       >u</text
     ></g
-    ><g transform="translate(241,43)" style="text-rendering:geometricPrecision; font-family:'SansSerif'; color-interpolation:linearRGB; color-rendering:optimizeQuality; image-rendering:optimizeQuality;"
-    ><text x="0" xml:space="preserve" y="0" style="stroke:none;"
-      > - 5 osi</text
-    ></g
     ><g style="stroke-linecap:butt; fill:rgb(0,114,189); text-rendering:geometricPrecision; color-rendering:optimizeQuality; image-rendering:optimizeQuality; stroke-linejoin:round; color-interpolation:linearRGB; stroke:rgb(0,114,189); stroke-width:0.6667;"
-    ><line y2="41.1667" style="fill:none;" x1="138.0083" x2="178.05" y1="41.1667"
+    ><line y2="41.1667" style="fill:none;" x1="158.9809" x2="198.8852" y1="41.1667"
     /></g
-    ><g transform="translate(332.878,41.1667)" style="text-rendering:geometricPrecision; font-family:'SansSerif'; color-interpolation:linearRGB; color-rendering:optimizeQuality; image-rendering:optimizeQuality;"
+    ><g transform="translate(312.2799,41.1667)" style="text-rendering:geometricPrecision; font-family:'SansSerif'; color-interpolation:linearRGB; color-rendering:optimizeQuality; image-rendering:optimizeQuality;"
     ><text x="0" xml:space="preserve" y="4.5" style="stroke:none;"
       >Sygnał detekcji osi</text
     ></g
     ><g style="stroke-linecap:butt; fill:rgb(217,83,25); text-rendering:geometricPrecision; color-rendering:optimizeQuality; image-rendering:optimizeQuality; stroke-linejoin:round; color-interpolation:linearRGB; stroke:rgb(217,83,25); stroke-width:0.6667;"
-    ><line y2="41.1667" style="fill:none;" x1="288.8321" x2="328.8738" y1="41.1667"
-      /><path d="M130 55 L130 28 L450 28 L450 55 Z" style="fill:none; fill-rule:evenodd; stroke-linejoin:miter; stroke:rgb(38,38,38);"
+    ><line y2="41.1667" style="fill:none;" x1="268.3852" x2="308.2895" y1="41.1667"
+      /><path d="M151 55 L151 28 L429 28 L429 55 Z" style="fill:none; fill-rule:evenodd; stroke-linejoin:miter; stroke:rgb(38,38,38);"
     /></g
   ></g
 ></svg

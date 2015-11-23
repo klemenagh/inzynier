@@ -2595,6 +2595,17 @@ FUNCTION {presort}
   if$
   #1 entry.max$ substring$
   'sort.key$ :=
+  type$ "online" =
+  not
+  {
+    "01-" sort.key$ *
+    'sort.key$ := 
+  } 
+  {
+    "99-" sort.key$ *
+    'sort.key$ := 
+  }
+if$
 }
 
 ITERATE {presort}

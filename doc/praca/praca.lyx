@@ -75,7 +75,7 @@
 \pdf_colorlinks false
 \pdf_backref false
 \pdf_pdfusetitle true
-\papersize default
+\papersize a4paper
 \use_geometry false
 \use_package amsmath 0
 \use_package amssymb 0
@@ -209,9 +209,9 @@ acknowledgements{Wymaga odkomentowania linijek w aghdpl.cls}
 
 \begin_layout Plain Layout
 
-%
+
 \backslash
-date{2015} 
+date{2016} 
 \end_layout
 
 \begin_layout Plain Layout
@@ -395,11 +395,11 @@ key "gnustandard"
 
 \end_inset
 
-, w tym obsługa wejść i wyjść, kodów błędu, potoków oraz argumentów wiersza
+, w tym obsługa wejść i wyjść, kodów błędów, potoków oraz argumentów wiersza
  poleceń 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "linuxgetopt,linuxpipes,gnucli"
+key "linuxgetopt,linuxpipes,gnucli,Love2014"
 
 \end_inset
 
@@ -740,8 +740,11 @@ key "Gajd2012,kaewkamnerd2010,marszalek2013"
 
 \begin_layout Standard
 Układ kondycjonowania komunikuje się z systemem przetwarzania danych.
- Jego rolę może pełnić układ FPGA (rodzaj programowalnego układu logicznego,
- ang.
+ Jego rolę może pełnić układ 
+\shape italic
+FPGA
+\shape default
+ (rodzaj programowalnego układu logicznego, ang.
  
 \shape italic
 field-programmable gate array
@@ -1642,6 +1645,7 @@ reference "lis:wyjscie-dlugosci"
 
 \begin_layout Standard
 \begin_inset listings
+lstparams "basicstyle={\small}"
 inline false
 status open
 
@@ -2775,7 +2779,7 @@ reference "lis:hist-counter"
 
 \begin_layout Standard
 \begin_inset listings
-lstparams "language=C,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color{green}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color{magenta}}"
+lstparams "language=C,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color[rgb]{0.4, 0.4, 0.4}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color[rgb]{0.2, 0.2, 0.2}}"
 inline false
 status open
 
@@ -3421,7 +3425,7 @@ reference "lis:cp-signal"
 
 \begin_layout Standard
 \begin_inset listings
-lstparams "language=C,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color{green}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color{magenta}}"
+lstparams "language=C,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color[rgb]{0.4, 0.4, 0.4}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color[rgb]{0.2, 0.2, 0.2}}"
 inline false
 status open
 
@@ -4243,7 +4247,7 @@ reference "fig:analiza-ciezarowy-3"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -5461,7 +5465,7 @@ status open
 
 \begin_layout Plain Layout
 
-cat *.data | ./swapper | axles -f konfiguracja_stanowiska.cfg -pc
+cat *.data | ./swapper | axles -f konfiguracja.cfg -pc
 \end_layout
 
 \end_inset
