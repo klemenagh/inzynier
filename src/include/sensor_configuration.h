@@ -12,5 +12,6 @@
 #define PIEZO1_POSITION         "PIEZO1_POSITION="
 #define PIEZO2_POSITION         "PIEZO2_POSITION="
 #define TOTAL_LENGTH            "TOTAL_LENGTH="
+#define R_X_FACTOR              "R_X_FACTOR="
 
 #endif //INZYNIER_SENSOR_CONFIGURATION_H

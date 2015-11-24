@@ -184,8 +184,12 @@ void load_sensor_configuration(const char *filename) {
                         = strtod(buffer + strlen(PIEZO2_POSITION), NULL);
             }
             else if (string_starts_with(buffer, TOTAL_LENGTH)) {
-                    sensor_configuration.total_length
-                            = strtod(buffer + strlen(TOTAL_LENGTH), NULL);
+                sensor_configuration.total_length
+                        = strtod(buffer + strlen(TOTAL_LENGTH), NULL);
+            }
+            else if (string_starts_with(buffer, R_X_FACTOR)) {
+                sensor_configuration.r_x_factor
+                        = strtod(buffer + strlen(R_X_FACTOR), NULL);
             } else {
                 if (is_verbosity_at_least(RELEASE))
                     printf("Nieznana linia w pliku konfiguracyjnym:\n %s", buffer);
@@ -203,6 +207,7 @@ void load_sensor_configuration(const char *filename) {
         sensor_configuration.piezo1_position = 16;
         sensor_configuration.piezo2_position = 17;
         sensor_configuration.total_length = 25;
+        sensor_configuration.r_x_factor = 1;
     }
 
     if (is_verbosity_at_least(DEBUG)) {
@@ -219,6 +224,8 @@ void load_sensor_configuration(const char *filename) {
                sensor_configuration.sensor_long_length);
         printf("  Długość krótkiego czujnika: %5.2f [m]\n",
                sensor_configuration.sensor_short_length);
+        printf("  Współczynnik R do X:        %5.2f [x100%%]\n",
+               sensor_configuration.r_x_factor);
     }
 }
 

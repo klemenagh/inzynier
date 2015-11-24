@@ -72,12 +72,12 @@ vehicle_data_t algorithm(data_vector_t *vector, bool verify,
     }
 
     if (1.0 * Lx > 0.1 * Lm) { // wybór nastaw zestawu A
-        a_b = 0.21;
+        a_b = 0.21 * sensor_configuration.r_x_factor;
         Y = 0.8;
         H = 0.45;
     }
     else { // nastawy zestawu B
-        a_b = 0.5;
+        a_b = 0.5 * sensor_configuration.r_x_factor;
         Y = 4;
         H = 0.5;
     }
@@ -138,7 +138,7 @@ vehicle_data_t algorithm(data_vector_t *vector, bool verify,
             puts(" Znaleziono 4 osie, procedura szukania 5...");
         }
         H = 0.1;
-        a_b = 0.3; // zwiększenie znaczenia sygnału R
+        a_b = 0.3 * sensor_configuration.r_x_factor; // zwiększenie znaczenia sygnału R
 
         // przepisanie sygnału K' i Ku
         for (unsigned i = 0; i < length; i++) {
