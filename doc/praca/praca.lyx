@@ -332,8 +332,8 @@ Pracownicy Katedry Metrologii i Elektroniki Akademii Górniczo-Hutniczej
  Pozwalają na badanie szeregu parametrów pojazdów, takich jak prędkość,
  długość czy liczba osi, oraz parametrów strumienia ruchu, na przykład natężenia
  ruchu czy odległości czasowych pomiędzy kolejnymi pojazdami.
- Algorytm wykorzystujący czujniki indukcyjne, zostanie zbudowana zaimplementowan
-y pozwala na detekcję liczby osi pojazdu z dokładnością ponad 95%, cechując
+ Algorytm wykorzystujący czujniki indukcyjne, który zostanie zaimplementowany,
+ pozwala na detekcję liczby osi pojazdu z dokładnością ponad 95%, cechując
  się przy tym niewielką złożonością obliczeniową 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -359,7 +359,7 @@ Cel i zakres pracy
 
 \begin_layout Standard
 Celem pracy jest implementacja algorytmu detekcji osi pojazdów samochodowych
- w oparciu o profile 
+ na podstawie profili 
 \begin_inset Formula $R$
 \end_inset
 
@@ -367,7 +367,7 @@ Celem pracy jest implementacja algorytmu detekcji osi pojazdów samochodowych
 \begin_inset Formula $X$
 \end_inset
 
- pochodzące z czujników indukcyjnych pętlowych.
+ pochodzących z czujników indukcyjnych pętlowych.
  W ramach pracy zrealizowane zostanie oprogramowanie do detekcji osi pojazdów
  na podstawie profili indukcyjnych, wykorzystując do tego język programowania
  C 
@@ -480,7 +480,7 @@ e aplikacje.
 \begin_layout Standard
 Rozdział siódmy zawiera analizę pracy programu.
  Poruszono w nim zagadnienia stabilności i wydajności pracy.
- Przedstawiono również oprogramowanie, przy użyciu którego przeprowadzono
+ Przedstawiono również oprogramowanie, przy którego użyciu przeprowadzono
  testy poprawności działania algorytmu.
 \end_layout
 
@@ -505,7 +505,7 @@ Czujniki indukcyjne pętlowe w pomiarach parametrów ruchu pojazdów
 \end_layout
 
 \begin_layout Standard
-Pośród parametrów ruchu drogowego, które podlegają analizie znajdują się
+Pośród parametrów ruchu drogowego, które podlegają analizie, znajdują się
  wartości związane ze strumieniem pojazdów, takie jak natężenie ruchu, interwały
  czasowe pomiędzy kolejnymi pojazdami, czy płynność ruchu.
  Celem badań są również parametry pojazdu, do których należą prędkość, długość,
@@ -645,7 +645,7 @@ Czujnik indukcyjny pętlowy zbudowany jest z kilku zwojów izolowanego przewodu,
 \end_layout
 
 \begin_layout Standard
-Wykorzystanie czujników indukcyjnych pętlowych wymaga zbudowania systemu
+Wykorzystanie czujników indukcyjnych pętlowych wymaga zbudowania systemu,
  w skład którego wchodzą również układ kondycjonowania i system przetwarzania
  danych.
  Budowę systemu pomiarowego przedstawiono na rysunku 
@@ -727,8 +727,7 @@ Układ kondycjonowania jest modułem elektronicznym odpowiedzialnym za pomiar
  Metoda ta uniemożliwia jednak uzyskanie wartości obu sygnałów na dalszym
  etapie przetwarzania, co znacznie ogranicza możliwe zastosowania układów
  kondycjonowania tego typu.
- Metody projektowania układów kondycjonowania opisane zostały w pracach
- 
+ Metody projektowania tych układów opisane zostały w pracach 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Gajd2012,kaewkamnerd2010,marszalek2013"
@@ -755,7 +754,7 @@ field-programmable gate array
  przez sieć do innego stanowiska.
  Wykorzystanie komunikacji sieciowej pozwala na ciągłą obserwację pracy
  układu z oddalonego laboratorium.
- Możliwość wykorzystania stosunkowo tanich i nie wymagających wiele energii
+ Możliwość wykorzystania stosunkowo tanich i niewymagających wiele energii
  układów mikroprocesorowych ułatwia natomiast montaż stanowiska pomiarowego
  w trudnych warunkach, na przykład w miejscu uniemożliwiającym wykorzystanie
  komunikacji sieciowej.
@@ -775,7 +774,7 @@ key "marszalek2013-2"
 
 \end_inset
 
-, projektowania układów kondycjonowania
+, projektowania układów kondycjonowania 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Marszalek2011"
@@ -824,7 +823,7 @@ key "Ali2012"
 .
  Może to znaleźć zastosowanie w systemach sterujących sygnalizacją świetlną
  czy zliczających pojazdy.
- Znane są metody detekcji prędkości pojazdu korzystając z właściwości czujników
+ Znane są metody detekcji prędkości pojazdu, korzystając z właściwości czujników
  indukcyjnych 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -834,7 +833,7 @@ key "Robbins2005"
 
 , co może być wykorzystane do badania płynności ruchu.
  Informacja na ten temat jest jedną z funkcji współczesnych systemów nawigacji,
- które sugerują trasę korzystając z najlepiej przejezdnych połączeń.
+ które sugerują trasę wykorzystującą najlepiej przejezdne połączenia.
  Czujniki tego typu są również wykorzystywane do klasyfikacji pojazdów 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -936,8 +935,8 @@ key "gnupage"
 \end_inset
 
 .
- Na przestrzeni kilkunastu lat publikacji oprogramowania związanego z tym
- systemem powstał zbiór zasad, zebranych w dokumencie 
+ W ciągu kilkunastu lat publikacji oprogramowania związanego z tym systemem
+ powstał zbiór zasad, zebranych w dokumencie 
 \shape italic
 GNU Coding Standard
 \shape default
@@ -958,12 +957,12 @@ key "gnustandard"
 \end_inset
 
 .
- Dokument ten opisuje takie zagadnienia, jak styl formatowania kodu i wykorzysta
-nie komentarzy, obsługa flag, czy dokumentacja programu.
+ Dokument ten opisuje takie zagadnienia jak styl formatowania kodu i wykorzystan
+ie komentarzy, obsługa flag, czy dokumentacja programu.
 \end_layout
 
 \begin_layout Standard
-Podszas pisania kodu programu, stosowano się do 
+Podczas pisania kodu programu, stosowano się do 
 \shape italic
 Google C++ Style Guide
 \shape default
@@ -1027,7 +1026,7 @@ przekierowania umożliwiającego przesłanie wyjścia jednego programu do dalsze
 \begin_inset Quotes prd
 \end_inset
 
-.
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "linuxpipes"
@@ -1042,7 +1041,7 @@ key "linuxpipes"
 ) można uniknąć tworzenia plików tymczasowych, a forma wykonywanych poleceń
  staje się bardziej zwięzła.
  Z tego powodu, jest to jedna z najczęściej wykorzystywanych funkcji powłoki
- systemu Linux
+ systemu Linux 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Albing2012"
@@ -1087,14 +1086,14 @@ dokumenty
  oraz jego podkatalogach.
  Korzystając z polecenia 
 \family typewriter
-grep
+grep,
 \family default
  na wyjściu uzyskane zostaną tylko pliki o rozszerzeniu doc.
  Przy użyciu polecenia 
 \family typewriter
 tar
 \family default
- zbudowane zostanie archiwum o nazwie 
+ zbudowane będzie archiwum o nazwie 
 \shape italic
 archiwum.tar
 \shape default
@@ -1138,7 +1137,7 @@ Obsługa flag
 \end_layout
 
 \begin_layout Standard
-Projektowany program jest wywoływany z poziomu linii poleceń sytemu Linux.
+Projektowany program jest wywoływany z poziomu linii poleceń systemu Linux.
  Aby umożliwić konfigurację, zdecydowano się na zaimplementowanie obsługi
  flag programowych 
 \begin_inset CommandInset citation
@@ -1167,7 +1166,7 @@ W skład zaprojektowanego interfejsu wchodzą flagi konfigurujące tryb pracy
  Listę obsługiwanych flag przedstawiono w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:flags"
+reference "sec:flags"
 
 \end_inset
 
@@ -1545,7 +1544,7 @@ Interfejs wyjścia
 \end_layout
 
 \begin_layout Standard
-Program wykonuje algorytm korzystając z załadowanych danych wejściowych
+Program wykonuje algorytm, korzystając z załadowanych danych wejściowych
  i wyświetla wynik pracy poprzez standardowy strumień wyjściowy.
 \end_layout
 
@@ -1806,7 +1805,7 @@ Możliwe jest również manipulowanie ilością informacji wyświetlanymi na wyj
  Funkcja ta została opisana w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:flags"
+reference "sec:flags"
 
 \end_inset
 
@@ -2069,8 +2068,8 @@ wyzerowanie
 Przejeżdżający pojazd pozostaje w obszarze aktywnym pętli indukcyjnej (to
  znaczy w obszarze, w którym wartości sygnałów pętli przyjmują niezerowe
  wartości) nie dłużej niż kilka dziesiątych sekundy.
- Z tego powodu, dysponując danymi odczytanymi na przestrzeni kilku sekund,
- duża ich część nie jest użyteczna z punktu widzenia algorytmu.
+ Z tego powodu, dysponując danymi odczytanymi w ciągu kilku sekund, duża
+ ich część nie jest użyteczna z punktu widzenia algorytmu.
  Zdecydowano się na usunięcie zbędnych wartości w celu uniknięcia niepotrzebnych
  obliczeń, a zatem zwiększenia wydajności algorytmu.
 \end_layout
@@ -2257,7 +2256,7 @@ Na bazie sygnałów
 \begin_inset Formula $L_{x}$
 \end_inset
 
-- liczby pomiarów dla których wartość sygnału 
+- liczby pomiarów, dla których wartość sygnału 
 \begin_inset Formula $X_{0,1m}$
 \end_inset
 
@@ -2589,7 +2588,7 @@ Sygnał
 \begin_inset Formula $K_{p}$
 \end_inset
 
- poddawany jset normalizacji opisanej równaniem 
+ poddawany jest normalizacji opisanej równaniem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:signal-ku"
@@ -2600,7 +2599,7 @@ reference "eq:signal-ku"
 \begin_inset Formula $K_{u}$
 \end_inset
 
- o wartościach nie przekraczających 
+ o wartościach nieprzekraczających 
 \begin_inset Formula $5V$
 \end_inset
 
@@ -2918,8 +2917,8 @@ reference "fig:sygnaly-ku-piezo"
 \end_inset
 
  i sygnał z czujnika piezoelektrycznego, potwierdzający poprawność wyniku.
- Algorytm może zakończyć działanie nie wykrywając poprawnie żadnej osi lub
- wykrywając tylko jedną oś.
+ Algorytm może zakończyć działanie, nie wykrywając poprawnie żadnej osi
+ lub wykrywając tylko jedną oś.
  Taki wynik traktowany jest jako błędny i w celu rozwiązania błędu wykorzystano
  metodę detekcji brakujących osi.
  
@@ -2984,7 +2983,7 @@ Autor przyjął, że wykrycie minimum dwóch osi jest wymagane, by uznać wynik
  W przypadku wykrycia zera lub jednej osi, parametry algorytmu ulegają zmianie,
  po czym próba detekcji jest ponawiana.
  Metoda jest powtarzana do czasu uzyskania poprawnego wyniku lub osiągnięcia
- wartości parametrów nie pozwalających na dalszą analizę.
+ wartości parametrów niepozwalających na dalszą analizę.
  Schemat opisujący algorytm przedstawiono na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3127,8 +3126,9 @@ name "sec:Detekcja-podniesionej-osi"
 \end_layout
 
 \begin_layout Standard
-Ciekawe zagadnienie z punktu widzenia detekcji liczby osi stanowią pojazdy
- ciężarowe pięcioosiowe, które mają możliwość uniesienia jednej z osi.
+Interesujące zagadnienie z punktu widzenia detekcji liczby osi stanowią
+ pojazdy ciężarowe pięcioosiowe, które mają możliwość uniesienia jednej
+ z osi.
  W ich przypadku zawodna staje się metoda detekcji osi przy użyciu czujników
  naciskowych, natomiast czujniki indukcyjne wciąż pozwalają na przeprowadzenie
  próby detekcji.
@@ -3189,7 +3189,7 @@ Po wyznaczeniu sygnału
 \begin_inset Formula $K_{u}$
 \end_inset
 
-, uruchamiany jest algorytm analogiczny do opisanego na schemacie 
+ uruchamiany jest algorytm analogiczny do opisanego na schemacie 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Algorytm-detekcji-brakujących"
@@ -3198,7 +3198,7 @@ reference "fig:Algorytm-detekcji-brakujących"
 
 , z uwzględnieniem nowego warunku stopu, którym jest wykrycie liczby osi
  różnej od czterech.
- W przypadku wykrycia pięciu osi, wynik uznawany jest za poprawny.
+ W przypadku wykrycia pięciu osi wynik uznawany jest za poprawny.
  W przeciwnym razie, za poprawny uznawany jest wcześniej uzyskany wynik
  czterech osi.
  
@@ -3303,7 +3303,7 @@ cleardoublepage{}
 \end_layout
 
 \begin_layout Chapter
-Detekcja długości i położenia osi w bryle pojazdu.
+Detekcja długości pojazdu i położenia osi w jego bryle.
  Weryfikacja poprawności działania algorytmu
 \begin_inset CommandInset label
 LatexCommand label
@@ -3315,7 +3315,7 @@ name "chap:Detekcja-długości-pojazdu"
 \end_layout
 
 \begin_layout Standard
-Algorytm, który opisano w poprzednim rozdziale został rozbudowany o dwie
+Algorytm, który opisano w poprzednim rozdziale, został rozbudowany o dwie
  dodatkowe funkcje.
  Umożliwiono weryfikację wyników pracy algorytmu przez porównanie z wynikami
  uzyskiwanymi na podstawie pomiarów pochodzących z czujników piezoelektrycznych.
@@ -3535,8 +3535,8 @@ reference "lis:hist-counter"
  algorytmu detekcji osi.
 \end_layout
 
-\begin_layout Section*
-Algorytm detekcji przybliżonej długości i położenia osi w bryle pojazdu
+\begin_layout Section
+Algorytm detekcji przybliżonej długości pojazdu i położenia osi w jego bryle
 \end_layout
 
 \begin_layout Standard
@@ -3550,7 +3550,7 @@ Informacja na temat liczby osi pojazdu nie pozwala określić dokładnie klasy
 \end_layout
 
 \begin_layout Standard
-W celu wyznaczenia przybliżonej długości pojazdu, zaimplementowano algorytm,
+W celu wyznaczenia przybliżonej długości pojazdu zaimplementowano algorytm,
  który na bazie profili z czujników indukcyjnych określa przybliżoną długość
  pojazdu oraz położenie osi w bryle pojazdu.
 \end_layout
@@ -3658,7 +3658,7 @@ Zbadano krzywe sygnału
 \end_inset
 
 .
- Przyjęto wartość
+ Przyjęto wartość 
 \begin_inset Formula $K_{l}=0,5V$
 \end_inset
 
@@ -3927,7 +3927,7 @@ Na żądanie użytkownika możliwa jest również weryfikacja poprawności wyzna
  opisane w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:flags"
+reference "sec:flags"
 
 \end_inset
 
@@ -4125,7 +4125,7 @@ reference "eq:signal-m"
 
  został poddany przekształceniu (pierwiastek czwartego stopnia) w celu zwiększen
 ia przejrzystości wykresów.
- Dołączono również sygnały pokazujące przedziały, w których algorytm wykrył
+ Dołączono również sygnały, pokazujące przedziały, w których algorytm wykrył
  osie oraz nadwozie pojazdu.
 \end_layout
 
@@ -4247,7 +4247,7 @@ reference "fig:analiza-ciezarowy-3"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -4696,7 +4696,7 @@ cmake
 \shape default
  umożliwia przeprowadzenie procesu budowania przy użyciu kompilatora zdefiniowan
 ego przez użytkownika.
- Projektując program duży nacisk położono na poprawność implementacji i
+ Projektując program, duży nacisk położono na poprawność implementacji i
  pełną zgodność ze standardem języka.
  Dzięki temu dowolny kompilator języka C kompatybilny ze standardem C11
  umożliwia zbudowanie modułów 
@@ -4727,7 +4727,7 @@ clang
 \shape italic
 gcc
 \shape default
- w wersjach 4.8.1 oraz 5.2.0 
+ w wersjach 4.8.1 i 5.2.0 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "clang,gcc"
@@ -4744,7 +4744,7 @@ Instalacja
 \end_layout
 
 \begin_layout Standard
-Proces kompilacji powinien zostać wykonany z poziomu katalogu nie będącego
+Proces kompilacji powinien zostać wykonany z poziomu katalogu niebędącego
  głównym katalogiem projektu.
  Jedna z najpopularniejszych metod kompilacji polega na utworzeniu podkatalogu
 \shape italic
@@ -4795,7 +4795,7 @@ status open
 
 \begin_layout Standard
 Argumentem programu cmake jest ścieżka do głównego katalogu budowanego projektu.
- W przypadku budowy w niestandardowej lokacji, konieczne jest podanie poprawnej
+ W przypadku budowy w niestandardowej lokacji konieczne jest podanie poprawnej
  ścieżki do katalogu zawierającego kod programu i plik 
 \shape italic
 CMakeLists.txt
@@ -4857,7 +4857,7 @@ status open
 \end_layout
 
 \begin_layout Standard
-Proces powinien zakończyć działanie nie zgłaszając żadnego błędu, jeśli
+Instrukcja powinna zakończyć działanie nie zgłaszając żadnego błędu o ile
  spełnione zostały wymagania.
  Wszystkie użyteczne pliki powstałe na etapie kompilacji znajdują się wewnątrz
  podkatalogu 
@@ -4871,7 +4871,7 @@ Proces powinien zakończyć działanie nie zgłaszając żadnego błędu, jeśli
 Możliwe jest również zainstalowanie uzyskanych w ostatnim kroku plików w
  systemie, wykorzystując do tego poniższe polecenie.
  Należy jednocześnie pamiętać o konieczności posiadania uprawnień administratora
- by komenda się powiodła.
+, by komenda się powiodła.
 \end_layout
 
 \begin_layout Standard
@@ -4983,7 +4983,7 @@ wania.
 \begin_layout Standard
 Przykładowe kierunki rozwoju to aplikacja odpowiedzialna za komunikację
  sieciową z czujnikami i odbierająca dane - stanowiłaby pierwsze ogniwo
- łańcucha wywołań, bądź program zbierający dane uzyskiwane na wyjściu algorytmu
+ łańcucha wywołań bądź program zbierający dane uzyskiwane na wyjściu algorytmu
  i przechowujący je w bazie danych - byłoby to ostatnie ogniwo łańcucha.
 \end_layout
 
@@ -5002,7 +5002,7 @@ Przyjęto założenie, że podstawową funkcją programu stanowić powinno wyzna
  
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:flags"
+reference "sec:flags"
 
 \end_inset
 
@@ -5033,7 +5033,7 @@ Druga metoda polega na uruchomieniu aplikacji w trybie oczekiwania na dane.
 stdin
 \shape default
 ) i w chwili pojawienia się nowego zbioru pomiarów uruchamiany jest algorytm
- detekcji, po zakończeniu działania którego program pozostaje w trybie oczekiwan
+ detekcji, po którego działania zakończeniu program pozostaje w trybie oczekiwan
 ia na kolejne dane.
  Opisany tryb pracy jest wyjątkowo użyteczny w połączeniu z wykorzystaniem
  innych modułów, w tym zaprojektowanego, który obserwuje katalog w oczekiwaniu
@@ -5067,7 +5067,7 @@ axles
 \shape italic
 watcher
 \shape default
-, możliwa jest się praca w trybie oczekiwania, bez konieczności uruchamiania
+ możliwa jest się praca w trybie oczekiwania, bez konieczności uruchamiania
  programu na nowo dla każdego zestawu danych.
  Połączenie wyjścia modułu algorytmicznego z kolejnym modułem pozwala na
  wyświetlanie informacji o pracy algorytmu przez interfejs graficzny.
@@ -5081,6 +5081,13 @@ Są to jedynie przykłady możliwych zastosowań oprogramowania- możliwe jest
 
 \begin_layout Section
 Obsługiwane parametry
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:flags"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5107,8 +5114,8 @@ NAZWA_PLIKU_1 ...
 \begin_deeper
 \begin_layout Standard
 Uruchamia działanie algorytmu dla każdego z podanych plików.
- W przypadku nie podania żadnego argumentu tego typu następuje odczyt ze
- strumienia wejściowego 
+ W przypadku, gdy nie przekazano żadnego argumentu tego typu, następuje
+ odczyt ze strumienia wejściowego 
 \shape italic
 stdin
 \shape default
@@ -5196,8 +5203,8 @@ NAZWA_KATALOGU_1 ...
 \begin_deeper
 \begin_layout Standard
 Lista ścieżek, które są obserwowane przez program.
- W przypadku nie podania żadnego argumentu tego typu obserwowana jest ścieżka,
- w której uruchomiony został program.
+ W przypadku, gdy nie przekazano żadnego argumentu tego typu, obserwowana
+ jest ścieżka, w której uruchomiony został program.
 \end_layout
 
 \end_deeper
@@ -5210,8 +5217,8 @@ Lista ścieżek, które są obserwowane przez program.
 \begin_deeper
 \begin_layout Standard
 Wymusza śledzenie plików o zadanym rozszerzeniu.
- W przypadku nie podania tego argumentu przy uruchomieniu, śledzone są pliki
- o rozszerzeniu 
+ W przypadku, gdy nie użyto tego argumentu przy uruchomieniu, śledzone są
+ pliki o rozszerzeniu 
 \shape italic
 lvm
 \shape default
@@ -5478,7 +5485,7 @@ Interfejs graficzny
 \end_layout
 
 \begin_layout Standard
-Po ukończeniu podstawowych modułów aplikacji, zdecydowano się na zaprojektowanie
+Po ukończeniu podstawowych modułów aplikacji zdecydowano się na zaprojektowanie
  prostego interfejsu graficznego.
  Wykorzystanie interfejsu tego typu umożliwia prezentację wyświetlanych
  przez program w terminalu danych w uproszczonej, czytelnej formie.
@@ -5592,7 +5599,7 @@ key "man-pages"
 \end_layout
 
 \begin_layout Standard
-Dostęp do stron podręcznika można uzyskać wykonując polecenia przedstawione
+Dostęp do stron podręcznika można uzyskać korzystając z poleceń przedstawionych
  na listingu 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -5664,8 +5671,8 @@ Analiza pracy programu
 \end_layout
 
 \begin_layout Standard
-Wśród cech wykonanego projektu, które gwarantują jego użyteczność są stabilne
- działanie aplikacji niezależnie od środowiska i sposobu użycia.
+Wśród cech wykonanego projektu, które gwarantują jego użyteczność, znajdują
+ się stabilne działanie aplikacji niezależnie od środowiska i sposobu użycia.
  Istotne jest również zapewnienie jak najwyższej skuteczności algorytmu
  oraz optymalizacja wydajności działania aplikacji.
  W kolejnych sekcjach opisano poszczególne wymagania oraz przedstawiono
@@ -5696,8 +5703,7 @@ em kolejnych wersji programu.
 \shape italic
 Python
 \shape default
-, uzasadniając to wygodą pisania narzędzi testowych korzystając z tego narzędzia
- 
+, uzasadniając to wygodą pisania narzędzi testowych w tym środowisku
 \begin_inset CommandInset citation
 LatexCommand cite
 key "pythonman"
@@ -5723,7 +5729,7 @@ lvm
 , dodając poprawną wartość wyniku algorytmu.
  Możliwe jest również uruchomienie testu dla innego niż domyślny pliku binarnego
  poprzez edycję odpowiedniego pola.
- Do projetku dołączono przykładową konfigurację, aby ułatwić to zadanie
+ Do projektu dołączono przykładową konfigurację, aby ułatwić to zadanie
  w przyszłości.
 \end_layout
 
@@ -5752,7 +5758,7 @@ python3 test_alg2.py
 \end_layout
 
 \begin_layout Standard
-W wyniku uruchomienia polecenia w wierwszu poleceń pojawił się tekst w formacie
+W wyniku uruchomienia polecenia w wierszu poleceń pojawił się tekst w formacie
  przedstawionym na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -6379,7 +6385,7 @@ e, których analiza nie powinna zakończyć się błędem pracy algorytmu.
  Dzięki temu możliwe było badanie poprawności implementacji kolejnych wersji
  - pojawienie się niezerowej liczby błędów lub wzrost liczby niepoprawnych
  danych pozwalał na natychmiastowe wykrycie błędu programistycznego.
- Wystąpienie danych, które nie mogą zostać przeanalizowane przez algorytmu
+ Wystąpienie danych, które nie mogą zostać przeanalizowane przez algorytm,
  wytłumaczono pojawieniem się zakłóceń pomiarowych, które znacznie zniekształcił
 y odczyt wyników.
 \end_layout
@@ -6440,7 +6446,7 @@ Dzięki zastosowaniu takiego podejścia zaprojektowane oprogramowanie budowane
 \begin_layout Standard
 Drugą metodą zagwarantowania stabilności pracy jest uważna analiza wykorzystywan
 ych zasobów systemowych.
- Dostęp do pamięci nie należącej do programu stanowi naruszenie zasad pracy
+ Dostęp do pamięci nienależącej do procesu stanowi naruszenie zasad pracy
  w środowisku Linux i może spowodować przerwanie działania programu.
  Należy również pamiętać o zwolnieniu wszelkich wykorzystywanych zasobów.
  W przeciwnym razie, w przypadku uruchomienia programu dla dużego zbioru
@@ -6462,9 +6468,9 @@ key "valgrind-page"
 \end_inset
 
 .
- Proces badania programu przeprowadzono uruchamiając algorytm dla zbioru
- zawierającego kilkaset pomiarów.
- Narzędzie testowe nie wykryło jakichkolwiek problemów z alokacją i wyciekami
+ Proces badania programu wymagał uruchomienia algorytmu dla zbioru zawierającego
+ kilkaset pomiarów.
+ Narzędzie testowe nie wykryło żadnych problemów z alokacją i wyciekami
  pamięci.
  Pozwoliło to na wysunięcie założenia o poprawności implementacji, co zwiększa
  gwarancję stabilności działania programu.
@@ -7300,8 +7306,8 @@ Valgrind
 
  czasu zajmuje wykonanie algorytmu i uzyskanie wyników.
  Ze względu na użycie dostępnych w bibliotece języka C funkcji wczytywania
- danych, niemożliwa okazała się dalsza poprawa wydajności w tym względzie.
- Jednym z możliwych rozwiązań, które umożliwiłyby wzrost wydajności jest
+ danych, niemożliwa okazała się dalsza poprawa wydajności w tym zakresie.
+ Jednym z możliwych rozwiązań, które umożliwiłyby wzrost wydajności, jest
  wykorzystanie wielowątkowego modelu pracy.
  Użycie kilku wątków programu do ładowania danych, a tylko jednego do pracy
  algorytmu pozwoliłoby znacznie zwiększyć wydajność.

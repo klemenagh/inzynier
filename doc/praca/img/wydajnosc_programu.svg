@@ -177,7 +177,7 @@
     ></g
     ><g transform="translate(290.0002,401.6667)" style="font-size:15px; fill:rgb(38,38,38); text-rendering:geometricPrecision; color-rendering:optimizeQuality; image-rendering:optimizeQuality; font-family:'SansSerif'; color-interpolation:linearRGB; stroke:rgb(38,38,38);"
     ><text x="-63.5" xml:space="preserve" y="14" style="stroke:none;"
-      >Liczba pomiarów</text
+      >Liczba pojazdów</text
     ></g
     ><g style="fill:rgb(38,38,38); text-rendering:geometricPrecision; color-rendering:optimizeQuality; image-rendering:optimizeQuality; stroke-linejoin:round; color-interpolation:linearRGB; stroke:rgb(38,38,38); stroke-width:0.6667;"
     ><line y2="31" style="fill:none;" x1="73" x2="73" y1="374"
@@ -250,8 +250,8 @@
       >100</text
     ></g
     ><g transform="translate(38.6667,202.4998) rotate(-90)" style="font-size:15px; fill:rgb(38,38,38); text-rendering:geometricPrecision; color-rendering:optimizeQuality; image-rendering:optimizeQuality; font-family:'SansSerif'; color-interpolation:linearRGB; stroke:rgb(38,38,38);"
-    ><text x="-126.5" xml:space="preserve" y="-4" style="stroke:none;"
-      >Czas przetwarzania pomiaru [ms]</text
+    ><text x="-156.5" xml:space="preserve" y="-4" style="stroke:none;"
+      >Czas przetwarzania jednego pojazdu [ms]</text
     ></g
     ><g style="stroke-linecap:butt; fill:red; text-rendering:geometricPrecision; color-rendering:optimizeQuality; image-rendering:optimizeQuality; stroke-linejoin:bevel; stroke-dasharray:10,6; color-interpolation:linearRGB; stroke:red; stroke-width:0.6667; stroke-miterlimit:1;"
     ><path d="M73 188.78 L105.6618 195.64 L138.3235 197.355 L157.4294 201.9283 L170.9853 201.6425 L181.5 202.843 L214.1618 204.558 L246.8235 205.244 L265.9294 203.3003 L279.4853 205.8014 L290 204.3179 L322.6617 209.3085 L355.3235 210.5348 L374.4294 203.5633 L387.9853 209.6473 L398.5 210.7423 L431.1617 209.1491 L463.8235 207.6347 L482.9294 201.8889 L496.4853 196.215 L507 198.9517" style="fill:none; fill-rule:evenodd;"
