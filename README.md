@@ -20,29 +20,8 @@ plikWejściowy LiczbaOsi DługośćPojazdu wartościOdległości S1 S2 S3
   --O-------O--
   S1   S2    S3
 ```
-  - [ ] Dodanie do skryptów budujących opcji `install`, instalującej programy i man-page.
-  - [ ] Buforowanie odrzucanej obecnie próbki danych w trybie pracy ciągłej. (po ustaleniu przydatności)
-  - [ ] Bardziej generyczna metoda zadawania poprawnych wartości w pliku testów.
-  - [ ] Cleanup kodu.
-
-
-Uwagi
-Bibliografia
-  - czas dostępu online
-  - wszyscy autorzy - "and" w jabref
-  - jabref - IEEE...S
-  - ALT... -> article
-
-Praca
-  - unikać słowa `tworzyć`
-  - spacje wokół odnośników, na końcu zdania
-  - forma bezosobowa
-  - w trakcie prezentacji - forma pierwszej osoby
-  - cel i zakres pracy
-  - grafiki - ze źródłem
-  
-Lyx
-  - wtyczka Hunspell
-
-Schematy
-  - visio / inkscape
+  - [x] Dodanie do skryptów budujących opcji `install`, instalującej programy i man-page.
+  - [x] Buforowanie odrzucanej obecnie próbki danych w trybie pracy ciągłej. (po ustaleniu przydatności)
+  - [x] Bardziej generyczna metoda zadawania poprawnych wartości w pliku testów.
+  - [x] Cleanup kodu
+  - [ ] Usunąć powtórzenia wewnątrz pracy.

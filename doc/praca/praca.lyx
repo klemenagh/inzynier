@@ -522,12 +522,8 @@ key "fhwaclasses"
 
 \end_inset
 
-, wyszczególniającej 
-\begin_inset Formula $13$
-\end_inset
-
- kategorii, lub innej, zaprojektowanej w celu klasyfikacji dedykowanego
- zagadnienia - na przykład masy pojazdu.
+, wyszczególniającej trzynaście kategorii, lub innej, zaprojektowanej w
+ celu klasyfikacji dedykowanego zagadnienia - na przykład masy pojazdu.
  
 \end_layout
 
@@ -1812,21 +1808,6 @@ reference "sec:flags"
 .
 \end_layout
 
-\begin_layout Section*
-Podsumowanie
-\end_layout
-
-\begin_layout Standard
-Sprecyzowanie zakresu realizacji projektu pozwala zwiększyć kontrolę nad
- powstającym oprogramowaniem na dalszym etapie prac.
- Dzięki sprecyzowaniu interfejsów wejścia i wyjścia uzyskuje się pewność
- w kontekście poprawności ich realizacji.
- Możliwe staje się również napisanie testów weryfikujących wyniki pracy
- programu.
- Opis zakresu realizacji projektu stanowi również dokumentację w użytecznej
- formie.
-\end_layout
-
 \begin_layout Standard
 \begin_inset ERT
 status open
@@ -1878,7 +1859,14 @@ reference "fig:sygnaly-r-x-wstepne"
 \end_inset
 
  każdej pary.
- 
+ Wykres
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sygnaly-r-x-wstepne"
+
+\end_inset
+
+ i kolejne zawierają sygnały uzyskane w trakcie przejazdu pojazdu osobowego.
 \end_layout
 
 \begin_layout Standard
@@ -3260,24 +3248,6 @@ name "fig:sygnaly-ku-piezo-podniesiona"
 \end_inset
 
 
-\begin_inset Marginal
-status open
-
-\begin_layout Plain Layout
-usuń 
-\begin_inset Quotes pld
-\end_inset
-
-- 5 osi
-\begin_inset Quotes prd
-\end_inset
-
- z podpisu sygnału
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -4540,7 +4510,7 @@ Nie zaobserwowano również wpływu naturalnie występujących zakłóceń na wy
 \begin_layout Standard
 Wykluczono również wpływ innych pojazdów na wynik pomiaru, zakładając, że
  minimalna odległość pomiędzy kolejnymi pojazdami wynosi w normalnych warunkach
- no najmniej kilka metrów.
+ co najmniej kilka metrów.
 \end_layout
 
 \begin_layout Standard
@@ -7336,6 +7306,106 @@ cleardoublepage{}
 
 \begin_layout Chapter*
 Podsumowanie
+\end_layout
+
+\begin_layout Standard
+Celem niniejszej pracy było zaprojektowanie oprogramowania umożliwiającego
+ wykorzystanie danych pomiarowych ze stanowiska wyposażonego w czujniki
+ indukcyjne pętlowe.
+ Detektory tego typu, ze względu na swoją trwałość, niską cenę i użyteczność
+ uzyskiwanych informacji, wykorzystywane mogą być do badania parametrów
+ pojazdów samochodowych oraz ruchu drogowego.
+ Zaprojektowanie oprogramowania pozwala na uzyskanie informacji na temat
+ długości pojazdu, jego prędkość, a także liczby osi oraz ich położenia
+ w bryle pojazdu.
+ W konsekwencji pozwala to na kategoryzację na podstawie wymienionych cech.
+\end_layout
+
+\begin_layout Standard
+W pierwszym rozdziale pracy autor omówił budowę czujników indukcyjnych pętlowych
+ oraz ich zastosowania, na przykładzie dostępnej literatury.
+ Liczba publikacji związanych z badanym zagadnieniem wciąż jest niewielka,
+ co ograniczyło zakres omawianych publikacji.
+\end_layout
+
+\begin_layout Standard
+W rozdziale drugim przedstawiony został zakres realizowanego projektu.
+ Uzasadnione zostały założenia, wymieniono również ograniczenia projektu
+ i opisano interfejs aplikacji.
+ Sprecyzowanie zakresu realizacji pozwoliło zwiększyć kontrolę nad powstającym
+ oprogramowaniem na dalszym etapie prac.
+ Opis ten stanowi również część dokumentacji projektu.
+\end_layout
+
+\begin_layout Standard
+W kolejnym rozdziale omówiono algorytm detekcji liczby osi pojazdów, którego
+ implementacji podjęto się w pracy.
+ Przedstawiony został szczegółowy opis kolejnych etapów, a także procedury
+ korekcji wyników w przypadku uzyskania niepoprawnego wyniku oraz detekcji
+ osi podniesionej.
+\end_layout
+
+\begin_layout Standard
+Rozdział czwarty zawiera opis algorytmu detekcji położenia osi w bryle pojazdu.
+ Omówiono również możliwość weryfikacji poprawności wyników na podstawie
+ danych uzyskiwanych z czujników nacisku.
+\end_layout
+
+\begin_layout Standard
+W piątym rozdziale przeprowadzona została analiza skuteczności algorytmu.
+ Omówiono wyniki uzyskiwane dla pojazdów różnych kategorii.
+ Oszacowano spodziewaną dokładność algorytmu wraz z uzasadnieniem.
+ Uzyskane wyniki pozwoliły przyjąć tezę o możliwości praktycznego wykorzystania
+ czujników indukcyjnych w większości aplikacji.
+\end_layout
+
+\begin_layout Standard
+Kolejny rozdział zawiera opis wykonanego programu.
+ Wyszczególnione zostały wymagania systemowe, które muszą zostać spełnione
+ przed instalacją projektu.
+ Przedstawiono opis interfejsu i przykładowe aplikacje.
+ Zaprezentowany został również interfejs graficzny, będący przykładem dalszego
+ rozwoju aplikacji.
+\end_layout
+
+\begin_layout Standard
+W ostatnim rozdziale pracy rozważono trzy czynniki, których spełnienie wymagane
+ jest od dobrze zaprojektowanego programu.
+ Zbadano zachowanie algorytmu oraz stabilność i wydajność aplikacji.
+ Uzyskane wyniki pozwoliły na przyjęcie tezy o poprawności implementacji.
+\end_layout
+
+\begin_layout Standard
+Zaprojektowana aplikacja stanowi praktyczny przykład wykorzystania czujników
+ indukcyjnych pętlowych w celu uzyskania informacji na temat pojazdów samochodow
+ych.
+ Dołączone do projektu narzędzia umożliwiają współpracę programu ze stanowiskami
+ pomiarowymi o różnych konfiguracjach.
+ Udostępniono również dokumentację w postaci stron podręcznika, stanowiących
+ podstawowe medium tego typu w środowisku Linux.
+ 
+\end_layout
+
+\begin_layout Standard
+Zdaniem autora, możliwy jest dalszy rozwój aplikacji, pozwalający na dostosowani
+e jej do konkretnych potrzeb.
+ Zaprojektowanie interaktywnego interfejsu graficznego pozwoliłoby na wykorzysta
+nie implementacji algorytmu w praktycznych zastosowaniach, takich jak na
+ przykład systemy pobierania opłat za przejazd pojazdu.
+ Oprogramowanie powinno również zostać zintegrowane z systemem bazodanowym,
+ co pozwoliłoby na zapis wyników w wygodnej formie.
+\end_layout
+
+\begin_layout Standard
+Zaproponowany algorytm detekcji długości pojazdu może zostać rozbudowany,
+ tak by wykorzystywał informację o kategorii pojazdu uzyskanej na wyjściu
+ algorytmu detekcji liczby osi.
+ Pozwoliłoby to na zwiększenie jego dokładności dla pojazdów każdego typu.
+ Możliwe jest również zwiększenie wydajności oprogramowania dzięki wykorzystaniu
+ kilku współbieżnych wątków.
+ Znalazłoby to zastosowanie w aplikacjach wymagających największej wydajności.
+ Nie zdecydowano się jednak na wdrożenie tego rozwiązania w omawianej aplikacji
+ ze względu na trudności związane z obsługą i synchronizacją wątków.
 \end_layout
 
 \begin_layout Standard

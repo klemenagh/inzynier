@@ -20,15 +20,16 @@
 % 6000 301,069 311,295
 % 8000 414,659 419,714
 % 10000 510,345 522,708
-
+close all
 load('dane_wydajnosc_programu')
 
 f = figure;
-semilogx(num, 1000 * argument ./ num, 'r.--', 'MarkerSize', 12)
+semilogx(num, 1000 * argument ./ num, 'ro--', 'MarkerSize', 5)
 hold on;
 semilogx(num, 1000 * stdin ./ num, 'b.--', 'MarkerSize', 12)
 
-axis([num(1), num(end), 0, 100])
-xlabel('Liczba pomiarów')
-ylabel('Czas przetwarzania pomiaru [ms]')
+axis([num(1), num(end), 30, 70])
+xlabel('Liczba pojazdów')
+ylabel('Czas przetwarzania jednego pojazdu [ms]')
 legend('Argument', 'Strumień wejścia')
+grid on
