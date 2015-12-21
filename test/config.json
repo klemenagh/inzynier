@@ -13,5 +13,6 @@
 	"root_directory": "../algorytm2_in_matlab/BAZA_RX/",
 	"executable": "../build/bin/axles",
 	"swapper": "../build/bin/swapper1",
+	"config": "../build/bin/config1.cfg",
 	"decorate": true
 }

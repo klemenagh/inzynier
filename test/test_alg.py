@@ -121,6 +121,8 @@ def main():
     data_dir = json_config['root_directory']
     cmd = os.path.abspath(json_config['executable'])
 
+    if 'config' in json_config.keys():
+        cmd = cmd + ' -f ' + json_config['config']
     if 'swapper' in json_config.keys():
         cmd = os.path.abspath(json_config['swapper']) + ' | ' + cmd
 
