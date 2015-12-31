@@ -10,7 +10,7 @@
 		["osobowy_alus", "2"],
 		["osobowy_stal", "2"]
 	],
-	"root_directory": "../algorytm2_in_matlab/BAZA_RX/",
+	"root_directory": "../data/baza1/",
 	"executable": "../build/bin/axles",
 	"swapper": "../build/bin/swapper1",
 	"config": "../build/bin/config1.cfg",
