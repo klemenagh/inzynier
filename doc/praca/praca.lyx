@@ -306,7 +306,7 @@ Pośród innych parametrów, które podlegają analizie wymienić należy prędk
 \end_layout
 
 \begin_layout Standard
-Uzyskiwane w ten sposób informacje znajdują wiele zastosowań.
+Informacja na temat parametrów pojazdów znajduje wiele zastosowań.
  Systemy badania wagi pojazdu 
 \shape italic
 WIM
@@ -326,7 +326,7 @@ ktury drogowej.
 \begin_layout Standard
 Pracownicy Katedry Metrologii i Elektroniki Akademii Górniczo-Hutniczej
  w swych badaniach poruszają temat wykorzystania czujników indukcyjnych
- w celu badania parametrów pojazdu.
+ w celu określenia parametrów pojazdu.
  Użycie sensorów tego typu można uzasadnić ich dużą trwałością, niską ceną
  i niedużym skomplikowaniem instalacji.
  Pozwalają na badanie szeregu parametrów pojazdów, takich jak prędkość,
@@ -448,7 +448,7 @@ Rozdział drugi przedstawia założenia oraz zakres realizowanego projektu,
 \end_layout
 
 \begin_layout Standard
-W rozdziale trzecim omawia algorytm detekcji osi pojazdu, wraz z procedurą
+W rozdziale trzecim omówiono algorytm detekcji osi pojazdu, wraz z procedurą
  poszukiwania brakujących osi, która znajduje zastosowanie w przypadku pracy
  z danymi niepozbawionymi zakłóceń oraz metodę detekcji podniesionej osi,
  umożliwiającą wykrywanie pojazdów pięcioosiowych poruszających się z uniesioną
@@ -458,7 +458,7 @@ W rozdziale trzecim omawia algorytm detekcji osi pojazdu, wraz z procedurą
 \begin_layout Standard
 W rozdziale czwartym opisane są moduły, które dodają kolejne funkcje do
  algorytmu detekcji osi.
- Są to algorytmy detekcji położenia osi wewnątrz pojazdu oraz estymacji
+ Są to procedury detekcji położenia osi wewnątrz pojazdu oraz estymacji
  jego długości.
 \end_layout
 
@@ -527,8 +527,8 @@ key "fhwaclasses"
 \end_layout
 
 \begin_layout Standard
-Wśród metod wykorzystywanych do pomiarów parametru ruchu znajdują się algorytmy
- przetwarzające dane z czujników indukcyjnych.
+Wśród metod wykorzystywanych do pomiarów parametrów ruchu samochodowego
+ znajdują się algorytmy przetwarzające dane z czujników indukcyjnych.
  Są one używane między innymi do badania prędkości, długości, liczby i rozkładu
  osi pojazdu.
  Budowę czujnika tego typu przedstawiono na rysunku 
@@ -636,7 +636,7 @@ Czujnik indukcyjny pętlowy zbudowany jest z kilku zwojów izolowanego przewodu,
  Znajdują się wśród nich zbieranie informacji o parametrach przejeżdżających
  pojazdów, sterowanie sygnalizacją świetlną czy współpraca z czujnikami
  innego typu, na przykład w celu detekcji auta i wyzwalania w ten sposób
- pracy sensorów dokonujących dalsze pomiary.
+ pracy sensorów wykonujących dalsze pomiary.
 \end_layout
 
 \begin_layout Standard
@@ -849,7 +849,7 @@ Czujniki indukcyjne wykorzystywane do badania parametrów ruchu drogowego
  informacji w układzie mikroprocesorowym lub komputerze wyposażonym w kartę
  pomiarową.
  Uzyskane w ten sposób profile pozwalają na analizę szeregu parametrów opisujący
-ch pojazd, ale również charakterystyki przepływu pojazdów.
+ch pojazd, a także charakterystyki przepływu pojazdów.
  
 \end_layout
 
@@ -986,7 +986,7 @@ Program podzielono na mniejsze elementy - moduły.
 \end_layout
 
 \begin_layout Standard
-Wyszczególniono trzy główne funkcje pakietu:
+Wyszczególniono trzy główne moduły pakietu:
 \end_layout
 
 \begin_layout Enumerate
@@ -1142,8 +1142,8 @@ key "gnucli"
 \end_inset
 
 .
- Jest to standardowa metoda wykorzystywana przez większość programów działającyc
-h z poziomu linii poleceń.
+ Jest to praktyka stosowana w większości programów działających z poziomu
+ linii poleceń.
  Korzystając z tej metody, cała konfiguracja może mieć miejsce przed uruchomieni
 em programu.
  Umożliwia to wykorzystanie aplikacji w skryptach, których praca odbywa
@@ -1154,9 +1154,9 @@ em programu.
 \begin_layout Standard
 W skład zaprojektowanego interfejsu wchodzą flagi konfigurujące tryb pracy
  algorytmu, włączające funkcje detekcji położenia osi, wykrywania długości
- pojazdu i weryfikacji przy użyciu czujników piezoelektrycznych.
+ pojazdu i weryfikacji wyników przy użyciu czujników piezoelektrycznych.
  Obsługiwane są również flagi konfigurujące ilość danych wyświetlanych na
- ekran oraz udostępniających informację o wersji programu i stronę pomocy,
+ ekranie oraz udostępniających informację o wersji programu i stronę pomocy,
  zwyczajowo dostępne w oprogramowaniu GNU.
  Listę obsługiwanych flag przedstawiono w rozdziale 
 \begin_inset CommandInset ref
@@ -1330,7 +1330,7 @@ Przyjęte ograniczenia
 \end_layout
 
 \begin_layout Standard
-Przyjęte zostały następujące ograniczenia w pracę programu.
+Przyjęte zostały następujące ograniczenia zakresu projektu.
 \end_layout
 
 \begin_layout Itemize
@@ -1547,15 +1547,6 @@ Program wykonuje algorytm, korzystając z załadowanych danych wejściowych
 W podstawowej konfiguracji wykonywana jest wyłącznie procedura detekcji
  liczby osi.
  Wyście programu ma wtedy postać przedstawioną na listingu 
-\end_layout
-
-\begin_layout Standard
-Przyjęto również konwencję formatu wyjścia programu.
-\end_layout
-
-\begin_layout Standard
-W przypadku korzystania z podstawowej funkcji algorytmu, a więc wykrywania
- liczby osi pojazdu, przyjmuje postać przedstawioną na listingu 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lis:wyjscie-default"
@@ -1563,6 +1554,30 @@ reference "lis:wyjscie-default"
 \end_inset
 
 .
+ Ciąg
+\family typewriter
+ źródło
+\family default
+ to nazwa pliku wejściowego lub ciąg 
+\family typewriter
+stdin
+\family default
+ w przypadku wykorzystania strumienia wejściowego.
+ Liczba lub ciąg znaków 
+\family typewriter
+n
+\family default
+ jest wynikiem działania algorytmu detekcji liczby osi.
+ Wystąpienie ciągu 
+\family typewriter
+5up
+\family default
+ informuje o wykryciu pojazdu pięcioosiowego jadącego z podniesioną osią,
+ natomiast ciąg 
+\family typewriter
+error
+\family default
+ informuje o błędzie działania algorytmu.
 \end_layout
 
 \begin_layout Standard
@@ -1582,26 +1597,6 @@ status open
 \begin_layout Plain Layout
 Wynik działania programu w podstawowej konfiguracji.
  
-\family typewriter
-źródło
-\family default
- to nazwa pliku wejściowego lub ciąg 
-\family typewriter
-stdin
-\family default
- w przypadku wykorzystania strumienia wejściowego.
- n to liczba lub ciąg znaków będący wynikiem działania algorytmu detekcji
- liczby osi.
- Wystąpienie ciągu 
-\family typewriter
-5up
-\family default
- informuje o wykryciu pojazdu pięcioosiowego jadącego z podniesioną osią,
- natomiast ciąg 
-\family typewriter
-error
-\family default
- informuje o błędzie działania algorytmu.
 \begin_inset CommandInset label
 LatexCommand label
 name "lis:wyjscie-default"
@@ -2049,7 +2044,7 @@ wyzerowanie
 \begin_layout Standard
 Przejeżdżający pojazd pozostaje w obszarze aktywnym pętli indukcyjnej (to
  znaczy w obszarze, w którym wartości sygnałów pętli przyjmują niezerowe
- wartości) nie dłużej niż kilka dziesiątych sekundy.
+ wartości) nie dłużej niż kilka dziesiątych części sekundy.
  Z tego powodu, dysponując danymi odczytanymi w ciągu kilku sekund, duża
  ich część nie jest użyteczna z punktu widzenia algorytmu.
  Zdecydowano się na usunięcie zbędnych wartości w celu uniknięcia niepotrzebnych
@@ -2076,7 +2071,7 @@ Na etapie wstępnego przetwarzania sygnałów wyznaczana jest również prędko�
  nacisk wywołany przez pierwszą oś przejeżdżającego pojazdu.
  Uzyskana wartość nie jest wykorzystywana przez algorytm detekcji liczby
  osi, znalazła jednak zastosowanie w procedurze wyznaczania długości pojazdu,
- szerzej opisanym w rozdziale 
+ szerzej opisanej w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chap:Detekcja-długości-pojazdu"
@@ -2118,7 +2113,15 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Przebiegi sygnałów R i X po przetwarzaniu wstępnym.
+Przebiegi sygnałów 
+\begin_inset Formula $R$
+\end_inset
+
+i 
+\begin_inset Formula $X$
+\end_inset
+
+ po przetwarzaniu wstępnym.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -2170,11 +2173,7 @@ Na podstawie profili
 \begin_inset Formula $X_{0,1m}$
 \end_inset
 
- pętli o długości 
-\begin_inset Formula $10cm$
-\end_inset
-
- wyznaczany jest sygnał 
+ pętli o długości dziesięciu centymetrów wyznaczany jest sygnał 
 \begin_inset Formula $M$
 \end_inset
 
@@ -2532,7 +2531,7 @@ K_{p}=a/b\cdot R+X\label{eq:signal-kp}
 Pomocniczo oblicza się stałą 
 \shape italic
 
-\begin_inset Formula $K_{pmax}=max(K_{p})$
+\begin_inset Formula $K_{pmax}=sup(K_{p})$
 \end_inset
 
 
@@ -2668,7 +2667,7 @@ Sygnały
 \begin_inset Formula $K_{pmax}=0,77$
 \end_inset
 
-,
+, 
 \begin_inset Formula $a/b=0,5$
 \end_inset
 
@@ -2760,7 +2759,7 @@ reference "lis:hist-counter"
 
 \begin_layout Standard
 \begin_inset listings
-lstparams "language=C,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color[rgb]{0.4, 0.4, 0.4}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color[rgb]{0.2, 0.2, 0.2}}"
+lstparams "language=C,basicstyle={\small},tabsize=4,keywordstyle={\color{blue}},commentstyle={\color[rgb]{0.4, 0.4, 0.4}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color[rgb]{0.2, 0.2, 0.2}}"
 inline false
 status open
 
@@ -3393,7 +3392,7 @@ reference "lis:cp-signal"
 
 \begin_layout Standard
 \begin_inset listings
-lstparams "language=C,tabsize=4,keywordstyle={\color{blue}},commentstyle={\color[rgb]{0.4, 0.4, 0.4}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color[rgb]{0.2, 0.2, 0.2}}"
+lstparams "language=C,basicstyle={\small},tabsize=4,keywordstyle={\color{blue}},commentstyle={\color[rgb]{0.4, 0.4, 0.4}\itshape},emphstyle={\color{red}},stringstyle={\color{red}},identifierstyle={\color[rgb]{0.2, 0.2, 0.2}}"
 inline false
 status open
 
@@ -3533,11 +3532,11 @@ reference "eq:signal-m"
 
 .
  Wykorzystuje się w tym celu profile 
-\begin_inset Formula $R_{1}$
+\begin_inset Formula $R_{1m}$
 \end_inset
 
  i 
-\begin_inset Formula $X_{1}$
+\begin_inset Formula $X_{1m}$
 \end_inset
 
  opisujące zachowanie pętli indukcyjnej o długości jednego metra.
@@ -3546,7 +3545,7 @@ reference "eq:signal-m"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-M(R_{1},X_{1})=R_{1}^{2}+X_{1}^{2}\label{eq:signal-m}
+M(R_{1},X_{1})=R_{1m}^{2}+X_{1m}^{2}\label{eq:signal-m}
 \end{equation}
 
 \end_inset
@@ -3615,12 +3614,12 @@ Zbadano krzywe sygnału
 \end_inset
 
  dla różnych pojazdów, co pozwoliło opracować metodę wyznaczania przybliżonej
- długości.
+ długości brył aut.
  Na podstawie wartości sygnału 
 \begin_inset Formula $M$
 \end_inset
 
- wybierany jest ciągły przedział, w którym ssą one większe od progu odcięcia
+ wybierany jest ciągły przedział, w którym są one większe od progu odcięcia
  
 \begin_inset Formula $K_{l}$
 \end_inset
@@ -3647,7 +3646,7 @@ reference "eq:roznica-indeksow"
 
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Standard
@@ -3721,8 +3720,7 @@ Wartość ta stanowi przybliżenie rzeczywistej długości pojazdu, co umożliwi
 \begin_layout Standard
 Położenia poszczególnych osi wyznaczane są we wcześniejszej części algorytmu,
  podczas wywołania procedury detekcji liczby osi pojazdu.
- Przyjęto , że środek osi znajduje się w punkcie, gdzie wartość sygnału
- 
+ Przyjęto, że środek osi znajduje się w punkcie, gdzie wartość sygnału 
 \shape italic
 
 \begin_inset Formula $K_{p}$
@@ -3730,14 +3728,14 @@ Położenia poszczególnych osi wyznaczane są we wcześniejszej części algory
 
 
 \shape default
-[
+ (równanie 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:signal-kp"
 
 \end_inset
 
-] osiąga lokalne maksimum.
+) osiąga lokalne maksimum.
  Znając indeks położenia osi 
 \shape italic
 
@@ -3762,7 +3760,7 @@ reference "eq:polozenie-osi"
 
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Standard
@@ -3904,7 +3902,7 @@ reference "sec:flags"
 
 \begin_layout Standard
 Procedura detekcji położenia osi w bryle pojazdu oferuje dokładność podobną
- do algorytmów wykorzystujących w tym celu detektorów nacisku.
+ do algorytmów wykorzystujących w tym celu detektory nacisku.
  Wyniki nie różnią się zwykle o więcej niż kilka centymetrów.
  Wykorzystanie czujników indukcyjnych pozwala również na uniknięcie zjawiska
  drgań, które może wystąpić w przypadku sensorów piezoelektrycznych i powodować
@@ -3917,7 +3915,7 @@ reference "sec:Detekcja-podniesionej-osi"
 
 \end_inset
 
-.
+ poprzedniego rozdziału.
 \end_layout
 
 \begin_layout Standard
@@ -3998,7 +3996,7 @@ status open
 \begin_layout Plain Layout
 Wynik działania algorytmu dla pojazdu osobowego.
  Wykryto dwie osie, estymowana długość pojazdu wyniosła 
-\begin_inset Formula $d=4.37m$
+\begin_inset Formula $d=4,37m$
 \end_inset
 
 , natomiast odległości pokazane na schemacie 
@@ -4056,12 +4054,9 @@ Wykres u góry przedstawia wartości profili
 \begin_inset Formula $X$
 \end_inset
 
- uzyskanych z czujnika indukcyjnego o długości 
-\begin_inset Formula $10cm$
-\end_inset
-
- oraz sygnału piezoelektrycznego, zsynchronizowane w czasie i ograniczone
- do okna przejazdu.
+ uzyskanych z czujnika indukcyjnego o długości dziesięciu centymetrów oraz
+ sygnału piezoelektrycznego, zsynchronizowane w czasie i ograniczone do
+ okna przejazdu.
  Kolejny wykres zawiera dane opisujące sygnały wykorzystane przez algorytm
  detekcji liczby osi.
  Sygnał 
@@ -4277,23 +4272,19 @@ Na wykresie zaprezentowano typowe charakterystyki sygnałów dla pojazdów
  Jest to istotne zwłaszcza dla poprawnego działania algorytmu detekcji położenia
  osi, gwarantując dokładność detekcji rzędu kilku centymetrów względem wyników
  uzyskiwanych przez analizę pomiarów z czujników piezoelektrycznych.
- Problemem okazała się poprawne oszacowanie długości pojazdu, zwłaszcza
- oszacowanie odległości pomiędzy ostatnią osią a końcem bryły.
- Uzasadniono to budową pojazdów ciężarowych i większą odległością podwozia
- od jezdni.
  
 \end_layout
 
 \begin_layout Standard
-Ogranicza to dokładność czujników indukcyjnych, a w konsekwencji uniemożliwia
+Problematyczne okazało się poprawne oszacowanie długości pojazdu, zwłaszcza
+ oszacowanie odległości pomiędzy ostatnią osią a końcem bryły.
+ Uzasadniono to budową pojazdów ciężarowych i większą odległością podwozia
+ od jezdni.
+ Ogranicza to dokładność czujników indukcyjnych, a w konsekwencji uniemożliwia
  detekcję długości pojazdu z dokładnością większą niż metr.
  Powoduje to uzyskanie fałszywego wyniku, sugerującego znacznie mniejszą
  od rzeczywistej odległość ostatniej osi od końca auta.
- Problem ten wystąpił dla około 
-\begin_inset Formula $30$
-\end_inset
-
- procent przeanalizowanych danych.
+ Problem ten wystąpił dla około trzydziestu procent przeanalizowanych danych.
  Analogiczne wyniki uzyskano dla pojazdów ciężarowych dwu- i czteroosiowych.
 \end_layout
 
@@ -4470,12 +4461,12 @@ Interesująca jest możliwość próby detekcji liczby i położenia osi pojazdu
 \begin_layout Standard
 O ile wyniki opisujące położenie osi uzyskiwane są z dokładnością kilku
  centymetrów, to detekcja długości pojazdu wymaga uwzględnienia większej
- wartości możliwego odchylenia od wartości długości rzeczywistej.
+ wartości możliwego odchylenia od rzeczywistej długości pojazdu.
  Jest to widoczne w niewielkim stopniu dla aut osobowych i dostawczych,
  gdzie dokładność wyniosła kilkadziesiąt centymetrów, a znacznie bardziej
  dla pojazdów ciężarowych, gwarantując dokładność około jednego metra.
  Sytuacja ta może wynikać z ze specyfiki budowy samochodów ciężarowych,
- cechującej się dużą odległością podwodzia od jezdni i jego strukturą budowy.
+ cechujących się dużą odległością podwodzia od jezdni i jego strukturą budowy.
  Niewykluczony jest również wpływ przewożonego ładunku lub jego braku na
  uzyskiwane wyniki.
 \end_layout
@@ -4688,11 +4679,11 @@ key "cpp-standard"
  Poprawność przebiegu procesu budowania potwierdzono w trakcie testów z
  dwoma kompilatorami - 
 \shape italic
-clang
+LLVM
 \shape default
  w wersji 3.7.0 oraz 
 \shape italic
-gcc
+GCC
 \shape default
  w wersjach 4.8.1 i 5.2.0 
 \begin_inset CommandInset citation
@@ -4869,6 +4860,14 @@ W przypadku powodzenia akcji moduły i ich podręczniki zostały zainstalowane
  Pozwoliło to maksymalnie uprościć prezentowane polecenia.
 \end_layout
 
+\begin_layout Standard
+Do projektu dołączone zostały skrypty języka 
+\shape italic
+bash
+\shape default
+ umożliwiające przeprowadzenie procesu budowania w sposób automatyczny.
+\end_layout
+
 \begin_layout Subsection*
 Podział na moduły
 \begin_inset CommandInset label
@@ -4882,7 +4881,7 @@ name "sec:modules"
 
 \begin_layout Standard
 Projekt podzielony został na mniejsze moduły, co umożliwia wykorzystanie
- w sposób bardziej elastyczny.
+ go w sposób bardziej elastyczny.
  Możliwa jest współpraca zarówno w prostych aplikacjach, jak i budowanie
  złożonych łańcuchów wykonań.
  
@@ -4946,8 +4945,8 @@ GNU
 \shape default
 , co miało wpływ na zbudowanie programu w sposób sprzyjający dalszej rozbudowie.
  Przykładem tego jest interfejs graficzny, którego projektowanie nie było
- celem pracy, stanowi dowód na potwierdzenie tezy o możliwości rozwoju oprogramo
-wania.
+ celem pracy, a stanowi dowód na potwierdzenie tezy o możliwości rozwoju
+ oprogramowania.
  
 \end_layout
 
@@ -4963,7 +4962,7 @@ Metody uruchamiania
 \end_layout
 
 \begin_layout Standard
-Przyjęto założenie, że podstawową funkcją programu stanowić powinno wyznaczenie
+Przyjęto założenie, że podstawową funkcję programu stanowić powinno wyznaczenie
  liczby osi i innych parametrów pojazdu na podstawie danych przechowywanych
  w pliku tekstowym.
  Oprogramowanie zostało zaprojektowane w taki sposób, by domyślne działanie
@@ -4999,23 +4998,24 @@ Druga metoda polega na uruchomieniu aplikacji w trybie oczekiwania na dane.
  Ma to miejsce w sytuacji, gdy przy wywołaniu nie przekazano nazw plików
  poprzez argumenty wiersza poleceń.
  Program uruchamiany jest wtedy w trybie odczytu danych ze standardowego
- strumienia wejściowego (
+ strumienia wejściowego (ang.
+ 
 \shape italic
 stdin
 \shape default
 ) i w chwili pojawienia się nowego zbioru pomiarów uruchamiany jest algorytm
- detekcji, po którego działania zakończeniu program pozostaje w trybie oczekiwan
-ia na kolejne dane.
+ detekcji, a po jego zakończeniu program pozostaje w trybie oczekiwania
+ na kolejne dane.
  Opisany tryb pracy jest wyjątkowo użyteczny w połączeniu z wykorzystaniem
  innych modułów, w tym zaprojektowanego, który obserwuje katalog w oczekiwaniu
- na zmiany, lub zaproponowany w rozdziale 
+ na zmiany, lub zaproponowanego w rozdziale 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:modules"
 
 \end_inset
 
- - odpowiadający za komunikację sieciową z czujnikami.
+ - odpowiadającego za komunikację sieciową z czujnikami.
 \end_layout
 
 \begin_layout Standard
@@ -5024,7 +5024,7 @@ waniu
 \shape italic
 GNU
 \shape default
- - zdecydowano się możliwość przekazywania danych pomiędzy modułami przy
+ - zdecydowano się na możliwość przekazywania danych pomiędzy modułami przy
  użyciu strumieni.
  Pozwala to na budowanie łańcuchów wywołań, które umożliwiają obsługę zaawansowa
 nych zadań.
@@ -5223,8 +5223,9 @@ PLIK.lvm
 \end_layout
 
 \begin_layout Standard
+
+\family typewriter
 \begin_inset listings
-lstparams "language=bash"
 inline false
 status open
 
@@ -5432,6 +5433,14 @@ key "awk"
 \end_layout
 
 \begin_layout Standard
+Do projektu dołączono skrypty języka 
+\shape italic
+bash
+\shape default
+ prezentujące kilka podstawowych aplikacji.
+\end_layout
+
+\begin_layout Standard
 Poniżej przedstawiono przykładowe polecenie korzystające z omawianych funkcji.
 \end_layout
 
@@ -5530,7 +5539,7 @@ W interfejsie graficznym przedstawiana jest bryła przybliżonego wyglądu
  pojazdu, dzięki czemu w intuicyjny sposób możliwe jest odczytywanie liczby
  osi na podstawie grafiki.
  Zaprezentowane są również wartości opisujące położenie osi w bryle pojazdu.
- Informacja na temat wykrycia uniesionej osi przedstawiana była poprzez
+ Informacja na temat wykrycia uniesionej osi przedstawiana jest poprzez
  wizualne przesunięcie figury związanej z odpowiednią osią na grafice.
  Interfejs wyposażony jest w przyciski umożliwiające nawigację.
  Wyświetlana jest również informacja o liczbie pojazdów w bazie.
@@ -5565,7 +5574,7 @@ key "man-pages"
 
 .
  Strony zawierają przedstawiony w zwięzłej formie zbiór informacji na temat
- programu, który rozwija zagadnienia omówione w rozdziale tym pracy.
+ programu, który rozwija zagadnienia omówione w niniejszym rozdziale.
  
 \end_layout
 
@@ -5642,7 +5651,7 @@ Analiza pracy programu
 \end_layout
 
 \begin_layout Standard
-Wśród cech wykonanego projektu, które gwarantują jego użyteczność, znajdują
+Wśród cech wykonanego projektu, które gwarantują jego użyteczność, znajduje
  się stabilne działanie aplikacji niezależnie od środowiska i sposobu użycia.
  Istotne jest również zapewnienie jak najwyższej skuteczności algorytmu
  oraz optymalizacja wydajności działania aplikacji.
@@ -5660,7 +5669,7 @@ Niezależnie od pozostałych kryteriów oceny budowanej aplikacji, konieczne
  jest zapewnienie poprawności wyników pracy algorytmu.
  Detekcja liczby osi oraz ich położeń i długości pojazdu stanowi podstawową
  funkcję programu.
- Tylko po osiągnięciu zadowalających wyników pracy algorytmów możliwe było
+ Tylko po osiągnięciu zadowalających wyników pracy algorytmu możliwe było
  przystąpienie do kolejnych etapów projektu.
 \end_layout
 
@@ -5674,7 +5683,7 @@ em kolejnych wersji programu.
 \shape italic
 Python
 \shape default
-, uzasadniając to wygodą pisania narzędzi testowych w tym środowisku
+, uzasadniając to wygodą pisania narzędzi testowych w tym środowisku 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "pythonman"
@@ -5729,7 +5738,7 @@ python3 test_alg2.py
 \end_layout
 
 \begin_layout Standard
-W wyniku uruchomienia polecenia w wierszu poleceń pojawił się tekst w formacie
+W wyniku uruchomienia polecenia w wierszu poleceń pojawi się tekst w formacie
  przedstawionym na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -5782,8 +5791,8 @@ Wynik pracy programu testowego, badający poprawność pracy algorytmu dla
 
 \begin_layout Standard
 W przypadku wykrycia niezgodności wyniku algorytmu z oczekiwanym, poniżej
- tabeli zawierającej dane liczbowe znajdowała się sekcja z listą plików,
- dla których wystąpiły niezgodności.
+ tabeli zawierającej dane liczbowe znajduje się sekcja z listą plików, dla
+ których wystąpiły niezgodności.
 \end_layout
 
 \begin_layout Standard
@@ -6422,8 +6431,7 @@ ych zasobów systemowych.
  Należy również pamiętać o zwolnieniu wszelkich wykorzystywanych zasobów.
  W przeciwnym razie, w przypadku uruchomienia aplikacji dla dużego zbioru
  danych, liczba zajętych zasobów mogłaby wzrastać podczas wykonania i ostateczni
-e doprowadzić do wyczerpania dostępnych zasobów pamięci i przerwania pracy
- programu.
+e doprowadzić do wyczerpania dostępnej pamięci i przerwania pracy programu.
 \end_layout
 
 \begin_layout Standard
@@ -7193,11 +7201,7 @@ Analiza wykonana została na komputerze klasy PC.
 \end_layout
 
 \begin_layout Standard
-Czas analizy jednego danych dotyczących jednego pojazdu zbliżony jest do
- 
-\begin_inset Formula $50$
-\end_inset
-
+Czas analizy danych dotyczących jednego pojazdu zbliżony jest do pięćdziesięciu
  milisekund, niezależnie od wielkości badanego zbioru wejściowego.
  Uznano ten wynik za zadowalający, umożliwiający płynną pracę przy analizie
  danych nawet z najbardziej obciążonych ruchem połączeń drogowych.
@@ -7287,8 +7291,8 @@ Valgrind
  Byłoby to zauważalne zwłaszcza w przypadku wykorzystania serwerów obliczeniowyc
 h, gwarantujących dostęp do wielu rdzeni procesora.
  Zaprojektowanie aplikacji wielowątkowej znacznie przedłużyłoby jednak czas
- wykonania aplikacji i utrudniło jej testowanie, przez co zdecydowano się
- na użycie tylko jednego wątku.
+ projektowania aplikacji i utrudniło jej testowanie, przez co zdecydowano
+ się na użycie tylko jednego wątku.
 \end_layout
 
 \begin_layout Standard
@@ -7313,13 +7317,13 @@ Podsumowanie
 
 \begin_layout Standard
 Celem niniejszej pracy było zaprojektowanie oprogramowania umożliwiającego
- wykorzystanie danych pomiarowych ze stanowiska wyposażonego w czujniki
- indukcyjne pętlowe.
+ analizę danych pomiarowych ze stanowiska wyposażonego w czujniki indukcyjne
+ pętlowe.
  Detektory tego typu, ze względu na swoją trwałość, niską cenę i użyteczność
  uzyskiwanych informacji, wykorzystywane mogą być do badania parametrów
  pojazdów samochodowych oraz ruchu drogowego.
  Zaprojektowanie oprogramowania pozwala na uzyskanie informacji na temat
- długości pojazdu, jego prędkość, a także liczby osi oraz ich położenia
+ długości pojazdu, jego prędkości, a także liczby osi oraz ich położenia
  w jego bryle.
  W konsekwencji pozwala to na kategoryzację na podstawie wymienionych cech.
 \end_layout
@@ -7422,6 +7426,13 @@ status open
 addcontentsline{toc}{chapter}{Podsumowanie}
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
 \end_inset
 
 
