@@ -2177,14 +2177,14 @@ Na podstawie profili
 \begin_inset Formula $M$
 \end_inset
 
-, opisany wzorem 
+, opisany wzorem (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:m-signal"
 
 \end_inset
 
-.
+).
 \end_layout
 
 \begin_layout Standard
@@ -2506,14 +2506,14 @@ Kolejnym krokiem jest wyznaczenie sygnału
 \begin_inset Formula $K_{p}$
 \end_inset
 
-, opisanego wzorem 
+, opisanego wzorem (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:signal-kp"
 
 \end_inset
 
-.
+).
 \end_layout
 
 \begin_layout Standard
@@ -2569,14 +2569,14 @@ Sygnał
 \begin_inset Formula $K_{p}$
 \end_inset
 
- poddawany jest normalizacji opisanej równaniem 
+ poddawany jest normalizacji opisanej równaniem (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:signal-ku"
 
 \end_inset
 
-, w wyniku której uzyskuje się sygnał 
+), w wyniku której uzyskuje się sygnał 
 \begin_inset Formula $K_{u}$
 \end_inset
 
@@ -3143,26 +3143,26 @@ Przed przystąpieniem do wykonania algorytmu przyjmuje się nowe wartości
 \begin_inset Formula $K_{p}$
 \end_inset
 
- zgodnie z formułą 
+ zgodnie z formułą (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:signal-kp"
 
 \end_inset
 
- oraz wykonywane są kolejne kroki algorytmu bazowego do uzyskania znormalizowane
-go sygnału 
+) oraz wykonywane są kolejne kroki algorytmu bazowego do uzyskania znormalizowan
+ego sygnału 
 \begin_inset Formula $K_{u}$
 \end_inset
 
-, opisanego równaniem 
+, opisanego równaniem (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:signal-ku"
 
 \end_inset
 
-.
+).
 \end_layout
 
 \begin_layout Standard
@@ -3523,14 +3523,14 @@ W celu wyznaczenia przybliżonej długości pojazdu zaimplementowano algorytm,
 \end_layout
 
 \begin_layout Standard
-Pierwszym etapem jest wyznaczenie sygnału M opisanego zależnością 
+Pierwszym etapem jest wyznaczenie sygnału M opisanego zależnością (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:signal-m"
 
 \end_inset
 
-.
+).
  Wykorzystuje się w tym celu profile 
 \begin_inset Formula $R_{1m}$
 \end_inset
@@ -3639,14 +3639,14 @@ Zbadano krzywe sygnału
 \end_layout
 
 \begin_layout Standard
-Następnie obliczana jest długość okna zgodnie z równaniem 
+Następnie obliczana jest długość okna zgodnie z równaniem (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:roznica-indeksow"
 
 \end_inset
 
-.
+).
 \end_layout
 
 \begin_layout Standard
@@ -3682,14 +3682,14 @@ Na podstawie znajomości przyrostu czasu pomiędzy dwoma kolejnymi pomiarami
 
  
 \shape default
-w metrach, zgodnie z równaniem 
+w metrach, zgodnie z równaniem (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:dlugosc-pojazdu"
 
 \end_inset
 
-.
+).
  Prędkość pojazdu wyznaczana jest na etapie przetwarzania wstępnego algorytmu
  detekcji osi, co pokazano na schemacie 
 \begin_inset CommandInset ref
@@ -3728,14 +3728,14 @@ Położenia poszczególnych osi wyznaczane są we wcześniejszej części algory
 
 
 \shape default
- (równanie 
+ (równanie (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:signal-kp"
 
 \end_inset
 
-) osiąga lokalne maksimum.
+)) osiąga lokalne maksimum.
  Znając indeks położenia osi 
 \shape italic
 
@@ -3753,14 +3753,14 @@ reference "eq:signal-kp"
 \end_inset
 
 , obliczona może być odległość osi od początku pojazdu, zgodnie z zależnością
- 
+ (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:polozenie-osi"
 
 \end_inset
 
-.
+).
 \end_layout
 
 \begin_layout Standard
@@ -3788,14 +3788,14 @@ reference "fig:schemat-dlugosci"
 \begin_inset Formula $e$
 \end_inset
 
-, co opisuje równanie 
+, co opisuje równanie (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:dlugosc-weryfikacja"
 
 \end_inset
 
-.
+).
  Przyjęto wartość 
 \shape italic
 
@@ -4063,25 +4063,25 @@ Wykres u góry przedstawia wartości profili
 \begin_inset Formula $K_{u}$
 \end_inset
 
-, dany zależnością 
+, dany zależnością (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:signal-ku"
 
 \end_inset
 
-, wykorzystywany jest do wykrycia liczby osi, natomiast sygnał 
+), wykorzystywany jest do wykrycia liczby osi, natomiast sygnał 
 \begin_inset Formula $M$
 \end_inset
 
-, opisany formułą 
+, opisany formułą (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:signal-m"
 
 \end_inset
 
-, pozwala wyznaczyć przybliżoną długość pojazdu.
+), pozwala wyznaczyć przybliżoną długość pojazdu.
  Sygnał 
 \begin_inset Formula $M$
 \end_inset
