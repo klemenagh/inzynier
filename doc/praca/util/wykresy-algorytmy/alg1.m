@@ -80,14 +80,20 @@ clear all;
 load('sygnaly-ku-piezo')
 % Ku = log(:, 1)';
 % piezo = log(:, 2)';
+Y = 4;
 dt = 10e-5;
 t = (1:size(Ku, 2)) * dt;
-plot(t, Ku)
+plot(t, Ku, 'k')
 hold on;
-plot(t, piezo)
+plot(t, 5 * (Ku > Y), 'r')
+plot(get(gca,'xlim'), [Y Y], 'r--'); 
+plot(t, piezo, 'color', [0.6 0.6 0.6])
 xlabel('Czas [s]')
 ylabel('Profil [V]')
-legend('Sygnał K_{u}', 'Sygnał piezo', ...
+legend('Sygnał K_{u}', ...
+    'Sygnał detekcji osi', ...
+    'Poziom odniesienia Y', ...
+    'Sygnał piezo', ...
     'Location','northoutside','Orientation','horizontal')
 axis([0 t(end) -1 6])
 grid on;
@@ -100,12 +106,18 @@ load('sygnaly-ku-piezo-brakujace')
 % piezo = log(:, 2)';
 dt = 10e-5;
 t = (1:size(Ku, 2)) * dt;
-plot(t, Ku)
+Y = 2;
+plot(t, Ku, 'k')
 hold on;
-plot(t, piezo)
+plot(t, 5 * (Ku > Y), 'r')
+plot(get(gca,'xlim'), [Y Y], 'r--'); 
+plot(t, piezo, 'color', [0.6 0.6 0.6])
 xlabel('Czas [s]')
 ylabel('Profil [V]')
-legend('Sygnał K_{u}', 'Sygnał piezo', ...
+legend('Sygnał K_{u}', ...
+    'Sygnał detekcji osi', ...
+    'Poziom odniesienia Y', ...
+    'Sygnał piezo', ...
     'Location','northoutside','Orientation','horizontal')
 axis([0 t(end) -2 6])
 grid on;
@@ -116,33 +128,20 @@ clear all;
 load('sygnaly-ku-piezo-podniesiona')
 dt = 10e-5;
 t = (1:size(Ku_4, 1)) * dt;
-% subplot(2,1, 1);
-% plot(t, Ku_4)
-% hold on;
-% plot(t, Piezo)
-% xlabel('Czas [s]')
-% ylabel('Wartość [V]')
-% legend('Sygnał K_{u} - 4 osie', 'Sygnał piezo', ...
-%     'Location','northoutside','Orientation','horizontal')
-% axis([0 t(end) -1 6])
-% grid on;
-
-nowe_piezo = zeros(size(Ku_5));
-for i =1:size(Ku_5)
-    if min(abs(osie - i)) < 50
-        nowe_piezo(i) = 5;
-    else
-        nowe_piezo(i) = 0;
-    end;
-end;
-% subplot(2,1, 2);
-plot(t, Ku_5)
+Y = 0.3;
+plot(t, Ku_5, 'k')
 hold on;
-plot(t, nowe_piezo)
+plot(t, 5 * (Ku_5 > Y), 'r')
+plot(get(gca,'xlim'), [Y Y], 'r--'); 
+plot(t, Piezo, 'color', [0.6 0.6 0.6]);
 xlabel('Czas [s]')
 ylabel('Profil [V]')
-legend('Sygnał K_{u}', 'Sygnał detekcji osi', ...
+legend('Sygnał K_{u}', ...
+    'Sygnał detekcji osi', ...
+    'Poziom odniesienia Y', ...
+    'Sygnał piezo', ...
     'Location','northoutside','Orientation','horizontal')
+
 axis([0 t(end) -1 6])
 grid on;
 

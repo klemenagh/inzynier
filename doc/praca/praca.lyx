@@ -36,7 +36,6 @@
 % umozliwia wykrycie nieznanych znaków unicode
 \usepackage{newunicodechar}
 \DeclareUnicodeCharacter{FFFD}{?????}
-\usepackage[tableposition=top]{caption}
 \end_preamble
 \options pdflatex
 \use_default_options true
@@ -2915,7 +2914,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/r-x-ku-piezo.svg
+	filename img/r-x-ku-piezo-2.svg
 	width 100text%
 
 \end_inset
@@ -2931,7 +2930,11 @@ Sygnał
 \begin_inset Formula $K_{u}$
 \end_inset
 
-oraz sygnał czujnika piezoelektrycznego.
+, sygnał detekcji osi wraz z poziomem odniesienia 
+\begin_inset Formula $Y=4V$
+\end_inset
+
+ oraz sygnał czujnika piezoelektrycznego.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:sygnaly-ku-piezo"
@@ -3045,7 +3048,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/r-x-ku-piezo-brakujace.svg
+	filename img/r-x-ku-piezo-brakujace-2.svg
 	width 100text%
 
 \end_inset
@@ -3061,7 +3064,11 @@ Sygnał
 \begin_inset Formula $K_{u}$
 \end_inset
 
-oraz sygnał czujnika piezoelektrycznego.
+, sygnał detekcji osi wraz z poziomem odniesienia 
+\begin_inset Formula $Y=2V$
+\end_inset
+
+ oraz sygnał czujnika piezoelektrycznego.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:sygnaly-ku-piezo-brakujace"
@@ -3208,7 +3215,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename img/r-x-ku-piezo-podniesiona.svg
+	filename img/r-x-ku-piezo-podniesiona-2.svg
 	width 100text%
 
 \end_inset
@@ -3224,7 +3231,11 @@ Sygnał
 \begin_inset Formula $K_{u}$
 \end_inset
 
-oraz sygnał czujnika piezoelektrycznego.
+, sygnał detekcji osi wraz z poziomem odniesienia 
+\begin_inset Formula $Y=0,3V$
+\end_inset
+
+ oraz sygnał czujnika piezoelektrycznego.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:sygnaly-ku-piezo-podniesiona"
