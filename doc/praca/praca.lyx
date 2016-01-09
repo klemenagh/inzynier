@@ -398,7 +398,7 @@ key "gnustandard"
  poleceń 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "linuxgetopt,linuxpipes,gnucli,Love2014"
+key "Love2014,linuxgetopt,gnucli,linuxpipes"
 
 \end_inset
 
@@ -780,7 +780,7 @@ key "Marszalek2011"
  
 \begin_inset CommandInset citation
 LatexCommand cite
-key "gajda2000,Gajda2010,zeglen2001"
+key "Gajda2010,zeglen2001,gajda2000"
 
 \end_inset
 
@@ -4711,7 +4711,7 @@ GCC
  w wersjach 4.8.1 i 5.2.0 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "clang,gcc"
+key "gcc,clang"
 
 \end_inset
 
