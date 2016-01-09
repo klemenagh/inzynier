@@ -1951,7 +1951,7 @@ FUNCTION {article}
   if.url.alt.interword.spacing
   format.authors "author" output.warn
   name
-  format.book.title "title" output.warn
+  format.article.title "title" output.warn
   format.journal "journal" bibinfo.check "journal" output.warn
   format.volume output
   format.number.if.use.for.article output
