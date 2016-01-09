@@ -36,6 +36,7 @@
 % umozliwia wykrycie nieznanych znaków unicode
 \usepackage{newunicodechar}
 \DeclareUnicodeCharacter{FFFD}{?????}
+\usepackage[tableposition=top]{caption}
 \end_preamble
 \options pdflatex
 \use_default_options true
@@ -1852,7 +1853,7 @@ reference "fig:sygnaly-r-x-wstepne"
 \end_inset
 
  każdej pary.
- Wykres 
+ Rysunek 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:sygnaly-r-x-wstepne"
@@ -2117,7 +2118,7 @@ Przebiegi sygnałów
 \begin_inset Formula $R$
 \end_inset
 
-i 
+ i 
 \begin_inset Formula $X$
 \end_inset
 
@@ -2237,7 +2238,7 @@ Na bazie profilu
 \begin_inset Formula $L_{x}$
 \end_inset
 
-- liczby pomiarów, dla których wartość 
+- liczby próbek pomiarów, dla których wartość 
 \begin_inset Formula $X_{0,1m}$
 \end_inset
 
@@ -2249,7 +2250,7 @@ Na bazie profilu
 \begin_inset Formula $L_{m}$
 \end_inset
 
-- liczby pomiarów dla których 
+- liczby próbek pomiarów dla których 
 \family roman
 \series medium
 \shape up
@@ -2319,6 +2320,24 @@ reference "tab:parameters"
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:parameters"
+
+\end_inset
+
+Dobór wartości parametrów.
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \align center
@@ -2466,24 +2485,6 @@ warunek
 
 \end_layout
 
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:parameters"
-
-\end_inset
-
-Dobór wartości parametrów.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \end_inset
 
 
@@ -2498,7 +2499,7 @@ Parametr
 \begin_inset Formula $Y$
 \end_inset
 
- - poziom odniesienia, względem którego powstaje pętla.
+ - poziom odniesienia komparatora.
 \end_layout
 
 \begin_layout Standard
@@ -2611,7 +2612,7 @@ Sygnały
 \begin_inset Formula $K_{u}$
 \end_inset
 
- przedstawiono na wykresie 
+ przedstawiono na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:sygnaly-m-kp-ku"
@@ -2886,7 +2887,7 @@ reference "fig:sygnaly-m-kp-ku"
 \end_inset
 
 , uzyskano informację o wykryciu dwóch osi.
- Na wykresie 
+ Na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:sygnaly-ku-piezo"
@@ -3025,7 +3026,7 @@ name "fig:Algorytm-detekcji-brakujących"
 Wykorzystanie algorytmu detekcji brakujących osi pozwala na zwiększenie
  skuteczności programu w poszukiwaniu osi na podstawie danych zawierających
  większe zakłócenia i mniej dokładne odczyty.
- Przykład działania algorytmu zaprezentowano na wykresie 
+ Przykład działania algorytmu zaprezentowano na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:sygnaly-ku-piezo-brakujace"
@@ -3187,7 +3188,7 @@ reference "fig:Algorytm-detekcji-brakujących"
 
 \begin_layout Standard
 Przykład działania procedury i położenia wykrytych osi zaprezentowano na
- wykresie 
+ rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:sygnaly-ku-piezo-podniesiona"
@@ -3556,7 +3557,7 @@ M(R_{1},X_{1})=R_{1m}^{2}+X_{1m}^{2}\label{eq:signal-m}
 \begin_layout Standard
 W większości przypadków sygnał taki umożliwia badanie położenia pojazdu
  względem czujnika.
- Jego przebieg w czasie przedstawiono na wykresie 
+ Jego przebieg w czasie przedstawiono na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:m-signal"
@@ -3691,7 +3692,7 @@ reference "eq:dlugosc-pojazdu"
 
 ).
  Prędkość pojazdu wyznaczana jest na etapie przetwarzania wstępnego algorytmu
- detekcji osi, co pokazano na schemacie 
+ detekcji osi, co pokazano na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:alg-flowchart"
@@ -3820,7 +3821,7 @@ reference "eq:dlugosc-weryfikacja"
 
 \begin_layout Standard
 Wynik pracy algorytmu dla pojazdu ciężarowego trzyosiowego przedstawiono
- na wykresie 
+ na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:m-signal-piezo"
@@ -3834,8 +3835,19 @@ reference "fig:m-signal-piezo"
 body
 \shape default
 ) pozwala na estymację rzeczywistej długości auta.
- Pomocniczo zaprezentowano również sygnał detekcji osi, ułatwiający wyobrażenie
- rzeczywistej budowy pojazdu.
+ Pomocniczo zaprezentowano również sygnał detekcji osi na podstawie sygnału
+ 
+\begin_inset Formula $K_{u}$
+\end_inset
+
+ opisanego równaniem (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:signal-ku"
+
+\end_inset
+
+), ułatwiający wyobrażenie rzeczywistej budowy pojazdu.
 \end_layout
 
 \begin_layout Standard
@@ -3963,7 +3975,7 @@ Zdecydowano się na przeprowadzenie analizy wyników algorytmu uzyskiwanych
 \end_layout
 
 \begin_layout Standard
-Na wykresie 
+Na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:analiza-osobowy"
@@ -4017,7 +4029,7 @@ reference "fig:schemat-dlugosci"
 
 .
  Pojazd poruszał się z prędkością 
-\begin_inset Formula $v=21,62\frac{m}{s}$
+\begin_inset Formula $v=77,8\frac{km}{h}$
 \end_inset
 
 .
@@ -4093,7 +4105,7 @@ ia przejrzystości wykresów.
 \end_layout
 
 \begin_layout Standard
-Na wykresie 
+Na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:analiza-dostawczy"
@@ -4126,7 +4138,7 @@ status open
 
 \begin_layout Plain Layout
 Wynik działania algorytmu dla pojazdu dostawczego.
- Wykryto dwie osie, wartości parametrów opisanych pod wykresem 
+ Wykryto dwie osie, wartości parametrów opisanych pod rysunkiem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:analiza-osobowy"
@@ -4134,7 +4146,7 @@ reference "fig:analiza-osobowy"
 \end_inset
 
  wyniosły: 
-\begin_inset Formula $d=6,803m,l_{1}=1,057m,l_{2}=4,048m,l_{3}=1,698m,lp_{2}=3,994m,v=20,96\frac{m}{s}$
+\begin_inset Formula $d=6,803m,l_{1}=1,057m,l_{2}=4,048m,l_{3}=1,698m,lp_{2}=3,994m,v=75,5\frac{km}{h}$
 \end_inset
 
 .
@@ -4158,7 +4170,7 @@ name "fig:analiza-dostawczy"
 \end_layout
 
 \begin_layout Standard
-Wykresy 
+Rysunki 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:analiza-osobowy"
@@ -4196,7 +4208,7 @@ W obu zaprezentowanych powyżej przypadkach algorytm detekcji osi zwrócił
 \end_layout
 
 \begin_layout Standard
-Na wykresie 
+Na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:analiza-ciezarowy-3"
@@ -4225,7 +4237,7 @@ status open
 
 \begin_layout Plain Layout
 Wynik działania algorytmu dla pojazdu ciężarowego trzyosiowego.
- Wykryto trzy osie, wartości parametrów opisanych pod wykresem 
+ Wykryto trzy osie, wartości parametrów opisanych pod rysunkiem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:analiza-osobowy"
@@ -4233,7 +4245,7 @@ reference "fig:analiza-osobowy"
 \end_inset
 
  wyniosły: 
-\begin_inset Formula $d=7,797m,l_{1}=1,311m,l_{2}=4,875m,l_{3}=1,361m,l_{4}=0,250m,lp_{2}=4,937m,lp_{3}=1,350m,v=15,62\frac{m}{s}$
+\begin_inset Formula $d=7,797m,l_{1}=1,311m,l_{2}=4,875m,l_{3}=1,361m,l_{4}=0,250m,lp_{2}=4,937m,lp_{3}=1,350m,v=56,2\frac{km}{h}$
 \end_inset
 
 .
@@ -4257,8 +4269,8 @@ name "fig:analiza-ciezarowy-3"
 \end_layout
 
 \begin_layout Standard
-Na wykresie zaprezentowano typowe charakterystyki sygnałów dla pojazdów
- ciężarowych trzyosiowych.
+Na rysunku zaprezentowano typowe charakterystyki sygnałów dla pojazdów ciężarowy
+ch trzyosiowych.
  Widoczne są impulsy profilu 
 \begin_inset Formula $X_{0,1m}$
 \end_inset
@@ -4289,7 +4301,7 @@ Problematyczne okazało się poprawne oszacowanie długości pojazdu, zwłaszcza
 \end_layout
 
 \begin_layout Standard
-Na wykresach 
+Na rysunkach 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:analiza-ciezarowy-5"
@@ -4326,7 +4338,7 @@ status open
 
 \begin_layout Plain Layout
 Wynik działania algorytmu dla pojazdu ciężarowego pięciosiowego.
- Wykryto pięć osi, wartości parametrów opisanych pod wykresem 
+ Wykryto pięć osi, wartości parametrów opisanych pod rysunkiem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:analiza-osobowy"
@@ -4334,7 +4346,7 @@ reference "fig:analiza-osobowy"
 \end_inset
 
  wyniosły: 
-\begin_inset Formula $d=15,826m,l_{1}=1,756m,l_{2}=3,524m,l_{3}=5,923m,l_{4}=1,295m,l_{5}=1,297m,l_{6}=2,031m,lp_{2}=3,559m,lp_{3}=5,832m,lp_{4}=1,317m,lp_{5}=1,320m,v=19,36\frac{m}{s}$
+\begin_inset Formula $d=15,826m,l_{1}=1,756m,l_{2}=3,524m,l_{3}=5,923m,l_{4}=1,295m,l_{5}=1,297m,l_{6}=2,031m,lp_{2}=3,559m,lp_{3}=5,832m,lp_{4}=1,317m,lp_{5}=1,320m,v=69,7\frac{km}{h}$
 \end_inset
 
 .
@@ -4378,7 +4390,7 @@ status open
 \begin_layout Plain Layout
 Wynik działania algorytmu dla pojazdu ciężarowego pięcioosiowego jadącego
  z podniesioną osią.
- Wykryto pięć osi, wartości parametrów opisanych pod wykresem 
+ Wykryto pięć osi, wartości parametrów opisanych pod rysunkiem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:analiza-osobowy"
@@ -4386,7 +4398,7 @@ reference "fig:analiza-osobowy"
 \end_inset
 
  wyniosły: 
-\begin_inset Formula $d=16,566m,l_{1}=2,188m,l_{2}=3,673m,l_{3}=5,807m,l_{4}=1,247m,l_{5}=1,300m,l_{6}=2,352m,lp_{2}=3,630m,lp_{3}=7,051m,lp_{5}=1,310m,v=18,60\frac{m}{s}$
+\begin_inset Formula $d=16,566m,l_{1}=2,188m,l_{2}=3,673m,l_{3}=5,807m,l_{4}=1,247m,l_{5}=1,300m,l_{6}=2,352m,lp_{2}=3,630m,lp_{3}=7,051m,lp_{5}=1,310m,v=67,0\frac{km}{h}$
 \end_inset
 
 .
@@ -4411,7 +4423,7 @@ name "fig:analiza-ciezarowy-5up"
 \end_layout
 
 \begin_layout Standard
-Wykresy prezentują typowe charakterystyki profili uzyskane dla pojazdów
+Rysunki prezentują typowe charakterystyki profili uzyskane dla pojazdów
  pięcioosiowych w dwóch konfiguracjach.
  Pojawieniu się osi w sąsiedztwie czujnika ponownie towarzyszy skok wartości
  sygnału 
@@ -4492,7 +4504,7 @@ Nie zaobserwowano również wpływu naturalnie występujących zakłóceń na wy
  ich położenia, w przeciwieństwie do algorytmu szacowania długości pojazdu.
  Wyniki uzyskiwane były zawyżone o kilkanaście procent.
  Konieczne jest odfiltrowanie zakłóceń na etapie przetwarzania wstępnego,
- co pozwala na zwiększenie dokładności algorytmu.
+ co pozwala na zwiększenie skuteczności algorytmu.
 \end_layout
 
 \begin_layout Standard
@@ -4627,7 +4639,7 @@ Linuxa
 \end_layout
 
 \begin_layout Standard
-W celu uproszczenia procesu budowana i instalacji posłużono się oprogramowaniem
+W celu uproszczenia procesu budowania i instalacji posłużono się oprogramowaniem
  
 \shape italic
 cmake
@@ -4664,7 +4676,7 @@ key "cstandard"
 
 \end_inset
 
- .
+.
  Moduł graficzny może zostać skompilowany przy użyciu dowolnego kompilatora
  języka C++ wspierającego standard C++11 
 \begin_inset CommandInset citation
@@ -4673,7 +4685,7 @@ key "cpp-standard"
 
 \end_inset
 
- .
+.
  Moduł ten zgodny jest również ze standardem C++14, nie wykorzystuje przy
  tym jednak funkcji języka udostępnionych w tej normie.
  Poprawność przebiegu procesu budowania potwierdzono w trakcie testów z
@@ -5129,7 +5141,7 @@ Wymusza uruchomienie procedury określania położenia osi i przybliżonej dług
 \begin_deeper
 \begin_layout Standard
 Umożliwia załadowanie konfiguracji opisującej stanowisko pomiarowe, z którego
- pochodzą analizę danych.
+ pochodzą dane.
 \end_layout
 
 \end_deeper
@@ -5535,7 +5547,7 @@ Okno interfejsu graficznego.
 \end_layout
 
 \begin_layout Standard
-W interfejsie graficznym przedstawiana jest bryła przybliżonego wyglądu
+Na interfejsie graficznym przedstawiana jest bryła przybliżonego wyglądu
  pojazdu, dzięki czemu w intuicyjny sposób możliwe jest odczytywanie liczby
  osi na podstawie grafiki.
  Zaprezentowane są również wartości opisujące położenie osi w bryle pojazdu.
@@ -5815,8 +5827,23 @@ status open
 
 \begin_layout Plain Layout
 \align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:test-results"
+
+\end_inset
+
+Wyniki testów
+\end_layout
+
+\end_inset
+
 
 \size footnotesize
+
 \begin_inset Tabular
 <lyxtabular version="3" rows="10" columns="4">
 <features rotate="0" tabularvalignment="middle">
@@ -6292,24 +6319,6 @@ Osobowe, podwozie stalowe
 
 \end_layout
 
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:test-results"
-
-\end_inset
-
-Wyniki testów
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \end_inset
 
 
@@ -6468,8 +6477,8 @@ name "sub:efficiency"
 
 \begin_layout Standard
 Algorytm detekcji liczby osi pojazdu może być uruchamiany dla zbioru zawierające
-go wiele pomiarów, a także pracować połączony bezpośrednio ze stanowiskiem
- pomiarowym.
+go wiele sygnałów pomiarowych, a także pracować połączony bezpośrednio ze
+ stanowiskiem pomiarowym.
  Wymaga to szybkości przetwarzania pozwalającej na uzyskanie wyniku działania
  dla danych pomiarowych przed pojawieniem się kolejnego zbioru.
  Konieczne było więc zapewnienie odpowiedniej szybkości działania programu.
@@ -6493,7 +6502,7 @@ reference "tab:times"
 \end_inset
 
  przedstawiono wyniki analizy wydajności dla kluczowych wartości, natomiast
- na wykresie 
+ na rysunku 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:times"
@@ -6511,6 +6520,21 @@ status open
 
 \begin_layout Plain Layout
 \align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:times"
+
+\end_inset
+
+Wyniki analizy wydajności pracy programu
+\end_layout
+
+\end_inset
+
+
 \begin_inset Tabular
 <lyxtabular version="3" rows="12" columns="4">
 <features rotate="0" tabularvalignment="middle">
@@ -7083,24 +7107,6 @@ Argument
 </cell>
 </row>
 </lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:times"
-
-\end_inset
-
-Wyniki analizy wydajności pracy programu
-\end_layout
 
 \end_inset
 
